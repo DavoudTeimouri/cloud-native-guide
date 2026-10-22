@@ -1,5 +1,7 @@
 # Deliverable 8 — Secrets Management Architecture
 
+**Product decision and licence position: `secrets-management/vault/hashicorp-vault-decision.md`.** HashiCorp Vault is the platform standard. OpenBao is the documented fallback if legal rejects the BSL.
+
 ## 8.1 Candidate comparison
 
 | Criterion | HashiCorp Vault | OpenBao | SOPS + age | Sealed Secrets |

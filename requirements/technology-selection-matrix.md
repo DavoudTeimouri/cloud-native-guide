@@ -41,8 +41,8 @@ Legend: **HA** = high-availability option exists. **Offline** = works air-gapped
 | Argo CD | GitOps CD | Diff view, self-heal, AppSet | Repo credentials, sync loops | Yes | Yes | Repo + OIDC | Med | **Adopt** (add-ons + apps) |
 | GitLab | SCM + CI/CD | Integrated, large ecosystem, self-hosted | Heavy footprint, stateful | Yes (HA + object store) | Yes | Built-in, SSO | Med | **Adopt** |
 | Keycloak | IdP broker | OIDC/SAML, many apps, admin UI | Stateful, needs DB | Yes | Yes | Strong | Med | **Adopt** |
-| HashiCorp Vault | Secrets + PKI | Dynamic secrets, leases, PKI, audit | BUSL licensing since 1.15 | Yes (Raft) | Yes | Strong | Med | **Adopt** (license review) |
-| OpenBao | Secrets + PKI | MPL fork of Vault, no BUSL | Smaller ecosystem, no Vault-only features | Yes (Raft) | Yes | Strong | Med | Fallback if BUSL unacceptable |
+| HashiCorp Vault | Secrets + PKI | Dynamic secrets, leases, PKI, SSH, audit, Kubernetes auth; commercial support path | BUSL 1.1 since 1.15 (IBM as licensor); Community edition has no namespaces, replication, or Sentinel | Yes (Raft) | Yes | Strong | Med | **Adopt** — platform standard. `secrets-management/vault/hashicorp-vault-decision.md` |
+| OpenBao | Secrets + PKI | MPL 2.0, no licence cost, Vault-compatible core | Smaller ecosystem, no Vault Enterprise features, no commercial support contract | Yes (Raft) | Yes | Strong | Med | Fallback if legal rejects BUSL |
 | SOPS + age | Git-encrypted secrets | Zero infra, works offline | No dynamic secrets, no leases | n/a | Yes | Key distribution burden | Low | Good for static bootstrap only |
 | External Secrets Operator | K8s secret sync | Vendor-neutral, no Vault lock-in | Still syncs into etcd | n/a | Yes | Depends on provider | Low | **Adopt** with Vault provider |
 | cert-manager | TLS lifecycle | Auto issue/renew, works with Vault PKI | Needs CA backend | n/a | Yes | Private key in K8s secret | Low | **Adopt** |

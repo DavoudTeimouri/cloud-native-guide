@@ -89,7 +89,7 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | GitLab CE | 19.5.1 | 19.5.1 | `https://docs.gitlab.com/releases/19/gitlab-19-5-released/` and the critical patch release page for 19.5.1 | VERIFIED | Monthly release 19.5 on 2026-10-15; patch 19.5.1 on 2026-10-21 |
 | Harbor | v2.15.4 | v2.15.4 | `https://github.com/goharbor/harbor/releases/tag/v2.15.4` | VERIFIED | |
 | Sonatype Nexus Repository | release-3.97.1-02 | release-3.97.1-02 | `https://github.com/sonatype/nexus-public/releases` | VERIFIED | |
-| HashiCorp Vault | v2.2.0 | UNVERIFIED for deploy | `https://github.com/hashicorp/vault/releases/tag/v2.2.0` | VERIFIED | See the licensing note below before adopting |
+| HashiCorp Vault | v2.2.0 | v2.2.0 | `https://github.com/hashicorp/vault/releases/tag/v2.2.0` | VERIFIED | Platform standard. Community edition (BSL 1.1). Edition selection and the license position: `secrets-management/vault/hashicorp-vault-decision.md` |
 | Vault Helm chart | 0.34.1 (app 2.0.4) | 0.34.1 | `https://helm.releases.hashicorp.com/index.yaml` | VERIFIED | The chart app version lags the Vault release — the chart is the pinned unit, not the binary |
 | OpenBao | v2.7.1 | fallback | `https://github.com/openbao/openbao/releases/tag/v2.7.1` | VERIFIED | MPL-licensed alternative |
 | cert-manager | v1.21.2 | v1.21.2 | `https://github.com/cert-manager/cert-manager/releases` | VERIFIED | Chart v1.21.2 from `https://charts.jetstack.io/index.yaml`. A v1.20.4 maintenance release was published more recently than v1.21.2; the 1.21 line is the current feature line |
@@ -192,6 +192,20 @@ From the NVIDIA CUDA Toolkit, Driver, and Architecture Matrix:
 | Oracle Linux | 9 | 9 | `https://yum.oracle.com/` | VERIFIED for availability | OL8 has a 4.18 kernel, below the 4.19 recommendation |
 | Ubuntu Server | 24.04 LTS | 24.04 LTS | `https://releases.ubuntu.com/` | VERIFIED for availability | 22.04 LTS (5.15 kernel) also supported |
 | Python (Ansible control node) | 3.11-3.13 | 3.12 | Kubespray ansible.md | VERIFIED | |
+
+## Kubespray supported release set (five releases in parallel)
+
+Full detail and the deployment model: `kubespray/multi-version-support.md`. Extracted from each release branch's own README and `docs/ansible/ansible.md` by `scripts/kubespray_release_matrix.py` and `scripts/kubespray_ansible_matrix.py`, check date 2026-10-17.
+
+| Kubespray release | Kubernetes (default) | Min Kubernetes | etcd | containerd | Helm | Cilium | Calico | Ansible | Python | Status |
+|---|---|---|---|---|---|---|---|---|---|---|
+| release-2.28 | 1.32.13 | v1.30 | 3.5.29 | 2.0.7 | 3.16.4 | 1.17.9 | 3.29.7 | >= 2.16.4 | 3.10 - 3.12 | Supported (oldest) |
+| release-2.29 | 1.33.10 | v1.30 | 3.5.29 | 2.1.6 | 3.18.4 | 1.18.5 | 3.30.7 | >= 2.17.3 | 3.10 - 3.12 | Supported |
+| release-2.30 | 1.34.12 | v1.30 | 3.5.34 | 2.2.10 | 3.18.4 | 1.18.6 | 3.30.7 | >= 2.17.3 | 3.10 - 3.12 | Supported |
+| release-2.31 | 1.35.9 | v1.30 | 3.6.15 | 2.2.10 | 3.18.4 | 1.19.3 | 3.31.7 | >= 2.18.0, < 2.19.0 | 3.11 - 3.13 | Supported |
+| release-2.32 | 1.36.5 | v1.34.0 | 3.6.15 | 2.3.7 | 3.22.0 | 1.20.3 | 3.31.7 | >= 2.19.0, < 2.20.0 | 3.11 - 3.13 | Supported (default) |
+
+Each release ships with its own pinned component versions. A cluster is bound to the release that built it. The Ansible and Python windows differ per release, so each release gets its own virtualenv.
 
 ## Component-to-component compatibility constraints that must hold
 

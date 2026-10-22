@@ -384,7 +384,39 @@ ADRS = [
  "An extended Vault outage stops secret renewal. Certificates expiring during the outage, and applications that read secrets only at startup, are the two hard failure modes to test.",
  "Restoring a Vault cluster from a snapshot requires the storage snapshot plus the unseal material plus the root token, and they must come from different places. Vault backup and Kubernetes backup are separate procedures; a Velero backup does not include Vault data in this model.",
  "The whole point of the architecture is that a total loss is recoverable with a documented sequence of manual steps and offline material. Every other design choice is subordinate to that."),
-]
+
+ (26, "Kubespray multi-version support",
+ "A single pinned Kubespray release is a single point of failure. It pins one Kubernetes, etcd, containerd, CNI and Helm set, and when that release ages out, or when a site needs a Kubernetes version it cannot deploy, the whole estate is blocked on one upgrade. Kubespray maintains parallel release branches, each with its own pinned component versions and its own Ansible and Python compatibility window.",
+ ["Support exactly one Kubespray release, the newest.",
+ "Support three Kubespray releases.",
+ "Support five Kubespray releases in parallel, each fully deployable and offline-capable."],
+ "Support five Kubespray release branches in parallel: release-2.28 through release-2.32. Each release gets its own checkout, its own Python virtualenv, its own inventory directory, and its own mirrored artifact set. A cluster is bound to the release that built it, and that binding is recorded in the inventory.",
+ ["Covers five consecutive Kubernetes minor versions, so a cluster that must stay on an older version is still deployable and still rebuildable.",
+ "A release leaves the supported set only when a fifth successor exists, which keeps the set at five.",
+ "Each release is a complete configuration, so a rebuild on an older pinned combination is possible.",
+ "Five virtualenvs, five artifact trees and five inventories is a real maintenance cost, and the offline mirror size grows accordingly.",
+ "Mixing component versions across releases is not supported, so the inventory must not be shared between them."],
+ "Each release's artifacts must be mirrored and pull-verified independently, because the image sets differ per Kubernetes and containerd version. A release that is not mirrored cannot be used to rebuild a cluster, which defeats the purpose of keeping it supported.",
+ "Five Kubespray checkouts, five virtualenvs with different Ansible versions, five inventory trees, five files_repo trees, and five Harbor projects. The artifact matrix gains one row set per release.",
+ "A cluster moves one Kubernetes minor at a time, using the next-newer release's inventory and virtualenv. Rebuilding a cluster on an older release is a matter of pointing at that release's checkout, inventory and venv, with the same group vars.",
+ "The supported set is reduced when a Kubernetes version inside it reaches end of life, or when a critical CVE in a pinned Kubernetes version forces an early exit. Either case is recorded as an ADR amendment with the reason and the date."),
+
+ (27, "Ingress controller portfolio and deprecation policy",
+ "One ingress controller is a single point of failure and a single point of lock-in. The community ingress-nginx project was retired in March 2026, which showed concretely what happens when a controller's project ends: deployments keep running on a frozen version with no security fixes and no upgrade path. A portfolio with an explicit lifecycle gives the platform a rehearsed escape route and a second implementation for failover and for Gateway API migration.",
+ ["One controller, replaced when its project is retired.",
+ "A portfolio with no lifecycle rules.",
+ "A bounded portfolio of at most three deployed controllers, each with a stage, a replacement, and a removal date."],
+ "A bounded portfolio of at most three deployed controllers, each assigned one of five stages (Candidate, Supported, Deprecated, Removed, Retired upstream), with a dated deprecation schedule and a mandatory replacement named before a controller is deployed. F5 NGINX Ingress Controller and F5 NGINX Gateway Fabric are Supported; Envoy Gateway is Supported as the Gateway API native failover target; everything else is a Candidate. Upstream retirement forces Deprecated immediately, and a critical CVE forces an urgent removal plan.",
+ ["A second implementation on a separate address gives a rehearsed failover path and a safe place to land Gateway API traffic.",
+ "A named replacement and a removal date mean a deprecation is a plan, not a surprise.",
+ "A cap of three keeps the offline artifact footprint and the operational surface bounded.",
+ "Three controllers means three sets of images, CRDs, certificates, addresses, admission webhooks and skills.",
+ "A controller held in the Deprecated stage still consumes address space, artifacts, and attention."],
+ "Each controller runs in its own namespace with its own admission webhook and a namespace-scoped failure policy, so one controller's webhook outage does not block writes for another. The annotation-driven configuration surface must stay disabled: the retired project was explicitly criticised for allowing arbitrary NGINX directives through an annotation, and the replacement must not reintroduce that. A wildcard certificate is issued per controller, so a compromised controller cannot serve a valid certificate for another controller's address.",
+ "Per controller: 2-4 images, 1 chart, up to 3 CRDs, 1-2 MetalLB addresses, 2 DNS records, 1 ConfigMap and 1 policy. The Gateway API CRDs are shared. Failure is signalled by a DNS or load-balancer target change, not by a controller feature, and a load-balancer health-check-driven change is preferred over DNS because of the TTL.",
+ "Migrating a controller is a staged traffic move, not a big bang: new applications go to the replacement immediately, existing applications move on their next deployment, and the remaining ones are migrated on a deadline. Removal is blocked while any traffic share remains, and a controller is never removed before its replacement has served a full business cycle. The Kubernetes SIG Network ingress2gateway tool assists with the conversion, but it is a utility and its output must be reviewed and tested.",
+ "A controller is never deployed without a named replacement and a removal date, and no controller stays Deprecated for more than three months without a recorded exception. The deprecation schedule is anchored to upstream dates where they exist, such as the Envoy Gateway release end-of-life dates."),
+ ]
 
 TEMPLATE = """# ADR-{num:04d} — {title}
 

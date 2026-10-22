@@ -30,7 +30,7 @@ def check(name, fn):
 def test_adrs_exist_and_have_all_sections():
     d = os.path.join(BASE, "decisions")
     files = sorted(f for f in os.listdir(d) if f.startswith("ADR-") and f.endswith(".md"))
-    assert len(files) == 25, f"expected 25 ADRs, found {len(files)}"
+    assert len(files) == 27, f"expected 27 ADRs, found {len(files)}"
     required = [
         "## Context",
         "## Requirements",

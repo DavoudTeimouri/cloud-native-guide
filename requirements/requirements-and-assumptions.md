@@ -27,7 +27,7 @@
 | D-02 | etcd topology | stacked vs dedicated | stacked on control-plane | Kubespray inventory |
 | D-03 | Ceph deployment model | cephadm / Rook-Ceph / both | Rook-Ceph in K8s + cephadm for external capacity | Storage phase |
 | D-04 | CNI | Calico / Cilium | Cilium (eBPF, L7 policy, MetalLB integration) | Network phase |
-| D-05 | Secrets product | Vault / OpenBao | Vault; OpenBao fallback to avoid license cost | Secrets phase |
+| D-05 | Secrets product | HashiCorp Vault / OpenBao | **HashiCorp Vault** (Community edition, BSL 1.1, internal use permitted). OpenBao is the fallback if legal rejects the license | Secrets phase |
 | D-06 | Automation GUI | AWX / Semaphore / Rundeck | AWX | Automation phase |
 | D-07 | Identity source | Keycloak only / AD primary | Keycloak broker, AD/LDAP upstream, local break-glass always | Identity phase |
 | D-08 | L7 ingress | NGINX Ingress (F5) / NGINX Gateway Fabric / Traefik | F5 NGINX Ingress Controller (NIC 5.7.0, chart 2.8.0). The community ingress-nginx project is retired and not adoptable | Ingress phase |

@@ -22,14 +22,15 @@ Personal cloud-native knowledge base: on-premises, air-gapped, production-orient
 
 ```
 architecture/            logical topology, deployment topology, failure domains
-decisions/               ADR-0001 .. ADR-0025
+decisions/               ADR-0001 .. ADR-0027
 requirements/            requirements, tech matrix, roadmap, validation, acceptance,
                          standards, performance, component-guide template
 compatibility/           version & compatibility matrix (pinned, with check dates)
 offline-artifacts/       artifact matrix, offline architecture, staging workflow
 operating-systems/       oracle-linux/ ubuntu/ distro-specific baselines
 automation/              ansible/ awx/ gitlab-ci/
-kubespray/               deployment guide, inventory template, group-vars template
+kubespray/               deployment guide, multi-version support, inventory and
+                         group-vars templates
 kubernetes/              control-plane/ networking/ ingress/ csi/ security/
 storage/                 ceph/ rook-ceph/ alternatives/
 management-cluster/      rancher/ argocd/ keycloak/ platform-services/
@@ -41,7 +42,7 @@ monitoring/ logging/ security/ service-mesh/
 network-matrix/          communication matrix, firewall rule generation
 lifecycle/               upgrades/ backup/ disaster-recovery/
 troubleshooting/          symptom-driven runbooks
-scripts/                 version-refresh helpers, ADR generator
+scripts/                 version-refresh helpers, Kubespray matrix extractors, ADR generator
 tests/                   repository self-check
 ```
 
