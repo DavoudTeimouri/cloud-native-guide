@@ -21,7 +21,8 @@ INDEXES = {
     "node-exporter": "https://prometheus-community.github.io/helm-charts/index.yaml",
     "cilium": "https://helm.cilium.io/index.yaml",
     "metallb": "https://metallb.github.io/metallb/charts/index.yaml",
-    "ingress-nginx": "https://kubernetes.github.io/ingress-nginx/index.yaml",
+    "ingress-nginx": "https://kubernetes.github.io/ingress-nginx/index.yaml",  # RETIRED March 2026
+    "nginx-ingress": "https://nginx.github.io/helm-charts/index.yaml",
     "cert-manager": "https://charts.jetstack.io/index.yaml",
     "kyverno": "https://kyverno.github.io/kyverno/index.yaml",
     "velero": "https://vmware-tanzu.github.io/helm-charts/index.yaml",
