@@ -7,16 +7,45 @@ Personal cloud-native knowledge base: on-premises, air-gapped, production-orient
 | Domain | Stack |
 |---|---|
 | OS | Oracle Linux 9, Ubuntu Server 24.04 LTS |
-| Orchestration | Kubernetes via Kubespray (Ansible) |
+| Orchestration | Kubernetes via Kubespray (Ansible) — **five Kubespray releases supported in parallel** |
 | Storage | Ceph (cephadm on dedicated hosts, Rook-Ceph in-cluster) |
 | Management | Rancher Management Cluster + independent Application Clusters |
-| Traffic | MetalLB (L4) + NGINX (L7) + Gateway API + Cilium |
+| Traffic | MetalLB (L4) + F5 NGINX Ingress Controller / NGINX Gateway Fabric / Envoy Gateway (L7) + Gateway API + Cilium |
 | GitOps | Argo CD, GitLab CI |
 | Identity | Keycloak, SSSD/realmd, AD/LDAP |
-| Secrets | HashiCorp Vault (or OpenBao), cert-manager, External Secrets |
+| Secrets | **HashiCorp Vault** (Community, BSL 1.1), cert-manager, External Secrets. OpenBao is the documented fallback |
 | Observability | Prometheus/Grafana/Alertmanager/Thanos, Loki/Fluent Bit |
 | Security | Pod Security Standards, OPA Gatekeeper, Kyverno, Falco, Trivy, Cosign, Syft |
 | AI | NVIDIA H100/H200 workers, MIG, vLLM, DCGM |
+
+## Current state
+
+| Item | Value |
+|---|---|
+| Files | 97 markdown, scripts and templates |
+| ADRs | 27 (`decisions/ADR-0001` .. `ADR-0027`) |
+| Deliverables | all 12 from the master prompt §32, mapped below |
+| Repository self-check | `tests/test_repo_tools.py` — 8 checks, all passing |
+| Version baseline check date | 2026-10-17 |
+| Acceptance tests | 48, all `NOT RUN` — nothing is pre-marked as passed |
+
+## Key platform decisions
+
+The decisions that shape everything else. Full reasoning in the ADR, referenced by number.
+
+| Decision | Outcome | ADR |
+|---|---|---|
+| Kubespray release support | **Five releases in parallel** (release-2.28 .. release-2.32), each with its own checkout, venv, inventory and mirrored artifacts. Covers five consecutive Kubernetes minors | ADR-0026 |
+| Ingress controllers | **Bounded portfolio of at most three deployed**, each with a five-stage lifecycle (Candidate / Supported / Deprecated / Removed / Retired upstream) and a dated deprecation schedule. Upstream retirement forces Deprecated immediately | ADR-0027 |
+| L7 ingress | F5 NGINX Ingress Controller (NIC 5.7.0, chart `nginx-ingress` 2.8.0) + NGINX Gateway Fabric + Envoy Gateway. The community `kubernetes/ingress-nginx` project is **retired** and not adoptable | ADR-0007 |
+| Secrets | **HashiCorp Vault**, Community edition, on dedicated hosts outside every cluster. OpenBao only if legal rejects the BSL | ADR-0016, ADR-0025 |
+| Kubernetes topology | 3 control-plane nodes with stacked etcd; 5 documented as the reference topology for larger sites | ADR-0002, ADR-0003 |
+| CNI | Cilium, kube-proxy-free, with Hubble | ADR-0006 |
+| Container runtime | containerd (2.3.7 under Kubespray release-2.32) | ADR-0005 |
+| Service mesh | **None at v1.** Adopt only when the threshold in `service-mesh/evaluation.md` is met | ADR-0009 |
+| GPU sharing | MIG for production multi-tenancy, time-slicing for development only (no VRAM isolation) | ADR-0022 |
+| LLM serving | vLLM primary, llama.cpp for small or quantized models | ADR-0023 |
+| Artifact distribution | Harbor for images and OCI charts, Nexus for packages, GitLab for source, Ceph RGW for model weights. One owner per artifact type | ADR-0024 |
 
 ## Repository map
 
@@ -32,17 +61,20 @@ automation/              ansible/ awx/ gitlab-ci/
 kubespray/               deployment guide, multi-version support, inventory and
                          group-vars templates
 kubernetes/              control-plane/ networking/ ingress/ csi/ security/
+                         ingress/  nginx-ingress.md, multi-controller-plan.md
 storage/                 ceph/ rook-ceph/ alternatives/
 management-cluster/      rancher/ argocd/ keycloak/ platform-services/
 identity/                SSSD, realmd, Kerberos, AD integration
-secrets-management/      vault/ kubernetes-integration/ pki/ recovery/
+secrets-management/      vault/ (architecture + HashiCorp product decision)
+                         kubernetes-integration/ pki/ recovery/
 gpu-ai/                  gpu-ai-architecture, gpu-workers/ drivers/ scheduling/
                          sharing/ inference/ monitoring/
 monitoring/ logging/ security/ service-mesh/
 network-matrix/          communication matrix, firewall rule generation
 lifecycle/               upgrades/ backup/ disaster-recovery/
 troubleshooting/          symptom-driven runbooks
-scripts/                 version-refresh helpers, Kubespray matrix extractors, ADR generator
+scripts/                 version-refresh helpers, Kubespray matrix extractors,
+                         ADR generator
 tests/                   repository self-check
 ```
 
@@ -62,6 +94,7 @@ tests/                   repository self-check
 4. Every command states its execution context.
 5. Destructive or production-impacting actions require explicit authorization before execution.
 6. A test is PASSED only when it has been executed and the evidence is stored. Nothing in this repo is pre-marked as passed.
+7. One writer per object: Ansible owns OS and node state, Kubespray owns the cluster lifecycle, Argo CD owns declared Kubernetes state, Vault owns secret values.
 
 ## Deliverables map (master prompt §32)
 
@@ -80,6 +113,20 @@ tests/                   repository self-check
 | 11 | Component guide backlog | `requirements/component-guide-backlog.md` |
 | 12 | Validation strategy | `requirements/validation-strategy.md` |
 
+Supporting standards: `requirements/platform-standards.md`, `requirements/performance-and-capacity.md`.
+
+## Lifecycle and expiry watch
+
+Tracked in `compatibility/version-matrix.md` (End-of-life and retirement watchlist).
+
+| Item | Date | Action |
+|---|---|---|
+| `kubernetes/ingress-nginx` (community) | Retired 2026-03 | Do not adopt. Migrate to the F5 controller or NGINX Gateway Fabric |
+| Helm 3 | Security fixes end 2027-02-10 | Plan the Helm 4 migration. Kubespray release-2.32 ships Helm 3.22.0 |
+| Envoy Gateway v1.8 | EOL 2026-11-08 | Move to v1.9 (EOL 2027-02-14) |
+| Ceph Squid 19.x | EOL ~2026-10-31 | Use Tentacle 20.x, or the version the pinned Rook release supports |
+| Kubespray release-2.28 | Oldest supported | Leaves the supported set when a sixth successor ships |
+
 ## Maintenance
 
 ```bash
@@ -87,6 +134,10 @@ tests/                   repository self-check
 python3 scripts/fetch_versions.py
 python3 scripts/helm_chart_versions.py
 python3 scripts/github_latest_releases.py <owner/repo>
+
+# Refresh the Kubespray release matrix from each release branch
+python3 scripts/kubespray_release_matrix.py release-2.28 release-2.29 release-2.30 release-2.31 release-2.32
+python3 scripts/kubespray_ansible_matrix.py release-2.28 release-2.29 release-2.30 release-2.31 release-2.32
 
 # Regenerate the ADRs after editing the generator
 python3 scripts/gen_adrs.py
