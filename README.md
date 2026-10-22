@@ -50,6 +50,8 @@ The decisions that shape everything else. Full reasoning in the ADR, referenced 
 ## Repository map
 
 ```
+USER.md                   communication and work style contract
+MEMORY.md                 fact-store contract: facts live in memory + skills, not here
 architecture/            logical topology, deployment topology, failure domains
 decisions/               ADR-0001 .. ADR-0027
 requirements/            requirements, tech matrix, roadmap, validation, acceptance,
