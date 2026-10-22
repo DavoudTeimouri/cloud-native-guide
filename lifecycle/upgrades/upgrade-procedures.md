@@ -23,9 +23,12 @@ Format for every component upgrade: source -> target, compatibility, pre-validat
 | Kernel | Package update + reboot | Yes, if the old kernel is retained | Drain, upgrade, reboot, verify, uncordon | Kernel + modules |
 | containerd | Package update | Yes | Drain nodes one at a time | RPM/DEB |
 | Ansible | pip in the venv | Yes | Automation server only | Wheels |
+| Helm 3 -> Helm 4 | Install the Helm 4 binary | Partly | Operator tooling first, then the CI and the automation server | Binary |
 | Kubespray | New release branch, new inventory | Cluster-level, **no rollback of the cluster** | See below | Images + files_repo |
 | Kubernetes | Kubespray `cluster.yml` with a new `kube_version` | **No** | Control plane first, then workers | Images + kubeadm |
 | etcd | Managed by Kubespray | **No** | With the control-plane node | Images |
+| NGINX Ingress (F5) | Helm upgrade via Argo CD | Yes | Canaries first | Chart + images |
+| ingress-nginx (community) | **No path — project retired** | No | n/a | Existing deployments keep running on their pinned version with no further security fixes. Migrate to the F5 controller or NGINX Gateway Fabric |
 | Cilium | Helm upgrade via Argo CD | Yes | Canary node pool | Chart + images |
 | CSI (Rook) | With the Rook upgrade | Yes | See the Ceph order | Images |
 | Ceph (cephadm) | `ceph orch upgrade` | **No across a major version** | mon -> mgr -> osd -> mds -> rgw | RPMs |
@@ -46,6 +49,19 @@ Format for every component upgrade: source -> target, compatibility, pre-validat
 | CUDA components | Image tag change | Yes | With the workload rollout | Images |
 | AI inference engine | Deployment image change | Yes | Rolling deployment | Images |
 | Model serving platform | Argo CD sync | Yes | Rolling | Images |
+
+## Helm 3 to Helm 4
+
+Helm 3 is in support mode: the final Helm 3 feature release was 2026-09-09, and **security fixes end 2027-02-10** (`https://helm.sh/blog/helm-v3-end-of-life`). Helm 4 is the current stable line.
+
+1. Read the Helm 4 release notes and the HIP-0012 migration notes for the pinned target version.
+2. Install the Helm 4 binary alongside Helm 3 on the automation server and in the CI image. Do not replace in place.
+3. Run every chart install, upgrade, template, and lint operation with Helm 4 against the full chart set. Helm 4 is expected to be compatible with the majority of existing Helm 3 charts, but "expected" is not "verified": run it.
+4. Fix the charts that fail. Each fix is an MR in the owning chart repository.
+5. Switch the CI image and the automation scripts to Helm 4.
+6. Keep the Helm 3 binary available until 2027-02-10, because Kubespray release-2.32 ships Helm 3.22.0 internally.
+
+Rollback: the Helm 3 binary is kept, so a rollback is a path change. The risk is in the charts: if a chart was modified to work with Helm 4, confirm it still works with Helm 3 before removing the old binary.
 
 ## Kubernetes minor upgrade
 

@@ -25,7 +25,8 @@ Refresh procedure: `scripts/fetch_versions.py`, `scripts/helm_chart_versions.py`
 | containerd (Kubespray-managed) | 2.3.7 | 2.3.7 | Kubespray release-2.32 README, "Supported Components" | VERIFIED | containerd upstream latest is v2.4.2 — not interchangeable, Kubespray pins the version it tested |
 | etcd (Kubespray-managed) | 3.6.15 | 3.6.15 | Same README | VERIFIED | |
 | cri-o (Kubespray-managed) | 1.36.7 | not adopted | Same README | VERIFIED | Experimental in Kubespray; only on Fedora/Ubuntu/CentOS-family |
-| Helm (Kubespray-managed) | 3.22.0 | 3.22.0 | Same README | VERIFIED | |
+| Helm (Kubespray-managed) | 3.22.0 | 3.22.0 | Same README | VERIFIED | Helm 3 is in support mode. Final Helm 3 feature release 2026-09-09; **security fixes end 2027-02-10**. See the Helm EOL note below |
+| Helm (upstream current) | v4.3.1 | n/a (not adopted yet) | `https://helm.sh/blog/helm-v3-end-of-life` | VERIFIED | Helm 4 is the current stable line. Plan the migration before 2027-02-10 |
 | cni-plugins | 1.9.1 | 1.9.1 | Same README | VERIFIED | |
 | CoreDNS (Kubespray-managed) | 1.14.2 | 1.14.2 | Same README | VERIFIED | |
 | kube-vip | 1.0.3 | not adopted | Same README | VERIFIED | Alternative to keepalived for the control-plane VIP |
@@ -56,7 +57,8 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | Multus | 4.2.2 | not adopted | Same README | VERIFIED | Secondary networks |
 | MetalLB | v0.16.1 | 0.16.1 | `https://github.com/metallb/metallb/releases/tag/v0.16.1` | VERIFIED | Chart `metallb-0.16.1` from `https://metallb.github.io/metallb/charts/index.yaml` |
 | MetalLB (Kubespray-managed) | 0.13.9 | not adopted | Kubespray release-2.32 README | VERIFIED | Kubespray ships an older MetalLB; the platform installs its own chart instead |
-| NGINX Ingress Controller | 1.15.1 (chart 4.15.1) | chart 4.15.1 | `https://github.com/kubernetes/ingress-nginx/releases/tag/helm-chart-4.15.1` | VERIFIED | F5-maintained |
+| NGINX Ingress Controller (F5) | 5.7.0 (chart nginx-ingress 2.8.0) | chart 2.8.0 | `https://github.com/nginx/kubernetes-ingress/releases` | VERIFIED | F5's commercial-grade controller. **This is the NGINX Ingress Controller, not the retired `kubernetes/ingress-nginx`** — see the retirement note below |
+| kubernetes/ingress-nginx | v1.15.1 (chart 4.15.1) | **RETIRED — do not adopt** | `https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/` | VERIFIED | Retired March 2026. Read-only repositories, no further releases or security fixes. Artifacts remain available for existing deployments only |
 | Traefik | v3.7.16 | not adopted | `https://github.com/traefik/traefik/releases/tag/v3.7.16` | VERIFIED | Alternative ingress |
 | Gateway API | v1.6.3 | v1.6.3 | `https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.6.3` | VERIFIED | v1.7.0-rc.1 exists; do not pin a pre-release |
 | kube-router | 2.1.1 | not adopted | Kubespray release-2.32 README | VERIFIED | |
@@ -90,7 +92,7 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | HashiCorp Vault | v2.2.0 | UNVERIFIED for deploy | `https://github.com/hashicorp/vault/releases/tag/v2.2.0` | VERIFIED | See the licensing note below before adopting |
 | Vault Helm chart | 0.34.1 (app 2.0.4) | 0.34.1 | `https://helm.releases.hashicorp.com/index.yaml` | VERIFIED | The chart app version lags the Vault release — the chart is the pinned unit, not the binary |
 | OpenBao | v2.7.1 | fallback | `https://github.com/openbao/openbao/releases/tag/v2.7.1` | VERIFIED | MPL-licensed alternative |
-| cert-manager | v1.21.2 | v1.21.2 | `https://github.com/cert-manager/cert-manager/releases/tag/v1.21.2` | VERIFIED | Chart v1.21.2 from `https://charts.jetstack.io/index.yaml` |
+| cert-manager | v1.21.2 | v1.21.2 | `https://github.com/cert-manager/cert-manager/releases` | VERIFIED | Chart v1.21.2 from `https://charts.jetstack.io/index.yaml`. A v1.20.4 maintenance release was published more recently than v1.21.2; the 1.21 line is the current feature line |
 | cert-manager (Kubespray-managed) | 1.15.3 | not adopted | Kubespray release-2.32 README | VERIFIED | Older than the standalone chart |
 | External Secrets Operator | v2.13.0 | v2.13.0 | `https://github.com/external-secrets/external-secrets/releases/tag/v2.13.0` | VERIFIED | Chart 2.13.0 from `https://charts.external-secrets.io/index.yaml` |
 | Sealed Secrets | v0.40.0 | optional | `https://github.com/bitnami-labs/sealed-secrets/releases` | VERIFIED | Bootstrap-static only |
@@ -125,7 +127,36 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | Trivy | v0.76.1 | v0.76.1 | `https://github.com/aquasecurity/trivy/releases` | VERIFIED | Vulnerability DB is a separate, dated artifact |
 | Syft | v1.55.0 | v1.55.0 | `https://github.com/anchore/syft/releases` | VERIFIED | SBOM generation |
 | Cosign | v3.1.4 | v3.1.4 | `https://github.com/sigstore/cosign/releases` | VERIFIED | Sigstore trust root is a separate, pinned artifact |
-| Grype | UNVERIFIED | not adopted | `https://github.com/anchore/grype/releases` | UNVERIFIED | Procedure: read the release page directly (the Atom feed title does not carry a clean tag) |
+| Grype | v0.121.0 | not adopted | `https://github.com/anchore/grype/releases` | VERIFIED | Alternative to Trivy |
+
+## Additional verified components (not in the core platform)
+
+| Component | Verified version | Official source | Status | Notes |
+|---|---|---|---|---|
+| Calico | v3.33.0 | `https://github.com/projectcalico/calico/releases` | VERIFIED | Upstream current. Kubespray release-2.32 ships 3.31.7 |
+| Helm (upstream current) | v4.3.1 | `https://github.com/helm/helm/releases` | VERIFIED | Helm 4 is the current stable line |
+| VictoriaMetrics | v1.154.1 | `https://github.com/VictoriaMetrics/VictoriaMetrics/releases` | VERIFIED | Long-term metrics alternative to Thanos |
+| KServe | v0.21.0 | `https://github.com/kserve/kserve/releases` | VERIFIED | Inference platform, if multi-framework serving is needed |
+| OpenTelemetry Collector | v0.164.x | `https://github.com/open-telemetry/opentelemetry-collector-releases` | VERIFIED | Telemetry collector |
+| Elasticsearch | 9.5.5 | `https://github.com/elastic/elasticsearch/releases` | VERIFIED | Not adopted; OpenSearch preferred on licensing grounds |
+| Logstash | 9.5.5 | `https://github.com/logstash/logstash/releases` | VERIFIED | Not adopted |
+| secrets-store-csi-driver | v1.5.7 | `https://github.com/kubernetes-sigs/secrets-store-csi-driver/releases` | VERIFIED | Secret delivery method 3 |
+| sigstore (root signing) | v1.11.1 | `https://github.com/sigstore/sigstore/releases` | VERIFIED | Trust root distribution |
+| DCGM Exporter | 4.8.4 | `https://github.com/NVIDIA/dcgm-exporter/releases` | VERIFIED | GPU metrics; version is tied to the GPU Operator release |
+| Vault Kubernetes auth (helm) | v1.7.6 | `https://github.com/hashicorp/vault-k8s/releases` | VERIFIED | Vault injector and agent chart |
+
+## End-of-life and retirement watchlist
+
+| Component | Status | Date | Source | Action |
+|---|---|---|---|---|
+| kubernetes/ingress-nginx (community) | **Retired** | March 2026 | `https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/` | Do not adopt. Migrate to F5 NGINX Ingress Controller or NGINX Gateway Fabric. No further releases or security fixes |
+| Helm 3 | Support mode | Final feature release 2026-09-09; security fixes end 2027-02-10 | `https://helm.sh/blog/helm-v3-end-of-life` | Plan the Helm 4 migration before 2027-02-10. Kubespray release-2.32 ships Helm 3.22.0 |
+| Ceph Squid (19.x) | End of life | Estimated 2026-10-31 | `https://docs.ceph.com/en/latest/releases/` | Do not start a new deployment on Squid. Use Tentacle (20.x) or the version the pinned Rook release supports |
+| Ceph Tentacle (20.x) | Active | EOL estimated 2027-06-01 | Same | The current long-lived target |
+| Rook 1.20.x | Maintenance | n/a | `https://github.com/rook/rook/releases` | v1.20.9 is the latest 1.20 patch. The 1.21 line is current |
+| Calico 3.31.x | Superseded upstream | n/a | `https://github.com/projectcalico/calico/releases` | Kubespray ships it; upstream is at 3.33.0 |
+| K8s API 6443 etcd ports | Stable | n/a | `https://kubernetes.io/docs/reference/` | Verify per release |
+| Vault (BUSL 1.1) | Source-available | 4 years per version | `https://github.com/hashicorp/vault/blob/main/LICENSE` | Internal use permitted. Confirm with legal |
 
 ## GPU and AI
 

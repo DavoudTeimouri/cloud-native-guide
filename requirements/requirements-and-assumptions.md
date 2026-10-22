@@ -30,7 +30,7 @@
 | D-05 | Secrets product | Vault / OpenBao | Vault; OpenBao fallback to avoid license cost | Secrets phase |
 | D-06 | Automation GUI | AWX / Semaphore / Rundeck | AWX | Automation phase |
 | D-07 | Identity source | Keycloak only / AD primary | Keycloak broker, AD/LDAP upstream, local break-glass always | Identity phase |
-| D-08 | L7 ingress | NGINX / Traefik | NGINX Ingress Controller (F5-maintained) | Ingress phase |
+| D-08 | L7 ingress | NGINX Ingress (F5) / NGINX Gateway Fabric / Traefik | F5 NGINX Ingress Controller (NIC 5.7.0, chart 2.8.0). The community ingress-nginx project is retired and not adoptable | Ingress phase |
 | D-09 | Service mesh | none / Istio / Linkerd | none at v1; evaluate at scale threshold | Deferred |
 | D-10 | LLM serving engine | vLLM / llama.cpp / Triton | vLLM primary, llama.cpp for edge/GGUF | GPU phase |
 | D-11 | GPU sharing | MIG / time-slicing | MIG on H100/H200, time-slicing only for burst dev | GPU phase |

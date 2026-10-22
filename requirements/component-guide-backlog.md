@@ -28,7 +28,7 @@ Implementation order. Every guide follows the section 24 template: A Purpose/Arc
 | 15 | Control plane + etcd | `kubernetes/control-plane/` | Kubespray | 7 |
 | 16 | Cilium CNI | `kubernetes/networking/` | cluster | 8 |
 | 17 | MetalLB | `kubernetes/networking/` | cluster | 8 |
-| 18 | NGINX Ingress + Gateway API | `kubernetes/ingress/` | MetalLB, cert-manager | 8 |
+| 18 | L7 ingress (F5 NGINX Ingress Controller) + Gateway API | `kubernetes/ingress/` | MetalLB, cert-manager | 8 |
 | 19 | cert-manager | `kubernetes/ingress/` | PKI | 8 |
 | 20 | ExternalDNS | `kubernetes/ingress/` | DNS | 8 |
 | 21 | Ceph (cephadm) | `storage/ceph/` | OS, storage VLAN | 6 |

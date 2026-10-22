@@ -13,7 +13,9 @@ Legend: **HA** = high-availability option exists. **Offline** = works air-gapped
 | Cilium | CNI | eBPF, Hubble, L7 policy, kube-proxy-free | Newer, kernel feature needs | Yes | Yes | CiliumNetworkPolicy | Med | Kubespray supported | **Adopt** |
 | Flannel | CNI | Simplest | No network policy | n/a | Yes | Weak | Low | Any | Only for minimal lab |
 | MetalLB | L4 LoadBalancer | Bare-metal VIPs, no cloud LB | L2/BGP only, no L7 | Yes (multi-VIP) | Yes | ARP/NDP spoofing risk | Low | Any | **Adopt** (bare metal) |
-| NGINX Ingress | L7 ingress | F5-maintained, Gateway API, stable | Config model complex at scale | Yes | Yes | NGINX CVEs | Med | Gateway API supported | **Adopt** |
+| NGINX Ingress (F5) | L7 ingress | F5-maintained, commercial support, Gateway API, stable | Config model complex at scale | Yes | Yes | NGINX CVEs | Med | NIC 5.7.0, chart 2.8.0, k8s 1.30-1.37 | **Adopt** |
+| NGINX Gateway Fabric (F5) | Gateway API native L7 | Vendor's forward path, Gateway API conformant | Requires converting Ingress first | Yes | Yes | NGINX CVEs | Med | Fabric 2.8.0, Gateway API 1.6.3, k8s 1.32+ | Adopt when Gateway API is the only API in use |
+| ingress-nginx (community) | L7 ingress | Was the de facto default | **RETIRED March 2026** — no releases, no security fixes, read-only repo | n/a | Yes | No fixes for new CVEs | n/a | Not adoptable | **Do not adopt** |
 | Traefik | L7 ingress | Excellent Docker labels, simple CRDs | Smaller enterprise adoption | Yes | Yes | Good | Low | Gateway API supported | Alternative |
 | Istio | Service mesh | mTLS, traffic mgmt, huge ecosystem | Resource overhead, upgrade pain, large artifact set | Yes | Yes (heavy) | STRONG identity | High | k8s >= 1.24 | Defer until scale threshold met |
 | Linkerd | Service mesh | Light, fast, simple | Smaller feature set | Yes | Yes (light) | mTLS | Med | Broad | Alternative if mesh adopted |

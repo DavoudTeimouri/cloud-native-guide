@@ -16,6 +16,7 @@ Ports marked "verify" must be confirmed against the selected release before fire
 | 8 | L4 LB | MetalLB speaker | TCP | 7474 (bgp) / 4789 (bgp) | out | BGP peering | O | N2N | 10.61.0.0/24 | dmz fw | MetalLB config | `kubectl -n metallb-system logs speaker` | verify |
 | 9 | MetalLB speaker | peers | TCP | 7946 (TCP), 7946/UDP (gossip) | both | L2/BGP session | R (BGP) | N2N | 10.61.0.0/24 | dmz fw | MetalLB config | `kubectl -n metallb-system get pods` | verify |
 | 10 | Clients | Argo CD server | TCP | 443 | in | GitOps UI/API | R | C2S | DMZ VIP | dmz fw | `management-cluster/argocd/` | `curl -k https://argocd/healthz` | verify |
+| 10a | Clients | L7 ingress (F5 NGINX Ingress Controller) | TCP | 80, 443 | in | HTTP/TLS traffic entry | R | C2S | DMZ VIP | dmz fw | `kubernetes/ingress/` | `curl -vk https://<vip>/ -H 'Host: app.internal'` | verify: controller service ports, not the retired ingress-nginx defaults |
 | 11 | Argo CD | GitLab | TCP | 443 | out | repo fetch | R | S2E | gitlab.internal | dmz fw | `management-cluster/argocd/` | `argocd app list` | verify |
 | 12 | Argo CD | K8s API | TCP | 6443 | out | apply state | R | C2S | 10.20.0.0/24 | dmz fw | Argo CD config | `argocd app get` | verify |
 | 13 | Argo CD | Vault | TCP | 8200 | out | secret retrieval | R (if used) | C2S | vault.internal | mgmt fw | `secrets-management/vault/` | `vault status` | verify |
