@@ -148,6 +148,15 @@ python3 scripts/gen_adrs.py
 python3 tests/test_repo_tools.py
 ```
 
+## Related sites
+
+| Site | Purpose | URL |
+|------|---------|-----|
+| **cloud-native-guide** (this repo) | Guide — reference architecture, ADRs, version matrix, runbooks | `https://github.com/DavoudTeimouri/cloud-native-guide` |
+| **cloudnative-infrastructure-guide** | Interactive site — ES5 cluster-method wizard, bundle generator, scroll-to-top version matrices | `https://github.com/DavoudTeimouri/cloudnative-infrastructure-guide` |
+
+This guide syncs version and compatibility information from the interactive `cloudnative-infrastructure-guide` site. The interactive site's `site/data.json` cluster methods (`kubespray`, `baremetal-cloudinit`, `existing-cluster`, `airgapped`) and `compatibility/version-matrix.md` are the source of truth for component versions used here.
+
 ## Implementation phases
 
 Dependency-aware 15-phase plan with acceptance criteria per phase: `requirements/implementation-roadmap.md`.
