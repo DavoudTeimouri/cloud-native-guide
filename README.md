@@ -9,6 +9,7 @@ Personal cloud-native knowledge base: on-premises, air-gapped, production-orient
 | OS | Oracle Linux 9, Ubuntu Server 24.04 LTS |
 | Orchestration | Kubernetes via Kubespray (Ansible) — **five Kubespray releases supported in parallel** |
 | Provisioning | Terraform (vSphere, libvirt, Proxmox, OpenStack) + Ansible VM configuration |
+| Add-ons | cert-manager, External DNS, Descheduler, VPA, Metrics Server, Trivy Operator, OpenTelemetry Operator |
 | Storage | Ceph (cephadm on dedicated hosts, Rook-Ceph in-cluster) |
 | Management | Rancher Management Cluster + independent Application Clusters |
 | Traffic | MetalLB (L4) + F5 NGINX Ingress Controller / NGINX Gateway Fabric / Envoy Gateway (L7) + Gateway API + Cilium |
@@ -60,10 +61,10 @@ requirements/            requirements, tech matrix, roadmap, validation, accepta
 compatibility/           version & compatibility matrix (pinned, with check dates)
 offline-artifacts/       artifact matrix, offline architecture, staging workflow
 operating-systems/       oracle-linux/ ubuntu/ distro-specific baselines
-|automation/              ansible/ awx/ gitlab-ci/ terraform/ VM provisioning (vSphere, libvirt, Proxmox, OpenStack) + Ansible VM config |
+automation/              ansible/ awx/ gitlab-ci/ terraform/ VM provisioning (vSphere, libvirt, Proxmox, OpenStack) + Ansible VM config |
 kubespray/               deployment guide, multi-version support, inventory and
                          group-vars templates
-kubernetes/              control-plane/ networking/ ingress/ csi/ security/
+kubernetes/              control-plane/ networking/ ingress/ addons/ csi/ security/
                          ingress/  nginx-ingress.md, multi-controller-plan.md
 storage/                 ceph/ rook-ceph/ alternatives/
 management-cluster/      rancher/ argocd/ keycloak/ platform-services/
