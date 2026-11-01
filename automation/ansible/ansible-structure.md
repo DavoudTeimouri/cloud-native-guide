@@ -29,8 +29,15 @@ ansible/
 │   ├── kubernetes/           # kubespray wrapper
 │   ├── ceph/                 # cephadm nodes
 │   ├── gpu/                  # driver, labels, taints
-│   └── vault/                # vault server nodes
+│   ├── vault/                # vault server nodes
+│   └── vm/                   # VM configuration: base OS, repos, runtime after Terraform provision
 └── playbooks/
+    ├── base.yml
+    ├── identity.yml
+    ├── containerd.yml
+    ├── kubernetes.yml
+    └── vm.yml                # configures VMs provisioned by Terraform (vSphere, libvirt, Proxmox, OpenStack)
+
 ```
 
 ## ansible.cfg
