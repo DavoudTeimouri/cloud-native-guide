@@ -19,7 +19,7 @@ This repository holds the durable, shareable engineering artifact: procedures, d
 ## Where each kind of information goes
 
 | Information | Lives in | Not in |
-|---|---|---|
+| --- | --- | --- |
 | Current pinned version of a component | memory store (fact) | this repository, except the matrix row that cites the source and check date |
 | Where a credential or key is kept | memory store | this repository, ever |
 | Site IP ranges, host names, DNS names | memory store | this repository |
@@ -46,7 +46,7 @@ When a fact changes:
 Facts about the environment where this repository is built, maintained, and deployed. Current values are in the fact store; the structure and the constraints are here.
 
 | Aspect | Constraint |
-|---|---|
+| --- | --- |
 | Deployment target | On-premises, air-gapped. No outbound internet at runtime. All artifacts mirrored internally and pull-verified |
 | OS baseline | Oracle Linux 9 and Ubuntu Server 24.04 LTS, per `operating-systems/` |
 | Cluster lifecycle | Kubespray, five releases supported in parallel (ADR-0026) |

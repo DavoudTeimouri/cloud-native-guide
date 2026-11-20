@@ -2,6 +2,12 @@
 
 Seven test families. Every test states: procedure, expected result, evidence artifact, pass/fail criterion, execution context.
 
+## Canonical test registry
+
+The authoritative test definitions live in `requirements/test-registry.md`. This document's families A–G are views over that registry; all IDs, statuses, and cross-references are generated from or synchronized with `requirements/test-registry.md`.
+
+**ID collision resolved:** `B-12` ("Internal registry only") in this document collided with `B-12` ("Cluster upgrade completes without data loss") in `requirements/acceptance-criteria.md`. `B-12` is kept here (internal registry only, family B connectivity). The upgrade test was renamed to **D-13** in `requirements/acceptance-criteria.md`. Old→new mapping: `B-12 (upgrade) → D-13`. No test was deleted.
+
 Status column is authoritative: a test is PASSED only if it was executed and evidence is stored. Not-run tests read NOT RUN.
 
 ## A. Compatibility and version validation

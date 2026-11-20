@@ -158,20 +158,83 @@ def test_roadmap_phases_present():
         assert f"## Phase {i} " in text, f"roadmap missing phase {i}"
 
 
-def test_acceptance_criteria_all_not_run():
-    """A test must never be marked passed without evidence."""
-    path = os.path.join(BASE, "requirements", "acceptance-criteria.md")
+def iter_test_rows(text):
+    """Yield (test_id, data_cells) for real test-table rows only.
+
+    A real test row has 12 mandatory fields. Prose cross-reference tables
+    (e.g. the B-12 collision summary, old-to-new mapping) have fewer cells
+    and must not be counted as test rows.
+    """
+    row_re = re.compile(r"^\|\s*([A-Z]-[0-9]+)\s*\|")
+    for line in text.splitlines():
+        m = row_re.match(line)
+        if not m:
+            continue
+        cells = [c.strip() for c in line.split("|")]
+        data = [c for c in cells if c != ""]
+        if len(data) < 12:
+            continue  # prose table, not a test row
+        yield m.group(1), data
+
+
+def test_registry_ids_unique():
+    path = os.path.join(BASE, "requirements", "test-registry.md")
     text = open(path).read()
-    # The status table has the columns: ID | Test | Phase | Owner | Status | ...
-    header = "| ID | Test | Phase | Owner | Status | Evidence | Date | Tester |"
-    assert header in text, "acceptance criteria status table header not found"
-    body = text.split(header, 1)[1].split("\n\n", 1)[0]
-    rows = [l for l in body.splitlines() if re.match(r"^\|\s*[A-Z]-\d+\s*\|", l)]
-    assert rows, "acceptance criteria status table is empty"
-    for row in rows:
-        cells = [c.strip() for c in row.strip("|").split("|")]
-        status = cells[4] if len(cells) > 4 else ""
-        assert status == "NOT RUN", f"acceptance test not marked NOT RUN: {row[:120]}"
+    ids = [tid for tid, _ in iter_test_rows(text)]
+    assert ids, "registry contains no test rows"
+    dupes = [i for i in ids if ids.count(i) > 1]
+    assert not dupes, f"duplicate test IDs in registry: {dupes}"
+
+
+def test_registry_status_values_valid():
+    path = os.path.join(BASE, "requirements", "test-registry.md")
+    text = open(path).read()
+    allowed = {"NOT RUN", "BLOCKED", "PASS", "FAIL", "N/A"}
+    for tid, data in iter_test_rows(text):
+        status = data[-1]
+        assert status in allowed, f"{tid} has invalid status {status!r}"
+
+
+def test_registry_mandatory_fields():
+    path = os.path.join(BASE, "requirements", "test-registry.md")
+    text = open(path).read()
+    mandatory = 13  # ID, name, category, prerequisites, validation method, environment, procedure, expected, evidence, risk, destructive, profiles, status
+    for tid, data in iter_test_rows(text):
+        assert len(data) >= mandatory, f"{tid} missing mandatory fields ({len(data)}/{mandatory})"
+        for field in data:
+            assert field, f"{tid} has an empty mandatory field"
+
+
+def test_pass_fail_require_evidence():
+    path = os.path.join(BASE, "requirements", "test-registry.md")
+    text = open(path).read()
+    for tid, data in iter_test_rows(text):
+        status = data[-1]
+        evidence = data[8]  # Evidence column (after Validation Method insertion)
+        if status in ("PASS", "FAIL"):
+            assert evidence and "tests/acceptance/" in evidence, (
+                f"{tid} is {status} without evidence reference"
+            )
+
+
+def test_registry_and_acceptance_criteria_consistent():
+    registry_path = os.path.join(BASE, "requirements", "test-registry.md")
+    ac_path = os.path.join(BASE, "requirements", "acceptance-criteria.md")
+    reg_text = open(registry_path).read()
+    ac_text = open(ac_path).read()
+    reg_ids = {tid for tid, _ in iter_test_rows(reg_text)}
+    ac_ids = set()
+    for line in ac_text.splitlines():
+        m = re.match(r"^\|\s*([A-Z]-[0-9]+)\s*\|", line)
+        if m:
+            cells = [c.strip() for c in line.split("|")]
+            data = [c for c in cells if c != ""]
+            if len(data) >= 8:  # acceptance-criteria table has 8 columns
+                ac_ids.add(m.group(1))
+    assert "D-13" in reg_ids, "registry missing D-13 (upgraded test renamed from B-12)"
+    assert "B-12" in reg_ids, "registry missing B-12 (internal registry only)"
+    missing = ac_ids - reg_ids
+    assert not missing, f"acceptance criteria IDs not in registry: {missing}"
 
 
 def main():
@@ -183,7 +246,11 @@ def main():
         ("network matrix has required fields and contiguous rows", test_network_matrix_has_required_fields),
         ("no plaintext secret patterns in the repo", test_no_plaintext_secret_patterns),
         ("roadmap has all 15 phases", test_roadmap_phases_present),
-        ("acceptance tests are not pre-marked as passed", test_acceptance_criteria_all_not_run),
+        ("registry test IDs are unique", test_registry_ids_unique),
+        ("registry status values are valid", test_registry_status_values_valid),
+        ("registry rows have all mandatory fields", test_registry_mandatory_fields),
+        ("PASS/FAIL require evidence reference", test_pass_fail_require_evidence),
+        ("registry consistent with acceptance criteria", test_registry_and_acceptance_criteria_consistent),
     ]
     for name, fn in tests:
         check(name, fn)
