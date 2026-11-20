@@ -5,7 +5,7 @@ Personal cloud-native knowledge base: on-premises, air-gapped, production-orient
 ## Scope
 
 | Domain | Stack |
-|---|---|
+| --- | --- |
 | OS | Oracle Linux 9, Ubuntu Server 24.04 LTS |
 | Orchestration | Kubernetes via Kubespray (Ansible) — **five Kubespray releases supported in parallel** |
 | Provisioning | Terraform (vSphere, libvirt, Proxmox, OpenStack) + Ansible VM configuration |
@@ -23,7 +23,7 @@ Personal cloud-native knowledge base: on-premises, air-gapped, production-orient
 ## Current state
 
 | Item | Value |
-|---|---|
+| --- | --- |
 | Files | 97 markdown, scripts and templates |
 | ADRs | 27 (`decisions/ADR-0001` .. `ADR-0027`) |
 | Deliverables | all 12 from the master prompt §32, mapped below |
@@ -36,7 +36,7 @@ Personal cloud-native knowledge base: on-premises, air-gapped, production-orient
 The decisions that shape everything else. Full reasoning in the ADR, referenced by number.
 
 | Decision | Outcome | ADR |
-|---|---|---|
+| --- | --- | --- |
 | Kubespray release support | **Five releases in parallel** (release-2.28 .. release-2.32), each with its own checkout, venv, inventory and mirrored artifacts. Covers five consecutive Kubernetes minors | ADR-0026 |
 | Ingress controllers | **Bounded portfolio of at most three deployed**, each with a five-stage lifecycle (Candidate / Supported / Deprecated / Removed / Retired upstream) and a dated deprecation schedule. Upstream retirement forces Deprecated immediately | ADR-0027 |
 | L7 ingress | F5 NGINX Ingress Controller (NIC 5.7.0, chart `nginx-ingress` 2.8.0) + NGINX Gateway Fabric + Envoy Gateway. The community `kubernetes/ingress-nginx` project is **retired** and not adoptable | ADR-0007 |
@@ -51,7 +51,7 @@ The decisions that shape everything else. Full reasoning in the ADR, referenced 
 
 ## Repository map
 
-```
+```text
 USER.md                   communication and work style contract
 MEMORY.md                 fact-store contract: facts live in memory + skills, not here
 architecture/            logical topology, deployment topology, failure domains
@@ -85,7 +85,7 @@ tests/                   repository self-check
 ## Status legend
 
 | Mark | Meaning |
-|---|---|
+| --- | --- |
 | VERIFIED | checked against the official source on the recorded date |
 | UNVERIFIED | value not yet confirmed; the verification procedure is recorded |
 | PROVISIONAL | chosen default pending review; safe to change before build |
@@ -103,7 +103,7 @@ tests/                   repository self-check
 ## Deliverables map (master prompt §32)
 
 | # | Deliverable | Location |
-|---|---|---|
+| --- | --- | --- |
 | 1 | Requirements and assumptions | `requirements/requirements-and-assumptions.md` |
 | 2 | Reference architecture | `architecture/` |
 | 3 | Technology selection matrix | `requirements/technology-selection-matrix.md` |
@@ -124,7 +124,7 @@ Supporting standards: `requirements/platform-standards.md`, `requirements/perfor
 Tracked in `compatibility/version-matrix.md` (End-of-life and retirement watchlist).
 
 | Item | Date | Action |
-|---|---|---|
+| --- | --- | --- |
 | `kubernetes/ingress-nginx` (community) | Retired 2026-03 | Do not adopt. Migrate to the F5 controller or NGINX Gateway Fabric |
 | Helm 3 | Security fixes end 2027-02-10 | Plan the Helm 4 migration. Kubespray release-2.32 ships Helm 3.22.0 |
 | Envoy Gateway v1.8 | EOL 2026-11-08 | Move to v1.9 (EOL 2027-02-14) |
@@ -153,7 +153,7 @@ python3 tests/test_repo_tools.py
 ## Related sites
 
 | Site | Purpose | URL |
-|------|---------|-----|
+| --- | --- | --- |
 | **cloud-native-guide** (this repo) | Guide — reference architecture, ADRs, version matrix, runbooks | `https://github.com/DavoudTeimouri/cloud-native-guide` |
 | **cloudnative-infrastructure-guide** | Interactive site — ES5 cluster-method wizard, bundle generator, scroll-to-top version matrices | `https://github.com/DavoudTeimouri/cloudnative-infrastructure-guide` |
 
