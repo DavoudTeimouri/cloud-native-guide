@@ -1,0 +1,30 @@
+# Markdownlint configuration for the Cloud-Native Guide repository.
+#
+# Scope: all Markdown files (*.md). The repository contains 105 Markdown files
+# spanning architecture, ADRs, runbooks, version matrices, and requirements.
+# Default rules apply unless overridden below.
+#
+# Intentional overrides (each documents why the rule is relaxed):
+#
+# MD013 (line length): disabled. Architecture diagrams, version matrices, and
+# runbooks contain long tables, URLs, and command examples that legitimately
+# exceed 80 characters. Wrapping them would reduce readability.
+MD013: false
+#
+# MD024 (multiple headers with the same content): disabled. Independent
+# documents (runbooks, ADRs, component guides) legitimately reuse section
+# titles such as "Validation", "Procedure", and "Expected result".
+MD024: false
+#
+# MD046 (code block style): disabled. Both fenced and indented code blocks
+# appear across legacy and newly written documents; enforcing one style would
+# cause mass reformatting unrelated to CI quality.
+MD046: false
+#
+# MD049 (emphasis style): enabled (default). Consistent emphasis is cheap to
+# enforce and improves consistency.
+#
+# Files are not explicitly excluded beyond .git (handled by the tool). No
+# vendored or generated Markdown exists in this repository, so no exclusion
+# list is required. If generated Markdown is added later, add an explicit
+# `files` exclusion here rather than disabling rules globally.
