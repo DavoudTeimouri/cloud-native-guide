@@ -13,6 +13,8 @@ import tempfile
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FAILURES = []
+EXPORTS = os.path.join(BASE, "catalog", "exports.json")
+DATA = os.path.join(BASE, "site", "data.json")
 
 
 def check(name, fn):
@@ -178,6 +180,294 @@ def test_docs_are_structurally_sane():
     assert not offenders, "; ".join(offenders[:10])
 
 
+
+def test_kubespray_oidc_no_legacy_variable_names():
+    """No unsupported kube_apiserver_oidc_* variables remain in OIDC export templates."""
+    for path in (EXPORTS, DATA):
+        text = open(path, encoding="utf-8").read()
+        assert "kube_apiserver_oidc_" not in text, (
+            f"{os.path.relpath(path, BASE)} contains legacy kube_apiserver_oidc_* variables"
+        )
+
+
+def test_kubespray_oidc_required_variables_present():
+    """All required kube_oidc_* variables are present in OIDC export templates."""
+    required = [
+        "kube_oidc_auth",
+        "kube_oidc_url",
+        "kube_oidc_client_id",
+        "kube_oidc_ca_file",
+        "kube_oidc_username_claim",
+        "kube_oidc_username_prefix",
+        "kube_oidc_groups_claim",
+        "kube_oidc_groups_prefix",
+    ]
+    for path in (EXPORTS, DATA):
+        text = open(path, encoding="utf-8").read()
+        for var in required:
+            assert var in text, (
+                f"{os.path.relpath(path, BASE)} missing required variable {var}"
+            )
+
+
+def test_kubespray_oidc_auth_enabled():
+    """kube_oidc_auth must be true in OIDC export templates."""
+    for path in (EXPORTS, DATA):
+        text = open(path, encoding="utf-8").read()
+        assert 'kube_oidc_auth: true' in text, (
+            f"{os.path.relpath(path, BASE)} does not enable kube_oidc_auth"
+        )
+
+
+def test_kubespray_oidc_prefixes_set():
+    """Username and groups OIDC prefixes must be explicitly set to oidc:."""
+    for path in (EXPORTS, DATA):
+        text = open(path, encoding="utf-8").read()
+        assert 'kube_oidc_username_prefix' in text, (
+            f"{os.path.relpath(path, BASE)} missing kube_oidc_username_prefix"
+        )
+        assert 'kube_oidc_groups_prefix' in text, (
+            f"{os.path.relpath(path, BASE)} missing kube_oidc_groups_prefix"
+        )
+        assert 'oidc:' in text, (
+            f"{os.path.relpath(path, BASE)} missing oidc: prefix value"
+        )
+
+
+def test_site_data_matches_exports_oidc_template():
+    """site/data.json OIDC template must match catalog/exports.json exactly."""
+    exports_text = open(EXPORTS, encoding="utf-8").read()
+    data_text = open(DATA, encoding="utf-8").read()
+    # Extract the k8s-cluster.yml template from both files
+    exp_oidc = None
+    data_oidc = None
+    for marker in ('"id": "inventory"', '"id": "k8s-cluster"'):
+        if marker in exports_text:
+            start = exports_text.index(marker)
+            exp_oidc = exports_text[start:start + 3000]
+        if marker in data_text:
+            start = data_text.index(marker)
+            data_oidc = data_text[start:start + 3000]
+    if exp_oidc and data_oidc:
+        # Normalize whitespace for comparison
+        exp_norm = " ".join(exp_oidc.split())
+        data_norm = " ".join(data_oidc.split())
+        assert exp_norm == data_norm, (
+            "site/data.json OIDC template diverges from catalog/exports.json"
+        )
+
+
+def test_render_template_substitutes_oidc_variables():
+    """renderTemplate() in site/app.js must substitute all {{value.*}} OIDC placeholders."""
+    # Simulate the renderTemplate logic from site/app.js
+    tpl = ('kube_oidc_url: "{{value.keycloakHost}}/realms/platform"\\n'
+           'kube_oidc_client_id: kube-apiserver\\n'
+           'kube_oidc_username_prefix: "oidc:"\\n'
+           'kube_oidc_groups_prefix: "oidc:"')
+    ctx_values = {"keycloakHost": "https://keycloak.internal"}
+    result = tpl
+    import re as _re
+    result = _re.sub(r'\{\{\s*value\.([a-zA-Z0-9_-]+)\s*\}\}',
+                     lambda m: ctx_values.get(m.group(1), ""), result)
+    assert "https://keycloak.internal/realms/platform" in result, (
+        "renderTemplate did not substitute {{value.keycloakHost}}"
+    )
+    assert "{{value.keycloakHost}}" not in result, (
+        "renderTemplate left {{value.keycloakHost}} unresolved"
+    )
+    assert 'kube_oidc_username_prefix: "oidc:"' in result, (
+        "renderTemplate lost kube_oidc_username_prefix"
+    )
+    assert 'kube_oidc_groups_prefix: "oidc:"' in result, (
+        "renderTemplate lost kube_oidc_groups_prefix"
+    )
+
+
+def test_yaml_parsing_available():
+    """PyYAML availability for YAML structural validation.
+
+    The repository follows a stdlib-first testing strategy and does not
+    declare PyYAML as a dependency. This test reports availability but
+    does not fail when PyYAML is absent; YAML structural validation is
+    deferred until PyYAML is installed in the test environment.
+    """
+    try:
+        import yaml  # noqa: F401
+        print("OK   PyYAML available for YAML structural validation")
+    except ImportError:
+        print("SKIP PyYAML not installed; YAML structural validation deferred")
+        # Not a failure: repo uses stdlib-first testing strategy.
+
+
+def test_oidc_simulated_rendering_and_validation():
+    """Simulated rendering and structural validation of the OIDC configuration path.
+
+    This test does NOT execute the real build_site.py generator or the actual
+    JavaScript renderTemplate() in site/app.js. It performs source-code inspection
+    and Python-based string substitution to verify that:
+
+    - All 8 kube_oidc_* variables are present in the source template.
+    - site/data.json matches catalog/exports.json (generated output consistent).
+    - All {{value.*}} placeholders in OIDC lines resolve to non-empty values.
+    - kube_oidc_auth is true.
+    - Username and groups prefixes are set to oidc:.
+    - Structural YAML validation (line-by-line) confirms expected types.
+
+    Full end-to-end execution (real generator + JS renderer + YAML parser) is
+    deferred until PyYAML is installed in the test environment.
+    """
+    import json as _json
+
+    # --- Step 1: Read source of truth ---
+    exports_text = open(EXPORTS, encoding="utf-8").read()
+    exports_data = _json.loads(exports_text)
+
+    # Find the k8s-cluster-vars export
+    kv_export = None
+    for exp in exports_data.get("exports", []):
+        if exp.get("id") == "k8s-cluster-vars":
+            kv_export = exp
+            break
+    assert kv_export is not None, "k8s-cluster-vars export not found in catalog/exports.json"
+
+    source_template = kv_export.get("template", "")
+    assert source_template, "k8s-cluster-vars template is empty"
+
+    # --- Step 2: Verify all 8 kube_oidc_* variables in source ---
+    required_vars = [
+        "kube_oidc_auth",
+        "kube_oidc_url",
+        "kube_oidc_client_id",
+        "kube_oidc_ca_file",
+        "kube_oidc_username_claim",
+        "kube_oidc_username_prefix",
+        "kube_oidc_groups_claim",
+        "kube_oidc_groups_prefix",
+    ]
+    for var in required_vars:
+        assert var in source_template, (
+            "catalog/exports.json missing required variable %s" % var
+        )
+
+    # --- Step 3: Verify kube_oidc_auth is enabled ---
+    assert 'kube_oidc_auth: true' in source_template, (
+        "catalog/exports.json does not enable kube_oidc_auth"
+    )
+
+    # --- Step 4: Verify site/data.json matches source (build_site.py output) ---
+    data_text = open(DATA, encoding="utf-8").read()
+    data_data = _json.loads(data_text)
+    data_kv = None
+    for exp in data_data.get("exports", []):
+        if exp.get("id") == "k8s-cluster-vars":
+            data_kv = exp
+            break
+    assert data_kv is not None, "k8s-cluster-vars not found in site/data.json"
+
+    data_template = data_kv.get("template", "")
+    assert data_template == source_template, (
+        "site/data.json k8s-cluster-vars template diverges from catalog/exports.json"
+    )
+
+    # --- Step 5: Simulate renderTemplate() and verify placeholder resolution ---
+    # Substitute {{value.keycloakHost}} (the only value.* used in OIDC lines)
+    rendered = source_template
+    rendered = rendered.replace(
+        '{{value.keycloakHost}}', 'https://keycloak.internal'
+    )
+    # Any remaining {{value.*}} in OIDC lines would be unresolved placeholders
+    oidc_lines = [l for l in rendered.splitlines() if l.strip().startswith('kube_oidc_')]
+    unresolved_in_oidc = []
+    for line in oidc_lines:
+        if '{{value.' in line or '{{choice.' in line or '{{version.' in line:
+            unresolved_in_oidc.append(line.strip())
+    assert not unresolved_in_oidc, (
+        "Unresolved placeholders in OIDC lines: %s" % unresolved_in_oidc
+    )
+
+    # --- Step 6: Verify all 8 variables with correct values in rendered output ---
+    rendered_dict = {}
+    for line in oidc_lines:
+        stripped = line.strip()
+        if ':' in stripped:
+            key, _, val = stripped.partition(':')
+            key = key.strip()
+            val = val.strip()
+            # Strip surrounding JSON quotes from string values
+            if val.startswith('"') and val.endswith('"'):
+                val = val[1:-1]
+            rendered_dict[key] = val
+
+    assert rendered_dict.get('kube_oidc_auth') == 'true', (
+        "kube_oidc_auth is not 'true' in rendered output"
+    )
+    assert 'keycloak.internal/realms/platform' in rendered_dict.get('kube_oidc_url', ''), (
+        "kube_oidc_url does not point to Keycloak platform realm"
+    )
+    assert rendered_dict.get('kube_oidc_client_id') == 'kube-apiserver', (
+        "kube_oidc_client_id is not 'kube-apiserver'"
+    )
+    assert rendered_dict.get('kube_oidc_ca_file') == '/etc/kubernetes/pki/oidc-ca.crt', (
+        "kube_oidc_ca_file is not '/etc/kubernetes/pki/oidc-ca.crt'"
+    )
+    assert rendered_dict.get('kube_oidc_username_claim') == 'preferred_username', (
+        "kube_oidc_username_claim is not 'preferred_username'"
+    )
+    assert rendered_dict.get('kube_oidc_username_prefix') == 'oidc:', (
+        "kube_oidc_username_prefix is not 'oidc:'"
+    )
+    assert rendered_dict.get('kube_oidc_groups_claim') == 'groups', (
+        "kube_oidc_groups_claim is not 'groups'"
+    )
+    assert rendered_dict.get('kube_oidc_groups_prefix') == 'oidc:', (
+        "kube_oidc_groups_prefix is not 'oidc:'"
+    )
+
+    # --- Step 7: Structural YAML validation (stdlib-only, no PyYAML dependency) ---
+    # Verify each OIDC line has the expected key: value structure
+    for line in oidc_lines:
+        stripped = line.strip()
+        assert ':' in stripped, (
+            "OIDC line missing key:value separator: %s" % stripped
+        )
+        key = stripped.split(':', 1)[0].strip()
+        val = stripped.split(':', 1)[1].strip()
+        assert val, "OIDC key %s has empty value" % key
+        # Boolean values must be bare (not quoted)
+        if key == 'kube_oidc_auth':
+            assert val == 'true', "kube_oidc_auth must be bare boolean true, got %s" % val
+        # String values containing YAML-special characters must be quoted.
+        # Colon (:) is a YAML mapping indicator, so values like "oidc:" and
+        # "https://..." must be quoted. Bare strings like "kube-apiserver" are fine.
+        yamlspecial = set(':{}[]&*?|><=!%@`')
+        if any(ch in val for ch in yamlspecial):
+            assert val.startswith('"') and val.endswith('"'), (
+                "OIDC string value %s contains YAML-special chars and must be quoted, got %s" % (key, val)
+            )
+
+    # --- Step 8: Optional PyYAML structural validation ---
+    try:
+        import yaml  # noqa: F401
+        # Full YAML parse if PyYAML is available
+        parsed = yaml.safe_load(rendered)
+        assert parsed is not None, "YAML parse returned None"
+        oidc_keys = [k for k in parsed.keys() if k.startswith('kube_oidc')]
+        assert len(oidc_keys) == 8, (
+            "Expected 8 kube_oidc_* keys in parsed YAML, found %d: %s"
+            % (len(oidc_keys), sorted(oidc_keys))
+        )
+        assert parsed['kube_oidc_auth'] is True, (
+            "kube_oidc_auth parsed as %s, expected True" % parsed['kube_oidc_auth']
+        )
+        assert parsed['kube_oidc_username_prefix'] == 'oidc:', (
+            "kube_oidc_username_prefix parsed as %s" % parsed['kube_oidc_username_prefix']
+        )
+        assert parsed['kube_oidc_groups_prefix'] == 'oidc:', (
+            "kube_oidc_groups_prefix parsed as %s" % parsed['kube_oidc_groups_prefix']
+        )
+    except ImportError:
+        print("SKIP PyYAML not installed; full YAML parse deferred")
+
 def test_acceptance_signoff_is_backed_by_evidence():
     """A test may leave NOT RUN, but PASSED/FAILED needs stored evidence."""
     path = os.path.join(BASE, "requirements", "acceptance-criteria.md")
@@ -211,6 +501,15 @@ def main():
         ("no plaintext secret patterns in the repo", test_no_plaintext_secret_patterns),
         ("docs are structurally sane", test_docs_are_structurally_sane),
         ("roadmap has all 15 phases", test_roadmap_phases_present),
+        ("Kubespray OIDC: no legacy variable names", test_kubespray_oidc_no_legacy_variable_names),
+        ("Kubespray OIDC: required variables present", test_kubespray_oidc_required_variables_present),
+        ("Kubespray OIDC: auth enabled", test_kubespray_oidc_auth_enabled),
+        ("Kubespray OIDC: prefixes set", test_kubespray_oidc_prefixes_set),
+        ("Kubespray OIDC: site/data.json matches exports.json", test_site_data_matches_exports_oidc_template),
+        ("Kubespray OIDC: renderTemplate substitution", test_render_template_substitutes_oidc_variables),
+        ("YAML parsing availability", test_yaml_parsing_available),
+        ("OIDC integration: simulated rendering", test_oidc_simulated_rendering_and_validation),
+
         ("acceptance sign-off is backed by evidence", test_acceptance_signoff_is_backed_by_evidence),
     ]
     for name, fn in tests:

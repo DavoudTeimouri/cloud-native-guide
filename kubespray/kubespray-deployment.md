@@ -322,7 +322,102 @@ etcdctl --endpoints=https://127.0.0.1:2379 endpoint health --cluster \
   --key=/etc/kubernetes/pki/etcd/healthcheck-client.key
 ```
 
-## L. Best practices
+## L. OIDC CA certificate provisioning
+
+The kube-apiserver OIDC integration requires a CA certificate at `kube_oidc_ca_file`
+(`/etc/kubernetes/pki/oidc-ca.crt` by default) on every control-plane node. This cert is the
+CA that signed Keycloak's TLS certificate, not an arbitrary server certificate.
+
+### Status: documented requirement, not implemented
+
+CA certificate provisioning is a **deployment requirement**, not an implemented repository
+playbook. The example Ansible `copy` task below is illustrative only — it is not present
+anywhere in the repository, and no `files/oidc-ca.crt` is committed. The environment owner
+must supply the verified CA certificate and install it on every control-plane node **before**
+kube-apiserver starts with OIDC enabled.
+
+An ingress TLS secret must **not** be assumed to contain the issuing CA certificate. The CA
+cert must be obtained directly from the Keycloak TLS certificate issuer (internal CA or
+cert-manager-issued cert).
+
+### Source certificate input
+
+The certificate is the public CA cert (PEM-encoded) that signed `keycloak.internal`'s TLS
+certificate. It contains no private key and is safe to store in the repository.
+
+Verify it is a CA certificate (not a leaf/server cert) before deploying:
+
+```bash
+openssl verify -CAfile oidc-ca.crt oidc-ca.crt
+openssl x509 -in oidc-ca.crt -noout -text | grep -A1 'Basic Constraints'
+```
+
+### Distribution mechanism (owner-supplied)
+
+The environment owner provisions the cert using Ansible or their preferred configuration
+management. Example (illustrative, not implemented in this repo):
+
+```yaml
+# group_vars/k8s_cluster/k8s-cluster.yml (addition)
+kube_oidc_ca_file: "/etc/kubernetes/pki/oidc-ca.crt"
+```
+
+```yaml
+# Ansible copy task (site playbook, not in this repo)
+- name: Provision OIDC CA certificate
+  copy:
+    src: files/oidc-ca.crt
+    dest: "{{ kube_oidc_ca_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+  delegate_to: "{{ inventory_hostname }}"
+  run_once: false
+```
+
+### Idempotency
+
+Ansible `copy` is idempotent: reruns are safe and do not rewrite an unchanged file.
+
+### Rotation procedure
+
+kube-apiserver reads `kube_oidc_ca_file` as a static file at startup. When the CA file
+changes, kube-apiserver does **not** auto-reload it; the static pod/container must be
+restarted. Kubespray deploys kube-apiserver as a kubeadm static pod managed by the kubelet.
+
+The exact restart mechanism depends on the host's kubelet configuration and is not
+universally standardized across distributions. Do **not** assume `systemctl restart
+kube-apiserver` exists — kube-apiserver is typically not a systemd service when deployed
+via Kubespray/kubeadm static pods.
+
+**One-control-plane-at-a-time procedure (verify before production use):**
+
+1. On one control-plane node, replace `oidc-ca.crt` with the new CA cert.
+2. Restart the kube-apiserver static pod (kubelet recreates it when its manifest changes,
+   or delete the static pod manifest and let kubelet re-instantiate).
+3. Verify the node is healthy: `kubectl get nodes` and `kubectl get --raw='/readyz?verbose'`.
+4. Verify OIDC login still works: `kubectl auth whoami` with a federated user.
+5. Repeat for the next control-plane node, one at a time, preserving quorum.
+
+**Do not restart all control-plane nodes simultaneously** — this would remove API server
+quorum and make the cluster unreachable.
+
+### Missing certificate behavior
+
+If `kube_oidc_ca_file` points to a missing file, kube-apiserver fails to start and OIDC
+authentication is unavailable for the entire cluster. Validate the file exists before
+deploying:
+
+```bash
+ansible -i inventory/<cluster>/hosts.ini control-plane -m stat -a "path=/etc/kubernetes/pki/oidc-ca.crt"
+```
+
+### Repository does not automate CA rotation
+
+No certificate renewal, rotation scheduler, or automated restart mechanism is implemented
+in this repository. Rotation is a manual, owner-operated procedure.
+
+## M. Best practices
 
 Mandatory:
 - Pin the Kubespray release in `kubespray/VERSION`; never track `master`.
