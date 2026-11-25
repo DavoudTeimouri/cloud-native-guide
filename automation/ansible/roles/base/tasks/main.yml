@@ -1,0 +1,191 @@
+---
+# Base role tasks - OS baseline configuration
+# All tasks are designed to be idempotent and check-mode compatible
+
+- name: "BASE | Gather distribution facts"
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+      - distribution_version
+      - distribution_major_version
+      - os_family
+  tags: [base, always]
+
+- name: "BASE | Set distribution-specific package lists"
+  ansible.builtin.set_fact:
+    base_packages_distro: "{{ {
+        'OracleLinux': base_packages_ol9,
+        'RedHat': base_packages_ol9,
+        'CentOS': base_packages_ol9,
+        'Rocky': base_packages_ol9,
+        'AlmaLinux': base_packages_ol9,
+        'Ubuntu': (base_packages_ubuntu2404 if ansible_distribution_major_version == '24' else base_packages_ubuntu2204)
+      }[ansible_distribution] | default([]) }}"
+  tags: [base]
+
+- name: "BASE | Install base packages (Oracle Linux / RHEL / Rocky / Alma)"
+  ansible.builtin.dnf:
+    name: "{{ base_packages_common + base_packages_distro }}"
+    state: present
+    update_cache: true
+  when: ansible_os_family == "RedHat"
+  tags: [base, packages]
+  register: base_dnf_result
+  changed_when: base_dnf_result.changed
+
+- name: "BASE | Install base packages (Ubuntu)"
+  ansible.builtin.apt:
+    name: "{{ base_packages_common + base_packages_distro }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+  tags: [base, packages]
+  register: base_apt_result
+  changed_when: base_apt_result.changed
+
+- name: "BASE | Configure hostname"
+  ansible.builtin.hostname:
+    name: "{{ base_hostname }}"
+  when: base_configure_hostname
+  tags: [base, hostname]
+  register: base_hostname_result
+  changed_when: base_hostname_result.changed
+
+- name: "BASE | Update /etc/hosts with hostname"
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: "^127\\.0\\.1\\.1"
+    line: "127.0.1.1\t{{ base_hostname }}"
+    state: present
+  when: base_configure_hostname
+  tags: [base, hostname]
+
+- name: "BASE | Load required kernel modules"
+  ansible.builtin.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ base_required_kernel_modules }}"
+  tags: [base, kernel]
+  register: base_modprobe_result
+  changed_when: base_modprobe_result.changed
+
+- name: "BASE | Ensure kernel modules persist across reboots"
+  ansible.builtin.copy:
+    dest: "/etc/modules-load.d/k8s.conf"
+    content: |
+      {{ base_required_kernel_modules | join('\n') }}
+    mode: "0644"
+  tags: [base, kernel]
+  register: base_modules_conf_result
+  changed_when: base_modules_conf_result.changed
+
+- name: "BASE | Apply sysctl settings"
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-kubernetes.conf
+    state: present
+    reload: true
+  loop: "{{ base_sysctl_settings | dict2items }}"
+  tags: [base, sysctl]
+  register: base_sysctl_result
+  changed_when: base_sysctl_result.changed
+
+- name: "BASE | Configure SSH hardening (drop-in)"
+  ansible.builtin.template:
+    src: sshd_config_dropin.j2
+    dest: /etc/ssh/sshd_config.d/99-hardening.conf
+    owner: root
+    group: root
+    mode: "0644"
+    validate: "sshd -t -f %s"
+  tags: [base, ssh]
+  notify: Restart sshd
+  register: base_ssh_result
+  changed_when: base_ssh_result.changed
+
+- name: "BASE | Install and configure chrony for time synchronization"
+  ansible.builtin.package:
+    name: chrony
+    state: present
+  tags: [base, time-sync]
+  register: base_chrony_install_result
+  changed_when: base_chrony_install_result.changed
+
+- name: "BASE | Configure chrony"
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: /etc/chrony.conf
+    owner: root
+    group: root
+    mode: "0644"
+  tags: [base, time-sync]
+  notify: Restart chrony
+  register: base_chrony_conf_result
+  changed_when: base_chrony_conf_result.changed
+
+- name: "BASE | Enable and start chronyd"
+  ansible.builtin.systemd:
+    name: chronyd
+    enabled: true
+    state: started
+  tags: [base, time-sync]
+  register: base_chrony_service_result
+  changed_when: base_chrony_service_result.changed
+
+- name: "BASE | Configure DNS resolvers"
+  ansible.builtin.template:
+    src: resolved.conf.j2
+    dest: /etc/systemd/resolved.conf
+    owner: root
+    group: root
+    mode: "0644"
+  tags: [base, dns]
+  notify: Restart systemd-resolved
+  register: base_dns_result
+  changed_when: base_dns_result.changed
+
+- name: "BASE | Enable and start systemd-resolved"
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    enabled: true
+    state: started
+  tags: [base, dns]
+  register: base_resolved_service_result
+  changed_when: base_resolved_service_result.changed
+
+- name: "BASE | Create internal CA certificate directory"
+  ansible.builtin.file:
+    path: "{{ base_internal_ca_cert | dirname }}"
+    state: directory
+    mode: "0755"
+  tags: [base, ca]
+  register: base_ca_dir_result
+  changed_when: base_ca_dir_result.changed
+
+- name: "BASE | Check if reboot is required (Oracle Linux / RHEL)"
+  ansible.builtin.command: needs-restarting -r
+  when: ansible_os_family == "RedHat"
+  changed_when: false
+  failed_when: false
+  register: base_reboot_check_rhel
+  tags: [base, reboot]
+
+- name: "BASE | Check if reboot is required (Ubuntu)"
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  when: ansible_os_family == "Debian"
+  register: base_reboot_check_ubuntu
+  tags: [base, reboot]
+
+- name: "BASE | Set reboot required fact"
+  ansible.builtin.set_fact:
+    base_reboot_required: "{{ (base_reboot_check_rhel.rc == 1) or (base_reboot_check_ubuntu.stat.exists) }}"
+  tags: [base, reboot]
+
+- name: "BASE | Report reboot requirement"
+  ansible.builtin.debug:
+    msg: "REBOOT REQUIRED: Kernel or core library updates applied. Please reboot the host before proceeding with Kubernetes installation."
+  when: base_reboot_required
+  tags: [base, reboot]

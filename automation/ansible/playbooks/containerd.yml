@@ -1,0 +1,27 @@
+---
+# Containerd playbook
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini playbooks/containerd.yml
+# Check mode: ansible-playbook -i inventories/<env>/hosts.ini playbooks/containerd.yml --check --diff
+
+- name: Install and configure containerd
+  hosts: all
+  become: true
+  roles:
+    - containerd
+
+  post_tasks:
+    - name: "CONTAINERD | Verify containerd"
+      ansible.builtin.command: "crictl version"
+      changed_when: false
+      tags: [containerd, verify]
+
+    - name: "CONTAINERD | Verify registry mirrors"
+      ansible.builtin.command: "cat /etc/containerd/certs.d/*/hosts.toml"
+      changed_when: false
+      tags: [containerd, verify]
+
+    - name: "CONTAINERD | Test image pull from internal registry"
+      ansible.builtin.command: "crictl pull harbor.internal/base/pause:3.9"
+      changed_when: false
+      tags: [containerd, verify]
+      ignore_errors: true

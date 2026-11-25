@@ -1,0 +1,100 @@
+---
+# Repositories role tasks - Configure internal package repositories
+
+- name: "REPOS | Gather distribution facts"
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+      - distribution_version
+      - distribution_major_version
+      - os_family
+  tags: [repositories, always]
+
+- name: "REPOS | Disable public Oracle Linux repositories"
+  ansible.builtin.command: "dnf config-manager --set-disabled ol9_baseos_latest ol9_appstream ol9_addons"
+  when:
+    - ansible_os_family == "RedHat"
+    - repos_disable_public | default(true)
+  changed_when: false
+  failed_when: false
+  tags: [repositories]
+
+- name: "REPOS | Configure Oracle Linux 9 internal repositories"
+  ansible.builtin.yum_repository:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.baseurl }}"
+    enabled: "{{ item.enabled }}"
+    gpgcheck: "{{ item.gpgcheck }}"
+    gpgkey: "{{ item.gpgkey }}"
+    file: "{{ item.repo_file | basename | splitext | first }}"
+  loop: "{{ repos_ol9 }}"
+  when: ansible_os_family == "RedHat"
+  tags: [repositories]
+  register: repos_ol9_result
+  changed_when: repos_ol9_result.changed
+
+- name: "REPOS | Disable public Ubuntu repositories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/sources.list.d/ubuntu.sources
+    - /etc/apt/sources.list
+  when:
+    - ansible_os_family == "Debian"
+    - repos_disable_public | default(true)
+  tags: [repositories]
+  register: repos_disable_ubuntu_result
+  changed_when: repos_disable_ubuntu_result.changed
+
+- name: "REPOS | Create APT keyring directory"
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+  when: ansible_os_family == "Debian"
+  tags: [repositories]
+  register: repos_keyring_dir_result
+  changed_when: repos_keyring_dir_result.changed
+
+- name: "REPOS | Download Nexus GPG key for Ubuntu"
+  ansible.builtin.get_url:
+    url: "https://nexus.internal/repository/nexus-ubuntu.gpg"
+    dest: /etc/apt/keyrings/nexus-ubuntu.gpg
+    mode: "0644"
+    force: true
+  when: ansible_os_family == "Debian"
+  tags: [repositories]
+  register: repos_gpg_key_result
+  changed_when: repos_gpg_key_result.changed
+
+- name: "REPOS | Select Ubuntu repository list based on version"
+  ansible.builtin.set_fact:
+    repos_ubuntu_selected: "{{ repos_ubuntu2404 if ansible_distribution_major_version == '24' else repos_ubuntu2204 }}"
+  when: ansible_os_family == "Debian"
+  tags: [repositories]
+
+- name: "REPOS | Configure Ubuntu internal repositories"
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by={{ item.signed_by }}] {{ item.uris[0] }} {{ item.suites[0] }} {{ item.components | join(' ') }}"
+    filename: "{{ item.repo_file | basename | splitext | first }}"
+    state: present
+    update_cache: true
+  loop: "{{ repos_ubuntu_selected }}"
+  when: ansible_os_family == "Debian"
+  tags: [repositories]
+  register: repos_ubuntu_result
+  changed_when: repos_ubuntu_result.changed
+
+- name: "REPOS | Verify repository configuration (Oracle Linux)"
+  ansible.builtin.command: "dnf repolist enabled"
+  when: ansible_os_family == "RedHat"
+  changed_when: false
+  tags: [repositories, verify]
+
+- name: "REPOS | Verify repository configuration (Ubuntu)"
+  ansible.builtin.command: "apt-cache policy"
+  when: ansible_os_family == "Debian"
+  changed_when: false
+  tags: [repositories, verify]

@@ -1,0 +1,31 @@
+---
+# Kubespray Control Node Preparation Playbook
+# Run on the CONTROL NODE (not Kubernetes nodes)
+# Prepares Python venv, pinned dependencies, and Kubespray source
+#
+# Usage:
+#   ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespray-control-node.yml
+#   ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespray-control-node.yml --check
+
+- name: Prepare Kubespray Control Node
+  hosts: localhost
+  become: true
+  roles:
+    - kubespray-control-node
+
+  post_tasks:
+    - name: "KUBESPRAY-CTL | Report control node readiness"
+      ansible.builtin.debug:
+        msg: |
+          Kubespray control node preparation complete.
+          Virtual environment: /opt/kubespray-venv
+          Kubespray source: /opt/kubespray (tag: v2.32.0)
+          Ansible: 12.3.0 (core: 2.19.3)
+          Python: 3.11
+          Collections: community.general 11.2.0, community.kubernetes 2.4.0, kubernetes.core 5.0.0, ansible.posix 2.0.0, ansible.utils 6.0.0
+          
+          Next steps:
+          1. Verify Kubernetes version compatibility: kubespray_kubernetes_version: "1.36.5"
+          2. Set kubernetes_version_verified: true after manual verification
+          3. Run preflight: ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespray-deploy.yml
+          4. After preflight passes: ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespray-deploy.yml -e kubespray_deploy_mode=deploy -e kubespray_operator_approval=true

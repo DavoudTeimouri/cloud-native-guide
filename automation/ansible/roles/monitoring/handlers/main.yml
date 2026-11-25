@@ -1,0 +1,12 @@
+---
+# Handlers for monitoring role
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Restart fluent-bit
+  ansible.builtin.systemd:
+    name: fluent-bit
+    state: restarted
+    enabled: true

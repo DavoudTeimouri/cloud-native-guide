@@ -1,0 +1,119 @@
+---
+# Kubespray control node preparation defaults
+# All versions are pinned to specific releases for reproducibility
+# SOURCE: Kubespray v2.32.0 release (README.md component versions, requirements.txt)
+
+# Kubespray release pinning
+kubespray_release_tag: "v2.32.0"
+kubespray_repo_url: "https://github.com/kubernetes-sigs/kubespray.git"
+kubespray_install_path: "/opt/kubespray"
+
+# Exact Python requirements
+kubespray_python_version: "3.11"
+kubespray_python_venv_path: "/opt/kubespray-venv"
+
+# Exact Ansible requirements (per Kubespray v2.32.0)
+kubespray_ansible_core_version: "2.19.3"
+kubespray_ansible_version: "12.3.0"
+
+# Pinned Python dependencies (from Kubespray v2.32.0 requirements.txt)
+kubespray_pip_packages:
+  - "ansible-core=={{ kubespray_ansible_core_version }}"
+  - "ansible=={{ kubespray_ansible_version }}"
+  - "jmespath==1.1.0"
+  - "netaddr==1.3.0"
+  - "pyyaml==6.0.2"
+  - "jinja2==3.1.6"
+  - "packaging==24.2"
+  - "cryptography==50.0.1"
+  - "passlib==1.7.4"
+  - "bcrypt<6"
+  - "urllib3==2.3.0"
+  - "requests==2.32.3"
+
+# NOTE: Kubespray v2.32.0 does NOT have a requirements.yml file.
+# Ansible collections are bundled in roles or declared inline.
+# The following collections are verified as required by Kubespray v2.32.0 roles:
+kubespray_ansible_collections:
+  - name: community.general
+    version: "11.2.0"
+    source: https://galaxy.ansible.com
+  - name: community.kubernetes
+    version: "2.4.0"
+    source: https://galaxy.ansible.com
+  - name: kubernetes.core
+    version: "5.0.0"
+    source: https://galaxy.ansible.com
+  - name: ansible.posix
+    version: "2.0.0"
+    source: https://galaxy.ansible.com
+  - name: ansible.utils
+    version: "6.0.0"
+    source: https://galaxy.ansible.com
+
+# Offline/internal mirror configuration
+kubespray_offline_mode: false
+kubespray_internal_git_mirror: ""  # e.g., "https://git.internal/kubernetes-sigs/kubespray.git"
+kubespray_internal_pypi_mirror: ""  # e.g., "https://nexus.internal/repository/pypi/simple"
+kubespray_internal_galaxy_mirror: ""  # e.g., "https://nexus.internal/repository/ansible-galaxy/"
+
+# Control node validation
+kubespray_validate_venv: true
+kubespray_validate_collections: true
+kubespray_validate_kubespray_source: true
+
+# Target Kubernetes version (must be within Kubespray release supported range)
+# SOURCE: Kubespray v2.32.0 README.md component versions: Kubernetes 1.36.4
+# Note: 1.36.5 is NOT the default patch version in this release.
+kubernetes_version: "1.36.4"
+kubernetes_version_verified: false  # Set to true after manual verification against upstream release notes
+
+# CNI selection (cilium or calico)
+kubespray_cni_plugin: "cilium"
+
+# Cilium specific settings (when CNI is cilium)
+# SOURCE: Kubespray v2.32.0 README.md component versions: Cilium 1.20.2
+kubespray_cilium_version: "1.20.2"
+kubespray_cilium_tunneling_mode: "vxlan"  # vxlan, geneve, or disabled (direct routing)
+kubespray_cilium_hubble_enabled: true
+kubespray_cilium_hubble_relay_enabled: true
+kubespray_cilium_hubble_ui_enabled: true
+kubespray_cilium_kube_proxy_replacement: "strict"  # disabled, partial, strict
+kubespray_cilium_ipam_mode: "cluster-pool"
+kubespray_cilium_cluster_pool_ipv4_cidr: "10.30.0.0/16"
+kubespray_cilium_cluster_pool_ipv4_mask_size: "24"
+
+# Calico specific settings (when CNI is calico)
+# SOURCE: Kubespray v2.32.0 README.md component versions: Calico 3.31.7
+kubespray_calico_version: "3.31.7"
+kubespray_calico_vxlan_enabled: false
+kubespray_calico_vxlan_port: 4789
+kubespray_calico_wireguard_enabled: false
+kubespray_calico_typha_enabled: false
+
+# Network CIDRs (operator must confirm these match their environment)
+kubespray_pod_cidr: "10.30.0.0/16"
+kubespray_service_cidr: "10.32.0.0/16"
+
+# Cluster configuration
+kubespray_cluster_name: "production"
+kubespray_apiserver_vip: "10.20.0.100"
+kubespray_apiserver_port: 6443
+
+# Registry configuration
+kubespray_container_registry: "harbor.internal:5000"
+kubespray_registry_ca_cert_path: "/etc/ssl/certs/harbor-ca.crt"
+kubespray_registry_auth_enabled: true
+
+# Proxy configuration (empty = no proxy)
+kubespray_http_proxy: ""
+kubespray_https_proxy: ""
+kubespray_no_proxy: "localhost,127.0.0.1,10.0.0.0/8"
+
+# Offline artifact staging
+kubespray_offline_artifacts_path: "/opt/kubespray-offline"
+kubespray_staged_images_manifest: "{{ kubespray_offline_artifacts_path }}/images-manifest.txt"
+
+# Deployment safety
+kubespray_require_explicit_approval: true
+kubespray_dry_run_first: true

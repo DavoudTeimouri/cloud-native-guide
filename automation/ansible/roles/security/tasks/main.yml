@@ -1,0 +1,148 @@
+---
+# Security role tasks - System hardening
+
+- name: "SECURITY | Gather distribution facts"
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+      - distribution_version
+      - distribution_major_version
+      - os_family
+  tags: [security, always]
+
+- name: "SECURITY | Install auditd"
+  ansible.builtin.package:
+    name: audit
+    state: present
+  tags: [security, audit]
+  register: security_auditd_install_result
+  changed_when: security_auditd_install_result.changed
+
+- name: "SECURITY | Configure auditd rules"
+  ansible.builtin.copy:
+    dest: /etc/audit/rules.d/30-kubernetes.rules
+    content: |
+      {{ security_auditd_rules | join('\n') }}
+    mode: "0644"
+  tags: [security, audit]
+  notify: Restart auditd
+  register: security_auditd_rules_result
+  changed_when: security_auditd_rules_result.changed
+
+- name: "SECURITY | Enable and start auditd"
+  ansible.builtin.systemd:
+    name: auditd
+    enabled: true
+    state: started
+  tags: [security, audit]
+  register: security_auditd_service_result
+  changed_when: security_auditd_service_result.changed
+
+- name: "SECURITY | Configure SELinux (Oracle Linux / RHEL)"
+  ansible.builtin.selinux:
+    policy: targeted
+    state: "{{ security_selinux_state }}"
+  when: ansible_os_family == "RedHat"
+  tags: [security, selinux]
+  register: security_selinux_result
+  changed_when: security_selinux_result.changed
+
+- name: "SECURITY | Ensure AppArmor is enabled (Ubuntu)"
+  ansible.builtin.package:
+    name: apparmor
+    state: present
+  when: ansible_os_family == "Debian"
+  tags: [security, apparmor]
+  register: security_apparmor_install_result
+  changed_when: security_apparmor_install_result.changed
+
+- name: "SECURITY | Enable AppArmor service (Ubuntu)"
+  ansible.builtin.systemd:
+    name: apparmor
+    enabled: true
+    state: started
+  when: ansible_os_family == "Debian"
+  tags: [security, apparmor]
+  register: security_apparmor_service_result
+  changed_when: security_apparmor_service_result.changed
+
+- name: "SECURITY | Apply kernel hardening sysctl settings"
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-security-hardening.conf
+    state: present
+    reload: true
+  loop: "{{ security_kernel_hardening | dict2items }}"
+  tags: [security, kernel]
+  register: security_kernel_sysctl_result
+  changed_when: security_kernel_sysctl_result.changed
+
+- name: "SECURITY | Install nftables (Oracle Linux / RHEL)"
+  ansible.builtin.package:
+    name: nftables
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags: [security, firewall]
+  register: security_nftables_install_rhel_result
+  changed_when: security_nftables_install_rhel_result.changed
+
+- name: "SECURITY | Install nftables (Ubuntu)"
+  ansible.builtin.package:
+    name: nftables
+    state: present
+  when: ansible_os_family == "Debian"
+  tags: [security, firewall]
+  register: security_nftables_install_ubuntu_result
+  changed_when: security_nftables_install_ubuntu_result.changed
+
+- name: "SECURITY | Configure nftables firewall"
+  ansible.builtin.template:
+    src: nftables.conf.j2
+    dest: /etc/nftables.conf
+    owner: root
+    group: root
+    mode: "0644"
+    validate: "nft -c %s"
+  tags: [security, firewall]
+  notify: Reload nftables
+  register: security_nftables_conf_result
+  changed_when: security_nftables_conf_result.changed
+
+- name: "SECURITY | Enable and start nftables"
+  ansible.builtin.systemd:
+    name: nftables
+    enabled: true
+    state: started
+  tags: [security, firewall]
+  register: security_nftables_service_result
+  changed_when: security_nftables_service_result.changed
+
+- name: "SECURITY | Validate firewall source CIDRs"
+  ansible.builtin.assert:
+    that:
+      - security_firewall_allowed_source_cidrs is defined
+      - security_firewall_allowed_source_cidrs | length > 0
+      - security_firewall_allowed_source_cidrs | reject('equalto', '') | list | length == security_firewall_allowed_source_cidrs | length
+    fail_msg: "security_firewall_allowed_source_cidrs must be a non-empty list of valid CIDRs. Define management source CIDRs in group_vars/all/main.yml or vault.yml."
+    quiet: true
+  tags: [security, firewall, validate]
+  run_once: true
+  delegate_to: localhost
+
+- name: "SECURITY | Validate CIDR syntax"
+  ansible.builtin.command: "python3 -c \"import ipaddress; [ipaddress.ip_network(c) for c in {{ security_firewall_allowed_source_cidrs | to_json }}]\""
+  changed_when: false
+  failed_when: false
+  register: cidr_syntax_check
+  tags: [security, firewall, validate]
+  run_once: true
+  delegate_to: localhost
+
+- name: "SECURITY | Fail on invalid CIDR syntax"
+  ansible.builtin.fail:
+    msg: "Invalid CIDR in security_firewall_allowed_source_cidrs: {{ cidr_syntax_check.stderr }}"
+  when: cidr_syntax_check.rc != 0
+  tags: [security, firewall, validate]
+  run_once: true
+  delegate_to: localhost

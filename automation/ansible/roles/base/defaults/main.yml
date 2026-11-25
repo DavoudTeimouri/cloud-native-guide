@@ -1,0 +1,97 @@
+---
+# Default variables for base role
+# These can be overridden by group_vars or host_vars
+
+# Hostname configuration
+base_configure_hostname: true
+base_hostname: "{{ inventory_hostname }}"
+
+# Base packages
+base_packages_common:
+  - chrony
+  - audit
+  - audit-libs
+  - jq
+  - vim
+  - htop
+  - net-tools
+  - tcpdump
+  - strace
+  - sysstat
+  - curl
+  - wget
+  - tar
+  - gzip
+  - unzip
+  - rsync
+  - openssl
+  - ca-certificates
+
+# Distribution-specific package overrides (set in group_vars/all/main.yml)
+base_packages_ol9: "{{ base_packages_ol9 | default([]) }}"
+base_packages_ubuntu2404: "{{ base_packages_ubuntu2404 | default([]) }}"
+base_packages_ubuntu2204: "{{ base_packages_ubuntu2204 | default([]) }}"
+
+# Kernel modules required for Kubernetes
+base_required_kernel_modules:
+  - overlay
+  - br_netfilter
+  - ip_vs
+  - ip_vs_rr
+  - ip_vs_wrr
+  - ip_vs_sh
+  - nf_conntrack
+
+# Sysctl settings
+base_sysctl_settings:
+  net.bridge.bridge-nf-call-iptables: 1
+  net.bridge.bridge-nf-call-ip6tables: 1
+  net.ipv4.ip_forward: 1
+  net.ipv4.conf.all.forwarding: 1
+  net.ipv4.conf.all.rp_filter: 1
+  net.ipv4.conf.default.rp_filter: 1
+  vm.swappiness: 10
+  vm.overcommit_memory: 1
+  vm.panic_on_oom: 0
+  vm.oom_kill_allocating_task: 1
+  fs.inotify.max_user_watches: 524288
+  fs.inotify.max_user_instances: 8192
+  fs.file-max: 2097152
+  kernel.panic: 10
+  kernel.panic_on_oops: 1
+  kernel.keys.root_maxkeys: 1000000
+  kernel.keys.root_maxbytes: 25000000
+
+# SSH hardening
+base_ssh_hardening:
+  permit_root_login: "no"
+  password_authentication: "no"
+  pubkey_authentication: "yes"
+  permit_empty_passwords: "no"
+  challenge_response_authentication: "no"
+  use_pam: "yes"
+  x11_forwarding: "no"
+  allow_tcp_forwarding: "no"
+  client_alive_interval: 300
+  client_alive_count_max: 2
+  max_auth_tries: 3
+  max_sessions: 2
+  login_grace_time: 30
+  banner: "/etc/issue.net"
+
+# Time synchronization
+base_ntp_servers:
+  - "10.10.0.1"
+  - "10.10.0.2"
+
+# DNS
+base_dns_servers:
+  - "10.10.0.53"
+  - "10.10.0.54"
+
+# Internal CA
+base_internal_ca_cert: "/etc/ssl/certs/internal-ca.crt"
+
+# Reboot handling
+base_reboot_required: false
+base_reboot_timeout: 300

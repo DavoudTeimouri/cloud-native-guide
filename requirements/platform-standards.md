@@ -20,6 +20,16 @@ Consolidated standards across the stack. Each item is marked Mandatory, Strongly
 
 Rules: lowercase, hyphen-separated, no underscores in Kubernetes names, no version in the name.
 
+## Security
+
+Security standards are distributed across multiple sections:
+
+- **Secrets handling** — Vault is the only place secret values live; secrets never enter Git, container images, pipeline artifacts, ordinary logs, or values files.
+- **Certificate management** — One internal CA rooted in Vault PKI; cert-manager issues and renews every in-cluster certificate.
+- **RBAC and least privilege** — Humans authenticate through Keycloak (OIDC); RBAC is namespace-scoped for application teams; cluster-admin held by two named operators.
+- **Firewall policy** — Default deny inbound; explicit allow rules generated from the network matrix.
+- **Image provenance** — Images built in CI, scanned, SBOM-generated, signed with Cosign, pushed to Harbor; production deploys by digest.
+
 ## DNS
 
 - Internal zone for all platform endpoints (`*.internal`).

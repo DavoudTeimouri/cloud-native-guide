@@ -1,0 +1,195 @@
+---
+# Kubespray control node preparation tasks
+# Prepares the control node with pinned versions for reproducible deployments
+
+- name: "KUBESPRAY-CTL | Gather control node facts"
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+      - distribution_version
+      - distribution_major_version
+      - os_family
+      - python
+  tags: [kubespray-ctl, always]
+
+- name: "KUBESPRAY-CTL | Validate supported control node OS"
+  ansible.builtin.assert:
+    that:
+      - ansible_os_family in ["RedHat", "Debian"]
+      - (ansible_os_family == "RedHat" and ansible_distribution_major_version | int >= 9) or
+        (ansible_os_family == "Debian" and ansible_distribution_major_version | int >= 22)
+    fail_msg: "Unsupported control node OS: {{ ansible_distribution }} {{ ansible_distribution_version }}. Supported: Oracle Linux 9, Ubuntu 22.04/24.04"
+    quiet: true
+  tags: [kubespray-ctl, validate]
+
+- name: "KUBESPRAY-CTL | Install Python and virtualenv packages (RedHat family)"
+  ansible.builtin.dnf:
+    name:
+      - python{{ kubespray_python_version }}
+      - python{{ kubespray_python_version }}-devel
+      - python{{ kubespray_python_version }}-pip
+      - python{{ kubespray_python_version }}-virtualenv
+      - git
+      - gcc
+      - gcc-c++
+      - make
+      - libffi-devel
+      - openssl-devel
+    state: present
+    update_cache: true
+  when: ansible_os_family == "RedHat"
+  tags: [kubespray-ctl, packages]
+  register: kubespray_ctl_dnf_result
+  changed_when: kubespray_ctl_dnf_result.changed
+
+- name: "KUBESPRAY-CTL | Install Python and virtualenv packages (Debian family)"
+  ansible.builtin.apt:
+    name:
+      - python{{ kubespray_python_version }}
+      - python{{ kubespray_python_version }}-dev
+      - python{{ kubespray_python_version }}-venv
+      - python3-pip
+      - git
+      - build-essential
+      - libffi-dev
+      - libssl-dev
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+  tags: [kubespray-ctl, packages]
+  register: kubespray_ctl_apt_result
+  changed_when: kubespray_ctl_apt_result.changed
+
+- name: "KUBESPRAY-CTL | Create Python virtual environment"
+  ansible.builtin.command: "python{{ kubespray_python_version }} -m venv {{ kubespray_python_venv_path }}"
+  args:
+    creates: "{{ kubespray_python_venv_path }}/bin/activate"
+  tags: [kubespray-ctl, venv]
+  register: kubespray_ctl_venv_create
+  changed_when: kubespray_ctl_venv_create.rc == 0
+
+- name: "KUBESPRAY-CTL | Upgrade pip in virtual environment"
+  ansible.builtin.command: "{{ kubespray_python_venv_path }}/bin/pip install --upgrade pip"
+  tags: [kubespray-ctl, venv]
+  register: kubespray_ctl_pip_upgrade
+  changed_when: kubespray_ctl_pip_upgrade.rc == 0
+
+- name: "KUBESPRAY-CTL | Install pinned Python packages in virtual environment"
+  ansible.builtin.pip:
+    name: "{{ kubespray_pip_packages }}"
+    virtualenv: "{{ kubespray_python_venv_path }}"
+    virtualenv_command: "python{{ kubespray_python_version }} -m venv"
+    extra_args: "--no-cache-dir {% if kubespray_internal_pypi_mirror %}-i {{ kubespray_internal_pypi_mirror }}{% endif %}"
+  tags: [kubespray-ctl, venv, packages]
+  register: kubespray_ctl_pip_install
+  changed_when: kubespray_ctl_pip_install.changed
+
+- name: "KUBESPRAY-CTL | Install pinned Ansible collections"
+  ansible.builtin.command: "{{ kubespray_python_venv_path }}/bin/ansible-galaxy collection install {% for coll in kubespray_ansible_collections %}{{ coll.name }}:{{ coll.version }} {% endfor %}{% if kubespray_internal_galaxy_mirror %} --server {{ kubespray_internal_galaxy_mirror }}{% endif %}"
+  tags: [kubespray-ctl, collections]
+  register: kubespray_ctl_collections_install
+  changed_when: kubespray_ctl_collections_install.rc == 0
+  failed_when: kubespray_ctl_collections_install.rc != 0
+
+- name: "KUBESPRAY-CTL | Acquire Kubespray source from internal mirror or prepare for manual staging"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-CTL | Clone Kubespray from internal Git mirror"
+      ansible.builtin.git:
+        repo: "{{ kubespray_internal_git_mirror }}"
+        dest: "{{ kubespray_install_path }}"
+        version: "{{ kubespray_release_tag }}"
+        depth: 1
+        force: true
+      when: kubespray_internal_git_mirror != ""
+      register: kubespray_ctl_git_clone
+      changed_when: kubespray_ctl_git_clone.changed
+
+    - name: "KUBESPRAY-CTL | Report manual Kubespray source staging required"
+      ansible.builtin.debug:
+        msg: |
+          INTERNAL GIT MIRROR NOT CONFIGURED.
+          To stage Kubespray source in a connected environment:
+            git clone --branch {{ kubespray_release_tag }} --depth 1 {{ kubespray_repo_url }} {{ kubespray_install_path }}
+          Then transfer {{ kubespray_install_path }} to this control node.
+          Expected tag: {{ kubespray_release_tag }}
+          Expected path: {{ kubespray_install_path }}
+      when: kubespray_internal_git_mirror == ""
+      tags: [kubespray-ctl, source]
+
+    - name: "KUBESPRAY-CTL | Verify Kubespray source exists at expected path"
+      ansible.builtin.stat:
+        path: "{{ kubespray_install_path }}/kubespray.yml"
+      register: kubespray_ctl_source_check
+      tags: [kubespray-ctl, source]
+
+    - name: "KUBESPRAY-CTL | Fail if Kubespray source not found"
+      ansible.builtin.fail:
+        msg: "Kubespray source not found at {{ kubespray_install_path }}. Configure kubespray_internal_git_mirror or manually stage the source."
+      when: not kubespray_ctl_source_check.stat.exists
+      tags: [kubespray-ctl, source]
+
+  tags: [kubespray-ctl, source]
+
+- name: "KUBESPRAY-CTL | Verify Kubespray release tag matches"
+  ansible.builtin.command: "git describe --tags --exact-match"
+  args:
+    chdir: "{{ kubespray_install_path }}"
+  changed_when: false
+  failed_when: false
+  register: kubespray_ctl_tag_check
+  tags: [kubespray-ctl, source, validate]
+
+- name: "KUBESPRAY-CTL | Assert Kubespray tag matches pinned version"
+  ansible.builtin.assert:
+    that:
+      - kubespray_ctl_tag_check.rc == 0
+      - kubespray_ctl_tag_check.stdout == kubespray_release_tag
+    fail_msg: "Kubespray source at {{ kubespray_install_path }} is not tagged {{ kubespray_release_tag }}. Current tag: {{ kubespray_ctl_tag_check.stdout }}"
+    quiet: true
+  when: kubespray_validate_kubespray_source | default(true)
+  tags: [kubespray-ctl, source, validate]
+
+- name: "KUBESPRAY-CTL | Verify Python version in venv"
+  ansible.builtin.command: "{{ kubespray_python_venv_path }}/bin/python --version"
+  changed_when: false
+  failed_when: false
+  register: kubespray_ctl_python_version_check
+  tags: [kubespray-ctl, validate]
+
+- name: "KUBESPRAY-CTL | Verify Ansible version in venv"
+  ansible.builtin.command: "{{ kubespray_python_venv_path }}/bin/ansible --version"
+  changed_when: false
+  failed_when: false
+  register: kubespray_ctl_ansible_version_check
+  tags: [kubespray-ctl, validate]
+
+- name: "KUBESPRAY-CTL | Verify ansible-core version in venv"
+  ansible.builtin.command: "{{ kubespray_python_venv_path }}/bin/ansible-community --version 2>/dev/null || {{ kubespray_python_venv_path }}/bin/python -c \"import ansible; print('ansible-core', ansible.__version__)\""
+  changed_when: false
+  failed_when: false
+  register: kubespray_ctl_ansible_core_version_check
+  tags: [kubespray-ctl, validate]
+
+- name: "KUBESPRAY-CTL | Report control node environment"
+  ansible.builtin.debug:
+    msg: |
+      Kubespray control node environment:
+      Python: {{ kubespray_ctl_python_version_check.stdout }}
+      Ansible: {{ kubespray_ctl_ansible_version_check.stdout }}
+      Ansible-core: {{ kubespray_ctl_ansible_core_version_check.stdout }}
+      Kubespray source: {{ kubespray_install_path }} (tag: {{ kubespray_release_tag }})
+      Virtual env: {{ kubespray_python_venv_path }}
+      Collections installed: {{ kubespray_ansible_collections | length }}
+      Offline mode: {{ kubespray_offline_mode }}
+      CNI plugin: {{ kubespray_cni_plugin }}
+      Kubernetes version: {{ kubernetes_version }} (verified: {{ kubernetes_version_verified }})
+      Pod CIDR: {{ kubespray_pod_cidr }}
+      Service CIDR: {{ kubespray_service_cidr }}
+  tags: [kubespray-ctl, summary]
+
+- name: "KUBESPRAY-CTL | Warn if Kubernetes version not verified"
+  ansible.builtin.debug:
+    msg: "WARNING: Kubernetes version {{ kubernetes_version }} is not yet verified against Kubespray {{ kubespray_release_tag }} release notes. Set kubernetes_version_verified: true after manual verification."
+  when: not kubernetes_version_verified | default(false)
+  tags: [kubespray-ctl, validate]

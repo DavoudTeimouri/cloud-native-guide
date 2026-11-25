@@ -1,0 +1,44 @@
+---
+# Default variables for security role
+
+# Firewall configuration
+security_firewall_backend: "nftables"  # nftables or iptables
+security_firewall_default_policy: "drop"
+security_firewall_allowed_source_cidrs: []
+security_firewall_allowed_tcp_ports:
+  - 22      # SSH
+  - 6443    # Kubernetes API
+  - 2379    # etcd client
+  - 2380    # etcd peer
+  - 10250   # kubelet
+  - 10259   # kube-scheduler
+  - 10257   # kube-controller-manager
+  - 30000-32767  # NodePort range
+security_firewall_allowed_udp_ports:
+  - 8472    # VXLAN
+security_firewall_allowed_icmp:
+  - echo-request
+
+# Auditd rules
+security_auditd_rules:
+  - "-w /etc/kubernetes/ -p wa -k kubernetes"
+  - "-w /etc/kubernetes/manifests -p wa -k kubernetes_manifests"
+  - "-w /var/lib/kubelet -p wa -k kubelet"
+  - "-w /etc/containerd -p wa -k container"
+  - "-w /etc/cni -p wa -k cni"
+  - "-w /opt/cni -p wa -k cni"
+  - "-w /var/lib/kubelet -p wa -k kubelet"
+
+# SELinux / AppArmor
+security_selinux_state: "enforcing"  # Oracle Linux
+security_apparmor_enabled: true      # Ubuntu
+
+# SSH (supplementary to base role)
+security_ssh_additional_config: {}
+
+# Kernel hardening
+security_kernel_hardening:
+  kernel.kptr_restrict: 2
+  kernel.dmesg_restrict: 1
+  kernel.yama.ptrace_scope: 1
+  vm.mmap_min_addr: 65536

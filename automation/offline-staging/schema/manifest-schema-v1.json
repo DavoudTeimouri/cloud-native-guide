@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cloud-native-guide.next/offline-staging/manifest-schema-v1.json",
+  "title": "Offline Staging Manifest Schema v1",
+  "description": "Schema for offline artifact staging manifests",
+  "type": "object",
+  "required": ["schema_version", "profile", "artifacts"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Manifest schema version"
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["kubespray-control-node", "kubernetes-cilium", "kubernetes-calico", "combined", "os-repositories"],
+      "description": "Artifact profile this manifest serves"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when manifest was generated"
+    },
+    "generated_by": {
+      "type": "string",
+      "description": "Tool or operator that generated this manifest"
+    },
+    "artifacts": {
+      "type": "array",
+      "description": "List of staged artifacts",
+      "items": {
+        "type": "object",
+        "required": ["category", "name", "version", "source", "destination", "sha256", "required"],
+        "additionalProperties": false,
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["python-package", "ansible-collection", "kubespray-source", "container-image", "os-package", "ca-certificate", "other", "os-repository"],
+            "description": "Artifact category"
+          },
+          "name": {
+            "type": "string",
+            "description": "Artifact name (package name, image name, repository identifier, etc.)"
+          },
+          "version": {
+            "type": "string",
+            "description": "Artifact version or snapshot identifier"
+          },
+          "source": {
+            "type": "object",
+            "required": ["type", "reference"],
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["pypi", "ansible-galaxy", "git", "oci-registry", "local-mirror", "internal-nexus", "internal-harbor", "other", "os-repository"],
+                "description": "Source type"
+              },
+              "reference": {
+                "type": "string",
+                "description": "Source reference (URL, registry path, git URL, repository path, etc.)"
+              },
+              "fetched_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the artifact was fetched from source"
+              },
+              "verified": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether source authenticity was verified beyond checksum"
+              }
+            }
+          },
+          "destination": {
+            "type": "string",
+            "description": "Relative path within staging directory"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "description": "SHA-256 checksum of the staged file or repository metadata"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "File size in bytes"
+          },
+          "platform": {
+            "type": "string",
+            "description": "Platform/architecture (e.g., manylinux_2_28_x86_64, linux/amd64, x86_64, aarch64)"
+          },
+          "required": {
+            "type": "boolean",
+            "description": "Whether this artifact is required for the profile"
+          },
+          "feature": {
+            "type": "string",
+            "description": "Feature flag this artifact belongs to (e.g., cilium, calico, gpu, monitoring, ol9, ubuntu2204, ubuntu2404)"
+          },
+          "os_family": {
+            "type": "string",
+            "enum": ["redhat", "debian"],
+            "description": "OS family for os-repository and os-package categories"
+          },
+          "os_version": {
+            "type": "string",
+            "description": "Exact OS version (e.g., 9, 22.04, 24.04)"
+          },
+          "architecture": {
+            "type": "string",
+            "enum": ["x86_64", "aarch64"],
+            "description": "CPU architecture for os-repository and os-package categories"
+          },
+          "repository_type": {
+            "type": "string",
+            "enum": ["yum", "apt"],
+            "description": "Repository format type for os-repository category"
+          },
+          "repository_metadata": {
+            "type": "object",
+            "description": "Repository metadata information (repomd.xml for yum, Release/InRelease for apt)",
+            "additionalProperties": true
+          },
+          "signature_status": {
+            "type": "string",
+            "enum": ["verified", "unverified", "absent", "not_applicable"],
+            "description": "GPG/signature verification status"
+          }
+        }
+      },
+      "minItems": 1
+    }
+  }
+}

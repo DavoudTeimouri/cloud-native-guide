@@ -1,0 +1,115 @@
+# Kubespray group variables template
+# Generated from template - DO NOT EDIT DIRECTLY
+# Source: automation/ansible/roles/kubespray-deploy/templates/kubespray-group-vars.yml.j2
+
+# Cluster identity
+cluster_name: "{{ kubespray_cluster_name }}"
+
+# Kubernetes version
+kube_version: "{{ kubespray_kubernetes_version }}"
+kube_network_plugin: "{{ kubespray_cni_plugin }}"
+
+# Network CIDRs
+kube_pods_subnet: "{{ kubespray_pod_cidr }}"
+kube_service_addresses: "{{ kubespray_service_cidr }}"
+kube_node_cidr_mask_size: "{{ kubespray_node_cidr_mask_size }}"
+
+# API server
+kube_apiserver_vip: "{{ kubespray_apiserver_vip }}"
+kube_apiserver_port: "{{ kubespray_apiserver_port }}"
+loadbalancer_apiserver_port: "{{ kubespray_apiserver_port }}"
+
+# Container runtime
+container_manager: containerd
+containerd_version: ""
+
+# Registry configuration
+image_repository: "{{ kubespray_container_registry }}"
+registry_ca_cert: "{{ kubespray_registry_ca_cert_path }}"
+
+# Proxy settings
+{% if kubespray_http_proxy %}
+http_proxy: "{{ kubespray_http_proxy }}"
+{% endif %}
+{% if kubespray_https_proxy %}
+https_proxy: "{{ kubespray_https_proxy }}"
+{% endif %}
+{% if kubespray_no_proxy %}
+no_proxy: "{{ kubespray_no_proxy }}"
+{% endif %}
+
+# Offline mode
+{% if kubespray_offline_mode %}
+kubespray_offline: true
+kubespray_offline_artifacts_path: "{{ kubespray_offline_artifacts_path }}"
+{% else %}
+kubespray_offline: false
+{% endif %}
+
+# CNI configuration
+{% if kubespray_cni_plugin == "cilium" %}
+cilium_version: "1.20.3"
+cilium_tunneling_mode: "{{ kubespray_cilium_tunneling_mode }}"
+cilium_hubble_enabled: "{{ kubespray_cilium_hubble_enabled }}"
+cilium_hubble_relay_enabled: "{{ kubespray_cilium_hubble_relay_enabled }}"
+cilium_hubble_ui_enabled: "{{ kubespray_cilium_hubble_ui_enabled }}"
+cilium_kube_proxy_replacement: "{{ kubespray_cilium_kube_proxy_replacement }}"
+cilium_ipam_mode: "{{ kubespray_cilium_ipam_mode }}"
+cilium_cluster_pool_ipv4_cidr: "{{ kubespray_cilium_cluster_pool_ipv4_cidr }}"
+cilium_cluster_pool_ipv4_mask_size: "{{ kubespray_cilium_cluster_pool_ipv4_mask_size }}"
+cilium_operator_replicas: 2
+cilium_enable_ipv4_masquerade: true
+cilium_enable_ipv6_masquerade: false
+{% elif kubespray_cni_plugin == "calico" %}
+calico_version: "3.31.7"
+calico_vxlan_enabled: "{{ kubespray_calico_vxlan_enabled }}"
+calico_vxlan_port: "{{ kubespray_calico_vxlan_port }}"
+calico_wireguard_enabled: "{{ kubespray_calico_wireguard_enabled }}"
+calico_typha_enabled: "{{ kubespray_calico_typha_enabled }}"
+{% endif %}
+
+# Feature gates
+feature_gates: {{ kubespray_feature_gates | to_yaml }}
+
+# Add-ons
+enable_metrics_server: {{ kubespray_enable_metrics_server | lower }}
+enable_local_path_provisioner: {{ kubespray_enable_local_path_provisioner | lower }}
+enable_nfs_provisioner: {{ kubespray_enable_nfs_provisioner | lower }}
+enable_csi_drivers: {{ kubespray_enable_csi_drivers | lower }}
+
+# DNS
+dns_mode: coredns
+coredns_image_repository: "{{ kubespray_container_registry }}/coredns"
+coredns_version: "1.12.0"
+
+# NTP (must match node prerequisites)
+ntp_servers:
+  - "10.10.0.1"
+  - "10.10.0.2"
+
+# Audit policy
+audit_policy: "{{ playbook_dir }}/inventory/{{ kubespray_cluster_name }}/audit-policy.yml"
+
+# Kubelet configuration
+kubelet_cgroup_driver: systemd
+kubelet_rotate_server_certificates: true
+kubelet_rotate_client_certificates: true
+
+# Security
+kube_apiserver_allow_privileged: true
+kube_apiserver_anonymous_auth: false
+kube_apiserver_request_timeout: "300s"
+
+# Etcd
+etcd_version: "3.5.15"
+etcd_deployment_type: host
+
+# Certificate management
+certificate_management: kubeadm
+ca_cert_path: /etc/kubernetes/pki/ca.crt
+ca_key_path: /etc/kubernetes/pki/ca.key
+
+# Upgrade settings (for future use)
+kube_upgrade_strategy: "{{ kubespray_upgrade_strategy }}"
+kube_max_surge: "{{ kubespray_max_surge }}"
+kube_max_unavailable: "{{ kubespray_max_unavailable }}"

@@ -1,0 +1,89 @@
+---
+# Default variables for repositories role
+
+# Oracle Linux 9 repositories
+repos_ol9:
+  - name: ol9-baseos
+    description: "Oracle Linux 9 BaseOS"
+    baseurl: "{{ ol9_baseos_repo_url }}"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "{{ ol9_baseos_gpgkey }}"
+    repo_file: "/etc/yum.repos.d/internal-ol9-baseos.repo"
+
+  - name: ol9-appstream
+    description: "Oracle Linux 9 AppStream"
+    baseurl: "{{ ol9_appstream_repo_url }}"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "{{ ol9_appstream_gpgkey }}"
+    repo_file: "/etc/yum.repos.d/internal-ol9-appstream.repo"
+
+  - name: ol9-addons
+    description: "Oracle Linux 9 Add-ons"
+    baseurl: "https://nexus.internal/repository/ol9-addons/"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "https://nexus.internal/repository/ol9-addons/RPM-GPG-KEY-oracle"
+    repo_file: "/etc/yum.repos.d/internal-ol9-addons.repo"
+
+# Ubuntu 24.04 repositories
+repos_ubuntu2404:
+  - name: ubuntu-main
+    description: "Ubuntu 24.04 Main"
+    uris:
+      - "{{ ubuntu_main_repo_url }}"
+    suites: ["noble"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-main.list"
+
+  - name: ubuntu-updates
+    description: "Ubuntu 24.04 Updates"
+    uris:
+      - "{{ ubuntu_updates_repo_url }}"
+    suites: ["noble-updates"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-updates.list"
+
+  - name: ubuntu-security
+    description: "Ubuntu 24.04 Security"
+    uris:
+      - "{{ ubuntu_security_repo_url }}"
+    suites: ["noble-security"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-security.list"
+
+# Ubuntu 22.04 repositories
+repos_ubuntu2204:
+  - name: ubuntu-main
+    description: "Ubuntu 22.04 Main"
+    uris:
+      - "{{ ubuntu_main_repo_url }}"
+    suites: ["jammy"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-main.list"
+
+  - name: ubuntu-updates
+    description: "Ubuntu 22.04 Updates"
+    uris:
+      - "{{ ubuntu_updates_repo_url }}"
+    suites: ["jammy-updates"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-updates.list"
+
+  - name: ubuntu-security
+    description: "Ubuntu 22.04 Security"
+    uris:
+      - "{{ ubuntu_security_repo_url }}"
+    suites: ["jammy-security"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-security.list"
+
+# Disable default public repositories
+repos_disable_public: true

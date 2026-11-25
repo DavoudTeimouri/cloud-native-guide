@@ -1,0 +1,612 @@
+---
+# Kubernetes node prerequisites tasks
+# Prepares nodes for Kubespray deployment - does NOT install Kubernetes
+
+- name: "K8S-PRE | Gather distribution facts"
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+      - distribution_version
+      - distribution_major_version
+      - os_family
+      - kernel
+      - virtualization_type
+  tags: [k8s-pre, always]
+
+- name: "K8S-PRE | Set distribution-specific package lists"
+  ansible.builtin.set_fact:
+    k8s_packages_distro: "{{ {
+        'RedHat': k8s_packages_redhat,
+        'Debian': k8s_packages_debian
+      }[ansible_os_family] | default([]) }}"
+  tags: [k8s-pre, packages]
+
+- name: "K8S-PRE | Validate supported OS"
+  ansible.builtin.assert:
+    that:
+      - ansible_os_family in k8s_supported_os_families
+    fail_msg: "Unsupported OS family '{{ ansible_os_family }}' for Kubernetes node preparation. Supported: {{ k8s_supported_os_families }}"
+    quiet: true
+  when: k8s_validate_os | default(true)
+  tags: [k8s-pre, validate]
+
+- name: "K8S-PRE | Validate OS version"
+  ansible.builtin.assert:
+    that:
+      - (ansible_os_family == "RedHat" and ansible_distribution_major_version | int >= 9) or
+        (ansible_os_family == "Debian" and ansible_distribution_major_version | int >= 22)
+    fail_msg: "Unsupported OS version '{{ ansible_distribution }} {{ ansible_distribution_version }}' for Kubernetes node preparation. Minimum: Oracle Linux 9, Ubuntu 22.04, RHEL 9"
+    quiet: true
+  when: k8s_validate_os | default(true)
+  tags: [k8s-pre, validate]
+
+- name: "K8S-PRE | Validate kernel version (Kubernetes general minimum)"
+  ansible.builtin.assert:
+    that:
+      - ansible_kernel is version_compare(k8s_min_kernel_version, '>=')
+    fail_msg: "Kernel version '{{ ansible_kernel }}' is below minimum required '{{ k8s_min_kernel_version }}'. Current kernel does not meet Kubespray general requirements."
+    quiet: true
+  when: k8s_validate_kernel | default(true)
+  tags: [k8s-pre, validate]
+
+- name: "K8S-PRE | Validate CNI-specific kernel requirements"
+  ansible.builtin.assert:
+    that:
+      - (k8s_cni_plugin == "cilium" and ansible_kernel is version_compare(k8s_cilium_min_kernel_version, '>=')) or
+        (k8s_cni_plugin == "calico" and ansible_kernel is version_compare(k8s_calico_min_kernel_version, '>=')) or
+        (k8s_cni_plugin not in ["cilium", "calico"])
+    fail_msg: "Kernel version '{{ ansible_kernel }}' is below minimum required for CNI '{{ k8s_cni_plugin }}'. Cilium requires >= {{ k8s_cilium_min_kernel_version }}, Calico requires >= {{ k8s_calico_min_kernel_version }}."
+    quiet: true
+  when: k8s_validate_kernel | default(true)
+  tags: [k8s-pre, validate, cni]
+
+- name: "K8S-PRE | Validate Cilium kernel configuration (read-only checks)"
+  ansible.builtin.block:
+    - name: "K8S-PRE | Check for BPF filesystem"
+      ansible.builtin.stat:
+        path: /sys/fs/bpf
+      register: k8s_bpf_fs
+      when: k8s_cni_plugin == "cilium"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check cgroup v2 hierarchy"
+      ansible.builtin.command: "stat -fc %T /sys/fs/cgroup"
+      changed_when: false
+      failed_when: false
+      register: k8s_cgroup_fs
+      when: k8s_cni_plugin == "cilium"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for BPF (if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_BPF=y|CONFIG_BPF_SYSCALL=y' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_BPF=y|CONFIG_BPF_SYSCALL=y' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_bpf
+      when: k8s_cni_plugin == "cilium"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for cgroup BPF (if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_CGROUP_BPF=y' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_CGROUP_BPF=y' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_cgroup_bpf
+      when: k8s_cni_plugin == "cilium"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for VXLAN (if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_VXLAN=y|CONFIG_VXLAN=m' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_VXLAN=y|CONFIG_VXLAN=m' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_vxlan
+      when: k8s_cni_plugin == "cilium" and k8s_cilium_tunneling_mode == "vxlan"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for GENEVE (if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_GENEVE=y|CONFIG_GENEVE=m' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_GENEVE=y|CONFIG_GENEVE=m' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_geneve
+      when: k8s_cni_plugin == "cilium" and k8s_cilium_tunneling_mode == "geneve"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for netfilter (if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_NETFILTER=y|CONFIG_NETFILTER_XTABLES=y|CONFIG_NF_CONNTRACK=y' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_NETFILTER=y|CONFIG_NETFILTER_XTABLES=y|CONFIG_NF_CONNTRACK=y' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_netfilter
+      when: k8s_cni_plugin == "cilium"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for BPF JIT (if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_BPF_JIT=y' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_BPF_JIT=y' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_bpf_jit
+      when: k8s_cni_plugin == "cilium"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Report Cilium kernel configuration status"
+      ansible.builtin.debug:
+        msg: |
+          Cilium kernel configuration check:
+          BPF filesystem: {{ 'present' if k8s_bpf_fs.stat.exists else 'MISSING' }}
+          cgroup v2: {{ 'enabled' if 'cgroup2' in k8s_cgroup_fs.stdout else 'NOT ENABLED' }}
+          CONFIG_BPF: {{ 'found' if 'CONFIG_BPF=y' in k8s_kernel_config_bpf.stdout else 'NOT FOUND (check manually)' }}
+          CONFIG_BPF_SYSCALL: {{ 'found' if 'CONFIG_BPF_SYSCALL=y' in k8s_kernel_config_bpf.stdout else 'NOT FOUND (check manually)' }}
+          CONFIG_CGROUP_BPF: {{ 'found' if 'CONFIG_CGROUP_BPF=y' in k8s_kernel_config_cgroup_bpf.stdout else 'NOT FOUND (check manually)' }}
+          {% if k8s_cilium_tunneling_mode == 'vxlan' %}CONFIG_VXLAN: {{ 'found' if 'CONFIG_VXLAN' in k8s_kernel_config_vxlan.stdout else 'NOT FOUND (check manually)' }}{% endif %}
+          {% if k8s_cilium_tunneling_mode == 'geneve' %}CONFIG_GENEVE: {{ 'found' if 'CONFIG_GENEVE' in k8s_kernel_config_geneve.stdout else 'NOT FOUND (check manually)' }}{% endif %}
+          Netfilter: {{ 'found' if 'CONFIG_NETFILTER' in k8s_kernel_config_netfilter.stdout else 'NOT FOUND (check manually)' }}
+          CONFIG_BPF_JIT: {{ 'found' if 'CONFIG_BPF_JIT=y' in k8s_kernel_config_bpf_jit.stdout else 'NOT FOUND (check manually)' }}
+          Note: Kernel config checks require /boot/config-* or /proc/config.gz. If not available, operator must verify manually.
+      when: k8s_cni_plugin == "cilium"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Warn if critical Cilium kernel configs missing"
+      ansible.builtin.debug:
+        msg: "WARNING: Some Cilium-required kernel configurations could not be verified automatically. Operator must verify: CONFIG_BPF, CONFIG_BPF_SYSCALL, CONFIG_CGROUP_BPF, CONFIG_VXLAN/GENEVE (per tunneling mode), CONFIG_NETFILTER, CONFIG_BPF_JIT. RHEL 8.10+ with kernel 4.18.0-553+ has documented BPF backports but is below the general 5.10 minimum; this exception is distribution-specific and not generalized."
+      when:
+        - k8s_cni_plugin == "cilium"
+        - not (k8s_kernel_config_bpf.stdout and k8s_kernel_config_cgroup_bpf.stdout and k8s_kernel_config_netfilter.stdout and k8s_kernel_config_bpf_jit.stdout)
+      tags: [k8s-pre, cni, kernel, validate]
+
+- name: "K8S-PRE | Validate Calico kernel configuration (read-only checks)"
+  ansible.builtin.block:
+    - name: "K8S-PRE | Check kernel config for VXLAN (Calico, if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_VXLAN=y|CONFIG_VXLAN=m' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_VXLAN=y|CONFIG_VXLAN=m' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_calico_vxlan
+      when: k8s_cni_plugin == "calico" and k8s_calico_vxlan_enabled
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for WireGuard (Calico, if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_WIREGUARD=y|CONFIG_WIREGUARD=m' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_WIREGUARD=y|CONFIG_WIREGUARD=m' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_calico_wireguard
+      when: k8s_cni_plugin == "calico" and k8s_calico_wireguard_enabled
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for IPVS (Calico, if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_IP_VS=y|CONFIG_IP_VS=m' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_IP_VS=y|CONFIG_IP_VS=m' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_calico_ipvs
+      when: k8s_cni_plugin == "calico"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Check kernel config for netfilter (Calico, if available)"
+      ansible.builtin.command: "grep -E 'CONFIG_NETFILTER=y|CONFIG_NETFILTER_XTABLES=y|CONFIG_NF_CONNTRACK=y|CONFIG_NF_TABLES=y' /boot/config-{{ ansible_kernel }} 2>/dev/null || zcat /proc/config.gz 2>/dev/null | grep -E 'CONFIG_NETFILTER=y|CONFIG_NETFILTER_XTABLES=y|CONFIG_NF_CONNTRACK=y|CONFIG_NF_TABLES=y' || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_kernel_config_calico_netfilter
+      when: k8s_cni_plugin == "calico"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Report Calico kernel configuration status"
+      ansible.builtin.debug:
+        msg: |
+          Calico kernel configuration check:
+          {% if k8s_calico_vxlan_enabled %}CONFIG_VXLAN: {{ 'found' if 'CONFIG_VXLAN' in k8s_kernel_config_calico_vxlan.stdout else 'NOT FOUND (check manually)' }}{% endif %}
+          {% if k8s_calico_wireguard_enabled %}CONFIG_WIREGUARD: {{ 'found' if 'CONFIG_WIREGUARD' in k8s_kernel_config_calico_wireguard.stdout else 'NOT FOUND (check manually)' }}{% endif %}
+          CONFIG_IP_VS: {{ 'found' if 'CONFIG_IP_VS' in k8s_kernel_config_calico_ipvs.stdout else 'NOT FOUND (check manually)' }}
+          Netfilter/nftables: {{ 'found' if 'CONFIG_NETFILTER' in k8s_kernel_config_calico_netfilter.stdout else 'NOT FOUND (check manually)' }}
+          Note: Kernel config checks require /boot/config-* or /proc/config.gz. If not available, operator must verify manually.
+          Calico 3.31 supports Linux 4.19+ but specific features (VXLAN, WireGuard) require corresponding kernel modules.
+      when: k8s_cni_plugin == "calico"
+      tags: [k8s-pre, cni, kernel, validate]
+
+    - name: "K8S-PRE | Warn if Calico kernel configs missing for enabled features"
+      ansible.builtin.debug:
+        msg: "WARNING: Some Calico-required kernel configurations could not be verified automatically. Operator must verify kernel modules for enabled features: VXLAN (CONFIG_VXLAN), WireGuard (CONFIG_WIREGUARD), IPVS (CONFIG_IP_VS), Netfilter (CONFIG_NETFILTER). Calico 3.31.7 documentation states Linux 4.19+ minimum, but vendor kernels may backport features to older versions."
+      when:
+        - k8s_cni_plugin == "calico"
+        - (k8s_calico_vxlan_enabled and not k8s_kernel_config_calico_vxlan.stdout) or (k8s_calico_wireguard_enabled and not k8s_kernel_config_calico_wireguard.stdout) or not k8s_kernel_config_calico_ipvs.stdout or not k8s_kernel_config_calico_netfilter.stdout
+      tags: [k8s-pre, cni, kernel, validate]
+
+- name: "K8S-PRE | Install required packages (RedHat family)"
+  ansible.builtin.dnf:
+    name: "{{ k8s_packages_distro + k8s_network_utilities }}"
+    state: present
+    update_cache: true
+  when: ansible_os_family == "RedHat"
+  tags: [k8s-pre, packages]
+  register: k8s_packages_redhat_result
+  changed_when: k8s_packages_redhat_result.changed
+
+- name: "K8S-PRE | Install required packages (Debian family)"
+  ansible.builtin.apt:
+    name: "{{ k8s_packages_distro + k8s_network_utilities }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+  tags: [k8s-pre, packages]
+  register: k8s_packages_debian_result
+  changed_when: k8s_packages_debian_result.changed
+
+- name: "K8S-PRE | Configure hostname"
+  ansible.builtin.hostname:
+    name: "{{ k8s_node_prefix }}-{{ inventory_hostname }}"
+  when: inventory_hostname != "{{ k8s_node_prefix }}-{{ inventory_hostname }}"
+  tags: [k8s-pre, hostname]
+  register: k8s_hostname_result
+  changed_when: k8s_hostname_result.changed
+
+- name: "K8S-PRE | Update /etc/hosts with hostname"
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: "^127\\.0\\.1\\.1"
+    line: "127.0.1.1\t{{ k8s_node_prefix }}-{{ inventory_hostname }}"
+    state: present
+  tags: [k8s-pre, hostname]
+
+- name: "K8S-PRE | Load required kernel modules"
+  ansible.builtin.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ k8s_required_kernel_modules }}"
+  tags: [k8s-pre, kernel]
+  register: k8s_modprobe_result
+  changed_when: k8s_modprobe_result.changed
+
+- name: "K8S-PRE | Ensure kernel modules persist across reboots"
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/k8s.conf
+    content: |
+      {{ k8s_required_kernel_modules | join('\n') }}
+    mode: "0644"
+  tags: [k8s-pre, kernel]
+  register: k8s_modules_conf_result
+  changed_when: k8s_modules_conf_result.changed
+
+- name: "K8S-PRE | Verify kernel modules loaded"
+  ansible.builtin.command: "lsmod | grep -E '{{ k8s_required_kernel_modules | join('|') }}'"
+  changed_when: false
+  failed_when: false
+  tags: [k8s-pre, kernel, validate]
+  register: k8s_kernel_modules_check
+  when: k8s_validate_kernel_modules | default(true)
+
+- name: "K8S-PRE | Validate Kubernetes sysctl settings (applied by base role)"
+  ansible.builtin.command: "sysctl -a"
+  changed_when: false
+  failed_when: false
+  tags: [k8s-pre, sysctl, validate]
+  register: k8s_sysctl_current
+  when: k8s_validate_sysctl | default(true)
+
+- name: "K8S-PRE | Assert Kubernetes sysctl values"
+  ansible.builtin.assert:
+    that:
+      - "k8s_sysctl_current.stdout is search('net\\.bridge\\.bridge-nf-call-iptables\\s*=\\s*1')"
+      - "k8s_sysctl_current.stdout is search('net\\.bridge\\.bridge-nf-call-ip6tables\\s*=\\s*1')"
+      - "k8s_sysctl_current.stdout is search('net\\.ipv4\\.ip_forward\\s*=\\s*1')"
+      - "k8s_sysctl_current.stdout is search('net\\.ipv4\\.conf\\.all\\.forwarding\\s*=\\s*1')"
+      - "k8s_sysctl_current.stdout is search('net\\.ipv4\\.conf\\.all\\.rp_filter\\s*=\\s*1')"
+      - "k8s_sysctl_current.stdout is search('net\\.ipv4\\.conf\\.default\\.rp_filter\\s*=\\s*1')"
+    fail_msg: "Required Kubernetes sysctl settings not found. Ensure base role has been run first."
+    quiet: true
+  when: k8s_validate_sysctl | default(true)
+  tags: [k8s-pre, sysctl, validate]
+
+- name: "K8S-PRE | Assert performance sysctl values"
+  ansible.builtin.assert:
+    that:
+      - "k8s_sysctl_current.stdout is search('vm\\.swappiness\\s*=\\s*10')"
+      - "k8s_sysctl_current.stdout is search('vm\\.overcommit_memory\\s*=\\s*1')"
+      - "k8s_sysctl_current.stdout is search('vm\\.panic_on_oom\\s*=\\s*0')"
+      - "k8s_sysctl_current.stdout is search('vm\\.oom_kill_allocating_task\\s*=\\s*1')"
+      - "k8s_sysctl_current.stdout is search('fs\\.inotify\\.max_user_watches\\s*=\\s*524288')"
+      - "k8s_sysctl_current.stdout is search('fs\\.inotify\\.max_user_instances\\s*=\\s*8192')"
+      - "k8s_sysctl_current.stdout is search('fs\\.file-max\\s*=\\s*2097152')"
+      - "k8s_sysctl_current.stdout is search('kernel\\.panic\\s*=\\s*10')"
+      - "k8s_sysctl_current.stdout is search('kernel\\.panic_on_oops\\s*=\\s*1')"
+      - "k8s_sysctl_current.stdout is search('kernel\\.keys\\.root_maxkeys\\s*=\\s*1000000')"
+      - "k8s_sysctl_current.stdout is search('kernel\\.keys\\.root_maxbytes\\s*=\\s*25000000')"
+    fail_msg: "Required performance sysctl settings not found. Ensure base role has been run first."
+    quiet: true
+  when: k8s_validate_sysctl | default(true)
+  tags: [k8s-pre, sysctl, validate]
+
+- name: "K8S-PRE | Apply Cilium-specific sysctl settings"
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/99-cilium.conf
+    state: present
+    reload: true
+  loop: "{{ k8s_sysctl_settings_cilium | dict2items }}"
+  tags: [k8s-pre, sysctl, cni]
+  when: k8s_cni_plugin == "cilium"
+  register: k8s_sysctl_cilium_result
+  changed_when: k8s_sysctl_cilium_result.changed
+
+- name: "K8S-PRE | Configure swap policy"
+  ansible.builtin.block:
+    - name: "K8S-PRE | Detect active swap sources"
+      ansible.builtin.command: "swapon --show --noheadings --raw"
+      changed_when: false
+      failed_when: false
+      register: k8s_swap_active
+
+    - name: "K8S-PRE | Detect swap in /etc/fstab"
+      ansible.builtin.command: "grep -E '^\\s*[^#].*\\sswap\\s+' /etc/fstab || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_fstab_swap
+
+    - name: "K8S-PRE | Detect systemd swap units"
+      ansible.builtin.command: "systemctl list-units --type=swap --state=active --no-legend || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_systemd_swap
+
+    - name: "K8S-PRE | Detect zram swap devices"
+      ansible.builtin.command: "ls /dev/zram* 2>/dev/null || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_zram_devices
+
+    - name: "K8S-PRE | Detect zram systemd units"
+      ansible.builtin.command: "systemctl list-units --type=swap --all --no-legend | grep zram || true"
+      changed_when: false
+      failed_when: false
+      register: k8s_zram_units
+
+    - name: "K8S-PRE | Report detected swap sources"
+      ansible.builtin.debug:
+        msg: |
+          Swap sources detected:
+          Active swap: {{ k8s_swap_active.stdout | default('none') }}
+          fstab entries: {{ k8s_fstab_swap.stdout | default('none') }}
+          systemd swap units: {{ k8s_systemd_swap.stdout | default('none') }}
+          zram devices: {{ k8s_zram_devices.stdout | default('none') }}
+          zram units: {{ k8s_zram_units.stdout | default('none') }}
+      when: k8s_validate_swap | default(true)
+
+    - name: "K8S-PRE | Fail if swap sources exist and policy is disable without opt-in"
+      ansible.builtin.fail:
+        msg: |
+          Swap sources detected on this host. The swap policy is set to 'disable'.
+          To proceed, either:
+          1. Set k8s_swap_policy: "managed" to allow automatic disabling
+          2. Set k8s_swap_policy: "preserve" to keep existing swap
+          3. Manually disable swap before running this playbook
+          Detected sources: {{ k8s_swap_active.stdout | default('none') }}
+      when:
+        - k8s_swap_policy == "disable"
+        - k8s_swap_active.stdout != ""
+      tags: [k8s-pre, swap]
+
+    - name: "K8S-PRE | Backup /etc/fstab before modification (opt-in)"
+      ansible.builtin.copy:
+        src: /etc/fstab
+        dest: "/etc/fstab.k8s-pre-backup-{{ ansible_date_time.epoch }}"
+        remote_src: true
+      when:
+        - k8s_swap_policy == "managed"
+        - k8s_fstab_swap.stdout != ""
+      tags: [k8s-pre, swap]
+      register: k8s_fstab_backup
+
+    - name: "K8S-PRE | Comment swap entries in /etc/fstab (opt-in)"
+      ansible.builtin.replace:
+        path: /etc/fstab
+        regexp: '^([^#].*\sswap\s+)'
+        replace: '# \1'
+      when:
+        - k8s_swap_policy == "managed"
+        - k8s_fstab_swap.stdout != ""
+      tags: [k8s-pre, swap]
+      register: k8s_fstab_result
+      changed_when: k8s_fstab_result.changed
+
+    - name: "K8S-PRE | Disable swap temporarily (opt-in, requires explicit confirmation)"
+      ansible.builtin.command: "swapoff -a"
+      when:
+        - k8s_swap_policy == "managed"
+        - k8s_swap_active.stdout != ""
+        - k8s_swap_confirm_disable | default(false)
+      tags: [k8s-pre, swap]
+      register: k8s_swapoff_result
+      changed_when: k8s_swapoff_result.rc == 0
+
+    - name: "K8S-PRE | Report swapfile locations for manual handling (opt-in)"
+      ansible.builtin.debug:
+        msg: |
+          Swapfiles detected. Automatic removal is disabled for safety.
+          To disable swap persistently, manually:
+          1. Run: swapoff <swapfile>
+          2. Remove the swapfile
+          3. Ensure /etc/fstab entries are commented (done above if opt-in)
+          Files: {{ k8s_swap_active.stdout }}
+      when:
+        - k8s_swap_policy == "managed"
+        - k8s_swap_active.stdout != ""
+        - not k8s_swap_confirm_disable | default(false)
+      tags: [k8s-pre, swap]
+
+    - name: "K8S-PRE | Report zram handling required (opt-in)"
+      ansible.builtin.debug:
+        msg: |
+          zram swap detected. Automatic removal is disabled for safety.
+          To disable zram swap persistently, manually:
+          1. Run: systemctl disable --now <zram-unit>
+          2. Remove zram configuration from /etc/systemd/zram-generator.conf or similar
+          Units: {{ k8s_zram_units.stdout }}
+          Devices: {{ k8s_zram_devices.stdout }}
+      when:
+        - k8s_swap_policy == "managed"
+        - (k8s_zram_devices.stdout != "" or k8s_zram_units.stdout != "")
+      tags: [k8s-pre, swap]
+
+    - name: "K8S-PRE | Report systemd swap units for manual handling (opt-in)"
+      ansible.builtin.debug:
+        msg: |
+          systemd swap units detected. Automatic removal is disabled for safety.
+          To disable persistently, manually:
+          1. Run: systemctl disable --now <unit>
+          Units: {{ k8s_systemd_swap.stdout }}
+      when:
+        - k8s_swap_policy == "managed"
+        - k8s_systemd_swap.stdout != ""
+      tags: [k8s-pre, swap]
+  when: k8s_validate_swap | default(true)
+  tags: [k8s-pre, swap]
+
+- name: "K8S-PRE | Verify swap status"
+  ansible.builtin.command: "swapon --show"
+  changed_when: false
+  failed_when: false
+  tags: [k8s-pre, swap, validate]
+  register: k8s_swap_verify
+  when: k8s_validate_swap | default(true)
+
+- name: "K8S-PRE | Verify cgroups v2"
+  ansible.builtin.command: "stat -fc %T /sys/fs/cgroup"
+  changed_when: false
+  failed_when: false
+  register: k8s_cgroups_check
+  tags: [k8s-pre, cgroups, validate]
+  when: k8s_validate_cgroups_v2 | default(true)
+
+- name: "K8S-PRE | Assert cgroups v2"
+  ansible.builtin.assert:
+    that:
+      - "'cgroup2fs' in k8s_cgroups_check.stdout or 'cgroup2' in k8s_cgroups_check.stdout"
+    fail_msg: "cgroups v2 is required but not enabled. Current cgroup filesystem: {{ k8s_cgroups_check.stdout }}"
+    quiet: true
+  when: k8s_validate_cgroups_v2 | default(true)
+  tags: [k8s-pre, cgroups, validate]
+
+- name: "K8S-PRE | Verify current SELinux state (RedHat family)"
+  ansible.builtin.command: "getenforce"
+  changed_when: false
+  failed_when: false
+  register: k8s_selinux_current
+  when: ansible_os_family == "RedHat"
+  tags: [k8s-pre, selinux]
+
+- name: "K8S-PRE | Report SELinux state"
+  ansible.builtin.debug:
+    msg: "Current SELinux state: {{ k8s_selinux_current.stdout }}"
+  when: ansible_os_family == "RedHat"
+  tags: [k8s-pre, selinux]
+
+- name: "K8S-PRE | Warn if SELinux not in target state"
+  ansible.builtin.debug:
+    msg: "WARNING: SELinux is '{{ k8s_selinux_current.stdout }}', target is '{{ k8s_selinux_state }}'. Kubernetes with containerd requires SELinux Enforcing or Permissive. Consider setting SELinux to Enforcing for production."
+  when:
+    - ansible_os_family == "RedHat"
+    - k8s_selinux_current.stdout != k8s_selinux_state
+  tags: [k8s-pre, selinux]
+
+- name: "K8S-PRE | Ensure AppArmor is enabled (Debian family)"
+  ansible.builtin.package:
+    name: apparmor
+    state: present
+  when: ansible_os_family == "Debian"
+  tags: [k8s-pre, apparmor]
+  register: k8s_apparmor_install_result
+  changed_when: k8s_apparmor_install_result.changed
+
+- name: "K8S-PRE | Enable AppArmor service (Debian family)"
+  ansible.builtin.systemd:
+    name: apparmor
+    enabled: true
+    state: started
+  when: ansible_os_family == "Debian"
+  tags: [k8s-pre, apparmor]
+  register: k8s_apparmor_service_result
+  changed_when: k8s_apparmor_service_result.changed
+
+- name: "K8S-PRE | Create required directories"
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+  loop: "{{ k8s_required_directories }}"
+  tags: [k8s-pre, directories]
+  register: k8s_dirs_result
+  changed_when: k8s_dirs_result.changed
+  when: k8s_validate_directories | default(true)
+
+- name: "K8S-PRE | Verify directories"
+  ansible.builtin.stat:
+    path: "{{ item.path }}"
+  loop: "{{ k8s_required_directories }}"
+  tags: [k8s-pre, directories, validate]
+  when: k8s_validate_directories | default(true)
+
+- name: "K8S-PRE | Verify Containerd service availability"
+  ansible.builtin.systemd:
+    name: containerd
+  tags: [k8s-pre, containerd, validate]
+  register: k8s_containerd_service
+  when: k8s_validate_containerd | default(true)
+
+- name: "K8S-PRE | Verify CRI plugin availability"
+  ansible.builtin.command: "crictl info"
+  changed_when: false
+  failed_when: false
+  tags: [k8s-pre, containerd, validate]
+  register: k8s_cri_info
+  when: k8s_validate_containerd | default(true)
+
+- name: "K8S-PRE | Assert Containerd ready"
+  ansible.builtin.assert:
+    that:
+      - k8s_containerd_service.status.ActiveState == "active"
+      - k8s_cri_info.rc == 0
+    fail_msg: "Containerd is not running or CRI endpoint is unavailable. Run the containerd preparation playbook first."
+    quiet: true
+  when: k8s_validate_containerd | default(true)
+  tags: [k8s-pre, containerd, validate]
+
+- name: "K8S-PRE | Check if reboot required (RedHat family)"
+  ansible.builtin.command: "{{ k8s_reboot_required_file_redhat }} -r"
+  when: ansible_os_family == "RedHat"
+  changed_when: false
+  failed_when: false
+  register: k8s_reboot_check_redhat
+  tags: [k8s-pre, reboot]
+
+- name: "K8S-PRE | Check if reboot required (Debian family)"
+  ansible.builtin.stat:
+    path: "{{ k8s_reboot_required_file_debian }}"
+  when: ansible_os_family == "Debian"
+  register: k8s_reboot_check_debian
+  tags: [k8s-pre, reboot]
+
+- name: "K8S-PRE | Set reboot required fact"
+  ansible.builtin.set_fact:
+    k8s_reboot_required: "{{ (k8s_reboot_check_redhat.rc == 1) or (k8s_reboot_check_debian.stat.exists) }}"
+  tags: [k8s-pre, reboot]
+
+- name: "K8S-PRE | Report reboot requirement"
+  ansible.builtin.debug:
+    msg: "REBOOT REQUIRED: Kernel or core library updates applied. Please reboot before proceeding with Kubespray deployment."
+  when: k8s_reboot_required | default(false)
+  tags: [k8s-pre, reboot]
+
+- name: "K8S-PRE | Validate DNS resolution"
+  ansible.builtin.command: "getent hosts {{ k8s_apiserver_vip }}"
+  changed_when: false
+  failed_when: false
+  register: k8s_dns_check
+  tags: [k8s-pre, dns, validate]
+  when: k8s_validate_ports | default(false)
+
+- name: "K8S-PRE | Report Kubernetes node preparation complete"
+  ansible.builtin.debug:
+    msg: |
+      Kubernetes node preparation complete for {{ inventory_hostname }}.
+      OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+      Kernel: {{ ansible_kernel }}
+      Reboot required: {{ k8s_reboot_required | default(false) }}
+      Next step: Run Kubespray deployment playbook (playbooks/kubernetes.yml)
+  tags: [k8s-pre, summary]

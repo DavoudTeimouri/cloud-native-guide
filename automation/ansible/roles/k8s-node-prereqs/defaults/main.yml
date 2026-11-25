@@ -1,0 +1,241 @@
+---
+# Kubernetes node prerequisites defaults
+# These variables control the node preparation for Kubespray deployment
+
+# Kubespray version to use (must match a supported release in version-matrix.md)
+k8s_kubespray_version: "v2.32.0"
+
+# Target Kubernetes version (must be within the Kubespray release's supported range)
+k8s_kube_version: "1.36.5"
+
+# Container runtime (containerd is the only supported runtime for this platform)
+k8s_container_manager: "containerd"
+
+# CNI plugin (Cilium is the baseline for this platform)
+k8s_cni_plugin: "cilium"
+
+# Kubernetes cluster name
+k8s_cluster_name: "production"
+
+# Kubernetes API server VIP (for HA control plane)
+k8s_apiserver_vip: "10.20.0.100"
+
+# Kubernetes API server port
+k8s_apiserver_port: 6443
+
+# Pod CIDR (per cluster, Cilium native routing)
+k8s_pod_cidr: "10.30.0.0/16"
+
+# Service CIDR
+k8s_service_cidr: "10.32.0.0/16"
+
+# Node prefix for hostname generation
+k8s_node_prefix: "k8s"
+
+# OS validation
+k8s_supported_os_families:
+  - "RedHat"
+  - "Debian"
+
+# Minimum kernel version required by Kubespray/Kubernetes (general requirement)
+# CNI-specific requirements may be higher and are validated separately
+k8s_min_kernel_version: "4.19"
+
+# CNI-specific minimum kernel versions (validated when CNI is selected)
+k8s_cilium_min_kernel_version: "5.10"
+k8s_calico_min_kernel_version: "4.19"
+
+# Required kernel modules for Kubernetes
+k8s_required_kernel_modules:
+  - overlay
+  - br_netfilter
+  - ip_vs
+  - ip_vs_rr
+  - ip_vs_wrr
+  - ip_vs_sh
+  - nf_conntrack
+
+# Sysctl settings required by Kubernetes
+# OWNER: base role applies these to /etc/sysctl.d/99-kubernetes.conf
+# This role VALIDATES they are present; does NOT re-apply
+k8s_sysctl_settings_kubernetes:
+  net.bridge.bridge-nf-call-iptables: 1
+  net.bridge.bridge-nf-call-ip6tables: 1
+  net.ipv4.ip_forward: 1
+  net.ipv4.conf.all.forwarding: 1
+  net.ipv4.conf.all.rp_filter: 1
+  net.ipv4.conf.default.rp_filter: 1
+
+# Performance tuning sysctls
+# OWNER: base role applies these to /etc/sysctl.d/99-kubernetes.conf
+# This role VALIDATES they are present; does NOT re-apply
+k8s_sysctl_settings_performance:
+  vm.swappiness: 10
+  vm.overcommit_memory: 1
+  vm.panic_on_oom: 0
+  vm.oom_kill_allocating_task: 1
+  fs.inotify.max_user_watches: 524288
+  fs.inotify.max_user_instances: 8192
+  fs.file-max: 2097152
+  kernel.panic: 10
+  kernel.panic_on_oops: 1
+  kernel.keys.root_maxkeys: 1000000
+  kernel.keys.root_maxbytes: 25000000
+
+# Cilium-specific sysctl settings (if using Cilium with tunneling)
+# OWNER: k8s-node-prereqs role applies these to /etc/sysctl.d/99-cilium.conf
+k8s_sysctl_settings_cilium:
+  net.ipv4.conf.all.forwarding: 1
+  net.ipv6.conf.all.forwarding: 1
+
+# Swap configuration
+k8s_disable_swap: true
+k8s_swap_file: "/swapfile"
+
+# cgroups v2 requirement
+k8s_cgroups_v2: true
+
+# SELinux/AppArmor
+k8s_selinux_state: "enforcing"
+k8s_apparmor_enabled: true
+
+# Required packages per OS family
+k8s_packages_redhat:
+  - iproute
+  - iputils
+  - iptables
+  - conntrack-tools
+  - socat
+  - util-linux
+  - systemd
+  - ebtables
+  - ethtool
+  - bash-completion
+
+k8s_packages_debian:
+  - iproute2
+  - iputils-ping
+  - iptables
+  - conntrack
+  - socat
+  - util-linux
+  - systemd
+  - ebtables
+  - ethtool
+  - bash-completion
+
+# Network utilities
+k8s_network_utilities:
+  - iproute2
+  - iputils
+  - iptables
+  - conntrack-tools
+  - socat
+
+# Required directories
+k8s_required_directories:
+  - path: /etc/kubernetes
+    mode: "0755"
+    owner: root
+    group: root
+  - path: /var/lib/kubelet
+    mode: "0755"
+    owner: root
+    group: root
+  - path: /var/lib/etcd
+    mode: "0700"
+    owner: root
+    group: root
+  - path: /opt/cni/bin
+    mode: "0755"
+    owner: root
+    group: root
+  - path: /etc/cni/net.d
+    mode: "0755"
+    owner: root
+    group: root
+  - path: /etc/containerd
+    mode: "0755"
+    owner: root
+    group: root
+  - path: /etc/kubernetes/manifests
+    mode: "0755"
+    owner: root
+    group: root
+
+# Required ports (documentation - firewall managed by security role)
+k8s_required_ports:
+  control_plane:
+    - port: 6443
+      protocol: tcp
+      description: "Kubernetes API server"
+    - port: 2379
+      protocol: tcp
+      description: "etcd client"
+    - port: 2380
+      protocol: tcp
+      description: "etcd peer"
+    - port: 10250
+      protocol: tcp
+      description: "kubelet API"
+    - port: 10259
+      protocol: tcp
+      description: "kube-scheduler"
+    - port: 10257
+      protocol: tcp
+      description: "kube-controller-manager"
+  worker:
+    - port: 10250
+      protocol: tcp
+      description: "kubelet API"
+    - port: 30000-32767
+      protocol: tcp
+      description: "NodePort range"
+    - port: 8472
+      protocol: udp
+      description: "VXLAN (Cilium)"
+    - port: 6081
+      protocol: udp
+      description: "Geneve (Cilium)"
+    - port: 4789
+      protocol: udp
+      description: "VXLAN (Calico/overlay)"
+
+# CNI specific settings
+k8s_cilium_version: "1.20.3"
+k8s_cilium_hubble_enabled: true
+k8s_cilium_hubble_relay_enabled: true
+k8s_cilium_hubble_ui_enabled: true
+k8s_cilium_ipam_mode: "cluster-pool"
+k8s_cilium_cluster_pool_ipv4_cidr: "10.30.0.0/16"
+k8s_cilium_cluster_pool_ipv4_mask_size: "24"
+
+# Cilium tunneling mode (vxlan, geneve, or disabled for direct routing)
+k8s_cilium_tunneling_mode: "vxlan"
+
+# Calico specific settings (when CNI is calico)
+k8s_calico_version: "3.31.7"
+k8s_calico_ipam_mode: "kubernetes"
+k8s_calico_vxlan_enabled: false
+k8s_calico_vxlan_port: 4789
+k8s_calico_wireguard_enabled: false
+k8s_calico_typha_enabled: false
+
+# Reboot handling
+k8s_reboot_required_file_redhat: "/usr/bin/needs-restarting"
+k8s_reboot_required_file_debian: "/var/run/reboot-required"
+
+# Validation flags
+k8s_validate_os: true
+k8s_validate_kernel: true
+k8s_validate_swap: true
+k8s_validate_kernel_modules: true
+k8s_validate_sysctl: true
+k8s_validate_containerd: true
+k8s_validate_cgroups_v2: true
+k8s_validate_directories: true
+k8s_validate_ports: false
+k8s_validate_cni: false
+
+# Swap handling policy
+k8s_swap_policy: "disable"  # disable, preserve, or managed

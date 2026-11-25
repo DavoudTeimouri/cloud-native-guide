@@ -1,0 +1,57 @@
+# Kubespray inventory template
+# Generated from inventory template - DO NOT EDIT DIRECTLY
+# Source: automation/ansible/roles/kubespray-deploy/templates/kubespray-inventory.yml.j2
+
+all:
+  hosts:
+    {% for host in groups['all'] %}
+    {{ host }}:
+      ansible_host: {{ hostvars[host].ansible_host | default(host) }}
+      ansible_user: {{ hostvars[host].ansible_user | default('ansible') }}
+      ansible_become: true
+      ansible_become_method: sudo
+      ansible_python_interpreter: {{ hostvars[host].ansible_python_interpreter | default('/usr/bin/python3') }}
+      ip: {{ hostvars[host].ansible_host | default(host) }}
+      {% if hostvars[host].kubespray_node_labels is defined %}
+      node_labels: {{ hostvars[host].kubespray_node_labels | to_yaml }}
+      {% endif %}
+      {% if hostvars[host].kubespray_node_taints is defined %}
+      node_taints: {{ hostvars[host].kubespray_node_taints | to_yaml }}
+      {% endif %}
+    {% endfor %}
+  children:
+    kube_control_plane:
+      hosts:
+        {% for host in groups['kube_control_plane'] %}
+        {{ host }}:
+        {% endfor %}
+    kube_node:
+      hosts:
+        {% for host in groups['kube_node'] %}
+        {{ host }}:
+        {% endfor %}
+    etcd:
+      hosts:
+        {% for host in groups['etcd'] %}
+        {{ host }}:
+        {% endfor %}
+    {% if groups['kube_gpu'] is defined and groups['kube_gpu'] | length > 0 %}
+    kube_gpu:
+      hosts:
+        {% for host in groups['kube_gpu'] %}
+        {{ host }}:
+        {% endfor %}
+    {% endif %}
+    {% if groups['kube_storage'] is defined and groups['kube_storage'] | length > 0 %}
+    kube_storage:
+      hosts:
+        {% for host in groups['kube_storage'] %}
+        {{ host }}:
+        {% endfor %}
+    {% endif %}
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}

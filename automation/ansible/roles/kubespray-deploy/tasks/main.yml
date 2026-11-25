@@ -1,0 +1,415 @@
+---
+# Kubespray deployment preflight and orchestration tasks
+# This role validates everything before invoking Kubespray
+# The actual Kubespray invocation is a separate explicit operator action
+
+- name: "KUBESPRAY-DEP | Gather deployment facts"
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+      - distribution_version
+      - os_family
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight, always]
+
+- name: "KUBESPRAY-DEP | Validate deployment mode"
+  ansible.builtin.assert:
+    that:
+      - kubespray_deploy_mode in ["preflight", "deploy", "validate"]
+    fail_msg: "Invalid kubespray_deploy_mode: {{ kubespray_deploy_mode }}. Must be preflight, deploy, or validate."
+    quiet: true
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Require explicit operator approval for deployment"
+  ansible.builtin.assert:
+    that:
+      - kubespray_deploy_mode != "deploy" or (kubespray_operator_approval | default(false) | type_debug == 'bool' and kubespray_operator_approval | default(false) == true)
+    fail_msg: "DEPLOYMENT BLOCKED: kubespray_operator_approval must be set to boolean true (not string) to execute deployment. Run with -e '{\"kubespray_deploy_mode\":\"deploy\",\"kubespray_operator_approval\":true}' after reviewing preflight results."
+    quiet: true
+  delegate_to: localhost
+  run_once: true
+  when: kubespray_deploy_mode == "deploy"
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate Kubernetes version within Kubespray supported range"
+  ansible.builtin.assert:
+    that:
+      - kubespray_kubernetes_version is version_compare("1.34.0", ">=")
+      - kubespray_kubernetes_version is version_compare("1.37.0", "<")
+    fail_msg: "Kubernetes version {{ kubespray_kubernetes_version }} is outside Kubespray v2.32.0 supported range (1.34.x - 1.36.x)."
+    quiet: true
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Require explicit Kubernetes version verification"
+  ansible.builtin.assert:
+    that:
+      - kubernetes_version_verified | default(false) | type_debug == 'bool'
+      - kubernetes_version_verified | default(false) == true
+    fail_msg: "DEPLOYMENT BLOCKED: kubernetes_version_verified must be explicitly set to boolean true after manual verification against Kubespray v2.32.0 release notes. Current value: {{ kubernetes_version_verified | default('undefined') }}. Set -e '{\"kubernetes_version_verified\":true}' after verifying exact patch compatibility."
+    quiet: true
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Warn if Kubernetes version not manually verified"
+  ansible.builtin.debug:
+    msg: "WARNING: Kubernetes version {{ kubespray_kubernetes_version }} patch level not verified against Kubespray v2.32.0 release notes. Verify exact patch compatibility before deployment."
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate CNI selection"
+  ansible.builtin.assert:
+    that:
+      - kubespray_cni_plugin in ["cilium", "calico"]
+    fail_msg: "Invalid CNI plugin: {{ kubespray_cni_plugin }}. Supported: cilium, calico"
+    quiet: true
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate Cilium configuration when selected"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-DEP | Assert Cilium tunneling mode is valid"
+      ansible.builtin.assert:
+        that:
+          - kubespray_cilium_tunneling_mode in ["vxlan", "geneve", "disabled"]
+        fail_msg: "Invalid Cilium tunneling mode: {{ kubespray_cilium_tunneling_mode }}. Must be vxlan, geneve, or disabled."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Assert Cilium kube-proxy replacement is valid"
+      ansible.builtin.assert:
+        that:
+          - kubespray_cilium_kube_proxy_replacement in ["disabled", "partial", "strict"]
+        fail_msg: "Invalid Cilium kube-proxy replacement: {{ kubespray_cilium_kube_proxy_replacement }}. Must be disabled, partial, or strict."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Assert Cilium IPAM mode is valid"
+      ansible.builtin.assert:
+        that:
+          - kubespray_cilium_ipam_mode in ["cluster-pool", "kubernetes", "eni", "crd"]
+        fail_msg: "Invalid Cilium IPAM mode: {{ kubespray_cilium_ipam_mode }}."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+  when: kubespray_cni_plugin == "cilium"
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate Calico configuration when selected"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-DEP | Assert Calico VXLAN port is valid when enabled"
+      ansible.builtin.assert:
+        that:
+          - not kubespray_calico_vxlan_enabled or (kubespray_calico_vxlan_port | int >= 1 and kubespray_calico_vxlan_port | int <= 65535)
+        fail_msg: "Invalid Calico VXLAN port: {{ kubespray_calico_vxlan_port }}. Must be 1-65535."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+  when: kubespray_cni_plugin == "calico"
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate CIDR configuration"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-DEP | Validate Pod CIDR format"
+      ansible.builtin.assert:
+        that:
+          - kubespray_pod_cidr is match("^\\d+\\.\\d+\\.\\d+\\.\\d+/\\d+$")
+        fail_msg: "Invalid Pod CIDR format: {{ kubespray_pod_cidr }}. Must be in CIDR notation (e.g., 10.30.0.0/16)."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Validate Service CIDR format"
+      ansible.builtin.assert:
+        that:
+          - kubespray_service_cidr is match("^\\d+\\.\\d+\\.\\d+\\.\\d+/\\d+$")
+        fail_msg: "Invalid Service CIDR format: {{ kubespray_service_cidr }}. Must be in CIDR notation (e.g., 10.32.0.0/16)."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Assert Pod and Service CIDRs don't overlap"
+      ansible.builtin.command: "python3 -c \"import ipaddress; pod=ipaddress.ip_network('{{ kubespray_pod_cidr }}'); svc=ipaddress.ip_network('{{ kubespray_service_cidr }}'); exit(0 if pod.overlaps(svc) else 1)\""
+      changed_when: false
+      failed_when: false
+      register: kubespray_cidr_overlap_check
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Fail if CIDRs overlap"
+      ansible.builtin.fail:
+        msg: "Pod CIDR {{ kubespray_pod_cidr }} and Service CIDR {{ kubespray_service_cidr }} overlap. They must be distinct."
+      when: kubespray_cidr_overlap_check.rc == 0
+      delegate_to: localhost
+      run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate inventory structure"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-DEP | Check required inventory groups exist"
+      ansible.builtin.assert:
+        that:
+          - groups['kube_control_plane'] is defined
+          - groups['kube_node'] is defined
+          - groups['etcd'] is defined
+        fail_msg: "Required inventory groups missing: kube_control_plane, kube_node, etcd must be defined."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Validate control plane count matches expected"
+      ansible.builtin.assert:
+        that:
+          - groups['kube_control_plane'] | length == kubespray_control_plane_count
+        fail_msg: "Control plane node count mismatch: expected {{ kubespray_control_plane_count }}, found {{ groups['kube_control_plane'] | length }}. Nodes: {{ groups['kube_control_plane'] }}"
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Validate etcd count matches expected"
+      ansible.builtin.assert:
+        that:
+          - groups['etcd'] | length == kubespray_etcd_count
+        fail_msg: "Etcd node count mismatch: expected {{ kubespray_etcd_count }}, found {{ groups['etcd'] | length }}. Nodes: {{ groups['etcd'] }}"
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Assert etcd nodes are subset of control plane (stacked etcd)"
+      ansible.builtin.assert:
+        that:
+          - groups['etcd'] | difference(groups['kube_control_plane']) | length == 0
+        fail_msg: "Etcd nodes must be a subset of control plane nodes for stacked etcd topology. Etcd: {{ groups['etcd'] }}, Control plane: {{ groups['kube_control_plane'] }}"
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Validate worker nodes exist"
+      ansible.builtin.assert:
+        that:
+          - groups['kube_node'] | difference(groups['kube_control_plane']) | length >= kubespray_worker_count
+        fail_msg: "Insufficient worker nodes: expected at least {{ kubespray_worker_count }}, found {{ groups['kube_node'] | difference(groups['kube_control_plane']) | length }}."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+  when: kubespray_validate_inventory_groups | default(true)
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate required inventory variables"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-DEP | Check internal registry is defined"
+      ansible.builtin.assert:
+        that:
+          - kubespray_container_registry is defined and kubespray_container_registry != ""
+        fail_msg: "kubespray_container_registry must be defined and non-empty."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Check API server VIP is defined"
+      ansible.builtin.assert:
+        that:
+          - kubespray_apiserver_vip is defined and kubespray_apiserver_vip != ""
+        fail_msg: "kubespray_apiserver_vip must be defined and non-empty."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Check cluster name is defined"
+      ansible.builtin.assert:
+        that:
+          - kubespray_cluster_name is defined and kubespray_cluster_name != ""
+        fail_msg: "kubespray_cluster_name must be defined and non-empty."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+  when: kubespray_validate_inventory_variables | default(true)
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate registry CA certificate exists"
+  ansible.builtin.stat:
+    path: "{{ kubespray_registry_ca_cert_path }}"
+  register: kubespray_registry_ca_check
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Assert registry CA certificate exists"
+  ansible.builtin.assert:
+    that:
+      - kubespray_registry_ca_check.stat.exists
+    fail_msg: "Registry CA certificate not found at {{ kubespray_registry_ca_cert_path }}."
+    quiet: true
+  when: kubespray_validate_registry_access | default(true)
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate node prerequisites completed"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-DEP | Check node prerequisites role completed"
+      ansible.builtin.stat:
+        path: "/opt/kubespray"
+      register: kubespray_source_check
+      delegate_to: localhost
+      run_once: true
+
+    - name: "KUBESPRAY-DEP | Assert Kubespray source exists"
+      ansible.builtin.assert:
+        that:
+          - kubespray_source_check.stat.exists
+        fail_msg: "Kubespray source not found at /opt/kubespray. Run kubespray-control-node role first."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+  when: kubespray_preflight_check_all | default(true)
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight]
+
+- name: "KUBESPRAY-DEP | Validate offline staging artifacts"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-DEP | Check offline staging manifest exists"
+      ansible.builtin.stat:
+        path: "{{ kubespray_offline_artifacts_path }}/manifests/{{ kubespray_cni_plugin }}.json"
+      register: kubespray_offline_manifest_check
+      delegate_to: localhost
+      run_once: true
+      when: kubespray_offline_mode | default(false)
+
+    - name: "KUBESPRAY-DEP | Assert offline staging manifest exists"
+      ansible.builtin.assert:
+        that:
+          - kubespray_offline_manifest_check.stat.exists
+        fail_msg: "Offline staging manifest not found at {{ kubespray_offline_artifacts_path }}/manifests/{{ kubespray_cni_plugin }}.json. Run stage_artifacts.py first."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+      when: kubespray_offline_mode | default(false)
+
+    - name: "KUBESPRAY-DEP | Validate offline staging manifest"
+      ansible.builtin.command: >
+        python3 {{ playbook_dir }}/../../automation/offline-staging/scripts/validate_manifest.py
+        {{ kubespray_offline_artifacts_path }}/manifests/{{ kubespray_cni_plugin }}.json
+        --staging-root {{ kubespray_offline_artifacts_path }}
+      register: kubespray_offline_validate_result
+      delegate_to: localhost
+      run_once: true
+      failed_when: kubespray_offline_validate_result.rc != 0
+      when: kubespray_offline_mode | default(false)
+
+    - name: "KUBESPRAY-DEP | Check offline profile readiness"
+      ansible.builtin.command: >
+        python3 {{ playbook_dir }}/../../automation/offline-staging/scripts/check_readiness.py
+        {{ kubespray_offline_artifacts_path }}/manifests/{{ kubespray_cni_plugin }}.json
+        --profile {{ kubespray_cni_plugin | regex_replace('^cilium$', 'kubernetes-cilium') | regex_replace('^calico$', 'kubernetes-calico') }}
+      register: kubespray_offline_readiness_result
+      delegate_to: localhost
+      run_once: true
+      failed_when: kubespray_offline_readiness_result.rc != 0
+      when: kubespray_offline_mode | default(false)
+
+    - name: "KUBESPRAY-DEP | Assert CNI/profile consistency (no combined profile substitution)"
+      ansible.builtin.assert:
+        that:
+          - kubespray_cni_plugin == 'cilium' or kubespray_cni_plugin == 'calico'
+          - kubespray_cni_plugin | regex_replace('^cilium$', 'kubernetes-cilium') | regex_replace('^calico$', 'kubernetes-calico') != 'combined'
+        fail_msg: "CNI/PROFILE MISMATCH: Deployment CNI '{{ kubespray_cni_plugin }}' requires matching offline profile 'kubernetes-{{ kubespray_cni_plugin }}'. The 'combined' profile is not a valid substitute for CNI-specific deployment. Generate and validate the correct CNI-specific manifest."
+        quiet: true
+      delegate_to: localhost
+      run_once: true
+      when: kubespray_offline_mode | default(false)
+  when: kubespray_offline_mode | default(false)
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight, offline]
+
+- name: "KUBESPRAY-DEP | Generate Kubespray inventory from template"
+  ansible.builtin.template:
+    src: kubespray-inventory.yml.j2
+    dest: "{{ kubespray_install_path | default('/opt/kubespray') }}/inventory/{{ kubespray_cluster_name }}/hosts.yml"
+    mode: "0644"
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, inventory]
+
+- name: "KUBESPRAY-DEP | Generate Kubespray group vars"
+  ansible.builtin.template:
+    src: kubespray-group-vars.yml.j2
+    dest: "{{ kubespray_install_path | default('/opt/kubespray') }}/inventory/{{ kubespray_cluster_name }}/group_vars/all.yml"
+    mode: "0644"
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, inventory]
+
+- name: "KUBESPRAY-DEP | Report preflight summary"
+  ansible.builtin.debug:
+    msg: |
+      === KUBESPRAY DEPLOYMENT PREFLIGHT SUMMARY ===
+      Mode: {{ kubespray_deploy_mode }}
+      Kubespray version: v2.32.0
+      Kubernetes version: {{ kubespray_kubernetes_version }}
+      CNI plugin: {{ kubespray_cni_plugin }}
+      {% if kubespray_cni_plugin == 'cilium' %}
+      Cilium version: 1.20.2
+      Tunneling: {{ kubespray_cilium_tunneling_mode }}
+      Hubble: {{ kubespray_cilium_hubble_enabled }}
+      Kube-proxy replacement: {{ kubespray_cilium_kube_proxy_replacement }}
+      {% endif %}
+      Control plane nodes: {{ groups['kube_control_plane'] | length }}
+      Worker nodes: {{ groups['kube_node'] | difference(groups['kube_control_plane']) | length }}
+      Etcd nodes: {{ groups['etcd'] | length }}
+      Pod CIDR: {{ kubespray_pod_cidr }}
+      Service CIDR: {{ kubespray_service_cidr }}
+      Registry: {{ kubespray_container_registry }}
+      Offline mode: {{ kubespray_offline_mode }}
+      Operator approval: {{ kubespray_operator_approval | default(false) }}
+      {% if kubespray_deploy_mode == 'deploy' and (kubespray_operator_approval | default(false) | type_debug == 'bool' and kubespray_operator_approval | default(false) == true) %}
+      DEPLOYMENT APPROVED - Will invoke Kubespray
+      {% elif kubespray_deploy_mode == 'deploy' %}
+      DEPLOYMENT BLOCKED - Missing operator approval
+      {% else %}
+      PREFLIGHT ONLY - No deployment will occur
+      {% endif %}
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, preflight, summary]
+
+- name: "KUBESPRAY-DEP | Invoke Kubespray deployment (explicit operator action required)"
+  ansible.builtin.block:
+    - name: "KUBESPRAY-DEP | Run Kubespray cluster.yml"
+      ansible.builtin.command: >
+        {{ kubespray_python_venv_path | default('/opt/kubespray-venv') }}/bin/ansible-playbook
+        -i inventory/{{ kubespray_cluster_name }}/hosts.yml
+        -b --become-user=root
+        cluster.yml
+      args:
+        chdir: "{{ kubespray_install_path | default('/opt/kubespray') }}"
+      register: kubespray_deploy_result
+      changed_when: kubespray_deploy_result.rc == 0
+      failed_when: kubespray_deploy_result.rc != 0
+
+    - name: "KUBESPRAY-DEP | Report deployment result"
+      ansible.builtin.debug:
+        msg: "Kubespray deployment completed with exit code: {{ kubespray_deploy_result.rc }}"
+  when: kubespray_deploy_mode == "deploy" and (kubespray_operator_approval | default(false) | type_debug == 'bool' and kubespray_operator_approval | default(false) == true)
+  delegate_to: localhost
+  run_once: true
+  tags: [kubespray-deploy, deploy]

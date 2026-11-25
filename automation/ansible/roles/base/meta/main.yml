@@ -1,0 +1,22 @@
+---
+# Base role - OS baseline configuration
+# This role configures the base OS settings common to all distributions
+
+galaxy_info:
+  author: Platform Team
+  description: Base OS baseline configuration for Cloud-Native Stack
+  license: MIT
+  min_ansible_version: "2.19"
+  platforms:
+    - name: OracleLinux
+      versions: ["9"]
+    - name: Ubuntu
+      versions: ["22.04", "24.04"]
+    - name: EL
+      versions: ["9"]
+  galaxy_tags:
+    - system
+    - baseline
+    - hardening
+
+dependencies: []

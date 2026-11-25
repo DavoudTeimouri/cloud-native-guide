@@ -1,0 +1,152 @@
+---
+# Internal repository and registry settings for offline/restricted-network environments
+# This file configures all package managers and container runtimes to use internal mirrors only.
+# No public internet access is required when these settings are applied.
+
+# Offline mode flag - when true, all tasks will use internal mirrors only
+offline_mode: true
+
+# Internal container registry
+container_registry:
+  url: "harbor.internal:5000"
+  username: "{{ vault_harbor_admin_user | default('admin') }}"
+  password: "{{ vault_harbor_admin_password | default('') }}"
+  insecure: false
+  ca_cert: "/etc/containerd/certs.d/harbor.internal/ca.crt"
+
+# Internal Helm repository
+helm_repository:
+  name: "internal"
+  url: "https://harbor.internal/charts"
+  username: "{{ vault_harbor_admin_user | default('admin') }}"
+  password: "{{ vault_harbor_admin_password | default('') }}"
+  ca_cert: "/etc/ssl/certs/harbor-ca.crt"
+
+# Internal Nexus repository (rpm/deb/pypi/helm/npm)
+nexus_repository:
+  url: "https://nexus.internal"
+  username: "{{ vault_nexus_admin_user | default('admin') }}"
+  password: "{{ vault_nexus_admin_password | default('') }}"
+  ca_cert: "/etc/ssl/certs/nexus-ca.crt"
+
+# Oracle Linux 9 - internal DNF repositories
+ol9_repositories:
+  - name: "ol9-baseos"
+    description: "Oracle Linux 9 BaseOS"
+    baseurl: "https://nexus.internal/repository/ol9-baseos/"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "https://nexus.internal/repository/ol9-baseos/RPM-GPG-KEY-oracle"
+    repo_file: "/etc/yum.repos.d/internal-ol9-baseos.repo"
+
+  - name: "ol9-appstream"
+    description: "Oracle Linux 9 AppStream"
+    baseurl: "https://nexus.internal/repository/ol9-appstream/"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "https://nexus.internal/repository/ol9-appstream/RPM-GPG-KEY-oracle"
+    repo_file: "/etc/yum.repos.d/internal-ol9-appstream.repo"
+
+  - name: "ol9-addons"
+    description: "Oracle Linux 9 Add-ons"
+    baseurl: "https://nexus.internal/repository/ol9-addons/"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "https://nexus.internal/repository/ol9-addons/RPM-GPG-KEY-oracle"
+    repo_file: "/etc/yum.repos.d/internal-ol9-addons.repo"
+
+# Ubuntu 24.04 - internal APT repositories
+ubuntu2404_repositories:
+  - name: "ubuntu-main"
+    description: "Ubuntu 24.04 Main"
+    uris:
+      - "https://nexus.internal/repository/ubuntu-main/"
+    suites: ["noble"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-main.list"
+
+  - name: "ubuntu-updates"
+    description: "Ubuntu 24.04 Updates"
+    uris:
+      - "https://nexus.internal/repository/ubuntu-updates/"
+    suites: ["noble-updates"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-updates.list"
+
+  - name: "ubuntu-security"
+    description: "Ubuntu 24.04 Security"
+    uris:
+      - "https://nexus.internal/repository/ubuntu-security/"
+    suites: ["noble-security"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-security.list"
+
+# Ubuntu 22.04 - internal APT repositories
+ubuntu2204_repositories:
+  - name: "ubuntu-main"
+    description: "Ubuntu 22.04 Main"
+    uris:
+      - "https://nexus.internal/repository/ubuntu-main/"
+    suites: ["jammy"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-main.list"
+
+  - name: "ubuntu-updates"
+    description: "Ubuntu 22.04 Updates"
+    uris:
+      - "https://nexus.internal/repository/ubuntu-updates/"
+    suites: ["jammy-updates"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-updates.list"
+
+  - name: "ubuntu-security"
+    description: "Ubuntu 22.04 Security"
+    uris:
+      - "https://nexus.internal/repository/ubuntu-security/"
+    suites: ["jammy-security"]
+    components: ["main", "restricted", "universe", "multiverse"]
+    signed_by: "/etc/apt/keyrings/nexus-ubuntu.gpg"
+    repo_file: "/etc/apt/sources.list.d/nexus-ubuntu-security.list"
+
+# Containerd registry mirrors configuration
+containerd_registry_mirrors:
+  "docker.io":
+    endpoint:
+      - "https://harbor.internal/library"
+  "registry.k8s.io":
+    endpoint:
+      - "https://harbor.internal/k8s"
+  "ghcr.io":
+    endpoint:
+      - "https://harbor.internal/ghcr"
+  "quay.io":
+    endpoint:
+      - "https://harbor.internal/quay"
+  "harbor.internal":
+    endpoint:
+      - "https://harbor.internal"
+    tls:
+      ca_file: "/etc/containerd/certs.d/harbor.internal/ca.crt"
+
+# PyPI mirror for Python packages
+pypi_mirror:
+  url: "https://nexus.internal/repository/pypi-all/simple/"
+  trusted_host: "nexus.internal"
+
+# NPM mirror for Node.js packages
+npm_mirror:
+  url: "https://nexus.internal/repository/npm-all/"
+
+# Go module proxy
+go_proxy:
+  url: "https://nexus.internal/repository/go-proxy/"
+  env_var: "GOPROXY"
+
+# Monitoring binaries download URLs (for offline mode)
+monitoring_node_exporter_download_url: "https://nexus.internal/repository/github-releases/prometheus/node_exporter/{{ monitoring_node_exporter_version }}/node_exporter-{{ monitoring_node_exporter_version }}.linux-amd64.tar.gz"
+monitoring_dcgm_exporter_download_url: "https://nexus.internal/repository/github-releases/NVIDIA/dcgm-exporter/{{ monitoring_dcgm_exporter_version }}/dcgm-exporter-{{ monitoring_dcgm_exporter_version }}.linux-amd64.tar.gz"

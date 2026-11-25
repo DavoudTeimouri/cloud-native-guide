@@ -1,0 +1,63 @@
+---
+# Kubernetes playbook - Wrapper for Kubespray
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini playbooks/kubernetes.yml
+# Check mode: NOT SUPPORTED (Kubespray cluster.yml does not support --check)
+
+- name: Deploy Kubernetes with Kubespray
+  hosts: k8s_cluster:&k8s_cluster
+  become: true
+
+  vars:
+    # These must be set in group_vars or inventory
+    # kube_version: "1.36.5"
+    # kubespray_version: "v2.32.0"
+    # container_manager: containerd
+    # kube_network_plugin: cilium
+    # kube_image_repo: "harbor.internal/k8s"
+    # docker_registry: "harbor.internal:5000"
+
+  tasks:
+    - name: "K8S | Verify Kubespray checkout exists"
+      ansible.builtin.stat:
+        path: "/opt/kubespray/{{ kubespray_version }}"
+      register: kubespray_checkout
+      delegate_to: localhost
+      run_once: true
+
+    - name: "K8S | Fail if Kubespray not found"
+      ansible.builtin.fail:
+        msg: "Kubespray {{ kubespray_version }} not found at /opt/kubespray/{{ kubespray_version }}. Run the Kubespray preparation playbook first."
+      when: not kubespray_checkout.stat.exists
+
+    - name: "K8S | Run Kubespray cluster.yml"
+      ansible.builtin.command: >
+        cd /opt/kubespray/{{ kubespray_version }} &&
+        source /opt/kubespray/venv-{{ kubespray_version }}/bin/activate &&
+        ansible-playbook -i {{ inventory_dir }}/inventory.ini cluster.yml
+        -b --become-user=root
+        -e @{{ inventory_dir }}/group_vars/all/offline.yml
+        -e kube_version={{ kube_version }}
+        -e container_manager={{ container_manager }}
+        -e kube_network_plugin={{ kube_network_plugin }}
+        -e kube_image_repo={{ kube_image_repo }}
+        -e docker_registry={{ docker_registry }}
+      delegate_to: localhost
+      run_once: true
+      environment:
+        ANSIBLE_HOST_KEY_CHECKING: "True"
+      register: kubespray_run
+      changed_when: kubespray_run.rc == 0
+
+    - name: "K8S | Verify cluster"
+      ansible.builtin.command: "kubectl --kubeconfig {{ inventory_dir }}/artifacts/admin.conf get nodes -o wide"
+      delegate_to: localhost
+      run_once: true
+      changed_when: false
+      tags: [kubernetes, verify]
+
+    - name: "K8S | Verify pods"
+      ansible.builtin.command: "kubectl --kubeconfig {{ inventory_dir }}/artifacts/admin.conf get pods -A"
+      delegate_to: localhost
+      run_once: true
+      changed_when: false
+      tags: [kubernetes, verify]
