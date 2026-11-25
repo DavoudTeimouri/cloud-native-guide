@@ -1,0 +1,23 @@
+---
+# Repositories playbook
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini playbooks/repositories.yml
+# Check mode: ansible-playbook -i inventories/<env>/hosts.ini playbooks/repositories.yml --check --diff
+
+- name: Configure internal package repositories
+  hosts: all
+  become: true
+  roles:
+    - repositories
+
+  post_tasks:
+    - name: "REPOS | Verify Oracle Linux repositories"
+      ansible.builtin.command: "dnf repolist enabled"
+      when: ansible_os_family == "RedHat"
+      changed_when: false
+      tags: [repositories, verify]
+
+    - name: "REPOS | Verify Ubuntu repositories"
+      ansible.builtin.command: "apt-cache policy"
+      when: ansible_os_family == "Debian"
+      changed_when: false
+      tags: [repositories, verify]

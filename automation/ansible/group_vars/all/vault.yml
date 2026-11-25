@@ -1,0 +1,84 @@
+---
+# Vault integration configuration
+# No secret values are stored here. Secrets are retrieved at execution time via Vault lookups.
+
+# Vault server connection
+vault_addr: "https://vault.internal:8200"
+vault_namespace: "platform"
+vault_validate_certs: true
+vault_ca_path: "/etc/pki/ca-trust/source/anchors/internal-ca.crt"
+
+# Vault authentication for Ansible
+# Uses JWT/OIDC auth method with Keycloak-issued tokens
+vault_auth:
+  method: "jwt"
+  role: "ansible"
+  jwt_claim: "sub"
+  mount_path: "auth/jwt"
+  # The JWT token is obtained at runtime from the Keycloak-issued token
+  # or from the service account token when running in-cluster
+
+# Vault paths used by automation (read-only access for automation role)
+vault_paths:
+  # Harbor registry credentials
+  harbor_admin:
+    path: "secret/registry/harbor"
+    keys: ["username", "password"]
+
+  # Nexus credentials
+  nexus_admin:
+    path: "secret/registry/nexus"
+    keys: ["username", "password"]
+
+  # GitLab credentials
+  gitlab:
+    path: "secret/gitlab/platform"
+    keys: ["token", "runner_registration_token"]
+
+  # Keycloak credentials
+  keycloak:
+    path: "secret/keycloak/platform"
+    keys: ["admin_username", "admin_password"]
+
+  # Ceph credentials
+  ceph:
+    path: "secret/ceph/platform"
+    keys: ["admin_keyring", "dashboard_password"]
+
+  # Certificate management
+  pki:
+    ca_root:
+      path: "pki/root"
+      keys: ["ca_cert", "ca_key"]
+    pki_intermediate:
+      path: "pki_int/sign/platform"
+      keys: ["cert", "key", "ca_chain"]
+
+  # Break-glass emergency access
+  breakglass:
+    path: "secret/breakglass/linux"
+    keys: ["username", "ssh_private_key", "ssh_public_key"]
+
+  # Kubernetes service account tokens
+  kubernetes:
+    service_accounts:
+      cert_manager:
+        path: "secret/k8s/cert-manager"
+        keys: ["vault_token"]
+      external_secrets:
+        path: "secret/k8s/external-secrets"
+        keys: ["vault_token"]
+      argocd:
+        path: "secret/k8s/argocd"
+        keys: ["oidc_client_secret"]
+
+# Vault lookup plugin configuration
+# Used in tasks with: lookup('community.general.hashi_vault', ...)
+vault_lookup:
+  url: "{{ vault_addr }}"
+  namespace: "{{ vault_namespace }}"
+  validate_certs: "{{ vault_validate_certs }}"
+  ca_cert: "{{ vault_ca_path }}"
+  auth_method: "{{ vault_auth.method }}"
+  role: "{{ vault_auth.role }}"
+  jwt: "{{ lookup('env', 'VAULT_JWT_TOKEN') | default('') }}"

@@ -1,0 +1,36 @@
+---
+# Main entry point for Cloud-Native Stack OS preparation
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini site.yml
+# Check mode: ansible-playbook -i inventories/<env>/hosts.ini site.yml --check --diff
+
+- name: Configure operating system baseline
+  ansible.builtin.import_playbook: playbooks/base.yml
+  tags: [base, always]
+
+- name: Configure internal repositories and package sources
+  ansible.builtin.import_playbook: playbooks/repositories.yml
+  tags: [repositories]
+
+- name: Configure security baseline
+  ansible.builtin.import_playbook: playbooks/security.yml
+  tags: [security]
+
+- name: Configure time synchronization
+  ansible.builtin.import_playbook: playbooks/time-sync.yml
+  tags: [time-sync]
+
+- name: Install and configure container runtime
+  ansible.builtin.import_playbook: playbooks/containerd.yml
+  tags: [containerd]
+
+# Identity integration (SSSD/realmd) is NOT included in the default path.
+# Per ADR-0015 and catalog idpIntegration, the standard platform path uses
+# Keycloak OIDC federation for application-layer identity.
+# Host-level directory integration requires a separate accepted ADR.
+# To enable host-level SSSD/realmd, run: ansible-playbook playbooks/identity.yml --tags identity
+
+# Monitoring is NOT included in the default path.
+# To install monitoring agents, run: ansible-playbook playbooks/monitoring.yml
+
+# Kubernetes/Kubespray is NOT included in the default path.
+# To deploy Kubernetes, run: ansible-playbook playbooks/kubernetes.yml

@@ -1,0 +1,217 @@
+---
+# Monitoring role tasks - Node exporter and Fluent Bit
+
+- name: "MONITORING | Gather distribution facts"
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+      - distribution_version
+      - distribution_major_version
+      - os_family
+  tags: [monitoring, always]
+
+- name: "MONITORING | Create node_exporter user"
+  ansible.builtin.user:
+    name: node_exporter
+    system: true
+    shell: /sbin/nologin
+    home: /nonexistent
+    create_home: false
+  tags: [monitoring, node_exporter]
+  register: monitoring_node_exporter_user_result
+  changed_when: monitoring_node_exporter_user_result.changed
+
+- name: "MONITORING | Download node_exporter binary"
+  ansible.builtin.get_url:
+    url: "{{ monitoring_node_exporter_download_url | default('https://github.com/prometheus/node_exporter/releases/download/v' + monitoring_node_exporter_version + '/node_exporter-' + monitoring_node_exporter_version + '.linux-amd64.tar.gz') }}"
+    dest: "/tmp/node_exporter-{{ monitoring_node_exporter_version }}.linux-amd64.tar.gz"
+    mode: "0644"
+  tags: [monitoring, node_exporter]
+  register: monitoring_node_exporter_download_result
+  changed_when: monitoring_node_exporter_download_result.changed
+  when: not offline_mode | default(false)
+
+- name: "MONITORING | Fail if node_exporter download required but offline"
+  ansible.builtin.fail:
+    msg: "node_exporter binary not available locally and offline_mode is enabled. Pre-stage the binary or set monitoring_node_exporter_download_url to an internal mirror."
+  when: offline_mode | default(false)
+  tags: [monitoring, node_exporter]
+
+- name: "MONITORING | Extract node_exporter"
+  ansible.builtin.unarchive:
+    src: "/tmp/node_exporter-{{ monitoring_node_exporter_version }}.linux-amd64.tar.gz"
+    dest: /usr/local/bin
+    extra_opts: [--strip-components=1]
+    remote_src: true
+  tags: [monitoring, node_exporter]
+  register: monitoring_node_exporter_extract_result
+  changed_when: monitoring_node_exporter_extract_result.changed
+
+- name: "MONITORING | Create node_exporter systemd service"
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/node_exporter.service
+    content: |
+      [Unit]
+      Description=Prometheus Node Exporter
+      After=network.target
+
+      [Service]
+      User=node_exporter
+      Group=node_exporter
+      Type=simple
+      ExecStart=/usr/local/bin/node_exporter \
+        --web.listen-address=0.0.0.0:{{ monitoring_node_exporter_port }} \
+        {{ monitoring_node_exporter_collectors | map('regex_replace', '^', '--collector.') | map('regex_replace', '$', '') | join(' ') }}
+      Restart=on-failure
+      RestartSec=5
+
+      [Install]
+      WantedBy=multi-user.target
+    mode: "0644"
+  tags: [monitoring, node_exporter]
+  notify: Reload systemd
+  register: monitoring_node_exporter_service_result
+  changed_when: monitoring_node_exporter_service_result.changed
+
+- name: "MONITORING | Enable and start node_exporter"
+  ansible.builtin.systemd:
+    name: node_exporter
+    enabled: true
+    state: started
+  tags: [monitoring, node_exporter]
+  register: monitoring_node_exporter_start_result
+  changed_when: monitoring_node_exporter_start_result.changed
+
+- name: "MONITORING | Create Fluent Bit config directory"
+  ansible.builtin.file:
+    path: "{{ monitoring_fluent_bit_config_dir }}"
+    state: directory
+    mode: "0755"
+  tags: [monitoring, fluent_bit]
+  register: monitoring_fb_config_dir_result
+  changed_when: monitoring_fb_config_dir_result.changed
+
+- name: "MONITORING | Create Fluent Bit log directory"
+  ansible.builtin.file:
+    path: "{{ monitoring_fluent_bit_log_dir }}"
+    state: directory
+    mode: "0755"
+  tags: [monitoring, fluent_bit]
+  register: monitoring_fb_log_dir_result
+  changed_when: monitoring_fb_log_dir_result.changed
+
+- name: "MONITORING | Install Fluent Bit (Oracle Linux / RHEL)"
+  ansible.builtin.dnf:
+    name: fluent-bit
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags: [monitoring, fluent_bit]
+  register: monitoring_fb_install_rhel_result
+  changed_when: monitoring_fb_install_rhel_result.changed
+
+- name: "MONITORING | Install Fluent Bit (Ubuntu)"
+  ansible.builtin.apt:
+    name: fluent-bit
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Debian"
+  tags: [monitoring, fluent_bit]
+  register: monitoring_fb_install_ubuntu_result
+  changed_when: monitoring_fb_install_ubuntu_result.changed
+
+- name: "MONITORING | Configure Fluent Bit"
+  ansible.builtin.template:
+    src: fluent-bit.conf.j2
+    dest: "{{ monitoring_fluent_bit_config_dir }}/fluent-bit.conf"
+    owner: root
+    group: root
+    mode: "0644"
+  tags: [monitoring, fluent_bit]
+  notify: Restart fluent-bit
+  register: monitoring_fb_config_result
+  changed_when: monitoring_fb_config_result.changed
+
+- name: "MONITORING | Enable and start Fluent Bit"
+  ansible.builtin.systemd:
+    name: fluent-bit
+    enabled: true
+    state: started
+  tags: [monitoring, fluent_bit]
+  register: monitoring_fb_start_result
+  changed_when: monitoring_fb_start_result.changed
+
+- name: "MONITORING | Install DCGM Exporter (GPU nodes only)"
+  ansible.builtin.block:
+    - name: "MONITORING | Check if GPU is present"
+      ansible.builtin.command: "nvidia-smi -L"
+      changed_when: false
+      failed_when: false
+      register: monitoring_gpu_check_result
+
+    - name: "MONITORING | Set DCGM enabled fact"
+      ansible.builtin.set_fact:
+        monitoring_dcgm_enabled: "{{ monitoring_gpu_check_result.rc == 0 and monitoring_dcgm_exporter_enabled }}"
+      when: monitoring_gpu_check_result.rc == 0
+
+  tags: [monitoring, dcgm]
+  when: monitoring_dcgm_exporter_enabled
+
+- name: "MONITORING | Install DCGM Exporter"
+  ansible.builtin.get_url:
+    url: "{{ monitoring_dcgm_exporter_download_url | default('https://github.com/NVIDIA/dcgm-exporter/releases/download/' + monitoring_dcgm_exporter_version + '/dcgm-exporter-' + monitoring_dcgm_exporter_version + '.linux-amd64.tar.gz') }}"
+    dest: "/tmp/dcgm-exporter-{{ monitoring_dcgm_exporter_version }}.linux-amd64.tar.gz"
+    mode: "0644"
+  when: monitoring_dcgm_enabled | default(false) and not offline_mode | default(false)
+  tags: [monitoring, dcgm]
+  register: monitoring_dcgm_download_result
+  changed_when: monitoring_dcgm_download_result.changed
+
+- name: "MONITORING | Fail if DCGM Exporter download required but offline"
+  ansible.builtin.fail:
+    msg: "DCGM Exporter binary not available locally and offline_mode is enabled. Pre-stage the binary or set monitoring_dcgm_exporter_download_url to an internal mirror."
+  when: monitoring_dcgm_enabled | default(false) and offline_mode | default(false)
+  tags: [monitoring, dcgm]
+
+- name: "MONITORING | Extract DCGM Exporter"
+  ansible.builtin.unarchive:
+    src: "/tmp/dcgm-exporter-{{ monitoring_dcgm_exporter_version }}.linux-amd64.tar.gz"
+    dest: /usr/local/bin
+    extra_opts: [--strip-components=1]
+    remote_src: true
+  when: monitoring_dcgm_enabled | default(false)
+  tags: [monitoring, dcgm]
+  register: monitoring_dcgm_extract_result
+  changed_when: monitoring_dcgm_extract_result.changed
+
+- name: "MONITORING | Create DCGM Exporter systemd service"
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/dcgm-exporter.service
+    content: |
+      [Unit]
+      Description=DCGM Exporter
+      After=network.target
+
+      [Service]
+      Type=simple
+      ExecStart=/usr/local/bin/dcgm-exporter --port={{ monitoring_dcgm_exporter_port }}
+      Restart=on-failure
+      RestartSec=5
+
+      [Install]
+      WantedBy=multi-user.target
+    mode: "0644"
+  when: monitoring_dcgm_enabled | default(false)
+  tags: [monitoring, dcgm]
+  notify: Reload systemd
+  register: monitoring_dcgm_service_result
+  changed_when: monitoring_dcgm_service_result.changed
+
+- name: "MONITORING | Enable and start DCGM Exporter"
+  ansible.builtin.systemd:
+    name: dcgm-exporter
+    enabled: true
+    state: started
+  when: monitoring_dcgm_enabled | default(false)
+  tags: [monitoring, dcgm]
+  register: monitoring_dcgm_start_result
+  changed_when: monitoring_dcgm_start_result.changed

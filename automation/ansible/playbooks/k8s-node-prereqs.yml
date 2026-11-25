@@ -1,0 +1,47 @@
+---
+# Kubernetes node prerequisites playbook
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini playbooks/k8s-node-prereqs.yml
+# Check mode: ansible-playbook -i inventories/<env>/hosts.ini playbooks/k8s-node-prereqs.yml --check --diff
+
+- name: Configure Kubernetes node prerequisites
+  hosts: all
+  become: true
+  roles:
+    - k8s-node-prereqs
+
+  post_tasks:
+    - name: "K8S-PRE | Verify OS baseline"
+      ansible.builtin.command: "hostnamectl"
+      changed_when: false
+      tags: [k8s-pre, verify]
+
+    - name: "K8S-PRE | Verify kernel modules"
+      ansible.builtin.command: "lsmod | grep -E 'overlay|br_netfilter|ip_vs|nf_conntrack'"
+      changed_when: false
+      tags: [k8s-pre, verify]
+
+    - name: "K8S-PRE | Verify sysctl"
+      ansible.builtin.command: "sysctl -p /etc/sysctl.d/99-kubernetes.conf"
+      changed_when: false
+      tags: [k8s-pre, verify]
+
+    - name: "K8S-PRE | Verify swap disabled"
+      ansible.builtin.command: "swapon --show"
+      changed_when: false
+      tags: [k8s-pre, verify]
+
+    - name: "K8S-PRE | Verify cgroups v2"
+      ansible.builtin.command: "stat -fc %T /sys/fs/cgroup"
+      changed_when: false
+      tags: [k8s-pre, verify]
+
+    - name: "K8S-PRE | Verify Containerd"
+      ansible.builtin.command: "crictl version"
+      changed_when: false
+      tags: [k8s-pre, verify]
+
+    - name: "K8S-PRE | Report reboot requirement"
+      ansible.builtin.debug:
+        msg: "REBOOT REQUIRED: Kernel or core library updates applied. Please reboot before proceeding with Kubespray deployment."
+      when: k8s_reboot_required | default(false)
+      tags: [k8s-pre, reboot]

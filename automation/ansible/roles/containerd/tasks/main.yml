@@ -1,0 +1,114 @@
+---
+# Containerd role tasks - Install and configure containerd
+
+- name: "CONTAINERD | Gather distribution facts"
+  ansible.builtin.setup:
+    gather_subset:
+      - distribution
+      - distribution_version
+      - distribution_major_version
+      - os_family
+  tags: [containerd, always]
+
+- name: "CONTAINERD | Install containerd (Oracle Linux / RHEL)"
+  ansible.builtin.dnf:
+    name: containerd.io
+    state: present
+  when: ansible_os_family == "RedHat"
+  tags: [containerd, install]
+  register: containerd_install_rhel_result
+  changed_when: containerd_install_rhel_result.changed
+
+- name: "CONTAINERD | Install containerd (Ubuntu)"
+  ansible.builtin.apt:
+    name: containerd.io
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Debian"
+  tags: [containerd, install]
+  register: containerd_install_ubuntu_result
+  changed_when: containerd_install_ubuntu_result.changed
+
+- name: "CONTAINERD | Create containerd config directory"
+  ansible.builtin.file:
+    path: "{{ containerd_config_dir }}"
+    state: directory
+    mode: "0755"
+  tags: [containerd, config]
+  register: containerd_config_dir_result
+  changed_when: containerd_config_dir_result.changed
+
+- name: "CONTAINERD | Create containerd registry config directory"
+  ansible.builtin.file:
+    path: "{{ containerd_registry_config_dir }}"
+    state: directory
+    mode: "0755"
+  tags: [containerd, config]
+  register: containerd_registry_config_dir_result
+  changed_when: containerd_registry_config_dir_result.changed
+
+- name: "CONTAINERD | Generate containerd configuration"
+  ansible.builtin.template:
+    src: config.toml.j2
+    dest: "{{ containerd_config_dir }}/config.toml"
+    owner: root
+    group: root
+    mode: "0644"
+    validate: "containerd --config %s --validate"
+  tags: [containerd, config]
+  notify: Restart containerd
+  register: containerd_config_result
+  changed_when: containerd_config_result.changed
+
+- name: "CONTAINERD | Generate registry mirror configurations"
+  ansible.builtin.template:
+    src: hosts.toml.j2
+    dest: "{{ containerd_registry_config_dir }}/{{ item.key }}/hosts.toml"
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ containerd_registry_mirrors | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  tags: [containerd, registry]
+  notify: Restart containerd
+  register: containerd_registry_config_result
+  changed_when: containerd_registry_config_result.changed
+
+- name: "CONTAINERD | Copy registry CA certificates"
+  ansible.builtin.copy:
+    src: "{{ item.value.tls.ca_file | default(omit) }}"
+    dest: "{{ containerd_registry_config_dir }}/{{ item.key }}/ca.crt"
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ containerd_registry_mirrors | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when:
+    - item.value.tls is defined
+    - item.value.tls.ca_file is defined
+  tags: [containerd, registry, tls]
+  register: containerd_ca_result
+  changed_when: containerd_ca_result.changed
+
+- name: "CONTAINERD | Enable and start containerd"
+  ansible.builtin.systemd:
+    name: containerd
+    enabled: true
+    state: started
+  tags: [containerd, service]
+  register: containerd_service_result
+  changed_when: containerd_service_result.changed
+
+- name: "CONTAINERD | Verify containerd installation"
+  ansible.builtin.command: "crictl version"
+  changed_when: false
+  failed_when: false
+  tags: [containerd, verify]
+  register: containerd_verify_result
+
+- name: "CONTAINERD | Report containerd version"
+  ansible.builtin.debug:
+    msg: "Containerd version: {{ containerd_verify_result.stdout }}"
+  tags: [containerd, verify]

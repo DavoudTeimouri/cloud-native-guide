@@ -1,0 +1,12 @@
+---
+# Handlers for k8s-node-prereqs role
+
+- name: Restart systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Restart containerd
+  ansible.builtin.systemd:
+    name: containerd
+    state: restarted
+    enabled: true

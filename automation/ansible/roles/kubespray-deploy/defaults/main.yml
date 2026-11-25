@@ -1,0 +1,84 @@
+---
+# Kubespray deployment defaults
+# These variables control the deployment preflight and execution
+
+# Deployment mode
+kubespray_deploy_mode: "preflight"  # preflight, deploy, validate
+
+# Explicit operator approval required
+kubespray_operator_approval: false  # Must be set to true to run actual deployment
+
+# Preflight validation settings
+kubespray_preflight_fail_fast: true
+kubespray_preflight_check_all: true
+
+# Inventory validation
+kubespray_validate_inventory_groups: true
+kubespray_validate_inventory_variables: true
+kubespray_validate_cni_prerequisites: true
+kubespray_validate_registry_access: true
+
+# Cluster configuration
+kubespray_cluster_name: "production"
+kubespray_kubernetes_version: "1.36.4"
+kubespray_cni_plugin: "cilium"
+
+# Control plane configuration
+kubespray_control_plane_count: 3  # 3 or 5
+kubespray_etcd_count: 3  # Must match control plane for stacked etcd
+
+# Worker configuration
+kubespray_worker_count: 2
+kubespray_gpu_workers: []  # List of GPU worker hostnames
+
+# Network settings (operator must confirm)
+kubespray_pod_cidr: "10.30.0.0/16"
+kubespray_service_cidr: "10.32.0.0/16"
+kubespray_node_cidr_mask_size: 24
+
+# CNI configuration (Cilium baseline)
+kubespray_cilium_tunneling_mode: "vxlan"
+kubespray_cilium_hubble_enabled: true
+kubespray_cilium_hubble_relay_enabled: true
+kubespray_cilium_hubble_ui_enabled: true
+kubespray_cilium_kube_proxy_replacement: "strict"
+kubespray_cilium_ipam_mode: "cluster-pool"
+kubespray_cilium_cluster_pool_ipv4_cidr: "10.30.0.0/16"
+kubespray_cilium_cluster_pool_ipv4_mask_size: "24"
+
+# Calico configuration (alternative)
+kubespray_calico_vxlan_enabled: false
+kubespray_calico_wireguard_enabled: false
+kubespray_calico_typha_enabled: false
+
+# Registry and image settings
+kubespray_container_registry: "harbor.internal:5000"
+kubespray_registry_ca_cert_path: "/etc/ssl/certs/harbor-ca.crt"
+kubespray_registry_auth_enabled: true
+
+# Proxy settings
+kubespray_http_proxy: ""
+kubespray_https_proxy: ""
+kubespray_no_proxy: "localhost,127.0.0.1,10.0.0.0/8"
+
+# Offline mode
+kubespray_offline_mode: false
+kubespray_offline_artifacts_path: "/opt/kubespray-offline"
+
+# Kubernetes version verification gate
+# Must be explicitly set to boolean true after manual verification against Kubespray v2.32.0 release notes
+kubernetes_version_verified: false
+
+# Feature gates
+kubespray_feature_gates: {}
+
+# Add-ons
+kubespray_enable_metrics_server: true
+kubespray_enable_local_path_provisioner: false
+kubespray_enable_nfs_provisioner: false
+kubespray_enable_csi_drivers: false
+
+# Upgrade/scale settings (future workflows)
+kubespray_upgrade_strategy: "rolling"
+kubespray_max_surge: 1
+kubespray_max_unavailable: 0

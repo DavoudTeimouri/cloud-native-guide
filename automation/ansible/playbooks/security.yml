@@ -1,0 +1,38 @@
+---
+# Security playbook
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini playbooks/security.yml
+# Check mode: ansible-playbook -i inventories/<env>/hosts.ini playbooks/security.yml --check --diff
+
+- name: Configure security baseline
+  hosts: all
+  become: true
+  roles:
+    - security
+
+  post_tasks:
+    - name: "SECURITY | Verify auditd"
+      ansible.builtin.command: "auditctl -l"
+      changed_when: false
+      tags: [security, verify]
+
+    - name: "SECURITY | Verify SELinux (Oracle Linux)"
+      ansible.builtin.command: "getenforce"
+      when: ansible_os_family == "RedHat"
+      changed_when: false
+      tags: [security, verify]
+
+    - name: "SECURITY | Verify AppArmor (Ubuntu)"
+      ansible.builtin.command: "aa-status"
+      when: ansible_os_family == "Debian"
+      changed_when: false
+      tags: [security, verify]
+
+    - name: "SECURITY | Verify nftables"
+      ansible.builtin.command: "nft list ruleset"
+      changed_when: false
+      tags: [security, verify]
+
+    - name: "SECURITY | Verify kernel hardening"
+      ansible.builtin.command: "sysctl -a | grep -E 'kernel.kptr_restrict|kernel.dmesg_restrict|kernel.yama.ptrace_scope|vm.mmap_min_addr'"
+      changed_when: false
+      tags: [security, verify]

@@ -1,0 +1,47 @@
+---
+# Time synchronization playbook
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini playbooks/time-sync.yml
+# Check mode: ansible-playbook -i inventories/<env>/hosts.ini playbooks/time-sync.yml --check --diff
+
+- name: Configure time synchronization
+  hosts: all
+  become: true
+
+  tasks:
+    - name: "TIME | Ensure chrony is installed"
+      ansible.builtin.package:
+        name: chrony
+        state: present
+
+    - name: "TIME | Configure chrony"
+      ansible.builtin.template:
+        src: ../roles/base/templates/chrony.conf.j2
+        dest: /etc/chrony.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: Restart chrony
+
+    - name: "TIME | Enable and start chronyd"
+      ansible.builtin.systemd:
+        name: chronyd
+        enabled: true
+        state: started
+
+  handlers:
+    - name: Restart chrony
+      ansible.builtin.systemd:
+        name: chronyd
+        state: restarted
+        enabled: true
+
+  post_tasks:
+    - name: "TIME | Verify time sync"
+      ansible.builtin.command: "chronyc tracking"
+      changed_when: false
+      tags: [time-sync, verify]
+
+    - name: "TIME | Verify NTP sources"
+      ansible.builtin.command: "chronyc sources -v"
+      changed_when: false
+      tags: [time-sync, verify]

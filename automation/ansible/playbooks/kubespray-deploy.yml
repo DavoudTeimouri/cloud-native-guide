@@ -1,0 +1,66 @@
+---
+# Kubespray Deployment Playbook
+# Run on the CONTROL NODE (not Kubernetes nodes)
+# Performs preflight validation and optionally invokes Kubespray
+#
+# Usage:
+#   # Preflight only (default, safe)
+#   ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespray-deploy.yml
+#
+#   # Full deployment (requires explicit operator approval)
+#   ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespray-deploy.yml -e kubespray_deploy_mode=deploy -e kubespray_operator_approval=true
+#
+#   # Dry-run preflight with extra validation
+#   ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespray-deploy.yml -e kubespray_preflight_check_all=true
+
+- name: Kubespray Deployment Preflight and Orchestration
+  hosts: localhost
+  become: false
+  roles:
+    - kubespray-deploy
+
+  vars:
+    # Control node environment (set by kubespray-control-node role)
+    kubespray_python_venv_path: "/opt/kubespray-venv"
+    kubespray_install_path: "/opt/kubespray"
+    kubespray_release_tag: "v2.32.0"
+
+  post_tasks:
+    - name: "KUBESPRAY-DEP | Report next steps based on mode"
+      ansible.builtin.debug:
+        msg: |
+          {% if kubespray_deploy_mode == 'preflight' %}
+          PREFLIGHT COMPLETE
+          
+          Review the preflight summary above. If all checks pass:
+          1. Verify Kubernetes version {{ kubespray_kubernetes_version }} against Kubespray v2.32.0 release notes
+          2. Set kubernetes_version_verified: true
+          3. Run deployment with explicit approval:
+             ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespray-deploy.yml -e kubespray_deploy_mode=deploy -e kubespray_operator_approval=true
+          
+          IMPORTANT: The actual Kubespray deployment will modify target hosts.
+          Ensure you have:
+          - Verified all preflight checks pass
+          - Confirmed inventory matches your infrastructure
+          - Backup/recovery plan for target nodes
+          - Operator approval for production deployment
+          
+          {% elif kubespray_deploy_mode == 'deploy' %}
+          DEPLOYMENT COMPLETE
+          
+          Kubespray cluster.yml has been executed.
+          Verify cluster health:
+          - kubectl get nodes
+          - kubectl get pods -A
+          - kubectl cluster-info
+          
+          Next steps:
+          - Configure post-deployment add-ons (monitoring, ingress, etc.)
+          - Run cluster validation tests
+          - Document cluster state
+          {% else %}
+          VALIDATION COMPLETE
+          
+          Inventory and configuration validated.
+          No deployment action taken.
+          {% endif %}

@@ -1,0 +1,35 @@
+---
+# Default variables for containerd role
+
+containerd_version: "2.3.7"
+containerd_config_dir: "/etc/containerd"
+containerd_registry_config_dir: "/etc/containerd/certs.d"
+containerd_systemd_cgroup: true
+containerd_sandbox_image: "harbor.internal/base/pause:3.9"
+containerd_max_container_log_line_size: 16384
+
+# Registry mirrors (from group_vars/all/offline.yml)
+containerd_registry_mirrors:
+  "docker.io":
+    endpoint:
+      - "https://harbor.internal/library"
+  "registry.k8s.io":
+    endpoint:
+      - "https://harbor.internal/k8s"
+  "ghcr.io":
+    endpoint:
+      - "https://harbor.internal/ghcr"
+  "quay.io":
+    endpoint:
+      - "https://harbor.internal/quay"
+  "harbor.internal":
+    endpoint:
+      - "https://harbor.internal"
+    tls:
+      ca_file: "/etc/containerd/certs.d/harbor.internal/ca.crt"
+
+# Registry authentication (retrieved from Vault at runtime)
+containerd_registry_auth:
+  harbor.internal:
+    username: "{{ vault_harbor_admin_user | default('admin') }}"
+    password: "{{ vault_harbor_admin_password | default('') }}"

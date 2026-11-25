@@ -1,0 +1,20 @@
+---
+# Handlers for base role
+
+- name: Restart sshd
+  ansible.builtin.systemd:
+    name: sshd
+    state: restarted
+    enabled: true
+
+- name: Restart chrony
+  ansible.builtin.systemd:
+    name: chronyd
+    state: restarted
+    enabled: true
+
+- name: Restart systemd-resolved
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    state: restarted
+    enabled: true

@@ -1,0 +1,58 @@
+---
+# Default variables for monitoring role
+
+# Node Exporter
+monitoring_node_exporter_version: "1.12.1"
+monitoring_node_exporter_port: 9100
+monitoring_node_exporter_collectors:
+  - "cpu"
+  - "meminfo"
+  - "loadavg"
+  - "diskstats"
+  - "filesystem"
+  - "netdev"
+  - "netstat"
+  - "stat"
+  - "time"
+  - "uname"
+  - "vmstat"
+  - "xfs"
+  - "zfs"
+  - "nfs"
+  - "nfsd"
+  - "thermal_zone"
+  - "wifi"
+  - "hwmon"
+  - "ipvs"
+  - "sockstat"
+  - "conntrack"
+  - "edac"
+  - "entropy"
+  - "fibrechannel"
+  - "mdadm"
+  - "os"
+  - "power_supply"
+  - "rapl"
+  - "slabinfo"
+  - "tapestats"
+  - "textfile"
+
+# Node Exporter download URL (override for internal mirror)
+monitoring_node_exporter_download_url: ""
+
+# Fluent Bit
+monitoring_fluent_bit_version: "5.1.5"
+monitoring_fluent_bit_config_dir: "/etc/fluent-bit"
+monitoring_fluent_bit_log_dir: "/var/log/fluent-bit"
+monitoring_fluent_bit_loki_url: "http://loki.logging.svc:3100/loki/api/v1/push"
+monitoring_fluent_bit_extra_labels:
+  cluster: "{{ cluster_name | default('unknown') }}"
+  environment: "{{ env | default('unknown') }}"
+
+# DCGM Exporter (for GPU nodes)
+monitoring_dcgm_exporter_enabled: false
+monitoring_dcgm_exporter_version: "4.8.4"
+monitoring_dcgm_exporter_port: 9400
+
+# DCGM Exporter download URL (override for internal mirror)
+monitoring_dcgm_exporter_download_url: ""

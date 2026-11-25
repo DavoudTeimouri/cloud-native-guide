@@ -1,0 +1,26 @@
+---
+# Monitoring playbook
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini playbooks/monitoring.yml
+# Check mode: ansible-playbook -i inventories/<env>/hosts.ini playbooks/monitoring.yml --check --diff
+
+- name: Configure monitoring agents
+  hosts: all
+  become: true
+  roles:
+    - monitoring
+
+  post_tasks:
+    - name: "MONITORING | Verify node_exporter"
+      ansible.builtin.uri:
+        url: "http://localhost:9100/metrics"
+        return_content: true
+      changed_when: false
+      tags: [monitoring, verify]
+
+    - name: "MONITORING | Verify Fluent Bit"
+      ansible.builtin.uri:
+        url: "http://localhost:2020/api/v1/health"
+        return_content: true
+      changed_when: false
+      tags: [monitoring, verify]
+      ignore_errors: true

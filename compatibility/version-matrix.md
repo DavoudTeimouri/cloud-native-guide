@@ -55,10 +55,19 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | Calico | 3.31.7 | not adopted | Kubespray release-2.32 README | VERIFIED | Alternative CNI |
 | Flannel | 0.28.9 | not adopted | Same README | VERIFIED | No network policy |
 | Multus | 4.2.2 | not adopted | Same README | VERIFIED | Secondary networks |
-| MetalLB | v0.16.1 | 0.16.1 | `https://github.com/metallb/metallb/releases/tag/v0.16.1` | VERIFIED | Chart `metallb-0.16.1` from `https://metallb.github.io/metallb/charts/index.yaml` |
-| MetalLB (Kubespray-managed) | 0.13.9 | not adopted | Kubespray release-2.32 README | VERIFIED | Kubespray ships an older MetalLB; the platform installs its own chart instead |
-| NGINX Ingress Controller (F5) | 5.7.0 (chart nginx-ingress 2.8.0) | chart 2.8.0 | `https://github.com/nginx/kubernetes-ingress/releases` | VERIFIED | F5's commercial-grade controller. **This is the NGINX Ingress Controller, not the retired `kubernetes/ingress-nginx`** — see the retirement note below |
-| kubernetes/ingress-nginx | v1.15.1 (chart 4.15.1) | **RETIRED — do not adopt** | `https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/` | VERIFIED | Retired March 2026. Read-only repositories, no further releases or security fixes. Artifacts remain available for existing deployments only |
+|| MetalLB | v0.16.1 | 0.16.1 | `https://github.com/metallb/metallb/releases/tag/v0.16.1` | VERIFIED | Chart `metallb-0.16.1` from `https://metallb.github.io/metallb/charts/index.yaml` ||
+|| MetalLB (Kubespray-managed) | 0.13.9 | not adopted | Kubespray release-2.32 README | VERIFIED | Kubespray ships an older MetalLB; the platform installs its own chart instead ||
+|| HAProxy | 3.1.0 | chart 1.16.0 | `https://www.haproxy.org/download/3.1/src/` | VERIFIED | Used in edge-compose for L4 load balancing; chart from `https://haproxy-ingress.github.io/charts` ||
+|| Nginx (OSS) | 1.28.0 | n/a | `https://nginx.org/en/download.html` | VERIFIED | Used in edge-compose for L7 termination; image from internal mirror ||
+|| Keepalived | v2.3.0 | n/a | `https://www.keepalived.org/download.html` | VERIFIED | Used in edge-compose for VRRP; package from internal mirror ||
+|| Metrics Server | v0.8.0 | chart 3.14.0 | `https://github.com/kubernetes-sigs/metrics-server/releases/tag/v0.8.0` | VERIFIED | Chart `metrics-server-3.14.0` from `https://kubernetes-sigs.github.io/metrics-server/` ||
+|| Vertical Pod Autoscaler | v1.2.0 | chart 0.15.0 | `https://github.com/kubernetes/autoscaler/releases/tag/vertical-pod-autoscaler-1.2.0` | VERIFIED | Chart `vertical-pod-autoscaler-0.15.0` from `https://charts.k8s.io/` ||
+|| Descheduler | v0.37.0 | chart 0.37.0 | `https://github.com/kubernetes-sigs/descheduler/releases/tag/v0.37.0` | VERIFIED | Chart `descheduler-0.37.0` from `https://kubernetes-sigs.github.io/descheduler/` ||
+|| external-dns | v0.18.0 | chart 1.18.0 | `https://github.com/kubernetes-sigs/external-dns/releases/tag/v0.18.0` | VERIFIED | Chart `external-dns-1.18.0` from `https://charts.bitnami.com/bitnami` ||
+|| NGINX Ingress Controller (F5) | 5.7.0 (chart nginx-ingress 2.8.0) | chart 2.8.0 | `https://github.com/nginx/kubernetes-ingress/releases` | VERIFIED | F5's commercial-grade controller. **This is the NGINX Ingress Controller, not the retired `kubernetes/ingress-nginx`** — see the retirement note below ||
+|| NGINX Gateway Fabric (F5) | v0.2.0 | chart 0.2.0 | `https://github.com/nginx/nginx-gateway-fabric/releases/tag/v0.2.0` | VERIFIED | F5's Gateway API-native controller; chart from `https://charts.nginx.io/gateway-fabric` ||
+|| Envoy Gateway | v1.2.0 | chart 1.2.0 | `https://github.com/envoyproxy/gateway/releases/tag/v1.2.0` | VERIFIED | Gateway API-native Envoy controller; chart from `https://helm.envoyproxy.io` ||
+|| kubernetes/ingress-nginx | v1.15.1 (chart 4.15.1) | **RETIRED — do not adopt** | `https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/` | VERIFIED | Retired March 2026. Read-only repositories, no further releases or security fixes. Artifacts remain available for existing deployments only ||
 | Traefik | v3.7.16 | not adopted | `https://github.com/traefik/traefik/releases/tag/v3.7.16` | VERIFIED | Alternative ingress |
 | Gateway API | v1.6.3 | v1.6.3 | `https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.6.3` | VERIFIED | v1.7.0-rc.1 exists; do not pin a pre-release |
 | kube-router | 2.1.1 | not adopted | Kubespray release-2.32 README | VERIFIED | |
@@ -125,20 +134,23 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | Kyverno | v1.19.2 | v1.19.2 | `https://github.com/kyverno/kyverno/releases` | VERIFIED | Chart 3.9.2 |
 | Falco | 0.45.1 | 0.45.1 | `https://github.com/falcosecurity/falco/releases` | VERIFIED | Chart 9.2.1 |
 | Trivy | v0.76.1 | v0.76.1 | `https://github.com/aquasecurity/trivy/releases` | VERIFIED | Vulnerability DB is a separate, dated artifact |
+| Trivy Operator | v0.36.0 | chart 0.36.0 | `https://github.com/aquasecurity/trivy-operator/releases/tag/v0.36.0` | VERIFIED | Chart `trivy-operator-0.36.0` from `https://aquasecurity.github.io/helm-charts/` |
+| Istio | 1.24.0 | chart 1.24.0 | `https://github.com/istio/istio/releases/tag/1.24.0` | VERIFIED | Chart `istio-1.24.0` from `https://istio-release.storage.googleapis.com/charts` |
 | Syft | v1.55.0 | v1.55.0 | `https://github.com/anchore/syft/releases` | VERIFIED | SBOM generation |
 | Cosign | v3.1.4 | v3.1.4 | `https://github.com/sigstore/cosign/releases` | VERIFIED | Sigstore trust root is a separate, pinned artifact |
 | Grype | v0.121.0 | not adopted | `https://github.com/anchore/grype/releases` | VERIFIED | Alternative to Trivy |
 
 ## Additional verified components (not in the core platform)
 
-| Component | Verified version | Official source | Status | Notes |
-|---|---|---|---|---|
-| Calico | v3.33.0 | `https://github.com/projectcalico/calico/releases` | VERIFIED | Upstream current. Kubespray release-2.32 ships 3.31.7 |
-| Helm (upstream current) | v4.3.1 | `https://github.com/helm/helm/releases` | VERIFIED | Helm 4 is the current stable line |
-| VictoriaMetrics | v1.154.1 | `https://github.com/VictoriaMetrics/VictoriaMetrics/releases` | VERIFIED | Long-term metrics alternative to Thanos |
-| KServe | v0.21.0 | `https://github.com/kserve/kserve/releases` | VERIFIED | Inference platform, if multi-framework serving is needed |
-| OpenTelemetry Collector | v0.164.x | `https://github.com/open-telemetry/opentelemetry-collector-releases` | VERIFIED | Telemetry collector |
-| Elasticsearch | 9.5.5 | `https://github.com/elastic/elasticsearch/releases` | VERIFIED | Not adopted; OpenSearch preferred on licensing grounds |
+| Component | Verified version | Pinned | Official source | Status | Notes |
+|---|---|---|---|---|---|
+| Calico | v3.33.0 | n/a | `https://github.com/projectcalico/calico/releases` | VERIFIED | Upstream current. Kubespray release-2.32 ships 3.31.7 |
+| Helm (upstream current) | v4.3.1 | n/a | `https://github.com/helm/helm/releases` | VERIFIED | Helm 4 is the current stable line |
+| VictoriaMetrics | v1.154.1 | n/a | `https://github.com/VictoriaMetrics/VictoriaMetrics/releases` | VERIFIED | Long-term metrics alternative to Thanos |
+| KServe | v0.21.0 | n/a | `https://github.com/kserve/kserve/releases` | VERIFIED | Inference platform, if multi-framework serving is needed |
+| OpenTelemetry Collector | v0.164.x | n/a | `https://github.com/open-telemetry/opentelemetry-collector-releases` | VERIFIED | Telemetry collector |
+| OpenTelemetry Operator | v0.164.0 | chart 0.164.0 | `https://github.com/open-telemetry/opentelemetry-operator/releases/tag/v0.164.0` | VERIFIED | Chart `opentelemetry-operator-0.164.0` from `https://open-telemetry.github.io/opentelemetry-helm-charts` |
+| Elasticsearch | 9.5.5 | n/a | `https://github.com/elastic/elasticsearch/releases` | VERIFIED | Not adopted; OpenSearch preferred on licensing grounds |
 | Logstash | 9.5.5 | `https://github.com/logstash/logstash/releases` | VERIFIED | Not adopted |
 | secrets-store-csi-driver | v1.5.7 | `https://github.com/kubernetes-sigs/secrets-store-csi-driver/releases` | VERIFIED | Secret delivery method 3 |
 | sigstore (root signing) | v1.11.1 | `https://github.com/sigstore/sigstore/releases` | VERIFIED | Trust root distribution |

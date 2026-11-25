@@ -1,0 +1,37 @@
+---
+# Base OS provisioning playbook
+# Run with: ansible-playbook -i inventories/<env>/hosts.ini playbooks/base.yml
+# Check mode: ansible-playbook -i inventories/<env>/hosts.ini playbooks/base.yml --check --diff
+
+- name: Configure operating system baseline
+  hosts: all
+  become: true
+  roles:
+    - base
+
+  post_tasks:
+    - name: "BASE | Verify OS baseline"
+      ansible.builtin.command: "hostnamectl"
+      changed_when: false
+      tags: [base, verify]
+
+    - name: "BASE | Verify kernel modules"
+      ansible.builtin.command: "lsmod | grep -E 'overlay|br_netfilter|ip_vs|nf_conntrack'"
+      changed_when: false
+      tags: [base, verify]
+
+    - name: "BASE | Verify sysctl"
+      ansible.builtin.command: "sysctl -p /etc/sysctl.d/99-kubernetes.conf"
+      changed_when: false
+      tags: [base, verify]
+
+    - name: "BASE | Verify time sync"
+      ansible.builtin.command: "chronyc tracking"
+      changed_when: false
+      tags: [base, verify]
+
+    - name: "BASE | Report reboot requirement"
+      ansible.builtin.debug:
+        msg: "REBOOT REQUIRED: Kernel or core library updates applied. Please reboot before proceeding."
+      when: base_reboot_required | default(false)
+      tags: [base, reboot]

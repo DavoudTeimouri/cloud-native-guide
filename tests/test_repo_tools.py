@@ -174,6 +174,120 @@ def test_acceptance_criteria_all_not_run():
         assert status == "NOT RUN", f"acceptance test not marked NOT RUN: {row[:120]}"
 
 
+def test_kubespray_kubernetes_version_verified_flag():
+    """Ensure kubernetes_version_verified is explicitly false until manually verified."""
+    path = os.path.join(BASE, "automation", "ansible", "roles", "kubespray-control-node", "defaults", "main.yml")
+    text = open(path).read()
+    # Must have kubernetes_version_verified: false
+    assert "kubernetes_version_verified: false" in text, "kubernetes_version_verified must default to false"
+    # Must NOT have it set to true in defaults
+    assert "kubernetes_version_verified: true" not in text, "kubernetes_version_verified must not default to true"
+    # Must reference upstream release notes for verification
+    assert "release notes" in text.lower() or "release-notes" in text.lower(), "must reference release notes for verification"
+
+
+def test_kubespray_approval_boolean_strict():
+    """Ensure deployment approval requires boolean true, not string."""
+    path = os.path.join(BASE, "automation", "ansible", "roles", "kubespray-deploy", "tasks", "main.yml")
+    text = open(path).read()
+    # Must check for boolean type, not just truthy
+    assert "type_debug == 'bool'" in text, "approval must check boolean type"
+    assert "kubespray_operator_approval | default(false) == true" in text, "approval must check explicit boolean true"
+    # Must have the strict check (type_debug AND == true) in the approval assertion
+    assert "type_debug == 'bool' and kubespray_operator_approval | default(false) == true" in text, "approval must check boolean type AND explicit true"
+    # The old simple truthy-only check must not exist as the sole condition
+    # Check that the approval assertion uses the strict form, not just 'kubespray_operator_approval | default(false)'
+    # Find the approval assertion block
+    assert "kubespray_deploy_mode != \"deploy\" or (kubespray_operator_approval | default(false) | type_debug == 'bool' and kubespray_operator_approval | default(false) == true)" in text, "approval assertion must use strict boolean check"
+    # Verify the old simple form is not used in the approval check
+    # (it should only appear within the strict compound expression)
+    simple_form = "kubespray_operator_approval | default(false)"
+    # Count occurrences of simple form outside the strict check
+    strict_check = "type_debug == 'bool' and kubespray_operator_approval | default(false) == true"
+    # The simple form should only appear as part of the strict check
+    # Remove strict check occurrences and verify simple form doesn't remain standalone
+    remaining = text.replace(strict_check, "")
+    # The simple form should not appear standalone in the approval condition
+    assert "kubespray_deploy_mode != \"deploy\" or kubespray_operator_approval | default(false)" not in remaining, "old simple truthy check must not be used"
+
+
+def test_kubespray_version_pins_match_upstream():
+    """Verify Kubespray v2.32.0 component versions are correctly pinned."""
+    path = os.path.join(BASE, "automation", "ansible", "roles", "kubespray-control-node", "defaults", "main.yml")
+    text = open(path).read()
+    # Kubernetes must be 1.36.4 (not 1.36.5) per Kubespray v2.32.0 README
+    assert "kubernetes_version: \"1.36.4\"" in text, "Kubernetes version must be 1.36.4 per Kubespray v2.32.0"
+    assert "kubernetes_version: \"1.36.5\"" not in text, "Kubernetes 1.36.5 is not the Kubespray v2.32.0 default"
+    # Cilium must be 1.20.2 per Kubespray v2.32.0 README
+    assert "kubespray_cilium_version: \"1.20.2\"" in text, "Cilium version must be 1.20.2 per Kubespray v2.32.0"
+    assert "kubespray_cilium_version: \"1.20.3\"" not in text, "Cilium 1.20.3 is not the Kubespray v2.32.0 default"
+    # Calico must be 3.31.7 per Kubespray v2.32.0 README
+    assert "kubespray_calico_version: \"3.31.7\"" in text, "Calico version must be 3.31.7 per Kubespray v2.32.0"
+    # Ansible must be 12.3.0 per Kubespray v2.32.0 requirements.txt
+    assert "kubespray_ansible_version: \"12.3.0\"" in text, "Ansible version must be 12.3.0 per Kubespray v2.32.0"
+    # ansible-core must be 2.19.3 per Kubespray v2.32.0
+    assert "kubespray_ansible_core_version: \"2.19.3\"" in text, "ansible-core version must be 2.19.3 per Kubespray v2.32.0"
+
+
+def test_kubespray_pip_packages_match_requirements_txt():
+    """Verify pip packages match Kubespray v2.32.0 requirements.txt."""
+    path = os.path.join(BASE, "automation", "ansible", "roles", "kubespray-control-node", "defaults", "main.yml")
+    text = open(path).read()
+    # jmespath must be 1.1.0 per requirements.txt
+    assert "jmespath==1.1.0" in text, "jmespath must be 1.1.0 per Kubespray v2.32.0 requirements.txt"
+    # netaddr must be 1.3.0 per requirements.txt
+    assert "netaddr==1.3.0" in text, "netaddr must be 1.3.0 per Kubespray v2.32.0 requirements.txt"
+    # cryptography must be 50.0.1 per requirements.txt
+    assert "cryptography==50.0.1" in text, "cryptography must be 50.0.1 per Kubespray v2.32.0 requirements.txt"
+    # bcrypt must be <6 per requirements.txt (not pinned to specific version)
+    assert "bcrypt<6" in text, "bcrypt constraint must be <6 per Kubespray v2.32.0 requirements.txt"
+    # Must NOT have removed packages (hvac, openshift, kubernetes, docker, PyYAML duplicate)
+    assert "hvac==" not in text, "hvac not in Kubespray v2.32.0 requirements.txt"
+    assert "openshift==" not in text, "openshift not in Kubespray v2.32.0 requirements.txt"
+    assert "kubernetes==" not in text, "kubernetes not in Kubespray v2.32.0 requirements.txt"
+    assert "docker==" not in text, "docker not in Kubespray v2.32.0 requirements.txt"
+    # Note: passlib==1.7.4 is present in both
+
+
+def test_kubespray_kubernetes_version_verified_gate():
+    """Ensure kubernetes_version_verified gate is fail-closed in kubespray-deploy role."""
+    path = os.path.join(BASE, "automation", "ansible", "roles", "kubespray-deploy", "tasks", "main.yml")
+    text = open(path).read()
+    # Must have the fail-closed assertion for kubernetes_version_verified
+    assert "kubernetes_version_verified | default(false) | type_debug == 'bool'" in text, \
+        "kubernetes_version_verified must check boolean type"
+    assert "kubernetes_version_verified | default(false) == true" in text, \
+        "kubernetes_version_verified must check explicit boolean true"
+    assert "DEPLOYMENT BLOCKED" in text, "Must have deployment blocked message"
+    assert "kubernetes_version_verified must be explicitly set to boolean true" in text, \
+        "Must have specific error message for version verification"
+
+
+def test_kubespray_cni_profile_consistency_gate():
+    """Ensure CNI/profile consistency gate is fail-closed in kubespray-deploy role."""
+    path = os.path.join(BASE, "automation", "ansible", "roles", "kubespray-deploy", "tasks", "main.yml")
+    text = open(path).read()
+    # Must have the CNI/profile consistency assertion
+    assert "CNI/PROFILE MISMATCH" in text, "Must have CNI/profile mismatch error message"
+    assert "combined" in text.lower() and "substitute" in text.lower(), \
+        "Must explicitly reject combined profile as CNI substitute"
+    assert "kubespray_cni_plugin" in text, "Must reference the selected CNI plugin"
+    assert "kubernetes-cilium" in text or "kubernetes-calico" in text, \
+        "Must reference the CNI-specific profile names"
+
+
+def test_kubespray_kubernetes_version_verified_in_defaults():
+    """Ensure kubernetes_version_verified defaults to false in kubespray-deploy defaults."""
+    path = os.path.join(BASE, "automation", "ansible", "roles", "kubespray-deploy", "defaults", "main.yml")
+    text = open(path).read()
+    # Must have kubernetes_version_verified: false in defaults
+    assert "kubernetes_version_verified: false" in text, \
+        "kubernetes_version_verified must default to false in kubespray-deploy defaults"
+    # Must NOT have it set to true in defaults
+    assert "kubernetes_version_verified: true" not in text, \
+        "kubernetes_version_verified must not default to true in kubespray-deploy defaults"
+
+
 def main():
     tests = [
         ("ADRs exist with all required sections", test_adrs_exist_and_have_all_sections),
@@ -184,6 +298,13 @@ def main():
         ("no plaintext secret patterns in the repo", test_no_plaintext_secret_patterns),
         ("roadmap has all 15 phases", test_roadmap_phases_present),
         ("acceptance tests are not pre-marked as passed", test_acceptance_criteria_all_not_run),
+        ("kubespray kubernetes_version_verified defaults to false", test_kubespray_kubernetes_version_verified_flag),
+        ("kubespray approval boolean strict check", test_kubespray_approval_boolean_strict),
+        ("kubespray version pins match upstream", test_kubespray_version_pins_match_upstream),
+        ("kubespray pip packages match requirements.txt", test_kubespray_pip_packages_match_requirements_txt),
+        ("kubespray kubernetes_version_verified gate fail-closed", test_kubespray_kubernetes_version_verified_gate),
+        ("kubespray CNI/profile consistency gate fail-closed", test_kubespray_cni_profile_consistency_gate),
+        ("kubespray kubernetes_version_verified in deploy defaults", test_kubespray_kubernetes_version_verified_in_defaults),
     ]
     for name, fn in tests:
         check(name, fn)

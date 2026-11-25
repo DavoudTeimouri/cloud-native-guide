@@ -1,0 +1,21 @@
+---
+# Security role - System hardening and security baseline
+
+galaxy_info:
+  author: Platform Team
+  description: Security hardening baseline for Cloud-Native Stack hosts
+  license: MIT
+  min_ansible_version: "2.19"
+  platforms:
+    - name: OracleLinux
+      versions: ["9"]
+    - name: Ubuntu
+      versions: ["22.04", "24.04"]
+    - name: EL
+      versions: ["9"]
+  galaxy_tags:
+    - security
+    - hardening
+    - compliance
+
+dependencies: []

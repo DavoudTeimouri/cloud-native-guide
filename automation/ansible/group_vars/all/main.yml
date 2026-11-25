@@ -1,0 +1,175 @@
+---
+# Global variables applied to all hosts
+# These values are documentation-only placeholders. Replace with actual values for your environment.
+
+# Timezone (do not impose a specific timezone; this is an example)
+timezone: UTC
+
+# NTP servers - replace with your organization's NTP sources
+ntp_servers:
+  - 10.10.0.1
+  - 10.10.0.2
+
+# DNS servers - replace with your internal DNS resolvers
+dns_servers:
+  - 10.10.0.53
+  - 10.10.0.54
+
+# Internal registries and mirrors - replace with your internal endpoints
+internal_registry: "harbor.internal:5000"
+internal_helm_repo: "https://harbor.internal/charts"
+internal_nexus: "https://nexus.internal"
+
+# Internal CA certificate path on target nodes
+internal_ca_cert: "/etc/ssl/certs/internal-ca.crt"
+
+# Vault
+vault_addr: "https://vault.internal:8200"
+vault_namespace: "platform"
+vault_kubernetes_auth_path: "kubernetes"
+vault_kubernetes_role: "platform"
+
+# Keycloak
+keycloak_url: "https://keycloak.internal"
+keycloak_realm: "platform"
+
+# Monitoring
+prometheus_retention: "30d"
+grafana_admin_user: "admin"
+loki_retention: "30d"
+
+# Backup
+velero_schedule: "0 2 * * *"
+velero_ttl: "720h"
+
+# OS package repositories - replace with your internal mirror URLs
+# Oracle Linux 9
+ol9_baseos_repo_url: "https://nexus.internal/repository/ol9-baseos/"
+ol9_appstream_repo_url: "https://nexus.internal/repository/ol9-appstream/"
+ol9_baseos_gpgkey: "https://nexus.internal/repository/ol9-baseos/RPM-GPG-KEY-oracle"
+ol9_appstream_gpgkey: "https://nexus.internal/repository/ol9-appstream/RPM-GPG-KEY-oracle"
+
+# Ubuntu 24.04
+ubuntu_main_repo_url: "https://nexus.internal/repository/ubuntu-main/"
+ubuntu_updates_repo_url: "https://nexus.internal/repository/ubuntu-updates/"
+ubuntu_security_repo_url: "https://nexus.internal/repository/ubuntu-security/"
+
+# Container runtime
+containerd_version: "2.3.7"
+containerd_registry_mirrors:
+  docker.io: "https://harbor.internal/library"
+  registry.k8s.io: "https://harbor.internal/k8s"
+  harbor.internal: "https://harbor.internal"
+
+# Kernel modules required for Kubernetes
+k8s_required_kernel_modules:
+  - overlay
+  - br_netfilter
+  - ip_vs
+  - ip_vs_rr
+  - ip_vs_wrr
+  - ip_vs_sh
+  - nf_conntrack
+
+# Sysctl settings for Kubernetes
+k8s_sysctl_settings:
+  net.bridge.bridge-nf-call-iptables: 1
+  net.bridge.bridge-nf-call-ip6tables: 1
+  net.ipv4.ip_forward: 1
+  net.ipv4.conf.all.forwarding: 1
+  net.ipv4.conf.all.rp_filter: 1
+  net.ipv4.conf.default.rp_filter: 1
+  vm.swappiness: 10
+  vm.overcommit_memory: 1
+  vm.panic_on_oom: 0
+  vm.oom_kill_allocating_task: 1
+  fs.inotify.max_user_watches: 524288
+  fs.inotify.max_user_instances: 8192
+  fs.file-max: 2097152
+  kernel.panic: 10
+  kernel.panic_on_oops: 1
+  kernel.keys.root_maxkeys: 1000000
+  kernel.keys.root_maxbytes: 25000000
+
+# Base packages common to all distributions
+base_packages_common:
+  - chrony
+  - audit
+  - jq
+  - vim
+  - htop
+  - net-tools
+  - tcpdump
+  - strace
+  - sysstat
+  - curl
+  - wget
+  - tar
+  - gzip
+  - unzip
+  - rsync
+  - openssl
+  - ca-certificates
+
+# Distribution-specific base packages
+base_packages_ol9:
+  - audit-libs
+  - container-selinux
+  - containerd.io
+  - nfs-utils
+  - iscsi-initiator-utils
+  - multipath-tools
+  - lvm2
+  - cryptsetup
+
+base_packages_ubuntu2404:
+  - auditd
+  - containerd.io
+  - nfs-common
+  - open-iscsi
+  - multipath-tools
+  - lvm2
+  - cryptsetup
+
+base_packages_ubuntu2204:
+  - auditd
+  - containerd.io
+  - nfs-common
+  - open-iscsi
+  - multipath-tools
+  - lvm2
+  - cryptsetup
+
+# SSH hardening
+ssh_hardening:
+  permit_root_login: "no"
+  password_authentication: "no"
+  pubkey_authentication: "yes"
+  permit_empty_passwords: "no"
+  challenge_response_authentication: "no"
+  use_pam: "yes"
+  x11_forwarding: "no"
+  allow_tcp_forwarding: "no"
+  client_alive_interval: 300
+  client_alive_count_max: 2
+  max_auth_tries: 3
+  max_sessions: 2
+  login_grace_time: 30
+  banner: "/etc/issue.net"
+
+# Firewall - default deny inbound, explicit allow from network matrix
+# This is a template; actual rules generated from network-matrix/firewall-rules-generation.md
+firewall_default_policy: "drop"
+firewall_allowed_tcp_ports:
+  - 22      # SSH
+  - 6443    # Kubernetes API
+  - 2379    # etcd client
+  - 2380    # etcd peer
+  - 10250   # kubelet
+  - 10259   # kube-scheduler
+  - 10257   # kube-controller-manager
+  - 30000-32767  # NodePort range
+firewall_allowed_udp_ports:
+  - 8472    # VXLAN
+firewall_allowed_icmp:
+  - echo-request

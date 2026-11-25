@@ -1,0 +1,22 @@
+---
+# Repositories role - Internal package repository configuration
+# Configures DNF/APT to use internal mirrors only
+
+galaxy_info:
+  author: Platform Team
+  description: Internal package repository configuration for offline/restricted environments
+  license: MIT
+  min_ansible_version: "2.19"
+  platforms:
+    - name: OracleLinux
+      versions: ["9"]
+    - name: Ubuntu
+      versions: ["22.04", "24.04"]
+    - name: EL
+      versions: ["9"]
+  galaxy_tags:
+    - packaging
+    - repository
+    - offline
+
+dependencies: []
