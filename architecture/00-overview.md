@@ -1,5 +1,9 @@
 # Architecture Overview
 
+[Next step](02-deployment-topology.md)
+
+---
+
 ## Layers
 
 | Layer | Components | Failure impact |
@@ -7,7 +11,7 @@
 | Physical | Servers, PDUs, switches | Node loss; storage designed to tolerate |
 | Offline distribution | Harbor, Nexus, RPM/DEB mirrors, GitLab | New deployments blocked; running workloads unaffected |
 | Automation | Automation Management Server, Ansible, AWX, GitLab Runner | Changes blocked; workloads unaffected |
-| Identity & secrets | Keycloak, SSSD/AD, Vault, internal CA | Login blocked; workloads keep running |
+| Identity & secrets | Keycloak (broker), OIDC/LDAP federation, Vault, internal CA | Login blocked; workloads keep running |
 | Storage | Ceph MON/MGR/OSD/MDS/RGW, Rook operator | PVC IO blocks; pod restart loop |
 | Kubernetes | Control plane, etcd, CNI, CSI | Scheduling/API blocked; running pods keep IP |
 | GitOps | Argo CD, GitLab | New/changed deploys blocked; no auto-revert |
@@ -34,3 +38,6 @@ Rationale: `decisions/ADR-0010.md`, `decisions/ADR-0013.md`, `decisions/ADR-0025
 | nodeport | 30000-32767 or MetalLB pool 10.61.0.10-10.61.0.30 | PROVISIONAL |
 
 Verify every CIDR against the site plan before build. All ports: `network-matrix/network-communication-matrix.md`.
+
+
+[Next step](02-deployment-topology.md)

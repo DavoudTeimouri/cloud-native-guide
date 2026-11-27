@@ -17,8 +17,11 @@ provider "vsphere" {
   user           = var.vsphere_user
   password       = var.vsphere_password
   vsphere_server = var.vsphere_server
-  allow_unverified_ssl = true
 }
+# Trust the vCenter CA certificate on the host where Terraform runs so the
+# provider verifies the vCenter TLS certificate. Add the CA certificate to the
+# system trust store (e.g. /etc/ssl/certs on Linux) before running terraform.
+# Do not disable TLS verification to bypass a self-signed or internal CA.
 
 variable "vsphere_user"   { type = string }
 variable "vsphere_password" { type = string, sensitive = true }

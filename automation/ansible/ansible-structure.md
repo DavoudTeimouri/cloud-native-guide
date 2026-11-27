@@ -23,21 +23,14 @@ ansible/
 │   ├── base/                 # base OS, users, ssh, sudo
 │   ├── repositories/         # internal rpm/deb/pypi/helm
 │   ├── security/             # sysctl, sshd, firewall, audit
-│   ├── identity/             # sssd/realmd
+│   ├── identity/             # none: identity is application-level (ADR-0015)
 │   ├── monitoring/           # node_exporter, fluent-bit
 │   ├── containerd/           # runtime install and registry config
 │   ├── kubernetes/           # kubespray wrapper
 │   ├── ceph/                 # cephadm nodes
 │   ├── gpu/                  # driver, labels, taints
-│   ├── vault/                # vault server nodes
-│   └── vm/                   # VM configuration: base OS, repos, runtime after Terraform provision
+│   └── vault/                # vault server nodes
 └── playbooks/
-    ├── base.yml
-    ├── identity.yml
-    ├── containerd.yml
-    ├── kubernetes.yml
-    └── vm.yml                # configures VMs provisioned by Terraform (vSphere, libvirt, Proxmox, OpenStack)
-
 ```
 
 ## ansible.cfg
@@ -182,7 +175,7 @@ Each play targets a host group, so a partial run is possible with `--limit`.
 |---|---|
 | `base` | OS baseline, packages, users |
 | `security` | sysctl, sshd, firewall, audit |
-| `identity` | SSSD/realmd |
+| `identity` | not used: no host-level directory join (ADR-0015) |
 | `monitoring` | node_exporter, Fluent Bit |
 | `containerd` | Runtime and registry configuration |
 | `kubernetes` | Kubespray cluster.yml |

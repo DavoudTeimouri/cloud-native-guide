@@ -1,5 +1,9 @@
 # Deployment Topology (reference sizing, PROVISIONAL)
 
+[Previous step](00-overview.md) | [Next step](03-failure-domains.md)
+
+---
+
 ## Server roles
 
 | Role | Count (ref) | Min (prod) | Required? | Notes |
@@ -16,7 +20,7 @@
 | Identity (Keycloak) | 2 | 1 | Yes | external DB strongly preferred |
 | Vault | 3 | 1 | Yes | standalone, Raft integrated storage, offline unseal |
 | NTP / DNS | 2 | 1 | Yes | chrony; CoreDNS + external |
-| Load balancer | 2 | 1 | Yes | keepalived/haproxy pair or F5 |
+| Load balancer (edge) | 2 | 2 | Yes | HAProxy + Nginx + Keepalived via Docker Compose. Two nodes minimum, because a single edge node is a single point of failure for every client-facing endpoint |
 
 ## Consolidation risk
 
@@ -31,3 +35,6 @@ Consolidating roles onto few hosts lowers cost and raises blast radius. Explicit
 | etcd | Low latency to local SSD | Virtual disk + vCPU jitter risk; local SSD + local vCPUs |
 | Failure domain | Physical host | Host + hypervisor + storage array |
 | Upgrade | Firmware/BIOS in scope | BIOS out of scope; hypervisor tooling in scope |
+
+
+[Previous step](00-overview.md) | [Next step](03-failure-domains.md)

@@ -2,6 +2,14 @@
 
 The platform is production-ready only when the relevant tests pass. A test is PASSED only if it was executed and evidence is stored in `tests/acceptance/<test-id>/`. Never mark a test passed from documentation.
 
+## Canonical test registry
+
+The authoritative test definitions live in `requirements/test-registry.md`. This file is the acceptance gate: it lists every acceptance-test ID with its phase, owner, validation method, and current status. All IDs, statuses, and cross-references are generated from or synchronized with `requirements/test-registry.md`.
+
+**Total acceptance-test IDs: 86** (families A–G, M, P, S; all currently NOT RUN).
+
+**ID collision resolved:** `B-12` ("Cluster upgrade completes without data loss") in this document collided with `B-12` ("Internal registry only") in `requirements/validation-strategy.md`. The upgrade test is now **D-13**. Old→new mapping: `B-12 (upgrade) → D-13`. No test was deleted.
+
 ## Result table
 
 | ID | Test | Phase | Owner | Status | Evidence | Date | Tester |
@@ -51,7 +59,7 @@ The platform is production-ready only when the relevant tests pass. A test is PA
 | G-02 | MIG hard memory isolation | 12 | AI | NOT RUN | | | |
 | G-03 | LLM inference functional and benchmarked | 12 | AI | NOT RUN | | | |
 | G-04 | DCGM metrics present and scraped | 12 | AI | NOT RUN | | | |
-| B-12 | Cluster upgrade completes without data loss | 14 | Platform | NOT RUN | | | |
+| D-13 | Cluster upgrade completes without data loss | 14 | Platform | NOT RUN | | | |
 | B-13 | Full cluster restore from backup | 14 | SRE | NOT RUN | | | |
 | B-14 | Full environment rebuild with no internet | 14 | Platform | NOT RUN | | | |
 
@@ -121,7 +129,7 @@ Each test below states: procedure, expected result, evidence, pass/fail criterio
 |---|---|---|---|---|---|
 | E-03 | Snapshot a PVC, restore to a new PVC, compare file checksums | The checksums match | Checksum comparison | Identical = pass | Cluster |
 | B-13 | Restore the whole cluster from a Velero backup into a new cluster | The workloads return with their data | Velero restore log plus application checks | Restored = pass | Staging |
-| B-12 | Upgrade the cluster one minor version | The upgrade completes and the applications still work | Upgrade log plus post-check results | No data loss = pass | Staging |
+| D-13 | Upgrade the cluster one minor version | The upgrade completes and the applications still work | Upgrade log plus post-check results | No data loss = pass | Staging |
 
 ## Gate
 

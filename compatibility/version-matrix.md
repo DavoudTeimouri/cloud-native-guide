@@ -1,6 +1,6 @@
 # Version and Compatibility Matrix
 
-**Check date: 2026-10-17.** Every row was read from the official source on that date unless marked otherwise. Re-verify before each upgrade; this file is a snapshot, not a live feed.
+**Check date: 2026-10-26.** Every row was read from the official source on that date unless marked otherwise. Re-verify before each upgrade; this file is a snapshot, not a live feed.
 
 ## How to read this file
 
@@ -32,7 +32,7 @@ Refresh procedure: `scripts/fetch_versions.py`, `scripts/helm_chart_versions.py`
 | kube-vip | 1.0.3 | not adopted | Same README | VERIFIED | Alternative to keepalived for the control-plane VIP |
 | local-path-provisioner | 0.0.37 | not adopted | Same README | VERIFIED | Default SC; replaced by Ceph |
 | node-feature-discovery | 0.19.0 | optional | Same README | VERIFIED | |
-| Kubespray container image | quay.io/kubespray/kubespray:v2.31.0 (example in README) | UNVERIFIED | Kubespray release-2.32 README "Quick Start" | VERIFIED that the example tag is v2.31.0; the matching image tag for v2.32.0 must be confirmed from the quay.io tag list | Use the image only if the tag is confirmed |
+| Kubespray container image | `quay.io/kubespray/kubespray:v2.32.0` (digest `sha256:e5830014675eefe1e856cf2444e47635585a1aa6821777018ea4633cb411201d`, 135,647,134 bytes, pushed 2026-09-22) | v2.32.0 | `https://quay.io/api/v1/repository/kubespray/kubespray/tag/?specificTag=v2.32.0` | VERIFIED | The README's v2.31.0 is an example, not the release image; use the tag matching the Kubespray release. Pin by digest | Use the image only if the tag is confirmed |
 
 ### Kernel requirements (Kubespray release-2.32, `docs/operations/kernel-requirements.md`)
 
@@ -58,6 +58,8 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | MetalLB | v0.16.1 | 0.16.1 | `https://github.com/metallb/metallb/releases/tag/v0.16.1` | VERIFIED | Chart `metallb-0.16.1` from `https://metallb.github.io/metallb/charts/index.yaml` |
 | MetalLB (Kubespray-managed) | 0.13.9 | not adopted | Kubespray release-2.32 README | VERIFIED | Kubespray ships an older MetalLB; the platform installs its own chart instead |
 | NGINX Ingress Controller (F5) | 5.7.0 (chart nginx-ingress 2.8.0) | chart 2.8.0 | `https://github.com/nginx/kubernetes-ingress/releases` | VERIFIED | F5's commercial-grade controller. **This is the NGINX Ingress Controller, not the retired `kubernetes/ingress-nginx`** — see the retirement note below |
+| NGINX Gateway Fabric (F5) | 2.8.0 | 2.8.0 | `https://docs.nginx.com/nginx-gateway-fabric/overview/technical-specifications/` | VERIFIED | Gateway API conformant. Requires Kubernetes 1.32+. Gateway API 1.6.3 |
+| Envoy Gateway | v1.9.2 | v1.9.2 | `https://github.com/envoyproxy/gateway/releases` | VERIFIED | Gateway API implementation. v1.9 EOL 2027-02-14, v1.8 EOL 2026-11-08 |
 | kubernetes/ingress-nginx | v1.15.1 (chart 4.15.1) | **RETIRED — do not adopt** | `https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/` | VERIFIED | Retired March 2026. Read-only repositories, no further releases or security fixes. Artifacts remain available for existing deployments only |
 | Traefik | v3.7.16 | not adopted | `https://github.com/traefik/traefik/releases/tag/v3.7.16` | VERIFIED | Alternative ingress |
 | Gateway API | v1.6.3 | v1.6.3 | `https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.6.3` | VERIFIED | v1.7.0-rc.1 exists; do not pin a pre-release |
@@ -67,13 +69,13 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 
 | Component | Verified version | Pinned | Official source | Status | Notes |
 |---|---|---|---|---|---|
-| Ceph (upstream latest release) | v21.2.0 | UNVERIFIED | `https://github.com/ceph/ceph/releases` | VERIFIED | Tags v21.3.0 / v21.2.0 / v21.1.2 exist; the "latest" release feed and the tag list disagree — confirm before pinning |
-| Ceph Squid (active) | 19.2.7 | UNVERIFIED | `https://docs.ceph.com/en/latest/releases/` | VERIFIED | EOL estimated 2026-10-31 — near end of life, do not start a new deployment on Squid |
+| Ceph (upstream latest active release) | v20.2.4 (Tentacle) | UNVERIFIED | `https://docs.ceph.com/en/latest/releases/` | VERIFIED | The official releases page lists Tentacle (v20.2.*) and Squid (v19.2.*) as active; GitHub tags carry v21.3.0 but no v21 release is listed in the official release tree, so a v21 pin has no documented support status. Do not pin v21 |
+| Ceph Squid (active) | 19.2.7 | UNVERIFIED | `https://docs.ceph.com/en/latest/releases/squid/` | VERIFIED | 19.2.7 is the newest Squid patch. EOL 2026-10-31 — end of life, do not start a new deployment on Squid |
 | Ceph Tentacle (active) | 20.2.4 | candidate | Same page | VERIFIED | EOL estimated 2027-06-01. The current long-lived target |
 | Ceph Reef | 18.2.8 | not adopted | Same page | VERIFIED | End of life |
 | Rook | v1.21.0 | v1.21.0 | `https://github.com/rook/rook/releases/tag/v1.21.0` | VERIFIED | The Ceph version shipped by this Rook release must be read from the release notes before setting `cephVersion.image`; that pairing is the single most common cause of a failed Rook upgrade |
-| Rook Helm chart | UNVERIFIED | UNVERIFIED | Rook release page | UNVERIFIED | Procedure: read the chart version from the Rook release notes for v1.21.0, then confirm against `https://charts.rook.io/release/index.yaml` |
-| ceph-csi | UNVERIFIED | UNVERIFIED | `https://quay.io/cephcsi` | UNVERIFIED | Procedure: read the cephcsi version from the pinned Rook release's `cluster.yaml` example, then confirm the image tag exists in the registry |
+| Rook Helm chart | 1.21.0 for Rook v1.21.0; 1.21.1 is the newest chart (app v1.21.1) | 1.21.0 | `https://charts.rook.io/release/index.yaml` | VERIFIED | Chart version tracks the Rook release; keep chart and Rook release on the same minor |
+| ceph-csi | v3.18.1 | see note | `https://github.com/ceph/ceph-csi/releases/tag/v3.18.1` | VERIFIED | Pinned by the Rook release, not independently: use the cephcsi image tag named in Rook v1.21.0's `cluster.yaml`. v3.18.1 is the newest upstream release |
 | Velero | v1.18.4 | v1.18.4 | `https://github.com/velero-io/velero/releases/tag/v1.18.4` | VERIFIED | Chart 12.2.1 (app 1.18.2) from `https://vmware-tanzu.github.io/helm-charts/index.yaml` |
 
 ## Management, GitOps, identity, secrets
@@ -145,6 +147,17 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | DCGM Exporter | 4.8.4 | `https://github.com/NVIDIA/dcgm-exporter/releases` | VERIFIED | GPU metrics; version is tied to the GPU Operator release |
 | Vault Kubernetes auth (helm) | v1.7.6 | `https://github.com/hashicorp/vault-k8s/releases` | VERIFIED | Vault injector and agent chart |
 
+## Platform add-ons
+
+| Component | Version | Pinned | Official source | Status | Notes |
+|---|---|---|---|---|---|
+| external-dns | 1.23.0 | chart 1.23.0 | `https://github.com/kubernetes-sigs/external-dns/releases` | VERIFIED | RFC2136 against the internal DNS, or the CoreDNS etcd provider. No public provider in an air-gapped site |
+| Descheduler | v0.37.0 | v0.37.0 | `https://github.com/kubernetes-sigs/descheduler/releases` | VERIFIED | Run in DryRun for one week before enabling eviction |
+| Vertical Pod Autoscaler | 0.15.0 | chart 0.15.0 | `https://github.com/kubernetes/autoscaler/releases` | VERIFIED | Recommendation mode by default. Auto mode restarts pods and is not for stateful workloads |
+| Metrics Server | 3.14.0 | chart 3.14.0 | `https://github.com/kubernetes-sigs/metrics-server/releases` | VERIFIED | Required by HPA and by the VPA recommender |
+| OpenTelemetry Operator | v0.161.0 | v0.161.0 | `https://github.com/open-telemetry/opentelemetry-operator/releases` | VERIFIED | Collector only. Traces go to Tempo, not to a second metrics pipeline |
+| Trivy Operator | v0.36.0 | v0.36.0 | `https://github.com/aquasecurity/trivy-operator/releases` | VERIFIED | Vulnerability and config scans as CRDs. Needs the internal DB mirror or offline mode |
+
 ## End-of-life and retirement watchlist
 
 | Component | Status | Date | Source | Action |
@@ -165,13 +178,14 @@ For Kubernetes >= 1.32, the recommended 4.x LTS kernel is 4.19; any 5.x or 6.x i
 | NVIDIA GPU Operator | 26.7.2 | 26.7.2 | `https://github.com/NVIDIA/gpu-operator/releases` | VERIFIED | Release branch 26.7 |
 | NVIDIA k8s-device-plugin | v0.20.1 | v0.20.1 | `https://github.com/NVIDIA/k8s-device-plugin/releases` | VERIFIED | |
 | NVIDIA Container Toolkit | v1.20.1 | v1.20.1 | `https://github.com/NVIDIA/nvidia-container-toolkit/releases` | VERIFIED | Must be compatible with the installed driver |
-| NVIDIA data center driver branch | R580 (LTSB), R595 (production) | UNVERIFIED | `https://docs.nvidia.com/datacenter/tesla/drivers/latest/supported-drivers-and-cuda-toolkit-versions.html` | VERIFIED for the branch table | R535 EOL June 2026, R580 EOL June 2028, R595 EOL March 2027, R610 EOL August 2026. Pin an exact patch release after the matrix check |
+| NVIDIA data center driver branch | R580 LTSB (EOL June 2028), R595 Production (EOL March 2027), R610 New Feature (EOL August 2026), R535 LTSB (EOL June 2026) | UNVERIFIED | `https://docs.nvidia.com/datacenter/tesla/drivers/latest/supported-drivers-and-cuda-toolkit-versions.html` | VERIFIED for the branch table | R535 EOL June 2026, R580 EOL June 2028, R595 EOL March 2027, R610 EOL August 2026. Pin an exact patch release after the matrix check |
 | NVIDIA driver, latest listed release | 595.71.05 (Linux) | UNVERIFIED | `https://docs.nvidia.com/datacenter/tesla/tesla-release-notes-595-71-05/index.html` | VERIFIED | Released 2026-04-28, CUDA 13.x |
-| CUDA Toolkit | 13.x with R595; 12.x supported by R580 | UNVERIFIED | Same driver matrix page | VERIFIED | Max CUDA major without forward-compat: CUDA 12 for R535, CUDA 13 for R580/R595/R610 |
+| CUDA Toolkit | 13.x with R580/R595/R610; 12.x with R535 | UNVERIFIED | Same driver matrix page, Table 2 | VERIFIED | Max CUDA major without forward-compat: CUDA 12 for R535, CUDA 13 for R580/R595/R610 |
 | H100/H200 minimum driver for MIG | CUDA 12, R450 (>= 450.80.02) or later | UNVERIFIED for deploy | NVIDIA MIG User Guide, supported GPUs table | VERIFIED | A production branch far above this minimum is required in practice |
 | vLLM | v0.32.0 | UNVERIFIED for deploy | `https://github.com/vllm-project/vllm/releases` | VERIFIED | v0.32.1rc0 exists; do not pin a pre-release |
+| Istio | 1.31.3 | UNVERIFIED for deploy | `https://github.com/istio/istio/releases` | VERIFIED | Only if the service mesh threshold in ADR-0009 is met |
 | Triton Inference Server | 2.73.0 (NGC 26.09) | UNVERIFIED | `https://github.com/triton-inference-server/server/releases` | VERIFIED | |
-| llama.cpp | b11819 (build tag) | UNVERIFIED | `https://github.com/ggml-org/llama.cpp/releases` | VERIFIED that the feed publishes build tags rather than semantic versions | Pin by build tag or by the container image digest; there is no semver to pin |
+| llama.cpp | b11922 (newest build tag); semver tags also published (v0.7.0) | UNVERIFIED | `https://github.com/ggml-org/llama.cpp/releases` | VERIFIED | Releases carry both build tags (bNNNNN) and semver tags, so the feed is ambiguous; pin by container image digest | Pin by build tag or by the container image digest; there is no semver to pin |
 | llama.cpp formats | GGUF (Q4/Q5/Q8 and K-quants) | n/a | llama.cpp documentation | VERIFIED | Not a version claim |
 
 ### GPU/CUDA architecture support (verified 2026-10-17)
@@ -207,6 +221,17 @@ Full detail and the deployment model: `kubespray/multi-version-support.md`. Extr
 
 Each release ships with its own pinned component versions. A cluster is bound to the release that built it. The Ansible and Python windows differ per release, so each release gets its own virtualenv.
 
+## External load balancer (edge)
+
+| Component | Verified version | Pinned | Official source | Status | Notes |
+|---|---|---|---|---|---|
+| Nginx (OSS) | 1.31.8 | 1.31.8 | `https://github.com/nginx/nginx/releases` | VERIFIED | Ubuntu noble ships 1.24.0 |
+| HAProxy | 3.2.26 (3.2 branch) | 3.2.26 | `https://www.haproxy.org/download/3.2/src/` | VERIFIED | Ubuntu noble ships 2.8.5. The 3.5 tags in the release feed are development builds, not stable |
+| Keepalived | 2.4.3 | 2.4.3 | `https://github.com/acassen/keepalived/releases` | VERIFIED | Ubuntu noble ships 2.2.8 |
+| Docker Compose (plugin) | v5.6.1 | v5.6.1 | `https://github.com/docker/compose/releases` | VERIFIED | Edge deployment and CI |
+| Docker Engine | 29.9.2 (newest stable) | UNVERIFIED | `https://github.com/moby/moby/releases` | VERIFIED | 26.x is the documented floor in `storage/ceph/cephadm-deployment.md`; pin the newest stable after a node-image test |
+| Compose file schema | `name` top-level key, no `version` key | n/a | `https://github.com/compose-spec/compose-spec/blob/main/spec.md` | VERIFIED | The `version` field is obsolete in the Compose specification |
+
 ## Component-to-component compatibility constraints that must hold
 
 | Constraint | Rule | Verification |
@@ -222,6 +247,10 @@ Each release ships with its own pinned component versions. A cluster is bound to
 | MIG -> driver | H100/H200 need driver >= 450.80.02 on a CUDA 12 branch | NVIDIA MIG User Guide |
 | vLLM -> driver/CUDA | vLLM must run on a CUDA version supported by the installed driver branch | vLLM install docs for the pinned release |
 | GitLab -> runner | The runner major/minor must be supported by the GitLab version | GitLab runner docs for the pinned version |
+| Keepalived -> VRRP | Unicast peers need the peer addresses reachable on the interface named in `interface`. Multicast 224.0.0.18 must be confirmed with the network team | `https://www.keepalived.org/documentation/keepalived-conf/` |
+| Nginx -> host | `reuseport` needs Linux 3.9+; `net.ipv4.ip_nonlocal_bind=1` is needed to bind the wildcard address and hold it across a VIP move | Nginx core module docs, Kubespray kernel requirements |
+| HAProxy -> host | The stats socket and the reload procedure (`USR2` then `USR1`) must be writable by the container user | HAProxy configuration manual |
+| Docker Compose -> edge containers | `network_mode: host` plus `NET_ADMIN`, `NET_BROADCAST`, `NET_RAW`, `SYS_MODULE` for keepalived; `pid: host` for correct VRRP state handling | Compose specification, keepalived documentation |
 | Keycloak -> PostgreSQL | The Keycloak version must support the PostgreSQL major version | Keycloak system requirements for the pinned version |
 | Kubespray -> OS | The OS must be in the Kubespray release's supported OS list | Kubespray release README |
 
