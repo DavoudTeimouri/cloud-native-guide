@@ -45,6 +45,9 @@ plugins:
 
 nav:
   - Home: index.md
+  - Deploy:
+      - Choose OS: operating-systems/os-selection-guide.md
+      - Choose Cluster Type: deploy/choose-cluster-type.md
   - Overview:
       - Overview: architecture/00-overview.md
       - Logical Diagram: architecture/01-logical-diagram.md
@@ -169,6 +172,7 @@ nav:
       - Port Requirements: network-matrix/port-requirements.md
       - Cloud-Native DMZ: network-matrix/cloud-native-dmz.md
   - Operating Systems:
+      - 'Phase 0: OS Selection Guide': operating-systems/os-selection-guide.md
       - Host Configuration: operating-systems/host-configuration.md
       - Oracle Linux Baseline: operating-systems/oracle-linux/baseline.md
       - Ubuntu Baseline: operating-systems/ubuntu/baseline.md

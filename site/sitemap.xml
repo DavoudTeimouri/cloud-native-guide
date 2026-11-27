@@ -237,6 +237,10 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/choose-cluster-type/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
@@ -849,11 +853,79 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/operating-systems/os-selection-guide/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/operating-systems/oracle-linux/baseline/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/operating-systems/ubuntu/baseline/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/BLOCKERS/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/DAILY-EXECUTION-LOG/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/DECISION-LOG/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/NEXT-SESSION/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/PROJECT-STATE/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/TASK-INVENTORY/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/agent-delegation/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/blockers-and-decisions/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/executive-summary/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/git-and-commit-state/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/next-session-plan/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/remaining-inventory/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/review-report/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/tasks-completed/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/technical-changes/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/validation-results/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
