@@ -1,0 +1,32 @@
+- name: Run backup and DR verification drills
+  hosts: backup_nodes
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  roles:
+    - role: velero
+  tasks:
+    - name: Create Velero backup of application namespaces
+      community.kubernetes.k8s:
+        api_version: velero.io/v1
+        kind: Backup
+        name: "dr-drill-{{ ansible_date_time.iso8601_basic }}"
+        namespace: velero
+        definition:
+          spec:
+            includedNamespaces:
+              - default
+            ttl: 24h
+      register: velero_backup
+      changed_when: velero_backup.changed
+    - name: Verify Velero backup completed
+      kubernetes.core.k8s_info:
+        api_version: velero.io/v1
+        kind: Backup
+        namespace: velero
+        name: "{{ velero_backup.resource.metadata.name }}"
+      register: velero_backup_info
+      until: velero_backup_info.resources[0].status.phase == 'Completed'
+      retries: 30
+      delay: 10

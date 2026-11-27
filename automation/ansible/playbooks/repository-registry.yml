@@ -1,0 +1,21 @@
+- name: Deploy repository and registry services (Harbor / Nexus)
+  hosts: repo_registry_servers
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+    - group_vars/all/repository.yml
+  roles:
+    - role: repository-registry
+  post_tasks:
+    - name: Verify registry HTTPS endpoint
+      ansible.builtin.uri:
+        url: "https://{{ registry_addr }}/api/v2.0/projects"
+        method: GET
+        user: "{{ registry_user }}"
+        password: "{{ registry_pass }}"
+        validate_certs: no
+        return_content: yes
+      register: registry_health
+      changed_when: false
+      failed_when: registry_health.status != 200

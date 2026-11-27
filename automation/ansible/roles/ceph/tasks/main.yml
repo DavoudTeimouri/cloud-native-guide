@@ -1,0 +1,67 @@
+---
+- name: Install Ceph packages
+  ansible.builtin.package:
+    name:
+      - ceph
+      - ceph-common
+      - ceph-mds
+      - ceph-mon
+      - ceph-mgr
+      - ceph-osd
+      - ceph-radosgw
+    state: present
+
+- name: Create Ceph configuration directory
+  ansible.builtin.file:
+    path: /etc/ceph
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Generate ceph.conf
+  ansible.builtin.copy:
+    dest: /etc/ceph/ceph.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      [global]
+      fsid = {{ ceph_fsid }}
+      mon_initial_members = {{ ceph_mon_initial_members | join(',') }}
+      mon_host = {{ ceph_mon_host | join(',') }}
+      cluster_network = {{ ceph_cluster_network }}
+      public_network = {{ ceph_public_network }}
+      osd_pool_default_size = {{ ceph_pool_default_size }}
+      osd_pool_default_min_size = {{ ceph_pool_default_min_size }}
+      osd_crush_chooseleaf_type = 1
+      auth_cluster_required = cephx
+      auth_service_required = cephx
+      auth_client_required = cephx
+      public_addr = "{{ ansible_default_ipv4.address }}"
+      cluster_addr = "{{ ansible_default_ipv4.address }}"
+
+      [mon]
+      mon allow pool delete = true
+
+      [osd]
+      osd crush chooseleaf type = 1
+
+      [mgr]
+      mgr modules = prometheus dashboard
+
+- name: Deploy Ceph monitor on first MON node
+  community.general.ceph:
+    daemon: mon
+    cluster: ceph
+    config_overrides:
+      fsid: "{{ ceph_fsid }}"
+  when: inventory_hostname in groups['ceph_mons'] | default([])
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: Verify Ceph health
+  ansible.builtin.command: ceph -s
+  register: ceph_status
+  changed_when: false
+  delegate_to: "{{ groups['ceph_mons'][0] }}"
+  run_once: true

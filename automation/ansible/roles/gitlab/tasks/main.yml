@@ -1,0 +1,61 @@
+---
+- name: Install GitLab via Docker Compose
+  ansible.builtin.package:
+    name:
+      - docker-ce
+      - docker-compose
+    state: present
+
+- name: Configure GitLab directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop:
+    - /opt/gitlab/config
+    - /opt/gitlab/data
+    - /opt/gitlab/logs
+
+- name: Write GitLab docker-compose.yml
+  ansible.builtin.copy:
+    dest: /opt/gitlab/docker-compose.yml
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      version: '3.8'
+
+      services:
+        gitlab:
+          image: {{ registry_host }}/gitlab/gitlab-ee:{{ gitlab_version }}
+          container_name: gitlab
+          hostname: {{ gitlab_host }}
+          environment:
+            GITLAB_OMNIBUS_CONFIG: |
+              external_url 'https://{{ gitlab_host }}'
+              gitlab_rails['initial_root_password'] = '{{ vault_gitlab_root_password | default("change_me") }}'
+              nginx['redirect_http_to_https'] = true
+              nginx['ssl_certificate'] = '/etc/gitlab/ssl/{{ gitlab_host }}.crt'
+              nginx['ssl_certificate_key'] = '/etc/gitlab/ssl/{{ gitlab_host }}.key'
+          volumes:
+            - /opt/gitlab/config:/etc/gitlab
+            - /opt/gitlab/data:/var/opt/gitlab
+            - /opt/gitlab/logs:/var/log/gitlab
+          ports:
+            - "80:80"
+            - "443:443"
+            - "22:22"
+          networks:
+            - gitlab
+          restart: always
+
+      networks:
+        gitlab:
+          driver: bridge
+
+- name: Start GitLab stack
+  community.general.docker_compose:
+    project_src: /opt/gitlab
+    state: present

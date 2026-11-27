@@ -1,0 +1,23 @@
+---
+- name: Install Velero for backup and DR
+  ansible.builtin.command:
+    cmd: "velero install --provider aws --prefix {{ velero_prefix }} --bucket {{ velero_bucket }} --secret-file ./credentials-velero --backup-location-config region=minio,s3ForcePathStyle='true',s3Url=http://{{ rgw_endpoint }}"
+    creates: /usr/local/bin/velero
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+  when: ansible_os_family != "Windows"
+
+- name: Configure Velero schedule for application namespaces
+  community.kubernetes.k8s:
+    api_version: velero.io/v1
+    kind: Schedule
+    name: "daily-backup"
+    namespace: velero
+    definition:
+      spec:
+        schedule: "0 2 * * *"
+        template:
+          spec:
+            includedNamespaces:
+              - default
+            ttl: 720h

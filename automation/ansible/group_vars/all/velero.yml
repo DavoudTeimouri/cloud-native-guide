@@ -1,0 +1,7 @@
+velero_version: "1.14.0"
+velero_prefix: "velero"
+velero_bucket: "velero-backups"
+rgw_endpoint: "rgw.internal:7480"
+velero_velero_namespace: velero
+velero_backup_ttl: "720h"
+velero_schedule: "0 2 * * *"

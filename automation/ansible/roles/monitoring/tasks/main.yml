@@ -1,0 +1,100 @@
+---
+- name: Install Prometheus, Grafana, Alertmanager packages
+  ansible.builtin.package:
+    name:
+      - prometheus
+      - grafana
+      - alertmanager
+      - prometheus-node-exporter
+    state: present
+
+- name: Configure Prometheus scrape targets
+  ansible.builtin.copy:
+    dest: /etc/prometheus/prometheus.yml
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      global:
+        scrape_interval: 15s
+        evaluation_interval: 15s
+
+      scrape_configs:
+        - job_name: 'prometheus'
+          static_configs:
+            - targets: ['localhost:9090']
+
+        - job_name: 'node-exporter'
+          static_configs:
+            - targets:
+              {% for host in groups['all'] %}
+              - '{{ hostvars[host]['ansible_host'] }}:9100'
+              {% endfor %}
+
+        - job_name: 'kubernetes-apiservers'
+          kubernetes_sd_configs:
+            - role: endpoints
+          scheme: https
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            insecure_skip_verify: true
+          authorization:
+            credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+        - job_name: 'kubernetes-nodes'
+          kubernetes_sd_configs:
+            - role: node
+          scheme: https
+          tls_config:
+            ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            insecure_skip_verify: true
+          authorization:
+            credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+        - job_name: 'kubernetes-pods'
+          kubernetes_sd_configs:
+            - role: pod
+
+- name: Configure Alertmanager routing
+  ansible.builtin.copy:
+    dest: /etc/alertmanager/alertmanager.yml
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      global:
+        smtp_smarthost: 'smtp.internal:25'
+        smtp_from: 'alertmanager@internal'
+
+      route:
+        group_by: ['alertname']
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 4h
+        receiver: 'platform-team'
+        routes:
+          - match:
+              severity: critical
+            receiver: 'platform-team'
+          - match:
+              service: ceph
+            receiver: 'storage-team'
+
+      receivers:
+        - name: 'platform-team'
+          email_configs:
+            - to: 'platform-team@internal'
+        - name: 'storage-team'
+          email_configs:
+            - to: 'storage-team@internal'
+
+- name: Enable and start monitoring services
+  ansible.posix.service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - prometheus
+    - grafana
+    - alertmanager
+    - prometheus-node-exporter

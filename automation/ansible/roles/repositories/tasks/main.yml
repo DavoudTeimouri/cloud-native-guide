@@ -1,0 +1,36 @@
+---
+- name: Configure internal OS package repositories
+  ansible.builtin.copy:
+    dest: /etc/yum.repos.d/internal.repo
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      [internal-base]
+      name=Internal Base Repository
+      baseurl={{ yum_repo }}
+      enabled=1
+      gpgcheck=0
+      priority=1
+
+      [internal-updates]
+      name=Internal Updates Repository
+      baseurl={{ yum_repo }}/updates
+      enabled=1
+      gpgcheck=0
+      priority=1
+
+- name: Configure internal Ubuntu repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/internal.list
+    owner: root
+    group: root
+    mode: "0644"
+    content: "deb {{ ubuntu_repo }} {{ ansible_distribution_release }} main restricted universe multiverse"
+  when: ansible_os_family == "Debian"
+
+- name: Ensure internal mirrors are used exclusively
+  ansible.builtin.lineinfile:
+    path: /etc/dnf/dnf.conf
+    line: "mirrorlist=0"
+    create: yes

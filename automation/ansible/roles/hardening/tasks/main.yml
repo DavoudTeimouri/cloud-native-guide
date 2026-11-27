@@ -1,0 +1,60 @@
+---
+- name: Apply OS security hardening baseline
+  ansible.builtin.package:
+    name:
+      - aide
+      - fail2ban
+      - auditd
+      - rsyslog
+    state: present
+
+- name: Disable unused filesystems
+  ansible.builtin.modprobe:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - cramfs
+    - freevxfs
+    - jffs2
+    - hfs
+    - hfsplus
+    - squashfs
+    - udf
+
+- name: Configure SSH hardening
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "{{ item.key }}"
+    line: "{{ item.key }} {{ item.value }}"
+  loop:
+    - { key: 'PermitRootLogin', value: 'no' }
+    - { key: 'PasswordAuthentication', value: 'no' }
+    - { key: 'X11Forwarding', value: 'no' }
+    - { key: 'MaxAuthTries', value: '3' }
+    - { key: 'ClientAliveInterval', value: '300' }
+    - { key: 'ClientAliveCountMax', value: '0' }
+  notify: restart sshd
+
+- name: Set restrictive kernel parameters
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+    reload: yes
+  loop:
+    - { key: 'net.ipv4.ip_forward', value: '0' }
+    - { key: 'net.ipv4.conf.all.send_redirects', value: '0' }
+    - { key: 'net.ipv4.conf.default.send_redirects', value: '0' }
+    - { key: 'net.ipv4.conf.all.accept_source_route', value: '0' }
+    - { key: 'net.ipv4.conf.default.accept_source_route', value: '0' }
+    - { key: 'net.ipv4.conf.all.accept_redirects', value: '0' }
+    - { key: 'net.ipv4.conf.default.accept_redirects', value: '0' }
+    - { key: 'net.ipv4.conf.all.secure_redirects', value: '0' }
+    - { key: 'net.ipv4.conf.default.secure_redirects', value: '0' }
+    - { key: 'net.ipv4.ipv6.conf.all.disable_ipv6', value: '1' }
+
+- name: Ensure auditd is enabled
+  ansible.posix.service:
+    name: auditd
+    state: started
+    enabled: yes

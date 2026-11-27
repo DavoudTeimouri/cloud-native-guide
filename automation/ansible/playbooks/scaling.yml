@@ -1,0 +1,26 @@
+- name: Scale infrastructure (add nodes to existing clusters)
+  hosts: localhost
+  become: no
+  vars_files:
+    - group_vars/all/main.yml
+  vars:
+    scale_target: "{{ lookup('env', 'SCALE_TARGET') | default('k8s-workers') }}"
+  tasks:
+    - name: Provision new nodes via Terraform
+      community.general.terraform:
+        project_path: "../terraform"
+        state: present
+        variables:
+          target_cluster: "{{ scale_target }}"
+          node_count: "{{ lookup('env', 'NODE_COUNT') | default(1) | int }}"
+      register: tf_result
+    - name: Add new nodes to Ansible inventory
+      ansible.builtin.add_host:
+        name: "{{ item }}"
+        groups: k8s_nodes
+        ansible_host: "{{ hostvars[item]['ansible_host'] }}"
+      loop: "{{ tf_result.outputs.new_node_ips.value }}"
+    - name: Apply OS baseline to new nodes
+      ansible.builtin.import_playbook: playbooks/base.yml
+    - name: Join new nodes to Kubernetes cluster
+      ansible.builtin.import_playbook: playbooks/kubernetes.yml

@@ -1,0 +1,16 @@
+---
+kubernetes_version: "1.29.3"
+kubespray_version: "release-2.32"
+kubespray_dir: /opt/kubespray
+kubespray_requirements: "{{ kubespray_dir }}/requirements.txt"
+kubespray_venv: /opt/kubespray/venv
+kubespray_inventory_dir: /opt/kubespray/inventory/production
+kubespray_inventory_src: files/inventory/production/hosts.yaml
+kubespray_artifact_dir: /opt/kubespray/artifacts
+kube_network_plugin: calico
+kube_network_plugin_mtu: 1450
+kube_service_addresses: 10.233.0.0/18
+kube_pods_subnet: 10.233.64.0/18
+kube_api_server_address: 10.10.0.10
+etcd_deployment_type: stacked
+kubeproof_enabled: true

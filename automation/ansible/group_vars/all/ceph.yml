@@ -1,0 +1,19 @@
+---
+ceph_version: "18.2.0"
+ceph_fsid: "{{ vault_ceph_fsid }}"
+ceph_mon_initial_members:
+  - ceph-mon-1
+  - ceph-mon-2
+  - ceph-mon-3
+ceph_mon_host:
+  - 10.10.0.201
+  - 10.10.0.202
+  - 10.10.0.203
+ceph_cluster_network: 10.10.40.0/24
+ceph_public_network: 10.10.10.0/24
+ceph_pool_default_size: 3
+ceph_pool_default_min_size: 2
+ceph_dashboard_enabled: true
+ceph_dashboard_port: 8443
+ceph_rgw_enabled: true
+ceph_rgw_endpoint: rgw.internal:8080

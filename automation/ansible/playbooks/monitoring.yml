@@ -1,0 +1,17 @@
+- name: Deploy monitoring stack (Prometheus, Grafana, Alertmanager, Loki)
+  hosts: monitoring_nodes
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+    - group_vars/all/monitoring.yml
+  roles:
+    - role: monitoring
+  post_tasks:
+    - name: Verify Prometheus is healthy
+      ansible.builtin.uri:
+        url: "http://{{ monitoring_host }}:9090/-/healthy"
+        return_content: yes
+      register: prometheus_health
+      changed_when: false
+      failed_when: "'Prometheus is Healthy' not in prometheus_health.content"

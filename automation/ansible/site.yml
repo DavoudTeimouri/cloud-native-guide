@@ -4,5 +4,20 @@
 - name: Install and configure the container runtime
   ansible.builtin.import_playbook: playbooks/containerd.yml
 
+- name: Deploy repositories and registries
+  ansible.builtin.import_playbook: playbooks/repository-registry.yml
+
+- name: Deploy load balancers
+  ansible.builtin.import_playbook: playbooks/load-balancer.yml
+
 - name: Deploy Kubernetes with Kubespray
   ansible.builtin.import_playbook: playbooks/kubernetes.yml
+
+- name: Deploy software-defined storage (Ceph)
+  ansible.builtin.import_playbook: playbooks/sds-ceph.yml
+
+- name: Deploy monitoring stack
+  ansible.builtin.import_playbook: playbooks/monitoring.yml
+
+- name: Deploy GitLab
+  ansible.builtin.import_playbook: playbooks/gitlab.yml

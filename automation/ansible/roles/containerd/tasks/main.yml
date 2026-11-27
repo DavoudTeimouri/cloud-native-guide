@@ -1,0 +1,30 @@
+---
+- name: Install containerd package
+  ansible.builtin.package:
+    name: containerd
+    state: present
+
+- name: Configure containerd with internal registry mirrors
+  ansible.builtin.copy:
+    dest: /etc/containerd/config.toml
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      version = 2
+      [plugins."io.containerd.grpc.v1.cri".registry]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+          [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+            endpoint = ["https://{{ registry_addr }}"]
+          [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{ registry_addr }}"]
+            endpoint = ["https://{{ registry_addr }}"]
+            [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{ registry_addr }}".header]
+              Authorization = ["Basic {{ (registry_user + ':' + registry_pass) | b64encode }}"]
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+        options = { SystemdCgroup = true }
+
+- name: Ensure containerd service is running and enabled
+  ansible.posix.service:
+    name: containerd
+    state: started
+    enabled: yes

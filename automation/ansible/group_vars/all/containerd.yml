@@ -1,0 +1,10 @@
+---
+containerd_version: "1.7.0"
+containerd_config_dir: /etc/containerd
+containerd_systemd_cgroup: true
+containerd_registries_mirrors:
+  - prefix: docker.io
+    mirrors:
+      - host: https://registry-1.docker.io
+        capabilities: ["pull", "resolve"]
+        skip_verify: false

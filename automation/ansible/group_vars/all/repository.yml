@@ -1,0 +1,7 @@
+---
+harbor_version: "2.10.0"
+nexus_version: "3.66.0"
+registry_storage_backend: "filesystem"
+registry_storage_path: /opt/registry/data
+registry_tls_cert: /opt/registry/certs/harbor.internal.crt
+registry_tls_key: /opt/registry/certs/harbor.internal.key

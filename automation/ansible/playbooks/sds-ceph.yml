@@ -1,0 +1,17 @@
+- name: Deploy software-defined storage (Ceph)
+  hosts: ceph_nodes
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+    - group_vars/all/ceph.yml
+  roles:
+    - role: ceph
+  post_tasks:
+    - name: Verify Ceph cluster health
+      ansible.builtin.command: ceph -s
+      register: ceph_health
+      changed_when: false
+      delegate_to: "{{ groups['ceph_nodes'][0] }}"
+      run_once: true
+      failed_when: "'HEALTH_OK' not in ceph_health.stdout and 'HEALTH_WARN' not in ceph_health.stdout"

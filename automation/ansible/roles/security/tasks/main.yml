@@ -1,0 +1,45 @@
+---
+- name: Apply firewall rules (nftables)
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  loop:
+    - ssh
+    - dns
+    - ntp
+  when: firewall_backend == 'firewalld'
+
+- name: Configure nftables rules directly
+  ansible.builtin.copy:
+    dest: /etc/nftables.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      flush ruleset
+
+      table inet filter {
+        chain input {
+          type filter hook input priority 0; policy drop;
+          iifname "lo" accept
+          ct state established,related accept
+          icmp type echo-request accept
+          udp dport { 53, 123, 6789, 3300, 6800, 7300 } accept
+          tcp dport { 22, 6443, 80, 443, 9090, 3000 } accept
+        }
+        chain forward {
+          type filter hook forward priority 0; policy drop;
+          ct state established,related accept
+        }
+        chain output {
+          type filter hook output priority 0; policy accept;
+        }
+      }
+
+- name: Enable and start nftables
+  ansible.posix.service:
+    name: nftables
+    state: started
+    enabled: yes

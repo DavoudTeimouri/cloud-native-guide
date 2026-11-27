@@ -1,0 +1,7 @@
+---
+gitlab_version: "17.0.0"
+gitlab_host: gitlab.internal
+gitlab_external_url: "https://gitlab.internal"
+gitlab_root_password: "{{ vault_gitlab_root_password }}"
+gitlab_registries_enabled: true
+gitlab_container_registry: "{{ registry_host }}"

@@ -1,0 +1,25 @@
+- name: Install and configure container runtime (containerd)
+  hosts: k8s_control_plane:k8s_nodes:ceph_nodes:lb_nodes
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+    - group_vars/all/containerd.yml
+  pre_tasks:
+    - name: Ensure containerd package prerequisites
+      ansible.builtin.package:
+        name:
+          - containerd
+          - containerd.io
+          - conntrack
+          - ebtables
+          - ethtool
+        state: present
+  roles:
+    - role: containerd
+  post_tasks:
+    - name: Verify containerd is active
+      ansible.builtin.command: ctr version
+      register: containerd_version
+      changed_when: false
+      failed_when: "'containerd' not in containerd_version.stdout"

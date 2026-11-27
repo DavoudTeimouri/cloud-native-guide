@@ -1,0 +1,29 @@
+- name: Perform controlled upgrades across infrastructure components
+  hosts: all
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  vars:
+    upgrade_target: "{{ lookup('env', 'UPGRADE_TARGET') | default('all') }}"
+  pre_tasks:
+    - name: Verify backup exists before upgrade
+      ansible.builtin.assert:
+        that:
+          - lookup('env', 'BACKUP_CONFIRMED') | bool == true
+        msg: "BACKUP_CONFIRMED=true is required before running upgrades. See 10-upgrade-and-lifecycle-management/10-07-compat-order-backup-rollback.md."
+  roles:
+    - role: hardening
+  tasks:
+    - name: Upgrade OS packages (maintenance window)
+      ansible.builtin.package:
+        name: "*"
+        state: latest
+      when: upgrade_target == 'all' or upgrade_target == 'os'
+      notify: reboot if needed
+  handlers:
+    - name: reboot if needed
+      ansible.builtin.reboot:
+        connect_timeout: 300
+        reboot_timeout: 600
+        test_command: uptime

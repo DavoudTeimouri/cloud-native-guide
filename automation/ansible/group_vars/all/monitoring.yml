@@ -1,0 +1,8 @@
+---
+prometheus_version: "2.53.0"
+grafana_version: "11.0.0"
+alertmanager_version: "0.26.0"
+node_exporter_version: "1.8.0"
+monitoring_retention: "15d"
+monitoring_storage_path: /var/lib/prometheus
+monitoring_host: monitoring.internal

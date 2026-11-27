@@ -1,0 +1,47 @@
+---
+- name: Ensure kubectl and Kubespray dependencies are present
+  ansible.builtin.package:
+    name:
+      - python3
+      - python3-pip
+      - netaddr
+      - git
+      - gcc
+      - python3-devel
+      - openssl-devel
+      - libffi-devel
+    state: present
+
+- name: Install Kubespray Python requirements
+  ansible.builtin.pip:
+    requirements: "{{ kubespray_requirements }}"
+    virtualenv: "{{ kubespray_venv }}"
+    virtualenv_python: python3
+  environment:
+    PIP_INDEX_URL: "{{ yum_repo }}/pypi/simple"
+    PIP_TRUSTED_HOST: "{{ inventory_hostname }}"
+
+- name: Copy Kubespray inventory template
+  ansible.builtin.copy:
+    src: "{{ kubespray_inventory_src }}"
+    dest: "{{ kubespray_inventory_dir }}/hosts.yaml"
+    owner: root
+    group: root
+    mode: "0644"
+  when: kubespray_inventory_src is defined
+
+- name: Run Kubespray cluster playbook
+  ansible.builtin.command:
+    cmd: "{{ kubespray_venv }}/bin/ansible-playbook -i {{ kubespray_inventory_dir }} cluster.yml"
+    chdir: "{{ kubespray_dir }}"
+  register: kubespray_run
+  changed_when: "'changed' in kubespray_run.stdout or 'ok' in kubespray_run.stdout"
+
+- name: Apply kubectl cluster configuration to automation server
+  ansible.builtin.copy:
+    src: "{{ kubespray_artifact_dir }}/admin.conf"
+    dest: "/home/{{ admin_user }}/.kube/config"
+    owner: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    mode: "0600"
+    remote_src: yes

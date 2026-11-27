@@ -1,0 +1,74 @@
+---
+- name: Ensure repository/registry directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop:
+    - /opt/registry
+    - /opt/registry/data
+    - /opt/registry/certs
+    - /opt/nexus
+    - /opt/nexus/data
+
+- name: Configure Harbor via docker-compose
+  ansible.builtin.copy:
+    dest: /opt/registry/docker-compose.yml
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      version: '3.8'
+
+      services:
+        registry:
+          image: {{ registry_host }}/goharbor/registry-photon:{{ harbor_version }}
+          container_name: registry
+          volumes:
+            - /opt/registry/data:/var/lib/registry
+          networks:
+            - harbor
+          restart: always
+
+      networks:
+        harbor:
+          driver: bridge
+
+- name: Start Harbor stack
+  community.general.docker_compose:
+    project_src: /opt/registry
+    state: present
+  when: inventory_hostname in groups['harbor_servers'] | default([])
+
+- name: Configure Nexus repository
+  ansible.builtin.copy:
+    dest: /opt/nexus/docker-compose.yml
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      version: '3.8'
+
+      services:
+        nexus:
+          image: {{ registry_host }}/sonatype/nexus3:{{ nexus_version }}
+          container_name: nexus
+          volumes:
+            - /opt/nexus/data:/nexus-data
+          ports:
+            - "8081:8081"
+          networks:
+            - nexus
+          restart: always
+
+      networks:
+        nexus:
+          driver: bridge
+
+- name: Start Nexus stack
+  community.general.docker_compose:
+    project_src: /opt/nexus
+    state: present
+  when: inventory_hostname in groups['nexus_servers'] | default([])

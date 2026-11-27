@@ -1,0 +1,19 @@
+- name: Deploy load balancers (HAProxy + Keepalived)
+  hosts: lb_nodes
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+    - group_vars/all/load-balancer.yml
+  roles:
+    - role: load-balancer
+  post_tasks:
+    - name: Verify HAProxy is listening
+      ansible.builtin.wait_for:
+        port: "{{ item }}"
+        state: started
+      loop:
+        - 6443   # Kubernetes API
+        - 80     # HTTP ingress
+        - 443    # HTTPS ingress
+      delegate_to: "{{ inventory_hostname }}"

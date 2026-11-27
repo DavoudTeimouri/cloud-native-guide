@@ -1,0 +1,9 @@
+# Copy to terraform.tfvars and adjust for your environment
+vm_username   = "ansible"
+vm_os_image   = "oracle-linux-9"
+vm_flavor     = "m4.large"
+vm_network    = "internal"
+target_cluster = "application"
+node_count    = 1
+internal_registry = "harbor.internal:5000"
+vault_addr    = "https://vault.internal:8200"

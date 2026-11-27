@@ -1,0 +1,26 @@
+- name: Deploy Kubernetes with Kubespray
+  hosts: k8s_control_plane:k8s_nodes:etcd:calico_rr
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+    - group_vars/all/kubernetes.yml
+  pre_tasks:
+    - name: Ensure Kubespray inventory is present
+      ansible.builtin.stat:
+        path: "{{ kubespray_inventory_dir }}/hosts.yaml"
+      register: kubespray_inventory_stat
+    - name: Fail if Kubespray inventory is missing
+      ansible.builtin.fail:
+        msg: "Kubespray inventory not found at {{ kubespray_inventory_dir }}/hosts.yaml. Run playbooks/inventory-generation.yml first."
+      when: not kubespray_inventory_stat.exists
+  roles:
+    - role: kubernetes
+  post_tasks:
+    - name: Verify Kubernetes API is reachable
+      ansible.builtin.command: kubectl get --raw='/readyz?verbose'
+      register: kube_readyz
+      changed_when: false
+      delegate_to: localhost
+      run_once: true
+      failed_when: "'ok' not in kube_readyz.stdout"

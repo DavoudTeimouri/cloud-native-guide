@@ -1,0 +1,18 @@
+- name: Deploy GitLab (application + CI/CD)
+  hosts: gitlab_servers
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+    - group_vars/all/gitlab.yml
+  roles:
+    - role: gitlab
+  post_tasks:
+    - name: Verify GitLab is reachable
+      ansible.builtin.uri:
+        url: "https://{{ gitlab_host }}/-/health"
+        return_content: yes
+        validate_certs: no
+      register: gitlab_health
+      changed_when: false
+      failed_when: gitlab_health.status != 200
