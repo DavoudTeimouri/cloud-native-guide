@@ -52,7 +52,7 @@ The decisions that shape everything else. Full reasoning in the ADR, referenced 
 
 ## Interactive guide site
 
-**<https://davoudteimouri.github.io/cloudnative-infrastructure-guide/>**
+**<https://davoudteimouri.github.io/cloud-native-guide/>**
 
 A static site built from this repository. It turns the documents into a plan for one specific
 cluster: pick the deployment method, the Kubespray release and the components, fill in the site
