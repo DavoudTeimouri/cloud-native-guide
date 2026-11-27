@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://davoudteimouri.github.io/cloud-native-guide/deploy/phase1-cluster-foundation/">
       
       
-        <link rel="prev" href="../other-deployment-methods/">
+        <link rel="prev" href="../../operating-systems/os-selection-guide/">
       
       
         <link rel="next" href="../phase2-management-layer/">
@@ -27,7 +27,7 @@
     
     
       
-        <title>Phase 1: Cluster Foundation - Cloud-Native Guide</title>
+        <title>Steps 01-10: Cluster Foundation - Cloud-Native Guide</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#phase-1-cluster-foundation" class="md-skip">
+        <a href="#entry-criteria" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phase 1: Cluster Foundation
+              Steps 01-10: Cluster Foundation
             
           </span>
         </div>
@@ -331,34 +331,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Choose OS
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../choose-cluster-type/" class="md-nav__link">
         
   
@@ -468,6 +440,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 00: OS Selection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -487,7 +487,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1: Cluster Foundation
+    Steps 01-10: Cluster Foundation
   
 
     
@@ -505,7 +505,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1: Cluster Foundation
+    Steps 01-10: Cluster Foundation
   
 
     
@@ -531,675 +531,109 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-kubespray-inventory-generation-from-hostsini-with-control-planeetcdworker-groups" class="md-nav__link">
+  <a href="#step-01-kubespray-inventory-generation-from-hostsini-with-control-planeetcdworker-groups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups
+        Step 01 — Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="1. Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#inventory-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Inventory structure
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rules
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-group_varsk8s_clusterk8s-clusteryml-configuration" class="md-nav__link">
+  <a href="#step-02-group_varsk8s_clusterk8s-clusteryml-configuration-cilium-cni-kube-proxy-free-containerd" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. group_vars/k8s_cluster/k8s-cluster.yml configuration
+        Step 02 — group_vars/k8s_cluster/k8s-cluster.yml configuration (Cilium CNI, kube-proxy-free, containerd)
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="2. group_vars/k8s_cluster/k8s-cluster.yml configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#core-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Core configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#key-settings-explained" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key settings explained
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-offline-image-registry-setup-via-group_varsallofflineyml" class="md-nav__link">
+  <a href="#step-03-offline-image-registry-setup-via-group_varsallofflineyml" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Offline image registry setup via group_vars/all/offline.yml
+        Step 03 — Offline image registry setup via group_vars/all/offline.yml
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="3. Offline image registry setup via group_vars/all/offline.yml">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#offline-group-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Offline group variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#os-package-repositories-oracle-linux-rhel-family" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OS package repositories (Oracle Linux / RHEL family)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#os-package-repositories-ubuntu" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OS package repositories (Ubuntu)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#key-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-syntax-check-and-pre-check-commands" class="md-nav__link">
+  <a href="#step-04-syntax-check-and-pre-check-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. syntax-check and pre-check commands
+        Step 04 — Syntax-check and pre-check commands
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="4. syntax-check and pre-check commands">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#41-syntax-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.1 Syntax check
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#42-ansible-ping" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.2 Ansible ping
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#43-check-and-diff-control-plane-limited-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.3 Check and diff (control-plane limited run)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-control-plane-deployment-one-node-at-a-time-with-kubeadm-join-and-upload-certs" class="md-nav__link">
+  <a href="#step-05-control-plane-deployment-one-node-at-a-time-with-kubeadm-join-and-upload-certs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Control-plane deployment one node at a time with kubeadm join and upload-certs
+        Step 05 — Control-plane deployment one node at a time with kubeadm join and upload-certs
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="5. Control-plane deployment one node at a time with kubeadm join and upload-certs">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-deploy-first-control-plane-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.1 Deploy first control-plane node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#52-verify-first-node-is-ready" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.2 Verify first node is ready
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#53-deploy-remaining-control-plane-nodes-one-at-a-time" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.3 Deploy remaining control-plane nodes one at a time
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-verify-etcd-cluster-health" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Verify etcd cluster health
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#55-kubeadm-join-if-joining-additional-control-plane-nodes-outside-kubespray" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.5 kubeadm join (if joining additional control-plane nodes outside Kubespray)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-worker-node-join" class="md-nav__link">
+  <a href="#step-06-worker-node-join" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Worker node join
+        Step 06 — Worker node join
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="6. Worker node join">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-deploy-workers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.1 Deploy workers
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-verify-worker-nodes-are-ready" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.2 Verify worker nodes are ready
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63-verify-pod-readiness-across-namespaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.3 Verify pod readiness across namespaces
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-cilium-cni-installation-and-validation" class="md-nav__link">
+  <a href="#step-07-cilium-cni-installation-and-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Cilium CNI installation and validation
+        Step 07 — Cilium CNI installation and validation
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="7. Cilium CNI installation and validation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#71-verify-cilium-daemonset-is-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.1 Verify Cilium DaemonSet is running
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#72-check-cilium-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.2 Check Cilium status
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#73-run-connectivity-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.3 Run connectivity test
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#74-validate-kube-proxy-replacement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.4 Validate kube-proxy replacement
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#75-basic-network-policy-test-audit-mode-first" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.5 Basic network policy test (audit mode first)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#76-hubble-observability-optional-but-recommended" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.6 Hubble observability (optional but recommended)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-nginx-ingress-controller-installation-and-validation" class="md-nav__link">
+  <a href="#step-08-nginx-ingress-controller-installation-and-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. NGINX ingress controller installation and validation
+        Step 08 — NGINX ingress controller installation and validation
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="8. NGINX ingress controller installation and validation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#81-add-helm-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.1 Add Helm repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#82-install-nginx-ingress-controller" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.2 Install NGINX Ingress Controller
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#83-configure-gateway-api-required-for-the-replacement-controller" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.3 Configure Gateway API (required for the replacement controller)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#84-verify-ingress-controller-is-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.4 Verify ingress controller is running
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#85-tls-validation-cert-manager-vault-pki" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.5 TLS validation (cert-manager + Vault PKI)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#86-external-health-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.6 External health check
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#87-verify-admission-webhook-failure-policy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.7 Verify admission webhook failure policy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-post-deployment-validation-commands" class="md-nav__link">
+  <a href="#step-09-post-deployment-validation-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Post-deployment validation commands
+        Step 09 — Post-deployment validation commands
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="9. Post-deployment validation commands">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#91-get-nodes-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.1 Get nodes status
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#92-readyz-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.2 Readyz check
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#93-cilium-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.3 Cilium status
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#94-ingress-health" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.4 Ingress health
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#95-full-cluster-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.5 Full cluster validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#96-dns-resolution-from-pod" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.6 DNS resolution from pod
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#rollback-procedures" class="md-nav__link">
+  <a href="#step-10-rollback-procedures" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Rollback procedures
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Rollback procedures">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#rollback-control-plane-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rollback control-plane node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rollback-full-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rollback full cluster
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#important-rollback-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Important rollback rules
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cross-references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cross-references
+        Step 10 — Rollback procedures
       
     </span>
   </a>
@@ -1229,7 +663,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 2: Management Layer
+    Steps 11-20: Management Layer
   
 
     
@@ -1257,7 +691,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 3: Storage Lifecycle
+    Steps 21-30: Storage Lifecycle
   
 
     
@@ -1285,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 4-7: SRE Operations
+    Steps 31-40: SRE Operations
   
 
     
@@ -5362,34 +4796,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Choose OS
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../operating-systems/host-configuration/" class="md-nav__link">
         
   
@@ -5941,675 +5347,109 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-kubespray-inventory-generation-from-hostsini-with-control-planeetcdworker-groups" class="md-nav__link">
+  <a href="#step-01-kubespray-inventory-generation-from-hostsini-with-control-planeetcdworker-groups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups
+        Step 01 — Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="1. Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#inventory-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Inventory structure
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rules
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-group_varsk8s_clusterk8s-clusteryml-configuration" class="md-nav__link">
+  <a href="#step-02-group_varsk8s_clusterk8s-clusteryml-configuration-cilium-cni-kube-proxy-free-containerd" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. group_vars/k8s_cluster/k8s-cluster.yml configuration
+        Step 02 — group_vars/k8s_cluster/k8s-cluster.yml configuration (Cilium CNI, kube-proxy-free, containerd)
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="2. group_vars/k8s_cluster/k8s-cluster.yml configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#core-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Core configuration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#key-settings-explained" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key settings explained
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-offline-image-registry-setup-via-group_varsallofflineyml" class="md-nav__link">
+  <a href="#step-03-offline-image-registry-setup-via-group_varsallofflineyml" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Offline image registry setup via group_vars/all/offline.yml
+        Step 03 — Offline image registry setup via group_vars/all/offline.yml
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="3. Offline image registry setup via group_vars/all/offline.yml">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#offline-group-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Offline group variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#os-package-repositories-oracle-linux-rhel-family" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OS package repositories (Oracle Linux / RHEL family)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#os-package-repositories-ubuntu" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OS package repositories (Ubuntu)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#key-variables" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key variables
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-syntax-check-and-pre-check-commands" class="md-nav__link">
+  <a href="#step-04-syntax-check-and-pre-check-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. syntax-check and pre-check commands
+        Step 04 — Syntax-check and pre-check commands
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="4. syntax-check and pre-check commands">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#41-syntax-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.1 Syntax check
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#42-ansible-ping" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.2 Ansible ping
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#43-check-and-diff-control-plane-limited-run" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.3 Check and diff (control-plane limited run)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-control-plane-deployment-one-node-at-a-time-with-kubeadm-join-and-upload-certs" class="md-nav__link">
+  <a href="#step-05-control-plane-deployment-one-node-at-a-time-with-kubeadm-join-and-upload-certs" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Control-plane deployment one node at a time with kubeadm join and upload-certs
+        Step 05 — Control-plane deployment one node at a time with kubeadm join and upload-certs
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="5. Control-plane deployment one node at a time with kubeadm join and upload-certs">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-deploy-first-control-plane-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.1 Deploy first control-plane node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#52-verify-first-node-is-ready" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.2 Verify first node is ready
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#53-deploy-remaining-control-plane-nodes-one-at-a-time" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.3 Deploy remaining control-plane nodes one at a time
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-verify-etcd-cluster-health" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Verify etcd cluster health
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#55-kubeadm-join-if-joining-additional-control-plane-nodes-outside-kubespray" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.5 kubeadm join (if joining additional control-plane nodes outside Kubespray)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-worker-node-join" class="md-nav__link">
+  <a href="#step-06-worker-node-join" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Worker node join
+        Step 06 — Worker node join
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="6. Worker node join">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-deploy-workers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.1 Deploy workers
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-verify-worker-nodes-are-ready" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.2 Verify worker nodes are ready
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63-verify-pod-readiness-across-namespaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.3 Verify pod readiness across namespaces
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-cilium-cni-installation-and-validation" class="md-nav__link">
+  <a href="#step-07-cilium-cni-installation-and-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Cilium CNI installation and validation
+        Step 07 — Cilium CNI installation and validation
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="7. Cilium CNI installation and validation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#71-verify-cilium-daemonset-is-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.1 Verify Cilium DaemonSet is running
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#72-check-cilium-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.2 Check Cilium status
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#73-run-connectivity-test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.3 Run connectivity test
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#74-validate-kube-proxy-replacement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.4 Validate kube-proxy replacement
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#75-basic-network-policy-test-audit-mode-first" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.5 Basic network policy test (audit mode first)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#76-hubble-observability-optional-but-recommended" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7.6 Hubble observability (optional but recommended)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-nginx-ingress-controller-installation-and-validation" class="md-nav__link">
+  <a href="#step-08-nginx-ingress-controller-installation-and-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. NGINX ingress controller installation and validation
+        Step 08 — NGINX ingress controller installation and validation
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="8. NGINX ingress controller installation and validation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#81-add-helm-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.1 Add Helm repository
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#82-install-nginx-ingress-controller" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.2 Install NGINX Ingress Controller
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#83-configure-gateway-api-required-for-the-replacement-controller" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.3 Configure Gateway API (required for the replacement controller)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#84-verify-ingress-controller-is-running" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.4 Verify ingress controller is running
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#85-tls-validation-cert-manager-vault-pki" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.5 TLS validation (cert-manager + Vault PKI)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#86-external-health-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.6 External health check
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#87-verify-admission-webhook-failure-policy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8.7 Verify admission webhook failure policy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reference_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reference
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-post-deployment-validation-commands" class="md-nav__link">
+  <a href="#step-09-post-deployment-validation-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9. Post-deployment validation commands
+        Step 09 — Post-deployment validation commands
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="9. Post-deployment validation commands">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#91-get-nodes-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.1 Get nodes status
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#92-readyz-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.2 Readyz check
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#93-cilium-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.3 Cilium status
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#94-ingress-health" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.4 Ingress health
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#95-full-cluster-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.5 Full cluster validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#96-dns-resolution-from-pod" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.6 DNS resolution from pod
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#rollback-procedures" class="md-nav__link">
+  <a href="#step-10-rollback-procedures" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Rollback procedures
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Rollback procedures">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#rollback-control-plane-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rollback control-plane node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rollback-full-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rollback full cluster
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#important-rollback-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Important rollback rules
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cross-references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cross-references
+        Step 10 — Rollback procedures
       
     </span>
   </a>
@@ -6636,261 +5476,306 @@
   
 
 
-<h1 id="phase-1-cluster-foundation">Phase 1 — Cluster Foundation<a class="headerlink" href="#phase-1-cluster-foundation" title="Permanent link">&para;</a></h1>
-<p><strong>Purpose</strong>: Deploy a Kubespray-managed Kubernetes cluster on bare-metal with Cilium CNI, kube-proxy-free mode, containerd runtime, and NGINX Ingress Controller. This phase covers inventory generation, group variable configuration, offline registry setup, pre-deployment validation, control-plane and worker node deployment, CNI and ingress installation, and post-deployment validation.</p>
-<p><strong>Entry criteria</strong>:
-- Automation Management Server provisioned with Ansible venv (or bastion host)
-- All nodes have OS installed from internal mirror, containerd 2.3.7, Ansible 2.19.x, Python 3.11-3.13
-- NTP synchronized on all nodes (<code>chronyc tracking</code> shows synchronized)
-- SSH access for Ansible user on all nodes (<code>ansible all -m ping</code> returns pong)
-- Internal container registry reachable from all nodes (<code>skopeo inspect docker://harbor.internal/...</code> succeeds)
-- Internal file repository reachable from all nodes (<code>curl -sf http://files-repo.internal/</code> succeeds)
-- OS package repository configured (<code>dnf repolist</code> or <code>apt-cache policy</code> shows internal repos)
-- Kubespray release-2.32 checked out internally (<code>git -C kubespray/ log -1</code> shows v2.32.0 tag)
-- <code>kubespray/VERSION</code> pinned to release-2.32
-- Inventory created for target cluster (<code>inventory/&lt;cluster&gt;/hosts.ini</code> exists)
-- All images mirrored per <code>offline-artifacts/artifact-matrix.md</code> and verified with <code>skopeo inspect</code>
-- Cilium Helm chart mirrored to internal registry (<code>helm search repo cilium</code> shows chart)
-- F5 NGINX Ingress Controller chart mirrored (<code>helm search repo nginx-ingress</code> shows chart)
-- DNS resolves the control-plane VIP from all nodes</p>
-<hr />
-<h2 id="1-kubespray-inventory-generation-from-hostsini-with-control-planeetcdworker-groups">1. Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups<a class="headerlink" href="#1-kubespray-inventory-generation-from-hostsini-with-control-planeetcdworker-groups" title="Permanent link">&para;</a></h2>
-<p>Generate the Ansible inventory file at <code>kubespray/inventory/&lt;cluster&gt;/hosts.ini</code>. This file defines host groups that Kubespray uses to orchestrate deployment.</p>
-<h3 id="inventory-structure">Inventory structure<a class="headerlink" href="#inventory-structure" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="k">[all:vars]</span>
-<span class="na">ansible_user</span><span class="o">=</span><span class="s">ansible</span>
-<span class="na">ansible_become</span><span class="o">=</span><span class="s">yes</span>
-<span class="na">ansible_python_interpreter</span><span class="o">=</span><span class="s">/usr/bin/python3</span>
-<span class="na">ansible_ssh_common_args</span><span class="o">=</span><span class="s">'-o StrictHostKeyChecking=accept-new'</span>
-
-<span class="c1"># ---------------------------------------------------------------------------</span>
-<span class="c1"># Control plane (3 nodes, stacked etcd)</span>
-<span class="c1"># ---------------------------------------------------------------------------</span>
-<span class="k">[control-plane]</span>
-<span class="na">k8s-cp-1 ansible_host</span><span class="o">=</span><span class="s">10.20.0.11 ip=10.20.0.11</span>
-<span class="na">k8s-cp-2 ansible_host</span><span class="o">=</span><span class="s">10.20.0.12 ip=10.20.0.12</span>
-<span class="na">k8s-cp-3 ansible_host</span><span class="o">=</span><span class="s">10.20.0.13 ip=10.20.0.13</span>
-
-<span class="k">[etcd]</span>
-<span class="na">k8s-cp-1</span>
-<span class="na">k8s-cp-2</span>
-<span class="na">k8s-cp-3</span>
-
-<span class="c1"># ---------------------------------------------------------------------------</span>
-<span class="c1"># Workers</span>
-<span class="c1"># ---------------------------------------------------------------------------</span>
-<span class="k">[k8s-node]</span>
-<span class="na">k8s-w-1 ansible_host</span><span class="o">=</span><span class="s">10.20.0.21 ip=10.20.0.21</span>
-<span class="na">k8s-w-2 ansible_host</span><span class="o">=</span><span class="s">10.20.0.22 ip=10.20.0.22</span>
-<span class="na">k8s-w-3 ansible_host</span><span class="o">=</span><span class="s">10.20.0.23 ip=10.20.0.23</span>
-
-<span class="k">[k8s-node:children]</span>
-<span class="na">gpu-node</span>
-
-<span class="k">[gpu-node]</span>
-<span class="na">k8s-gpu-1 ansible_host=10.50.0.11 ip=10.50.0.11 labels</span><span class="o">=</span><span class="s">'{"</span><span class="na">accelerator"</span><span class="o">:</span><span class="s">"nvidia"</span><span class="na">}'</span>
-
-<span class="c1"># ---------------------------------------------------------------------------</span>
-<span class="c1"># Groups Kubespray expects (do not reorder)</span>
-<span class="c1"># ---------------------------------------------------------------------------</span>
-<span class="k">[kube-master]</span>
-<span class="na">control-plane</span>
-
-<span class="k">[kube-node]</span>
-<span class="na">control-plane</span>
-<span class="na">k8s-node</span>
-
-<span class="k">[k8s-cluster:children]</span>
-<span class="na">control-plane</span>
-<span class="na">etcd</span>
-<span class="na">k8s-node</span>
-</code></pre></div>
-<h3 id="rules">Rules<a class="headerlink" href="#rules" title="Permanent link">&para;</a></h3>
+<h1 id="entry-criteria">Entry criteria<a class="headerlink" href="#entry-criteria" title="Permanent link">&para;</a></h1>
 <ul>
-<li>Every worker, including GPU and storage nodes, must be in the <code>k8s-node</code> group.</li>
-<li><code>etcd</code> members must also be in <code>control-plane</code> when etcd is stacked.</li>
-<li>A host must not appear in two <code>k8s-node</code> groups.</li>
-<li><code>ip=</code> must be the address on the cluster network, not the management address.</li>
+<li>Automation Management Server provisioned with Ansible venv (or bastion host)</li>
+<li>All nodes have OS installed from internal mirror, containerd 2.3.7, Ansible 2.19.x, Python 3.11-3.13</li>
+<li>NTP synchronized on all nodes (<code>chronyc tracking</code> shows synchronized)</li>
+<li>SSH access for Ansible user on all nodes (<code>ansible all -m ping</code> returns pong)</li>
+<li>Internal container registry reachable from all nodes (<code>skopeo inspect docker://harbor.internal/...</code> succeeds)</li>
+<li>Internal file repository reachable from all nodes (<code>curl -sf http://files-repo.internal/</code> succeeds)</li>
+<li>OS package repository configured (<code>dnf repolist</code> or <code>apt-cache policy</code> shows internal repos)</li>
+<li>Kubespray release-2.32 checked out internally (<code>git -C kubespray/ log -1</code> shows v2.32.0 tag)</li>
+<li><code>kubespray/VERSION</code> pinned to release-2.32</li>
+<li>Inventory created for target cluster (<code>inventory/&lt;cluster&gt;/hosts.ini</code> exists)</li>
+<li>All images mirrored per <code>offline-artifacts/artifact-matrix.md</code> and verified with <code>skopeo inspect</code></li>
+<li>Cilium Helm chart mirrored to internal registry (<code>helm search repo cilium</code> shows chart)</li>
+<li>F5 NGINX Ingress Controller chart mirrored (<code>helm search repo nginx-ingress</code> shows chart)</li>
+<li>DNS resolves the control-plane VIP from all nodes</li>
 </ul>
-<hr />
-<h2 id="2-group_varsk8s_clusterk8s-clusteryml-configuration">2. group_vars/k8s_cluster/k8s-cluster.yml configuration<a class="headerlink" href="#2-group_varsk8s_clusterk8s-clusteryml-configuration" title="Permanent link">&para;</a></h2>
-<p>Configure core group variables for the cluster. These variables live at <code>kubespray/inventory/&lt;cluster&gt;/group_vars/k8s_cluster/k8s-cluster.yml</code>.</p>
-<h3 id="core-configuration">Core configuration<a class="headerlink" href="#core-configuration" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Kubernetes version. Must be inside the pinned Kubespray release's supported range.</span>
-<span class="nt">kube_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.36.5</span>
+<p><a id="step-00"></a>
+<a id="step-01"></a></p>
+<h2 id="step-01-kubespray-inventory-generation-from-hostsini-with-control-planeetcdworker-groups">Step 01 — Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups<a class="headerlink" href="#step-01-kubespray-inventory-generation-from-hostsini-with-control-planeetcdworker-groups" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Generate the Ansible inventory file that defines host groups for Kubespray cluster deployment.</p>
+<p><strong>Prerequisites</strong>:
+- Step 00 complete (OS selection and node provisioning per OS selection guide)
+- All nodes reachable via SSH with Ansible user</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># From the repo root (where kubespray/ lives), generate inventory</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">[all:vars]</span>
+<span class="s">ansible_user=ansible</span>
+<span class="s">ansible_become=yes</span>
+<span class="s">ansible_python_interpreter=/usr/bin/python3</span>
+<span class="s">ansible_ssh_common_args='-o StrictHostKeyChecking=accept-new'</span>
 
-<span class="c1"># CNI. The release ships Cilium 1.20.3.</span>
-<span class="nt">kube_network_plugin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cilium</span>
+<span class="s"># Control plane (3 nodes, stacked etcd)</span>
+<span class="s">[control-plane]</span>
+<span class="s">k8s-cp-1 ansible_host=10.20.0.11 ip=10.20.0.11</span>
+<span class="s">k8s-cp-2 ansible_host=10.20.0.12 ip=10.20.0.12</span>
+<span class="s">k8s-cp-3 ansible_host=10.20.0.13 ip=10.20.0.13</span>
 
-<span class="c1"># Disable kube-proxy; Cilium replaces it. Requires k8sServiceHost/Port below.</span>
-<span class="nt">kube_proxy_mode</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="s">[etcd]</span>
+<span class="s">k8s-cp-1</span>
+<span class="s">k8s-cp-2</span>
+<span class="s">k8s-cp-3</span>
 
-<span class="c1"># Pod and service CIDRs. One pair per cluster.</span>
-<span class="nt">kube_pods_subnet</span><span class="p">:</span><span class="w"> </span><span class="s">"10.30.0.0/16"</span>
-<span class="nt">kube_service_addresses</span><span class="p">:</span><span class="w"> </span><span class="s">"10.32.0.0/16"</span>
+<span class="s"># Workers</span>
+<span class="s">[k8s-node]</span>
+<span class="s">k8s-w-1 ansible_host=10.20.0.21 ip=10.20.0.21</span>
+<span class="s">k8s-w-2 ansible_host=10.20.0.22 ip=10.20.0.22</span>
+<span class="s">k8s-w-3 ansible_host=10.20.0.23 ip=10.20.0.23</span>
 
-<span class="c1"># Cilium needs the API endpoint when kube-proxy is absent.</span>
-<span class="nt">k8sServiceHost</span><span class="p">:</span><span class="w"> </span><span class="s">"10.20.0.100"</span><span class="w">      </span><span class="c1"># the control-plane VIP</span>
-<span class="nt">k8sServicePort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6443</span>
+<span class="s">[k8s-node:children]</span>
+<span class="s">gpu-node</span>
 
-<span class="nt">enable_coredns</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</code></pre></div>
-<h3 id="key-settings-explained">Key settings explained<a class="headerlink" href="#key-settings-explained" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>kube_proxy_mode: ""</code> — an empty value disables kube-proxy. This is required for Cilium's kube-proxy-free mode. The variable name is per-release — verify against the pinned release's <code>roles/kubespray_defaults/defaults/main/</code> before use.</li>
-<li><code>kube_network_plugin: cilium</code> — tells Kubespray to install Cilium as the CNI plugin.</li>
-<li><code>k8sServiceHost</code> / <code>k8sServicePort</code> — Cilium agent needs the API server endpoint when running in kube-proxy-free mode; these values must match the control-plane VIP and port.</li>
-</ul>
-<h3 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>docs/kubespray/group-vars-template.md</code> — authoritative group vars template</li>
-<li><code>docs/kubespray/inventory-and-variables.md</code> — inventory design reference</li>
-</ul>
-<hr />
-<h2 id="3-offline-image-registry-setup-via-group_varsallofflineyml">3. Offline image registry setup via group_vars/all/offline.yml<a class="headerlink" href="#3-offline-image-registry-setup-via-group_varsallofflineyml" title="Permanent link">&para;</a></h2>
-<p>Configure the internal container registry and file mirror so Kubespray can pull all images and OS packages without internet access.</p>
-<h3 id="offline-group-variables">Offline group variables<a class="headerlink" href="#offline-group-variables" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Internal registry and file mirror. See the Kubespray release-2.32 offline guide.</span>
-<span class="nt">kube_image_repo</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">registry_host</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="nt">gcr_image_repo</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">registry_host</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="nt">docker_image_repo</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">registry_host</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="nt">quay_image_repo</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">registry_host</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="nt">github_image_repo</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">registry_host</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="s">[gpu-node]</span>
+<span class="s">k8s-gpu-1 ansible_host=10.50.0.11 ip=10.50.0.11 labels='{"accelerator":"nvidia"}'</span>
 
-<span class="nt">github_url</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">files_repo</span><span class="nv"> </span><span class="s">}}/github.com"</span>
-<span class="nt">dl_k8s_io_url</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">files_repo</span><span class="nv"> </span><span class="s">}}/dl.k8s.io"</span>
-<span class="nt">storage_googleapis_url</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">files_repo</span><span class="nv"> </span><span class="s">}}/storage.googleapis.com"</span>
-<span class="nt">get_helm_url</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">files_repo</span><span class="nv"> </span><span class="s">}}/get.helm.sh"</span>
+<span class="s"># Groups Kubespray expects (do not reorder)</span>
+<span class="s">[kube-master]</span>
+<span class="s">control-plane</span>
 
-<span class="nt">local_path_provisioner_helper_image_repo</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">registry_host</span><span class="nv"> </span><span class="s">}}/busybox"</span>
+<span class="s">[kube-node]</span>
+<span class="s">control-plane</span>
+<span class="s">k8s-node</span>
 
-<span class="c1"># containerd 2+ registry mirrors</span>
-<span class="nt">containerd_registries_mirrors</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io</span>
-<span class="w">    </span><span class="nt">mirrors</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://registry-1.docker.io</span>
-<span class="w">        </span><span class="nt">capabilities</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"pull"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"resolve"</span><span class="p p-Indicator">]</span>
-<span class="w">        </span><span class="nt">skip_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">registry_addr</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="w">    </span><span class="nt">mirrors</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="s">"https://{{</span><span class="nv"> </span><span class="s">registry_addr</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="w">        </span><span class="nt">capabilities</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"pull"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"resolve"</span><span class="p p-Indicator">]</span>
-<span class="w">        </span><span class="nt">skip_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">        </span><span class="nt">header</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">Authorization</span><span class="p">:</span><span class="w"> </span><span class="s">"Basic</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">(registry_user</span><span class="nv"> </span><span class="s">+</span><span class="nv"> </span><span class="s">':'</span><span class="nv"> </span><span class="s">+</span><span class="nv"> </span><span class="s">registry_pass)</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">b64encode</span><span class="nv"> </span><span class="s">}}"</span>
+<span class="s">[k8s-cluster:children]</span>
+<span class="s">control-plane</span>
+<span class="s">etcd</span>
+<span class="s">k8s-node</span>
+<span class="s">EOF</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify inventory structure</span>
+grep<span class="w"> </span>-c<span class="w"> </span><span class="s1">'\['</span><span class="w"> </span>inventory/mycluster/hosts.ini
+<span class="c1"># Expected: 11 group headers (all:vars, control-plane, etcd, k8s-node, k8s-node:children, gpu-node, kube-master, kube-node, k8s-cluster)</span>
+grep<span class="w"> </span><span class="s1">'\[control-plane\]'</span><span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<span class="c1"># Expected: 3</span>
+grep<span class="w"> </span><span class="s1">'\[etcd\]'</span><span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<span class="c1"># Expected: 3</span>
+grep<span class="w"> </span><span class="s1">'\[k8s-node\]'</span><span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<span class="c1"># Expected: 3</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 00 (anchor <code>#step-00</code>)
+- Next: Step 02 (anchor <code>#step-02</code>)</p>
+<p><a id="step-02"></a></p>
+<h2 id="step-02-group_varsk8s_clusterk8s-clusteryml-configuration-cilium-cni-kube-proxy-free-containerd">Step 02 — group_vars/k8s_cluster/k8s-cluster.yml configuration (Cilium CNI, kube-proxy-free, containerd)<a class="headerlink" href="#step-02-group_varsk8s_clusterk8s-clusteryml-configuration-cilium-cni-kube-proxy-free-containerd" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Configure core group variables for the cluster including CNI, kube-proxy mode, and service CIDRs.</p>
+<p><strong>Prerequisites</strong>:
+- Step 01 complete (hosts.ini generated)
+- Inventory directory exists with host definitions</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Create group vars directory and write configuration</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>inventory/mycluster/group_vars/k8s_cluster
+cat<span class="w"> </span>&gt;<span class="w"> </span>inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s"># Kubernetes version. Must be inside the pinned Kubespray release's supported range.</span>
+<span class="s">kube_version: v1.36.5</span>
 
-<span class="c1"># Cilium: mirror the chart index and the chart tarball into files_repo</span>
-<span class="nt">cilium_install_extra_flags</span><span class="p">:</span><span class="w"> </span><span class="s">"--repository</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">files_repo</span><span class="nv"> </span><span class="s">}}/helm.cilium.io/"</span>
-<span class="nt">cilium_extra_values</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">image</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">useDigest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">hubble</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">relay</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">image</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">useDigest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">    </span><span class="nt">ui</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">backend</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">image</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">useDigest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">      </span><span class="nt">frontend</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">image</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">useDigest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">operator</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">override</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">registry_host</span><span class="nv"> </span><span class="s">}}/cilium/operator-generic:v1.20.3"</span>
-<span class="w">      </span><span class="nt">useDigest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">      </span><span class="nt">extension</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
-<span class="w">  </span><span class="nt">certgen</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">useDigest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">  </span><span class="nt">envoy</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">useDigest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</code></pre></div>
-<h3 id="os-package-repositories-oracle-linux-rhel-family">OS package repositories (Oracle Linux / RHEL family)<a class="headerlink" href="#os-package-repositories-oracle-linux-rhel-family" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="nt">containerd_rh_repo_base_url</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">yum_repo</span><span class="nv"> </span><span class="s">}}/containerd"</span>
-<span class="nt">containerd_rh_repo_gpgkey</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">yum_repo</span><span class="nv"> </span><span class="s">}}/containerd/gpgkey"</span>
-</code></pre></div>
-<h3 id="os-package-repositories-ubuntu">OS package repositories (Ubuntu)<a class="headerlink" href="#os-package-repositories-ubuntu" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="nt">containerd_ubuntu_repo_base_url</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">ubuntu_repo</span><span class="nv"> </span><span class="s">}}/containerd"</span>
-<span class="nt">containerd_ubuntu_repo_gpgkey</span><span class="p">:</span><span class="w"> </span><span class="s">"{{</span><span class="nv"> </span><span class="s">ubuntu_repo</span><span class="nv"> </span><span class="s">}}/containerd/gpgkey"</span>
-<span class="nt">containerd_ubuntu_repo_repokey</span><span class="p">:</span><span class="w"> </span><span class="s">'YOURREPOKEY'</span>
-</code></pre></div>
-<h3 id="key-variables">Key variables<a class="headerlink" href="#key-variables" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>registry_host</code> — container image registry hostname (e.g. <code>harbor.internal</code>). If the internal registry uses the same repository paths as upstream, no per-image overrides are needed.</li>
-<li><code>registry_addr</code> — registry as <code>[domain or ip]:[port]</code> only.</li>
-<li><code>files_repo</code> — HTTP server or reverse proxy serving the static file tree. Include the version in the path so an upgrade does not change the URL.</li>
-<li><code>yum_repo</code> / <code>debian_repo</code> / <code>ubuntu_repo</code> — internal OS package repository for the matching OS.</li>
-<li><code>registry_user</code> / <code>registry_pass</code> — registry credentials, stored with <code>!vault</code>.</li>
-</ul>
-<h3 id="reference_1">Reference<a class="headerlink" href="#reference_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>docs/kubespray/kubespray-deployment.md</code> §F — offline image configuration</li>
-<li><code>docs/kubespray/group-vars-template.md</code> — full group vars template</li>
-</ul>
-<hr />
-<h2 id="4-syntax-check-and-pre-check-commands">4. syntax-check and pre-check commands<a class="headerlink" href="#4-syntax-check-and-pre-check-commands" title="Permanent link">&para;</a></h2>
-<p>Before any Kubespray playbook execution, run syntax and pre-checks to catch configuration errors early.</p>
-<h3 id="41-syntax-check">4.1 Syntax check<a class="headerlink" href="#41-syntax-check" title="Permanent link">&para;</a></h3>
-<p>Validate the playbook YAML for parsing errors without contacting any hosts.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># From the repo root (where kubespray/ lives)</span>
-ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>--syntax-check
-</code></pre></div>
-<p>Expected output: <code>playbook: cluster.yml: syntax check passed</code></p>
-<h3 id="42-ansible-ping">4.2 Ansible ping<a class="headerlink" href="#42-ansible-ping" title="Permanent link">&para;</a></h3>
-<p>Verify Ansible can communicate with all hosts.</p>
-<div class="highlight"><pre><span></span><code>ansible<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>all<span class="w"> </span>-m<span class="w"> </span>ping
-</code></pre></div>
-<p>Expected output (one line per host): <code>k8s-cp-1 | pong</code>
-<code>k8s-cp-2 | pong</code>
-<code>k8s-cp-3 | pong</code>
-<code>k8s-w-1 | pong</code>
-<code>k8s-w-2 | pong</code>
-<code>k8s-w-3 | pong</code></p>
-<h3 id="43-check-and-diff-control-plane-limited-run">4.3 Check and diff (control-plane limited run)<a class="headerlink" href="#43-check-and-diff-control-plane-limited-run" title="Permanent link">&para;</a></h3>
-<p>Run a simulated deployment limited to control-plane nodes, showing diffs without making changes.</p>
-<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--check<span class="w"> </span>--diff<span class="w"> </span>--limit<span class="w"> </span>control-plane
-</code></pre></div>
-<p>Expected output: playbook plan with <code>changed</code>/<code>ok</code> for each task, no actual system modifications.</p>
-<hr />
-<h2 id="5-control-plane-deployment-one-node-at-a-time-with-kubeadm-join-and-upload-certs">5. Control-plane deployment one node at a time with kubeadm join and upload-certs<a class="headerlink" href="#5-control-plane-deployment-one-node-at-a-time-with-kubeadm-join-and-upload-certs" title="Permanent link">&para;</a></h2>
-<p>Deploy the control-plane nodes sequentially. Kubespray handles <code>kubeadm init</code> under the hood, but the procedure is one node at a time to preserve API server quorum.</p>
-<h3 id="51-deploy-first-control-plane-node">5.1 Deploy first control-plane node<a class="headerlink" href="#51-deploy-first-control-plane-node" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-1
-</code></pre></div>
-<h3 id="52-verify-first-node-is-ready">5.2 Verify first node is ready<a class="headerlink" href="#52-verify-first-node-is-ready" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>k8s-cp-1
+<span class="s"># CNI. The release ships Cilium 1.20.3.</span>
+<span class="s">kube_network_plugin: cilium</span>
+
+<span class="s"># Disable kube-proxy; Cilium replaces it. Requires k8sServiceHost/Port below.</span>
+<span class="s">kube_proxy_mode: ""</span>
+
+<span class="s"># Pod and service CIDRs. One pair per cluster.</span>
+<span class="s">kube_pods_subnet: "10.30.0.0/16"</span>
+<span class="s">kube_service_addresses: "10.32.0.0/16"</span>
+
+<span class="s"># Cilium needs the API endpoint when kube-proxy is absent.</span>
+<span class="s">k8sServiceHost: "10.20.0.100"      # the control-plane VIP</span>
+<span class="s">k8sServicePort: 6443</span>
+
+<span class="s">enable_coredns: true</span>
+<span class="s">EOF</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify key variables are set correctly</span>
+grep<span class="w"> </span><span class="s1">'kube_network_plugin'</span><span class="w"> </span>inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
+<span class="c1"># Expected: kube_network_plugin: cilium</span>
+grep<span class="w"> </span><span class="s1">'kube_proxy_mode'</span><span class="w"> </span>inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
+<span class="c1"># Expected: kube_proxy_mode: ""</span>
+grep<span class="w"> </span><span class="s1">'kube_pods_subnet'</span><span class="w"> </span>inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
+<span class="c1"># Expected: kube_pods_subnet: "10.30.0.0/16"</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 01 (anchor <code>#step-01</code>)
+- Next: Step 03 (anchor <code>#step-03</code>)</p>
+<p><a id="step-03"></a></p>
+<h2 id="step-03-offline-image-registry-setup-via-group_varsallofflineyml">Step 03 — Offline image registry setup via group_vars/all/offline.yml<a class="headerlink" href="#step-03-offline-image-registry-setup-via-group_varsallofflineyml" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Configure the internal container registry and file mirror so Kubespray can pull all images and OS packages without internet access.</p>
+<p><strong>Prerequisites</strong>:
+- Step 02 complete (group vars configured)
+- Internal container registry reachable from all nodes
+- Internal file repository reachable from all nodes</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Create offline group vars directory and write configuration</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>inventory/mycluster/group_vars/all
+cat<span class="w"> </span>&gt;<span class="w"> </span>inventory/mycluster/group_vars/all/offline.yml<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s"># Internal registry and file mirror. See the Kubespray release-2.32 offline guide.</span>
+<span class="s">kube_image_repo: "{{ registry_host }}"</span>
+<span class="s">gcr_image_repo: "{{ registry_host }}"</span>
+<span class="s">docker_image_repo: "{{ registry_host }}"</span>
+<span class="s">quay_image_repo: "{{ registry_host }}"</span>
+<span class="s">github_image_repo: "{{ registry_host }}"</span>
+
+<span class="s">github_url: "{{ files_repo }}/github.com"</span>
+<span class="s">dl_k8s_io_url: "{{ files_repo }}/dl.k8s.io"</span>
+<span class="s">storage_googleapis_url: "{{ files_repo }}/storage.googleapis.com"</span>
+<span class="s">get_helm_url: "{{ files_repo }}/get.helm.sh"</span>
+
+<span class="s">local_path_provisioner_helper_image_repo: "{{ registry_host }}/busybox"</span>
+
+<span class="s"># containerd 2+ registry mirrors</span>
+<span class="s">containerd_registries_mirrors:</span>
+<span class="s">  - prefix: docker.io</span>
+<span class="s">    mirrors:</span>
+<span class="s">      - host: https://registry-1.docker.io</span>
+<span class="s">        capabilities: ["pull", "resolve"]</span>
+<span class="s">        skip_verify: false</span>
+<span class="s">  - prefix: "{{ registry_addr }}"</span>
+<span class="s">    mirrors:</span>
+<span class="s">      - host: "https://{{ registry_addr }}"</span>
+<span class="s">        capabilities: ["pull", "resolve"]</span>
+<span class="s">        skip_verify: false</span>
+<span class="s">        header:</span>
+<span class="s">          Authorization: "Basic {{ (registry_user + ':' + registry_pass) | b64encode }}"</span>
+
+<span class="s"># Cilium: mirror the chart index and the chart tarball into files_repo</span>
+<span class="s">cilium_install_extra_flags: "--repository {{ files_repo }}/helm.cilium.io/"</span>
+<span class="s">cilium_extra_values:</span>
+<span class="s">  image:</span>
+<span class="s">    useDigest: false</span>
+<span class="s">  hubble:</span>
+<span class="s">    relay:</span>
+<span class="s">      image:</span>
+<span class="s">        useDigest: false</span>
+<span class="s">    ui:</span>
+<span class="s">      backend:</span>
+<span class="s">        image:</span>
+<span class="s">          useDigest: false</span>
+<span class="s">      frontend:</span>
+<span class="s">        image:</span>
+<span class="s">          useDigest: false</span>
+<span class="s">  operator:</span>
+<span class="s">    image:</span>
+<span class="s">      override: "{{ registry_host }}/cilium/operator-generic:v1.20.3"</span>
+<span class="s">      useDigest: false</span>
+<span class="s">      extension: ""</span>
+<span class="s">  certgen:</span>
+<span class="s">    image:</span>
+<span class="s">      useDigest: false</span>
+<span class="s">  envoy:</span>
+<span class="s">    image:</span>
+<span class="s">      useDigest: false</span>
+
+<span class="s"># OS package repositories (Oracle Linux / RHEL family)</span>
+<span class="s">containerd_rh_repo_base_url: "{{ yum_repo }}/containerd"</span>
+<span class="s">containerd_rh_repo_gpgkey: "{{ yum_repo }}/containerd/gpgkey"</span>
+
+<span class="s"># OS package repositories (Ubuntu)</span>
+<span class="s">containerd_ubuntu_repo_base_url: "{{ ubuntu_repo }}/containerd"</span>
+<span class="s">containerd_ubuntu_repo_gpgkey: "{{ ubuntu_repo }}/containerd/gpgkey"</span>
+<span class="s">containerd_ubuntu_repo_repokey: 'YOURREPOKEY'</span>
+<span class="s">EOF</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify offline group vars are present and properly structured</span>
+grep<span class="w"> </span><span class="s1">'kube_image_repo'</span><span class="w"> </span>inventory/mycluster/group_vars/all/offline.yml
+<span class="c1"># Expected: kube_image_repo: "{{ registry_host }}"</span>
+grep<span class="w"> </span><span class="s1">'cilium_install_extra_flags'</span><span class="w"> </span>inventory/mycluster/group_vars/all/offline.yml
+<span class="c1"># Expected: cilium_install_extra_flags: "--repository {{ files_repo }}/helm.cilium.io/"</span>
+grep<span class="w"> </span><span class="s1">'containerd_registries_mirrors'</span><span class="w"> </span>inventory/mycluster/group_vars/all/offline.yml
+<span class="c1"># Expected: containerd_registries_mirrors section present</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 02 (anchor <code>#step-02</code>)
+- Next: Step 04 (anchor <code>#step-04</code>)</p>
+<p><a id="step-04"></a></p>
+<h2 id="step-04-syntax-check-and-pre-check-commands">Step 04 — Syntax-check and pre-check commands<a class="headerlink" href="#step-04-syntax-check-and-pre-check-commands" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Validate the playbook YAML for parsing errors and verify Ansible communication with all hosts before deployment.</p>
+<p><strong>Prerequisites</strong>:
+- Step 03 complete (offline registry configured)
+- Inventory file exists with host definitions</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># 4.1 Syntax check - validate playbook YAML without contacting hosts</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>--syntax-check
+<span class="c1"># Expected output: playbook: cluster.yml: syntax check passed</span>
+
+<span class="c1"># 4.2 Ansible ping - verify communication with all hosts</span>
+ansible<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>all<span class="w"> </span>-m<span class="w"> </span>ping
+<span class="c1"># Expected output (one line per host):</span>
+<span class="c1"># k8s-cp-1 | pong</span>
+<span class="c1"># k8s-cp-2 | pong</span>
+<span class="c1"># k8s-cp-3 | pong</span>
+<span class="c1"># k8s-w-1 | pong</span>
+<span class="c1"># k8s-w-2 | pong</span>
+<span class="c1"># k8s-w-3 | pong</span>
+
+<span class="c1"># 4.3 Check and diff - simulated deployment limited to control-plane nodes</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--check<span class="w"> </span>--diff<span class="w"> </span>--limit<span class="w"> </span>control-plane
+<span class="c1"># Expected output: playbook plan with changed/ok for each task, no actual system modifications</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify syntax check passed</span>
+grep<span class="w"> </span><span class="s2">"syntax check passed"</span><span class="w"> </span>&lt;<span class="o">(</span>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>--syntax-check<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="o">)</span>
+<span class="c1"># Expected: contain string "syntax check passed"</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 03 (anchor <code>#step-03</code>)
+- Next: Step 05 (anchor <code>#step-05</code>)</p>
+<p><a id="step-05"></a></p>
+<h2 id="step-05-control-plane-deployment-one-node-at-a-time-with-kubeadm-join-and-upload-certs">Step 05 — Control-plane deployment one node at a time with kubeadm join and upload-certs<a class="headerlink" href="#step-05-control-plane-deployment-one-node-at-a-time-with-kubeadm-join-and-upload-certs" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Deploy the control-plane nodes sequentially using Kubespray, one node at a time to preserve API server quorum.</p>
+<p><strong>Prerequisites</strong>:
+- Step 04 complete (pre-checks passed)
+- All control-plane nodes reachable via SSH</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># 5.1 Deploy first control-plane node</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-1
+
+<span class="c1"># 5.2 Verify first node is ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>k8s-cp-1
 <span class="c1"># Expected: Ready, Status=Ready</span>
+
 kubectl<span class="w"> </span>get<span class="w"> </span>--raw<span class="o">=</span><span class="s1">'/readyz?verbose'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"(IP|kubelet|apiserver|controller-manager|scheduler)"</span>
-</code></pre></div>
-<h3 id="53-deploy-remaining-control-plane-nodes-one-at-a-time">5.3 Deploy remaining control-plane nodes one at a time<a class="headerlink" href="#53-deploy-remaining-control-plane-nodes-one-at-a-time" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Second control-plane node</span>
-ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-2
+<span class="c1"># Expected: all components responding</span>
+
+<span class="c1"># 5.3 Deploy remaining control-plane nodes one at a time</span>
+<span class="c1"># Second control-plane node</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-2
 
 <span class="c1"># Third control-plane node</span>
-ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-3
-</code></pre></div>
-<h3 id="54-verify-etcd-cluster-health">5.4 Verify etcd cluster health<a class="headerlink" href="#54-verify-etcd-cluster-health" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>etcdctl<span class="w"> </span>--endpoints<span class="o">=</span>https://127.0.0.1:2379<span class="w"> </span>endpoint<span class="w"> </span>health<span class="w"> </span><span class="se">\</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-3
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify all control-plane nodes are ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+<span class="c1"># Expected: 3 control-plane nodes showing Ready status with VERSION v1.36.5</span>
+
+<span class="c1"># Verify etcd cluster health</span>
+etcdctl<span class="w"> </span>--endpoints<span class="o">=</span>https://127.0.0.1:2379<span class="w"> </span>endpoint<span class="w"> </span>health<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--cacert<span class="o">=</span>/etc/kubernetes/pki/etcd/ca.crt<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--cert<span class="o">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.crt<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--key<span class="o">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.key
 <span class="c1"># Expected: all healthy</span>
-</code></pre></div>
-<h3 id="55-kubeadm-join-if-joining-additional-control-plane-nodes-outside-kubespray">5.5 kubeadm join (if joining additional control-plane nodes outside Kubespray)<a class="headerlink" href="#55-kubeadm-join-if-joining-additional-control-plane-nodes-outside-kubespray" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># On each additional control-plane node</span>
-kubeadm<span class="w"> </span>join<span class="w"> </span>&lt;control-plane-vip&gt;:6443<span class="w"> </span>--control-plane<span class="w"> </span>--certificate-key<span class="w"> </span>&lt;key&gt;
-</code></pre></div>
-<p><strong>Note</strong>: Kubespray manages the control-plane setup internally. The <code>kubeadm join --control-plane</code> command is only needed when adding extra control-plane nodes after the initial Kubespray deploy, or for recovery procedures.</p>
-<hr />
-<h2 id="6-worker-node-join">6. Worker node join<a class="headerlink" href="#6-worker-node-join" title="Permanent link">&para;</a></h2>
-<p>Add worker nodes to the cluster. Kubespray generates the <code>kubeadm join</code> command and nodes pick it up automatically from their <code>kubelet</code> configuration.</p>
-<h3 id="61-deploy-workers">6.1 Deploy workers<a class="headerlink" href="#61-deploy-workers" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-node
-</code></pre></div>
-<h3 id="62-verify-worker-nodes-are-ready">6.2 Verify worker nodes are ready<a class="headerlink" href="#62-verify-worker-nodes-are-ready" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 04 (anchor <code>#step-04</code>)
+- Next: Step 06 (anchor <code>#step-06</code>)</p>
+<p><a id="step-06"></a></p>
+<h2 id="step-06-worker-node-join">Step 06 — Worker node join<a class="headerlink" href="#step-06-worker-node-join" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Add worker nodes to the cluster. Kubespray generates the kubeadm join command and nodes pick it up automatically from their kubelet configuration.</p>
+<p><strong>Prerequisites</strong>:
+- Step 05 complete (all control-plane nodes deployed and etcd healthy)
+- Worker nodes reachable via SSH</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># 6.1 Deploy workers</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-node
+
+<span class="c1"># 6.2 Verify worker nodes are ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes
 <span class="c1"># Expected output:</span>
 <span class="c1"># NAME         STATUS   ROLES           AGE   VERSION</span>
 <span class="c1"># k8s-cp-1     Ready    control-plane   10m   v1.36.5</span>
@@ -6899,20 +5784,37 @@ kubeadm<span class="w"> </span>join<span class="w"> </span>&lt;control-plane-vip
 <span class="c1"># k8s-w-1      Ready    &lt;none&gt;          5m    v1.36.5</span>
 <span class="c1"># k8s-w-2      Ready    &lt;none&gt;          3m    v1.36.5</span>
 <span class="c1"># k8s-w-3      Ready    &lt;none&gt;          1m    v1.36.5</span>
-</code></pre></div>
-<h3 id="63-verify-pod-readiness-across-namespaces">6.3 Verify pod readiness across namespaces<a class="headerlink" href="#63-verify-pod-readiness-across-namespaces" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A
-<span class="c1"># All kube-system pods should be Running, except possibly short-lived startup containers</span>
-</code></pre></div>
-<hr />
-<h2 id="7-cilium-cni-installation-and-validation">7. Cilium CNI installation and validation<a class="headerlink" href="#7-cilium-cni-installation-and-validation" title="Permanent link">&para;</a></h2>
-<p>Cilium is installed by Kubespray via the <code>kube_network_plugin: cilium</code> variable and the offline Helm chart configuration in <code>group_vars/all/offline.yml</code>.</p>
-<h3 id="71-verify-cilium-daemonset-is-running">7.1 Verify Cilium DaemonSet is running<a class="headerlink" href="#71-verify-cilium-daemonset-is-running" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="o">=</span>cilium
+
+<span class="c1"># 6.3 Verify pod readiness across namespaces</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A
+<span class="c1"># Expected: All kube-system pods should be Running, except possibly short-lived startup containers</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify all 6 nodes are Ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
+<span class="s2">import sys, json</span>
+<span class="s2">nodes = json.load(sys.stdin)['items']</span>
+<span class="s2">ready = [n for n in nodes if 'Ready' in n['status']['conditions'][0]['type']]</span>
+<span class="s2">print(f'Total nodes: {len(nodes)}, Ready: {len(ready)}')</span>
+<span class="s2"># Expected: Total nodes: 6, Ready: 6</span>
+<span class="s2">"</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 05 (anchor <code>#step-05</code>)
+- Next: Step 07 (anchor <code>#step-07</code>)</p>
+<p><a id="step-07"></a></p>
+<h2 id="step-07-cilium-cni-installation-and-validation">Step 07 — Cilium CNI installation and validation<a class="headerlink" href="#step-07-cilium-cni-installation-and-validation" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Verify Cilium CNI is properly installed and functioning, including BPF data path and connectivity.</p>
+<p><strong>Prerequisites</strong>:
+- Step 06 complete (all worker nodes joined and Ready)
+- kubectl access to the cluster</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># 7.1 Verify Cilium DaemonSet is running</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="o">=</span>cilium
 <span class="c1"># Expected: 6 pods (3 agents + 3 relays, or as DaemonSet size)</span>
-</code></pre></div>
-<h3 id="72-check-cilium-status">7.2 Check Cilium status<a class="headerlink" href="#72-check-cilium-status" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>cilium<span class="w"> </span>status
+
+<span class="c1"># 7.2 Check Cilium status</span>
+cilium<span class="w"> </span>status
 <span class="c1"># Expected output sections:</span>
 <span class="c1"># - Cluster info</span>
 <span class="c1"># - Node-bpf state: installed (or disabled)</span>
@@ -6920,13 +5822,13 @@ kubeadm<span class="w"> </span>join<span class="w"> </span>&lt;control-plane-vip
 <span class="c1"># - kubeProxyReplacementError: none</span>
 <span class="c1"># - Cluster CIDR: 10.30.0.0/16</span>
 <span class="c1"># - Service CIDR: 10.32.0.0/16</span>
-</code></pre></div>
-<h3 id="73-run-connectivity-test">7.3 Run connectivity test<a class="headerlink" href="#73-run-connectivity-test" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>cilium<span class="w"> </span>connectivity<span class="w"> </span><span class="nb">test</span>
+
+<span class="c1"># 7.3 Run connectivity test</span>
+cilium<span class="w"> </span>connectivity<span class="w"> </span><span class="nb">test</span>
 <span class="c1"># Expected: all probes pass (e2e, host, l3, l2, etc. depending on mode)</span>
-</code></pre></div>
-<h3 id="74-validate-kube-proxy-replacement">7.4 Validate kube-proxy replacement<a class="headerlink" href="#74-validate-kube-proxy-replacement" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>daemonset<span class="w"> </span>cilium-agent
+
+<span class="c1"># 7.4 Validate kube-proxy replacement</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>daemonset<span class="w"> </span>cilium-agent
 <span class="c1"># Or check the kube-proxy replacement status</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
 <span class="s2">import sys, json</span>
@@ -6935,9 +5837,9 @@ kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> 
 <span class="s2">    addresses = [a['address'] for a in node['status']['addresses']]</span>
 <span class="s2">    print(f'{node_name}: addresses={addresses}')</span>
 <span class="s2">"</span>
-</code></pre></div>
-<h3 id="75-basic-network-policy-test-audit-mode-first">7.5 Basic network policy test (audit mode first)<a class="headerlink" href="#75-basic-network-policy-test-audit-mode-first" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Allow DNS egress</span>
+
+<span class="c1"># 7.5 Basic network policy test (audit mode first)</span>
+<span class="c1"># Allow DNS egress</span>
 cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
 <span class="s">apiVersion: cilium.io/v2</span>
 <span class="s">kind: CiliumNetworkPolicy</span>
@@ -6957,26 +5859,39 @@ cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</spa
 <span class="s">            - port: "53"</span>
 <span class="s">              protocol: TCP</span>
 <span class="s">EOF</span>
-</code></pre></div>
-<h3 id="76-hubble-observability-optional-but-recommended">7.6 Hubble observability (optional but recommended)<a class="headerlink" href="#76-hubble-observability-optional-but-recommended" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>cilium<span class="w"> </span>hubble<span class="w"> </span>status
-cilium<span class="w"> </span>hubble<span class="w"> </span>relay<span class="w"> </span>status
-cilium<span class="w"> </span>hubble<span class="w"> </span>ui<span class="w"> </span>status
-</code></pre></div>
-<h3 id="reference_2">Reference<a class="headerlink" href="#reference_2" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>docs/kubernetes/networking/cilium.md</code> — full Cilium configuration and troubleshooting</li>
-<li><code>docs/kubespray/offline-deployment-checklist.md</code> §F — CNI verification items</li>
-</ul>
-<hr />
-<h2 id="8-nginx-ingress-controller-installation-and-validation">8. NGINX ingress controller installation and validation<a class="headerlink" href="#8-nginx-ingress-controller-installation-and-validation" title="Permanent link">&para;</a></h2>
-<p>Install the F5 NGINX Ingress Controller (retired the community <code>kubernetes/ingress-nginx</code> in March 2026). Use Helm with the exact chart version and offline image digests.</p>
-<h3 id="81-add-helm-repository">8.1 Add Helm repository<a class="headerlink" href="#81-add-helm-repository" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>nginx-ingress<span class="w"> </span>https://nginx.github.io/helm-charts
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify Cilium is running and kube-proxy is replaced</span>
+cilium<span class="w"> </span>status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'KubeProxyReplacement'</span>
+<span class="c1"># Expected: KubeProxyReplacement: True</span>
+
+cilium<span class="w"> </span>status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'kubeProxyReplacementError'</span>
+<span class="c1"># Expected: kubeProxyReplacementError: none</span>
+
+<span class="c1"># Verify cluster CIDR</span>
+cilium<span class="w"> </span>status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'Cluster CIDR'</span>
+<span class="c1"># Expected: Cluster CIDR: 10.30.0.0/16</span>
+
+<span class="c1"># Verify service CIDR</span>
+cilium<span class="w"> </span>status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'Service CIDR'</span>
+<span class="c1"># Expected: Service CIDR: 10.32.0.0/16</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 06 (anchor <code>#step-06</code>)
+- Next: Step 08 (anchor <code>#step-08</code>)</p>
+<p><a id="step-08"></a></p>
+<h2 id="step-08-nginx-ingress-controller-installation-and-validation">Step 08 — NGINX ingress controller installation and validation<a class="headerlink" href="#step-08-nginx-ingress-controller-installation-and-validation" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Install the F5 NGINX Ingress Controller using Helm with exact chart version and offline image digests, and configure Gateway API support.</p>
+<p><strong>Prerequisites</strong>:
+- Step 07 complete (Cilium CNI installed and validated)
+- Helm installed and configured with offline repositories</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># 8.1 Add Helm repository</span>
+helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>nginx-ingress<span class="w"> </span>https://nginx.github.io/helm-charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
-</code></pre></div>
-<h3 id="82-install-nginx-ingress-controller">8.2 Install NGINX Ingress Controller<a class="headerlink" href="#82-install-nginx-ingress-controller" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>nic<span class="w"> </span>nginx-ingress/nginx-ingress<span class="w"> </span><span class="se">\</span>
+
+<span class="c1"># 8.2 Install NGINX Ingress Controller</span>
+helm<span class="w"> </span>install<span class="w"> </span>nic<span class="w"> </span>nginx-ingress/nginx-ingress<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">2</span>.8.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>ingress-nginx<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>controller.image.repository<span class="o">=</span>harbor.internal/platform/nginx-ingress/controller<span class="w"> </span><span class="se">\</span>
@@ -6987,77 +5902,94 @@ helm<span class="w"> </span>repo<span class="w"> </span>update
 <span class="w">  </span>--set<span class="w"> </span>controller.config.ingress-class<span class="o">=</span>nginx<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>controller.metrics.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>controller.metrics.serviceMonitor.enabled<span class="o">=</span><span class="nb">true</span>
-</code></pre></div>
-<h3 id="83-configure-gateway-api-required-for-the-replacement-controller">8.3 Configure Gateway API (required for the replacement controller)<a class="headerlink" href="#83-configure-gateway-api-required-for-the-replacement-controller" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/standard-install.yaml
-</code></pre></div>
-<p>Configure the controller to watch Gateway API resources:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">controller</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enable-gateway-api</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
-<span class="w">    </span><span class="nt">gateway-class</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
-</code></pre></div>
-<p>Disable snippet annotations (security hardening):</p>
-<div class="highlight"><pre><span></span><code><span class="nt">controller</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enable-snippets</span><span class="p">:</span><span class="w"> </span><span class="s">"false"</span>
-<span class="w">    </span><span class="nt">enable-server-snippets</span><span class="p">:</span><span class="w"> </span><span class="s">"false"</span>
-<span class="w">    </span><span class="nt">enable-stream-snippets</span><span class="p">:</span><span class="w"> </span><span class="s">"false"</span>
-<span class="w">    </span><span class="nt">allow-snippet-annotations</span><span class="p">:</span><span class="w"> </span><span class="s">"false"</span>
-</code></pre></div>
-<h3 id="84-verify-ingress-controller-is-running">8.4 Verify ingress controller is running<a class="headerlink" href="#84-verify-ingress-controller-is-running" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>pods
+
+<span class="c1"># 8.3 Configure Gateway API</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/standard-install.yaml
+
+<span class="c1"># Configure the controller to watch Gateway API resources</span>
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: ConfigMap</span>
+<span class="s">metadata:</span>
+<span class="s">  name: nginx-ingress-gateway-api</span>
+<span class="s">  namespace: ingress-nginx</span>
+<span class="s">data:</span>
+<span class="s">  enable-gateway-api: "true"</span>
+<span class="s">  gateway-class: nginx</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Disable snippet annotations (security hardening)</span>
+cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: ConfigMap</span>
+<span class="s">metadata:</span>
+<span class="s">  name: nginx-ingress-snippet-hardening</span>
+<span class="s">  namespace: ingress-nginx</span>
+<span class="s">data:</span>
+<span class="s">  enable-snippets: "false"</span>
+<span class="s">  enable-server-snippets: "false"</span>
+<span class="s">  enable-stream-snippets: "false"</span>
+<span class="s">  allow-snippet-annotations: "false"</span>
+<span class="s">EOF</span>
+
+<span class="c1"># 8.4 Verify ingress controller is running</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>pods
 <span class="c1"># Expected: controller pod(s) Ready</span>
+
 kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>svc
 <span class="c1"># Expected: Service with VIP (MetalLB or cloud LB)</span>
+
 kubectl<span class="w"> </span>get<span class="w"> </span>gatewayclass
 <span class="c1"># Expected: gatewayclass.k8s.io/nginx listed</span>
+
 kubectl<span class="w"> </span>get<span class="w"> </span>gateway,httproute<span class="w"> </span>-A
 <span class="c1"># Expected: no resources yet, or your application resources</span>
-</code></pre></div>
-<h3 id="85-tls-validation-cert-manager-vault-pki">8.5 TLS validation (cert-manager + Vault PKI)<a class="headerlink" href="#85-tls-validation-cert-manager-vault-pki" title="Permanent link">&para;</a></h3>
-<p>Certificates are issued via cert-manager from the Vault PKI issuer (see <code>docs/kubernetes/ingress/nginx-ingress.md</code> §TLS). Validate a certificate:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;secret-name&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.tls\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
-</code></pre></div>
-<h3 id="86-external-health-check">8.6 External health check<a class="headerlink" href="#86-external-health-check" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-vk<span class="w"> </span>https://&lt;ingress-vip&gt;/healthz<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s1">'Host: app.internal'</span>
-<span class="c1"># Expected: 200 with valid certificate chain</span>
-</code></pre></div>
-<h3 id="87-verify-admission-webhook-failure-policy">8.7 Verify admission webhook failure policy<a class="headerlink" href="#87-verify-admission-webhook-failure-policy" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>mutatingwebhookconfiguration<span class="w"> </span>-A<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>nginx-ingress
-<span class="c1"># Confirm failurePolicy is Fail for application namespaces</span>
-</code></pre></div>
-<h3 id="reference_3">Reference<a class="headerlink" href="#reference_3" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>docs/kubernetes/ingress/nginx-ingress.md</code> — full F5 NGINX Ingress Controller configuration</li>
-<li><code>docs/kubespray/offline-deployment-checklist.md</code> §G — Platform services items</li>
-</ul>
-<hr />
-<h2 id="9-post-deployment-validation-commands">9. Post-deployment validation commands<a class="headerlink" href="#9-post-deployment-validation-commands" title="Permanent link">&para;</a></h2>
-<p>Run these commands after all components (CNI, ingress, add-ons) are deployed to confirm the cluster is healthy and ready for workloads.</p>
-<h3 id="91-get-nodes-status">9.1 Get nodes status<a class="headerlink" href="#91-get-nodes-status" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>wide
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify NGINX Ingress Controller pods are Ready</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>pods
+<span class="c1"># Expected: 1 or more pods with READY=1/1 or READY=2/2</span>
+
+<span class="c1"># Verify GatewayClass is available</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>gatewayclass
+<span class="c1"># Expected: gatewayclass.k8s.io/nginx listed as available</span>
+
+<span class="c1"># Verify ingress service has VIP</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>svc
+<span class="c1"># Expected: LoadBalancer INGRESS-IP assigned (or pending if using MetalLB in defer mode)</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 07 (anchor <code>#step-07</code>)
+- Next: Step 09 (anchor <code>#step-09</code>)</p>
+<p><a id="step-09"></a></p>
+<h2 id="step-09-post-deployment-validation-commands">Step 09 — Post-deployment validation commands<a class="headerlink" href="#step-09-post-deployment-validation-commands" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Run comprehensive validation commands after all components (CNI, ingress, add-ons) are deployed to confirm the cluster is healthy and ready for workloads.</p>
+<p><strong>Prerequisites</strong>:
+- Step 08 complete (NGINX Ingress Controller installed and validated)
+- All cluster components deployed</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># 9.1 Get nodes status</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>wide
 <span class="c1"># Expected: all nodes Ready, with correct roles and IP addresses</span>
-</code></pre></div>
-<h3 id="92-readyz-check">9.2 Readyz check<a class="headerlink" href="#92-readyz-check" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>--raw<span class="o">=</span><span class="s1">'/readyz?verbose'</span>
+
+<span class="c1"># 9.2 Readyz check</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>--raw<span class="o">=</span><span class="s1">'/readyz?verbose'</span>
 <span class="c1"># Expected: all ok (no failures, no warnings)</span>
-</code></pre></div>
-<h3 id="93-cilium-status">9.3 Cilium status<a class="headerlink" href="#93-cilium-status" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>cilium<span class="w"> </span>status
+
+<span class="c1"># 9.3 Cilium status</span>
+cilium<span class="w"> </span>status
 <span class="c1"># Expected: KubeProxyReplacement: True, KubeProxyReplacementError: none</span>
 <span class="c1"># Cross-node pod CIDR routing healthy</span>
-</code></pre></div>
-<h3 id="94-ingress-health">9.4 Ingress health<a class="headerlink" href="#94-ingress-health" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>pods
+
+<span class="c1"># 9.4 Ingress health</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>pods
 kubectl<span class="w"> </span>-n<span class="w"> </span>ingress-nginx<span class="w"> </span>get<span class="w"> </span>svc
 curl<span class="w"> </span>-vk<span class="w"> </span>https://&lt;ingress-vip&gt;/healthz<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s1">'Host: app.internal'</span>
 <span class="c1"># Expected: 200 with valid certificate chain</span>
-</code></pre></div>
-<h3 id="95-full-cluster-validation">9.5 Full cluster validation<a class="headerlink" href="#95-full-cluster-validation" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># All namespaces pods</span>
+
+<span class="c1"># 9.5 Full cluster validation</span>
+<span class="c1"># All namespaces pods</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A<span class="w"> </span>wide
 
 <span class="c1"># CoreDNS</span>
@@ -7074,76 +6006,88 @@ kubectl<span class="w"> </span>api-versions
 
 <span class="c1"># Storage (Ceph RBD/FS if configured)</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
-</code></pre></div>
-<h3 id="96-dns-resolution-from-pod">9.6 DNS resolution from pod<a class="headerlink" href="#96-dns-resolution-from-pod" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>test-dns<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>--tty<span class="w"> </span>--image<span class="o">=</span>harbor.internal/tools/dnstools<span class="w"> </span><span class="se">\</span>
+
+<span class="c1"># 9.6 DNS resolution from pod</span>
+kubectl<span class="w"> </span>run<span class="w"> </span>test-dns<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>--tty<span class="w"> </span>--image<span class="o">=</span>harbor.internal/tools/dnstools<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--<span class="w"> </span>dig<span class="w"> </span>kubernetes.default.svc.cluster.local<span class="w"> </span>+short
 <span class="c1"># Expected: 10.32.0.1 (cluster IP of kube-dns)</span>
-</code></pre></div>
-<hr />
-<h2 id="rollback-procedures">Rollback procedures<a class="headerlink" href="#rollback-procedures" title="Permanent link">&para;</a></h2>
-<h3 id="rollback-control-plane-node">Rollback control-plane node<a class="headerlink" href="#rollback-control-plane-node" title="Permanent link">&para;</a></h3>
-<p>If a control-plane node fails to join or becomes unhealthy:</p>
-<ol>
-<li><strong>Reset the failed node</strong> (if kubeadm initialized it):</li>
-</ol>
-<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>&lt;failed-node&gt;
-</code></pre></div>
-<p><em>Kubespray-provided reset script removes kubeadm state and resets the node to join again.</em></p>
-<ol>
-<li><strong>Re-deploy the node</strong>:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>--limit<span class="w"> </span>&lt;failed-node&gt;
-</code></pre></div>
-<ol>
-<li><strong>Verify etcd quorum</strong> after re-deploy:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>etcdctl<span class="w"> </span>endpoint<span class="w"> </span>health<span class="w"> </span>--cluster<span class="w"> </span>--cacert<span class="o">=</span>/etc/kubernetes/pki/etcd/ca.crt<span class="w"> </span><span class="se">\</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify all validation checks pass</span>
+<span class="c1"># At least 5/6 nodes showing Ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
+<span class="s2">import sys, json</span>
+<span class="s2">nodes = json.load(sys.stdin)['items']</span>
+<span class="s2">ready = sum(1 for n in nodes if 'Ready' in n['status']['conditions'][0]['type'])</span>
+<span class="s2">print(f'Nodes: {len(nodes)}, Ready: {ready}')</span>
+<span class="s2"># Expected: ready &gt;= 5, api-versions returns non-empty list</span>
+<span class="s2">"</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 08 (anchor <code>#step-08</code>)
+- Next: Step 10 (anchor <code>#step-10</code>)</p>
+<p><a id="step-10"></a></p>
+<h2 id="step-10-rollback-procedures">Step 10 — Rollback procedures<a class="headerlink" href="#step-10-rollback-procedures" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Document rollback procedures for control-plane node failures and full cluster resets.</p>
+<p><strong>Prerequisites</strong>:
+- Step 09 complete (post-deployment validation passed)
+- Inventory and group vars preserved in Git</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Rollback control-plane node</span>
+<span class="c1"># If a control-plane node fails to join or becomes unhealthy:</span>
+
+<span class="c1"># 1. Reset the failed node (if kubeadm initialized it):</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>&lt;failed-node&gt;
+
+<span class="c1"># Kubespray-provided reset script removes kubeadm state and resets the node to join again.</span>
+
+<span class="c1"># 2. Re-deploy the node:</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>--limit<span class="w"> </span>&lt;failed-node&gt;
+
+<span class="c1"># 3. Verify etcd quorum after re-deploy:</span>
+etcdctl<span class="w"> </span>endpoint<span class="w"> </span>health<span class="w"> </span>--cluster<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cacert<span class="o">=</span>/etc/kubernetes/pki/etcd/ca.crt<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--cert<span class="o">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.crt<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--key<span class="o">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.key
-</code></pre></div>
-<h3 id="rollback-full-cluster">Rollback full cluster<a class="headerlink" href="#rollback-full-cluster" title="Permanent link">&para;</a></h3>
-<p>If the deployment is fundamentally broken and needs to be restarted from scratch:</p>
-<ol>
-<li><strong>Reset all nodes</strong> (ordered: workers first, then control-plane):</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="c1"># Reset workers</span>
-ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-node
+<span class="c1"># Expected: all healthy</span>
+
+<span class="c1"># Rollback full cluster</span>
+<span class="c1"># If the deployment is fundamentally broken and needs to be restarted from scratch:</span>
+
+<span class="c1"># 1. Reset all nodes (ordered: workers first, then control-plane):</span>
+<span class="c1"># Reset workers</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-node
 
 <span class="c1"># Reset control-plane nodes (one at a time to preserve etcd quorum during reset)</span>
-ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-1
-ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-2
-ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-3
-</code></pre></div>
-<ol>
-<li><strong>Clean etcd data</strong> (optional, destructive):</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="c1"># On each control-plane node</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-1
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-2
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/mycluster/hosts.ini<span class="w"> </span>reset.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-3
+
+<span class="c1"># 2. Clean etcd data (optional, destructive):</span>
+<span class="c1"># On each control-plane node</span>
 rm<span class="w"> </span>-rf<span class="w"> </span>/var/lib/etcd/default.etcd
 rm<span class="w"> </span>-rf<span class="w"> </span>/etc/kubernetes/pki/etcd
-</code></pre></div>
-<ol>
-<li><strong>Re-run the full deployment</strong> from Step 1 (inventory generation) through Step 9 (validation).</li>
-</ol>
-<h3 id="important-rollback-rules">Important rollback rules<a class="headerlink" href="#important-rollback-rules" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Never delete <code>/etc/kubernetes</code> to "start clean"</strong> on a node that holds state. Use <code>kubespray reset</code> (Kubespray-provided) as the intended teardown.</li>
-<li><strong>Keep the inventory and group vars in Git</strong> so a rerun is reproducible from the recorded state.</li>
-<li><strong>Take a snapshot before starting</strong> any deployment that you may need to roll back. etcd snapshots are the authoritative backup.</li>
-<li><strong>Reruns are safe</strong> — Kubespray is idempotent by design. A rerun after a failed deploy is the recommended recovery step, not a fresh install.</li>
-</ul>
-<hr />
-<h2 id="cross-references">Cross-references<a class="headerlink" href="#cross-references" title="Permanent link">&para;</a></h2>
-<ul>
-<li><code>docs/kubespray/kubespray-deployment.md</code> — full Kubespray deployment guide (offline execution, best practices, validation)</li>
-<li><code>docs/kubespray/group-vars-template.md</code> — authoritative group vars template with variable names</li>
-<li><code>docs/kubespray/inventory-and-variables.md</code> — inventory design reference</li>
-<li><code>docs/kubespray/inventory-template.ini</code> — inventory template</li>
-<li><code>docs/kubernetes/networking/cilium.md</code> — Cilium CNI configuration, offline preparation, validation</li>
-<li><code>docs/kubernetes/ingress/nginx-ingress.md</code> — F5 NGINX Ingress Controller installation, Gateway API, TLS</li>
-<li><code>docs/kubespray/offline-deployment-checklist.md</code> — end-to-end offline deployment checklist</li>
-<li><code>compatibility/version-matrix.md</code> — supported Kubernetes/Cilium/NGINX versions per release</li>
-</ul>
+
+<span class="c1"># 3. Re-run the full deployment from Step 1 (inventory generation) through Step 9 (validation).</span>
+
+<span class="c1"># Important rollback rules</span>
+<span class="c1"># - Never delete /etc/kubernetes to "start clean" on a node that holds state. Use kubespray reset (Kubespray-provided) as the intended teardown.</span>
+<span class="c1"># - Keep the inventory and group vars in Git so a rerun is reproducible from the recorded state.</span>
+<span class="c1"># - Take a snapshot before starting any deployment that you may need to roll back. etcd snapshots are the authoritative backup.</span>
+<span class="c1"># - Reruns are safe — Kubespray is idempotent by design. A rerun after a failed deploy is the recommended recovery step, not a fresh install.</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify rollback procedures are documented and inventory is preserved</span>
+ls<span class="w"> </span>inventory/mycluster/hosts.ini
+<span class="c1"># Expected: file exists (inventory preserved in Git)</span>
+
+<span class="c1"># Verify kubespray reset script is available</span>
+ls<span class="w"> </span>kubespray/reset.yml
+<span class="c1"># Expected: file exists (Kubespray-provided)</span>
+</code></pre></div></p>
+<p><strong>Navigation</strong>:
+- Previous: Step 09 (anchor <code>#step-09</code>)
+- Next: None (Step 10 is the last step)</p>
 
 
 

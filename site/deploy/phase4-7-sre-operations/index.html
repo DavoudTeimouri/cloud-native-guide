@@ -27,7 +27,7 @@
     
     
       
-        <title>Phase 4-7: SRE Operations - Cloud-Native Guide</title>
+        <title>Steps 31-40: SRE Operations - Cloud-Native Guide</title>
       
     
     
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phase 4-7: SRE Operations
+              Steps 31-40: SRE Operations
             
           </span>
         </div>
@@ -331,34 +331,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Choose OS
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../choose-cluster-type/" class="md-nav__link">
         
   
@@ -471,6 +443,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 00: OS Selection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../phase1-cluster-foundation/" class="md-nav__link">
         
   
@@ -478,7 +478,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1: Cluster Foundation
+    Steps 01-10: Cluster Foundation
   
 
     
@@ -506,7 +506,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 2: Management Layer
+    Steps 11-20: Management Layer
   
 
     
@@ -534,7 +534,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 3: Storage Lifecycle
+    Steps 21-30: Storage Lifecycle
   
 
     
@@ -571,7 +571,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 4-7: SRE Operations
+    Steps 31-40: SRE Operations
   
 
     
@@ -589,7 +589,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 4-7: SRE Operations
+    Steps 31-40: SRE Operations
   
 
     
@@ -615,331 +615,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#4-observability" class="md-nav__link">
+  <a href="#step-31-observability-prometheus-operator-node-exporter-kube-state-metrics-cadvisor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Observability
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Observability">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#41-prometheus-operator-helm-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.1 Prometheus Operator Helm Install
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#42-node-exporter-daemonset" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.2 Node Exporter DaemonSet
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#43-kube-state-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.3 kube-state-metrics
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#44-cadvisor" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.4 cAdvisor
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#45-grafana-dashboard-provisioning" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.5 Grafana Dashboard Provisioning
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#46-loki-promtail-log-aggregation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.6 Loki + Promtail Log Aggregation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#47-alertmanager-routing-to-pagerdutyslack" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.7 Alertmanager Routing to PagerDuty/Slack
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#48-alert-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.8 Alert Rules
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#49-validation-commands-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.9 Validation Commands Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-scaling-expansion" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Scaling &amp; Expansion
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="5. Scaling &amp; Expansion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-add-worker-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.1 Add Worker Node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#52-add-control-plane-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.2 Add Control-Plane Node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#53-add-gpu-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.3 Add GPU Node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-add-ceph-osd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Add Ceph OSD
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#55-decision-matrix-adding-nodes-vs-adding-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.5 Decision Matrix: Adding Nodes vs. Adding Components
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-maintenance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Maintenance
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="6. Maintenance">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-os-patching" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.1 OS Patching
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-kernel-updates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.2 Kernel Updates
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63-certificate-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.3 Certificate Rotation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#64-kubespray-upgrades" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.4 kubespray Upgrades
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#65-health-checks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.5 Health Checks
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-troubleshooting-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Troubleshooting Matrix
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kubernetes-node-lifecycle-procedures" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Kubernetes Node Lifecycle Procedures
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Kubernetes Node Lifecycle Procedures">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#add-worker" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Add Worker
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#remove-worker" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Remove Worker
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#replace-control-plane" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Replace Control-Plane
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        References
+        Step 31 — Observability: Prometheus Operator, node-exporter, kube-state-metrics, cAdvisor
       
     </span>
   </a>
@@ -5018,34 +4697,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Choose OS
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../operating-systems/host-configuration/" class="md-nav__link">
         
   
@@ -5597,331 +5248,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#4-observability" class="md-nav__link">
+  <a href="#step-31-observability-prometheus-operator-node-exporter-kube-state-metrics-cadvisor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Observability
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Observability">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#41-prometheus-operator-helm-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.1 Prometheus Operator Helm Install
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#42-node-exporter-daemonset" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.2 Node Exporter DaemonSet
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#43-kube-state-metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.3 kube-state-metrics
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#44-cadvisor" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.4 cAdvisor
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#45-grafana-dashboard-provisioning" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.5 Grafana Dashboard Provisioning
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#46-loki-promtail-log-aggregation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.6 Loki + Promtail Log Aggregation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#47-alertmanager-routing-to-pagerdutyslack" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.7 Alertmanager Routing to PagerDuty/Slack
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#48-alert-rules" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.8 Alert Rules
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#49-validation-commands-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.9 Validation Commands Summary
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-scaling-expansion" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Scaling &amp; Expansion
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="5. Scaling &amp; Expansion">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#51-add-worker-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.1 Add Worker Node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#52-add-control-plane-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.2 Add Control-Plane Node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#53-add-gpu-node" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.3 Add GPU Node
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#54-add-ceph-osd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.4 Add Ceph OSD
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#55-decision-matrix-adding-nodes-vs-adding-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5.5 Decision Matrix: Adding Nodes vs. Adding Components
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-maintenance" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Maintenance
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="6. Maintenance">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-os-patching" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.1 OS Patching
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-kernel-updates" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.2 Kernel Updates
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#63-certificate-rotation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.3 Certificate Rotation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#64-kubespray-upgrades" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.4 kubespray Upgrades
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#65-health-checks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.5 Health Checks
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-troubleshooting-matrix" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Troubleshooting Matrix
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kubernetes-node-lifecycle-procedures" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Kubernetes Node Lifecycle Procedures
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Kubernetes Node Lifecycle Procedures">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#add-worker" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Add Worker
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#remove-worker" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Remove Worker
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#replace-control-plane" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Replace Control-Plane
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        References
+        Step 31 — Observability: Prometheus Operator, node-exporter, kube-state-metrics, cAdvisor
       
     </span>
   </a>
@@ -5948,1160 +5278,430 @@
   
 
 
-<h1 id="phase-4-7-sre-operational-guides">Phase 4-7 SRE Operational Guides<a class="headerlink" href="#phase-4-7-sre-operational-guides" title="Permanent link">&para;</a></h1>
-<p><em>Site Reliability Engineering operational procedures for the cloud-native platform, covering Observability (Phase 4), Scaling &amp; Expansion (Phase 5), Maintenance (Phase 6), and Troubleshooting (Phase 7). All procedures are validated against the reference documentation in <code>docs/monitoring/</code>, <code>docs/lifecycle/upgrades/</code>, <code>docs/troubleshooting/</code>, and <code>docs/kubernetes/</code>.</em></p>
+<h1 id="phase-4-7-sre-operational-guides">Phase 4-7 — SRE Operational Guides<a class="headerlink" href="#phase-4-7-sre-operational-guides" title="Permanent link">&para;</a></h1>
+<p><strong>Purpose</strong>: Site reliability engineering operational procedures for the cloud-native platform, covering Observability (Steps 31-33), Scaling &amp; Expansion (Steps 34-37), Maintenance (Step 38), and Troubleshooting (Step 39). All procedures follow the prerequisites→actions→validation→navigation pattern of this step-by-step guide.</p>
+<p><strong>Entry criteria</strong>:
+- Step 30 complete (storage validation exit criteria pass).
+- Phase 1 (cluster foundation) complete: Kubernetes cluster provisioned with Kubespray, Cilium CNI, NGINX ingress reachable.
+- Phase 2 (management layer) complete: Rancher, Argo CD, Keycloak OIDC, Vault deployed and integrated.
+- Phase 3 (storage lifecycle) complete: Ceph/Rook-Ceph storage deployed and validated.
+- All nodes have OS installed per Step 00 and containerd 2.3.7 from internal mirror.</p>
+<p><strong>Exit criteria</strong>:
+- All 10 steps complete and reviewed.
+- Validation commands produce expected healthy state.
+- Post-deployment SLO check passes (error budget within target).
+- Rollback procedures documented and the team has exercised at least one recovery in a non-production context.</p>
 <hr />
-<h2 id="4-observability">4. Observability<a class="headerlink" href="#4-observability" title="Permanent link">&para;</a></h2>
-<h3 id="41-prometheus-operator-helm-install">4.1 Prometheus Operator Helm Install<a class="headerlink" href="#41-prometheus-operator-helm-install" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Item</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Chart</td>
-<td><code>kube-prometheus-stack</code> from <code>harbor.internal/charts/</code></td>
-</tr>
-<tr>
-<td>Namespace</td>
-<td><code>monitoring</code></td>
-</tr>
-<tr>
-<td>Release</td>
-<td><code>kube-prometheus-stack</code></td>
-</tr>
-<tr>
-<td>Key values</td>
-<td>See <code>monitoring/prometheus.md</code> §E installation values.yaml</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Install via Argo CD</strong> — The stack is deployed as an Argo CD Application targeting the <code>mgmt-argocd</code> namespace (<code>docs/monitoring/prometheus.md</code> §A). The Git source points to the <code>obs-monitoring</code> GitLab project, path <code>kube-prometheus-stack</code>.</p>
-<p><strong>Helm install (manual, outside Argo CD):</strong></p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>kube-prometheus-stack<span class="w"> </span>harbor.internal/charts/kube-prometheus-stack<span class="w"> </span><span class="se">\</span>
+<p><a id="step-31"></a></p>
+<h2 id="step-31-observability-prometheus-operator-node-exporter-kube-state-metrics-cadvisor">Step 31 — Observability: Prometheus Operator, node-exporter, kube-state-metrics, cAdvisor<a class="headerlink" href="#step-31-observability-prometheus-operator-node-exporter-kube-state-metrics-cadvisor" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Install the metrics foundation (Prometheus Operator stack) and verify every scrape target reports healthy.</p>
+<p><strong>Prerequisites</strong>:
+- Step 30 complete (storage validation exit criteria pass).
+- Kubernetes cluster reachable via <code>kubectl</code>.
+- Helm chart <code>kube-prometheus-stack</code> mirrored to <code>harbor.internal/charts/</code>.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create the monitoring namespace</span>
+kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>monitoring<span class="w"> </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-
+
+<span class="c1"># Install Prometheus Operator stack from internal Helm chart</span>
+helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>kube-prometheus-stack<span class="w"> </span>harbor.internal/charts/kube-prometheus-stack<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>monitoring<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-f<span class="w"> </span>values.yaml
+<span class="w">  </span>-f<span class="w"> </span>monitoring/prometheus-values.yaml
 </code></pre></div>
-<p><strong>Post-install verification</strong> (from <code>monitoring/prometheus.md</code> §F):</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>pods
-curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9090/api/v1/targets<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.data.activeTargets[] | {job: .labels.job, health: .health}'</span>
-<span class="c1"># Expect every job to report health: "up"</span>
-</code></pre></div>
-<hr />
-<h3 id="42-node-exporter-daemonset">4.2 Node Exporter DaemonSet<a class="headerlink" href="#42-node-exporter-daemonset" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Purpose</strong>: Export node-level metrics (CPU, memory, disk, network) for Prometheus scraping.</li>
-<li><strong>Deployed via</strong> the <code>kube-prometheus-stack</code> Helm chart values (see <code>monitoring/prometheus.md</code> §E).</li>
-<li><strong>ServiceMonitor</strong> auto-created by the Helm chart; no manual scrape config needed.</li>
-<li><strong>Verification</strong>:</li>
-</ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>daemonset<span class="w"> </span>node-exporter<span class="w"> </span>-o<span class="w"> </span>wide
-curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9090/api/v1/targets<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.data.activeTargets[] | select(.labels.job=="node-exporter") | .health'</span>
-<span class="c1"># All targets should report health: "up"</span>
-</code></pre></div>
-<hr />
-<h3 id="43-kube-state-metrics">4.3 kube-state-metrics<a class="headerlink" href="#43-kube-state-metrics" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Purpose</strong>: Export K8s object state (deployments, pods, nodes, etc.) as Prometheus metrics.</li>
-<li><strong>Deployed</strong> as part of the <code>kube-prometheus-stack</code> (Helm <code>kubeStateMetrics.enabled: true</code>).</li>
-<li><strong>ServiceMonitor</strong> auto-generated; metrics under job <code>kube-state-metrics</code>.</li>
-<li><strong>Verification</strong>:</li>
-</ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>kube-state-metrics
-curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9090/api/v1/query?query<span class="o">=</span>kube_deployment_status_replicas<span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
-<span class="c1"># Should return a numeric value, not empty</span>
-</code></pre></div>
-<hr />
-<h3 id="44-cadvisor">4.4 cAdvisor<a class="headerlink" href="#44-cadvisor" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Purpose</strong>: Container resource usage and analysis.</li>
-<li><strong>Deployed</strong> via the <code>kube-prometheus-stack</code> Helm chart (<code>cAdvisor.enabled: true</code>); runs as a DaemonSet on each node.</li>
-<li><strong>ServiceMonitor</strong> auto-created.</li>
-<li><strong>Verification</strong>:</li>
-</ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="o">=</span>cadvisor
-curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9090/api/v1/query?query<span class="o">=</span>container_memory_usage_bytes<span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
-<span class="c1"># Should return metric families, not empty result</span>
-</code></pre></div>
-<hr />
-<h3 id="45-grafana-dashboard-provisioning">4.5 Grafana Dashboard Provisioning<a class="headerlink" href="#45-grafana-dashboard-provisioning" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Purpose</strong>: Dashboards applied as code via Argo CD, not manually edited in the UI.</li>
-<li><strong>Dashboard JSON files</strong> stored in the <code>obs-monitoring</code> GitLab project under <code>dashboards/</code> and provisioned by the <code>mgmt-grafana</code> Argo CD Application (<code>docs/monitoring/grafana-dashboard-provisioning.md</code>).</li>
-<li><strong>Provisioning files</strong> declare which dashboards load on Grafana startup (<code>docs/monitoring/grafana-dashboard-provisioning.md</code> §4).</li>
-<li><strong>Validation workflow</strong> (from <code>docs/monitoring/grafana-dashboard-provisioning.md</code> §5):</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="c1"># 1. Edit a dashboard JSON file</span>
-vim<span class="w"> </span>monitoring/provisioning/dashboards/node-metrics.json
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># All monitoring pods Running with 0 restarts</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>pods
 
-<span class="c1"># 2. Commit and push</span>
-git<span class="w"> </span>add<span class="w"> </span>monitoring/provisioning/dashboards/node-metrics.json
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Update node metrics dashboard: add CPU panel"</span>
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+<span class="c1"># Every scrape target reports health: "up"</span>
+curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9090/api/v1/targets<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>jq<span class="w"> </span><span class="s1">'.data.activeTargets[] | {job: .labels.job, health: .health}'</span>
 
-<span class="c1"># 3. Wait for Argo CD sync</span>
-kubectl<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>application<span class="w"> </span>mgmt-grafana<span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Healthy<span class="w"> </span>--timeout<span class="o">=</span>300s
+<span class="c1"># kube-state-metrics returns data</span>
+curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"http://localhost:9090/api/v1/query?query=kube_deployment_status_replicas"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
 
-<span class="c1"># 4. Verify provisioning</span>
-kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>grafanadashboard<span class="w"> </span>node-metrics<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.metadata.name}'</span>
-
-<span class="c1"># 5. Syntax validation</span>
-python3<span class="w"> </span>scripts/check_links.py<span class="w"> </span>monitoring/grafana-dashboard-provisioning.md
+<span class="c1"># cAdvisor container metrics present</span>
+curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"http://localhost:9090/api/v1/query?query=container_memory_usage_bytes"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool
 </code></pre></div>
-<p><strong>Related references</strong>: <code>docs/monitoring/prometheus.md</code> §G (dashboard provisioning), <code>docs/monitoring/grafana-dashboard-provisioning.md</code> (full workflow).</p>
+<h1 id="expected-all-targets-report-health-up-both-queries-return-numeric-values-not-empty-results">Expected: all targets report <code>health: "up"</code>; both queries return numeric values, not empty results.<a class="headerlink" href="#expected-all-targets-report-health-up-both-queries-return-numeric-values-not-empty-results" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 30 (anchor <code>#step-30</code>)
+- Next: Step 32 (anchor <code>#step-32</code>)</p>
 <hr />
-<h3 id="46-loki-promtail-log-aggregation">4.6 Loki + Promtail Log Aggregation<a class="headerlink" href="#46-loki-promtail-log-aggregation" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Purpose</strong>: Centralized log storage and search across all clusters.</li>
-<li><strong>Loki</strong> deployed via the <code>loki</code> Helm chart within the <code>monitoring</code> namespace, backed by object storage (Ceph RBD or S3).</li>
-<li><strong>Promtail</strong> DaemonSet collects container logs (<code>{cluster, namespace, pod} label set</code>), ships to Loki via Loki push API.</li>
-<li><strong>Grafana</strong> queries Loki using the Loki data source; dashboards provisioned as code.</li>
-</ul>
-<p><strong>Install Loki Helm chart</strong> (values adapted from <code>monitoring/prometheus.md</code> architecture):</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>loki<span class="w"> </span>grafana/loki<span class="w"> </span><span class="se">\</span>
+<p><a id="step-32"></a></p>
+<h2 id="step-32-observability-grafana-dashboards-loki-promtail-alertmanager-routing">Step 32 — Observability: Grafana dashboards, Loki + Promtail, Alertmanager routing<a class="headerlink" href="#step-32-observability-grafana-dashboards-loki-promtail-alertmanager-routing" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Deploy dashboards as code via Argo CD, aggregate logs with Loki + Promtail, and route alerts to PagerDuty/Slack.</p>
+<p><strong>Prerequisites</strong>:
+- Step 31 complete (Prometheus targets all healthy).
+- Grafana provisioning files stored in the <code>obs-monitoring</code> GitLab project under <code>dashboards/</code>.
+- Alertmanager configuration stored in Git and applied by Argo CD.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install Loki</span>
+helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>loki<span class="w"> </span>grafana/loki<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>monitoring<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>loki-values.yaml
-</code></pre></div>
-<p><strong>Install Promtail DaemonSet</strong> (inline in the kube-prometheus-stack values or separate):</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># loki-values.yaml excerpt</span>
-<span class="nt">promtail</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">clients</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://loki:3100/loki/api/v1/push</span>
-<span class="w">    </span><span class="nt">scrape_configs</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">system</span>
-<span class="w">        </span><span class="nt">static_configs</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"127.0.0.1"</span>
-<span class="w">        </span><span class="nt">pipeline_stages</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">labelmap</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes_labels</span>
-<span class="w">            </span><span class="nt">regex</span><span class="p">:</span><span class="w"> </span><span class="s">"^(namespace|pod)(_.+)?$"</span>
-<span class="w">            </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">keep</span>
-</code></pre></div>
-<p><strong>Verification</strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Check Loki is up</span>
+
+<span class="c1"># Verify Loki and Promtail pods</span>
 kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>loki
-<span class="c1"># Check Promtail pods</span>
 kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>promtail
+
 <span class="c1"># Test Loki query via port-forward</span>
 kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>port-forward<span class="w"> </span>svc/loki<span class="w"> </span><span class="m">3100</span>:3100<span class="w"> </span><span class="p">&amp;</span>
 curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"http://localhost:3100/loki/api/v1/query?query={job=\"promtail\"} | json"</span>
 </code></pre></div>
-<hr />
-<h3 id="47-alertmanager-routing-to-pagerdutyslack">4.7 Alertmanager Routing to PagerDuty/Slack<a class="headerlink" href="#47-alertmanager-routing-to-pagerdutyslack" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Purpose</strong>: Route alerts from Prometheus to the correct receivers based on severity.</li>
-<li><strong>Configuration</strong> stored in Git, applied by Argo CD (<code>docs/monitoring/alertmanager-configuration.md</code>).</li>
-<li><strong>Receivers</strong>: <code>pagerduty-critical</code> (PagerDuty), <code>slack-critical</code>, <code>slack-warning</code>, <code>slack-info</code> (from <code>docs/monitoring/alertmanager-configuration.md</code> §C).</li>
-<li><strong>Routing rules</strong> (from <code>docs/monitoring/alertmanager-configuration.md</code> §D):</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="nt">route</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">receiver</span><span class="p">:</span><span class="w"> </span><span class="s">'slack-info'</span>
-<span class="w">  </span><span class="nt">group_by</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">'alertname'</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">'cluster'</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">'service'</span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="nt">group_wait</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
-<span class="w">  </span><span class="nt">group_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m</span>
-<span class="w">  </span><span class="nt">repeat_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24h</span>
-<span class="w">  </span><span class="nt">routes</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">match</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'critical'</span>
-<span class="w">    </span><span class="nt">receiver</span><span class="p">:</span><span class="w"> </span><span class="s">'pagerduty-critical'</span>
-<span class="w">    </span><span class="nt">continue</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">match</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'warning'</span>
-<span class="w">    </span><span class="nt">receiver</span><span class="p">:</span><span class="w"> </span><span class="s">'slack-warning'</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">match</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'info'</span>
-<span class="w">    </span><span class="nt">receiver</span><span class="p">:</span><span class="w"> </span><span class="s">'slack-info'</span>
-</code></pre></div>
-<p><strong>PagerDuty receiver</strong> (from <code>docs/monitoring/alertmanager-configuration.md</code> §C):</p>
-<div class="highlight"><pre><span></span><code><span class="nt">receivers</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">'pagerduty-critical'</span>
-<span class="w">  </span><span class="nt">pagerduty_configs</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">service_key</span><span class="p">:</span><span class="w"> </span><span class="s">'{{</span><span class="nv"> </span><span class="s">.Chart.Secrets.PagerDutyKey</span><span class="nv"> </span><span class="s">}}'</span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'{{</span><span class="nv"> </span><span class="s">.CommonAnnotations.summary</span><span class="nv"> </span><span class="s">}}'</span>
-<span class="w">    </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">critical</span>
-<span class="w">    </span><span class="nt">client</span><span class="p">:</span><span class="w"> </span><span class="s">'alertmanager'</span>
-<span class="w">    </span><span class="nt">client_url</span><span class="p">:</span><span class="w"> </span><span class="s">'https://example.com'</span>
-</code></pre></div>
-<p><strong>Slack receivers</strong> (from <code>docs/monitoring/alertmanager-configuration.md</code> §C):</p>
-<div class="highlight"><pre><span></span><code><span class="nt">receivers</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">'slack-critical'</span>
-<span class="w">  </span><span class="nt">slack_configs</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">channel</span><span class="p">:</span><span class="w"> </span><span class="s">'#critical-alerts'</span>
-<span class="w">    </span><span class="nt">api_url</span><span class="p">:</span><span class="w"> </span><span class="s">'{{</span><span class="nv"> </span><span class="s">.Chart.Secrets.SlackWebhookCritical</span><span class="nv"> </span><span class="s">}}'</span>
-<span class="w">    </span><span class="nt">send_resolved</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s">'{{</span><span class="nv"> </span><span class="s">.CommonLabels.alertname</span><span class="nv"> </span><span class="s">}}</span><span class="nv"> </span><span class="s">—</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">.Status</span><span class="nv"> </span><span class="s">}}'</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">'slack-warning'</span>
-<span class="w">  </span><span class="nt">slack_configs</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">channel</span><span class="p">:</span><span class="w"> </span><span class="s">'#warnings-alerts'</span>
-<span class="w">    </span><span class="nt">api_url</span><span class="p">:</span><span class="w"> </span><span class="s">'{{</span><span class="nv"> </span><span class="s">.Chart.Secrets.SlackWebhookWarning</span><span class="nv"> </span><span class="s">}}'</span>
-<span class="w">    </span><span class="nt">send_resolved</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">'slack-info'</span>
-<span class="w">  </span><span class="nt">slack_configs</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">channel</span><span class="p">:</span><span class="w"> </span><span class="s">'#info-alerts'</span>
-<span class="w">    </span><span class="nt">api_url</span><span class="p">:</span><span class="w"> </span><span class="s">'{{</span><span class="nv"> </span><span class="s">.Chart.Secrets.SlackWebhookInfo</span><span class="nv"> </span><span class="s">}}'</span>
-<span class="w">    </span><span class="nt">send_resolved</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</code></pre></div>
-<p><strong>Verification</strong> (from <code>docs/monitoring/alertmanager-configuration.md</code> §H):</p>
-<div class="highlight"><pre><span></span><code>amtool<span class="w"> </span>validate<span class="w"> </span>config<span class="w"> </span>alertmanager.yml
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Grafana application synced via Argo CD</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>application<span class="w"> </span>mgmt-grafana<span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Healthy<span class="w"> </span>--timeout<span class="o">=</span>300s
+
+<span class="c1"># Grafana dashboard provisioned</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>grafanadashboard<span class="w"> </span>node-metrics<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.metadata.name}'</span>
+
+<span class="c1"># Alertmanager config validates</span>
+amtool<span class="w"> </span>validate<span class="w"> </span>config<span class="w"> </span>alertmanager.yml
 kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>alertmanager
-amtool<span class="w"> </span>route<span class="w"> </span>alerts<span class="w"> </span>--config<span class="o">=</span>alertmanager.yml<span class="w"> </span>&lt;<span class="w"> </span>/dev/null
-<span class="c1"># Check firing alerts</span>
-kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>prometheusrules<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A5<span class="w"> </span>state:<span class="w"> </span>firing
 </code></pre></div>
+<h1 id="expected-argo-cd-application-healthy-dashboard-name-returned-alertmanager-config-valid">Expected: Argo CD application Healthy; dashboard name returned; Alertmanager config valid.<a class="headerlink" href="#expected-argo-cd-application-healthy-dashboard-name-returned-alertmanager-config-valid" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 31 (anchor <code>#step-31</code>)
+- Next: Step 33 (anchor <code>#step-33</code>)</p>
 <hr />
-<h3 id="48-alert-rules">4.8 Alert Rules<a class="headerlink" href="#48-alert-rules" title="Permanent link">&para;</a></h3>
-<p><strong>Required alert coverage</strong> (from <code>docs/monitoring/prometheus-alert-rules.md</code> §H and §F):</p>
-<table>
-<thead>
-<tr>
-<th>Category</th>
-<th>Alert Name</th>
-<th>PromQL Expression</th>
-<th>Condition</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Availability</strong></td>
-<td><code>APIServerDown</code></td>
-<td><code>up{job="apiserver"} == 0</code></td>
-<td>API server not reachable</td>
-</tr>
-<tr>
-<td><strong>Availability</strong></td>
-<td><code>NodeNotReady</code></td>
-<td><code>kube_node_status_condition{condition="Ready",status="true"} == 0</code></td>
-<td>Node not ready</td>
-</tr>
-<tr>
-<td><strong>Availability</strong></td>
-<td><code>etcdNoLeader</code></td>
-<td><code>etcd_server_has_leader == 0</code></td>
-<td>etcd has no leader</td>
-</tr>
-<tr>
-<td><strong>Availability</strong></td>
-<td><code>TargetDown</code></td>
-<td><code>up == 0</code> for 10m</td>
-<td>Scrape target down</td>
-</tr>
-<tr>
-<td><strong>Capacity</strong></td>
-<td><code>NodeMemoryPressure</code></td>
-<td><code>kube_node_status_condition{condition="MemoryPressure",status="true"} == 1</code></td>
-<td>Node memory pressure</td>
-</tr>
-<tr>
-<td><strong>Capacity</strong></td>
-<td><code>PVCNearFull</code></td>
-<td><code>kubelet_volume_stats_available_bytes / kubelet_volume_stats_capacity_bytes &lt; 0.15</code></td>
-<td>PVC near full</td>
-</tr>
-<tr>
-<td><strong>Capacity</strong></td>
-<td><code>DiskWillFillIn4Hours</code></td>
-<td>node-exporter filesystem rule</td>
-<td>Disk will fill in 4 hours</td>
-</tr>
-<tr>
-<td><strong>Capacity</strong></td>
-<td><code>PrometheusTSDBCompactionsFailing</code></td>
-<td><code>rate(prometheus_tsdb_compactions_failed_total[3h]) &gt; 0</code></td>
-<td>TSDB compactions failing</td>
-</tr>
-<tr>
-<td><strong>Storage</strong></td>
-<td><code>CephHealthError</code></td>
-<td><code>ceph_health_status == 1</code></td>
-<td>Ceph non-healthy</td>
-</tr>
-<tr>
-<td><strong>Storage</strong></td>
-<td><code>CephOSDDown</code></td>
-<td><code>ceph_osd_up == 0</code></td>
-<td>OSD down</td>
-</tr>
-<tr>
-<td><strong>Storage</strong></td>
-<td><code>CephPoolNearFull</code></td>
-<td><code>ceph_pool_bytes_used / ceph_pool_bytes_total &gt; 0.85</code></td>
-<td>Pool &gt; 85% used</td>
-</tr>
-<tr>
-<td><strong>Storage</strong></td>
-<td><code>CephPGDegraded</code></td>
-<td><code>ceph_pg_degraded &gt; 0</code></td>
-<td>PGs degraded</td>
-</tr>
-<tr>
-<td><strong>Certificates</strong></td>
-<td><code>CertificateExpiringSoon</code></td>
-<td><code>probe_ssl_earliest_cert_expiry - time() &lt; 14*24*3600</code></td>
-<td>Cert expiring in 14 days</td>
-</tr>
-<tr>
-<td><strong>Certificates</strong></td>
-<td><code>CertificateExpiringIn7Days</code></td>
-<td>same with 7 days, page</td>
-<td>Cert expiring in 7 days</td>
-</tr>
-<tr>
-<td><strong>Backup</strong></td>
-<td><code>VeleroBackupFailed</code></td>
-<td><code>velero_backup_status_backup_success == 0</code></td>
-<td>Backup failed</td>
-</tr>
-<tr>
-<td><strong>Backup</strong></td>
-<td><code>NoRecentBackup</code></td>
-<td><code>time() - velero_backup_last_success_timestamp &gt; 86400*2</code></td>
-<td>No backup in 2 days</td>
-</tr>
-<tr>
-<td><strong>Authentication</strong></td>
-<td><code>VaultAuthFailureSpike</code></td>
-<td><code>rate(vault_route_auth_login[5m])</code> with failure labels</td>
-<td>Auth failure spike</td>
-</tr>
-<tr>
-<td><strong>Authentication</strong></td>
-<td><code>KeycloakAuthFailureSpike</code></td>
-<td><code>rate(keycloak_authentication_failed[5m])</code> with failure labels</td>
-<td>Auth failure spike</td>
-</tr>
-<tr>
-<td><strong>GPU</strong></td>
-<td><code>DCGM GPU errors</code></td>
-<td><code>DCGM_FI_DEV_GPU_XID_ERRORS</code></td>
-<td>GPU XID errors</td>
-</tr>
-<tr>
-<td><strong>GPU</strong></td>
-<td><code>GPU memory pressure</code></td>
-<td><code>DCGM_FI_DEV_FB_USED / DCGM_FI_DEV_FB_FREE + USED &gt; 0.95</code></td>
-<td>GPU memory &gt; 95%</td>
-</tr>
-<tr>
-<td><strong>GPU</strong></td>
-<td><code>GPU temperature</code></td>
-<td><code>DCGM_FI_DEV_GPU_TEMP &gt; 85</code></td>
-<td>GPU temp &gt; 85°C</td>
-</tr>
-<tr>
-<td><strong>CNI</strong></td>
-<td><code>CNIFlowErrors</code></td>
-<td><code>rate(cni_flow_errors_total[5m]) &gt; 0</code></td>
-<td>CNI flow errors</td>
-</tr>
-<tr>
-<td><strong>Prometheus</strong></td>
-<td><code>ScrapeFailure</code></td>
-<td><code>up == 0</code> for 1m</td>
-<td>Scrape failure</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Inhibition rules</strong> (from <code>docs/monitoring/prometheus-alert-rules.md</code> §I and <code>docs/monitoring/alertmanager-configuration.md</code> §E):</p>
-<div class="highlight"><pre><span></span><code><span class="nt">inhibit_rules</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_match</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'critical'</span>
-<span class="w">    </span><span class="nt">alertname</span><span class="p">:</span><span class="w"> </span><span class="s">'ClusterDown'</span>
-<span class="w">  </span><span class="nt">target_match</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'warning'</span>
-<span class="w">    </span><span class="nt">alertname</span><span class="p">:</span><span class="w"> </span><span class="s">'NodeCPUUsageHigh'</span>
-<span class="w">  </span><span class="nt">equal</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">'cluster'</span><span class="p p-Indicator">]</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_match</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'critical'</span>
-<span class="w">    </span><span class="nt">alertname</span><span class="p">:</span><span class="w"> </span><span class="s">'ClusterDown'</span>
-<span class="w">  </span><span class="nt">target_match</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'warning'</span>
-<span class="w">    </span><span class="nt">alertname</span><span class="p">:</span><span class="w"> </span><span class="s">'MemoryUsageHigh'</span>
-<span class="w">  </span><span class="nt">equal</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">'cluster'</span><span class="p p-Indicator">]</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">source_match</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'warning'</span>
-<span class="w">    </span><span class="nt">alertname</span><span class="p">:</span><span class="w"> </span><span class="s">'NodeCPUUsageHigh'</span>
-<span class="w">  </span><span class="nt">target_match</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="s">'info'</span>
-<span class="w">    </span><span class="nt">alertname</span><span class="p">:</span><span class="w"> </span><span class="s">'DiskUsageHigh'</span>
-<span class="w">  </span><span class="nt">equal</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">'cluster'</span><span class="p p-Indicator">]</span>
-</code></pre></div>
-<p><strong>PrometheusRule example</strong> (node pressure, from <code>docs/monitoring/prometheus-alert-rules.md</code> §F):</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">monitoring.coreos.com/v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PrometheusRule</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node-pressure-rules</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">monitoring</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">groups</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node-pressure</span>
-<span class="w">    </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
-<span class="w">    </span><span class="nt">rules</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NodeMemoryPressure</span>
-<span class="w">      </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">        </span><span class="no">100 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100) &gt; 85</span>
-<span class="w">      </span><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10m</span>
-<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warning</span>
-<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">"High</span><span class="nv"> </span><span class="s">memory</span><span class="nv"> </span><span class="s">usage</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$labels.instance</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"Memory</span><span class="nv"> </span><span class="s">usage</span><span class="nv"> </span><span class="s">has</span><span class="nv"> </span><span class="s">been</span><span class="nv"> </span><span class="s">above</span><span class="nv"> </span><span class="s">85%</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">10</span><span class="nv"> </span><span class="s">minutes.</span><span class="nv"> </span><span class="s">Value:</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$value</span><span class="nv"> </span><span class="s">}}%"</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NodeDiskPressure</span>
-<span class="w">      </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">        </span><span class="no">node_filesystem_avail_bytes{mountpoint="/"} &lt; 20% * node_filesystem_size_bytes{mountpoint="/"}</span>
-<span class="w">      </span><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10m</span>
-<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warning</span>
-<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">"Disk</span><span class="nv"> </span><span class="s">pressure</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$labels.instance</span><span class="nv"> </span><span class="s">}}"</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"Available</span><span class="nv"> </span><span class="s">disk</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">below</span><span class="nv"> </span><span class="s">20%</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">10</span><span class="nv"> </span><span class="s">minutes.</span><span class="nv"> </span><span class="s">Value:</span><span class="nv"> </span><span class="s">{{</span><span class="nv"> </span><span class="s">$value</span><span class="nv"> </span><span class="s">}}%"</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CNIFlowErrors</span>
-<span class="w">      </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rate(cni_flow_errors_total[5m]) &gt; 0</span>
-<span class="w">      </span><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1m</span>
-<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">critical</span>
-<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">"CNI</span><span class="nv"> </span><span class="s">flow</span><span class="nv"> </span><span class="s">errors</span><span class="nv"> </span><span class="s">detected"</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"CNI</span><span class="nv"> </span><span class="s">flow</span><span class="nv"> </span><span class="s">errors</span><span class="nv"> </span><span class="s">have</span><span class="nv"> </span><span class="s">been</span><span class="nv"> </span><span class="s">detected</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">1</span><span class="nv"> </span><span class="s">minute."</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VaultAuthFailureSpike</span>
-<span class="w">      </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rate(vault_route_auth_login{failure="true"}[5m]) &gt; 0.1</span>
-<span class="w">      </span><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m</span>
-<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warning</span>
-<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">"Vault</span><span class="nv"> </span><span class="s">auth</span><span class="nv"> </span><span class="s">failure</span><span class="nv"> </span><span class="s">spike"</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"Vault</span><span class="nv"> </span><span class="s">authentication</span><span class="nv"> </span><span class="s">failures</span><span class="nv"> </span><span class="s">spiking."</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">KeycloakAuthFailureSpike</span>
-<span class="w">      </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rate(keycloak_authentication_failed{failure="true"}[5m]) &gt; 0.1</span>
-<span class="w">      </span><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5m</span>
-<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warning</span>
-<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">"Keycloak</span><span class="nv"> </span><span class="s">auth</span><span class="nv"> </span><span class="s">failure</span><span class="nv"> </span><span class="s">spike"</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"Keycloak</span><span class="nv"> </span><span class="s">authentication</span><span class="nv"> </span><span class="s">failures</span><span class="nv"> </span><span class="s">spiking."</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alert</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PrometheusScrapeFailure</span>
-<span class="w">      </span><span class="nt">expr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">up{job="prometheus"} == 0</span>
-<span class="w">      </span><span class="nt">for</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1m</span>
-<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">severity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">critical</span>
-<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="s">"Prometheus</span><span class="nv"> </span><span class="s">scrape</span><span class="nv"> </span><span class="s">failure"</span>
-<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"Prometheus</span><span class="nv"> </span><span class="s">cannot</span><span class="nv"> </span><span class="s">scrape</span><span class="nv"> </span><span class="s">targets."</span>
-</code></pre></div>
-<p><strong>Validation</strong> (from <code>docs/monitoring/prometheus-alert-rules.md</code> §G):</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Validate rules in CI</span>
+<p><a id="step-33"></a></p>
+<h2 id="step-33-observability-alert-rules-validation">Step 33 — Observability: Alert rules validation<a class="headerlink" href="#step-33-observability-alert-rules-validation" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Validate that required alert rules are loaded into Prometheus and expressions resolve.</p>
+<p><strong>Prerequisites</strong>:
+- Step 32 complete (Alertmanager routing configured).
+- Alert rule YAML files stored under <code>monitoring/rules/</code>.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Validate rules in CI/local</span>
 promtool<span class="w"> </span>check<span class="w"> </span>rules<span class="w"> </span>/path/to/prometheus-rules.yml
 
-<span class="c1"># Verify alerts are loaded</span>
+<span class="c1"># Verify rules are loaded</span>
 kubectl<span class="w"> </span>-n<span class="w"> </span>monitoring<span class="w"> </span>get<span class="w"> </span>prometheusrules
 
 <span class="c1"># Test a specific alert expression</span>
 curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9090/api/v1/query?query<span class="o">=</span><span class="s1">'up{job="node-exporter"}'</span>
 </code></pre></div>
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Required alert coverage — each must return data or evaluate without error</span>
+<span class="k">for</span><span class="w"> </span>alert<span class="w"> </span><span class="k">in</span><span class="w"> </span>APIServerDown<span class="w"> </span>NodeNotReady<span class="w"> </span>etcdNoLeader<span class="w"> </span>NodeMemoryPressure<span class="w"> </span>CephHealthError<span class="w"> </span>CephPoolNearFull<span class="w"> </span>CertificateExpiringSoon<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"=== </span><span class="nv">$alert</span><span class="s2"> ==="</span>
+<span class="w">  </span>curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"http://localhost:9090/api/v1/query?query=</span><span class="nv">$alert</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>python3<span class="w"> </span>-m<span class="w"> </span>json.tool<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
+<span class="k">done</span>
+</code></pre></div>
+<h1 id="expected-promtool-check-rules-passes-all-prometheusrules-present-each-alert-query-evaluates-without-error">Expected: <code>promtool check rules</code> passes; all <code>prometheusrules</code> present; each alert query evaluates without error.<a class="headerlink" href="#expected-promtool-check-rules-passes-all-prometheusrules-present-each-alert-query-evaluates-without-error" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 32 (anchor <code>#step-32</code>)
+- Next: Step 34 (anchor <code>#step-34</code>)</p>
 <hr />
-<h3 id="49-validation-commands-summary">4.9 Validation Commands Summary<a class="headerlink" href="#49-validation-commands-summary" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Component</th>
-<th>Command</th>
-<th>Expected</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Prometheus targets</strong></td>
-<td><code>curl -s http://localhost:9090/api/v1/targets \| jq '.data.activeTargets[] \{job: .labels.job, health: .health\}'</code></td>
-<td>All jobs <code>health: "up"</code></td>
-</tr>
-<tr>
-<td><strong>Grafana health</strong></td>
-<td><code>kubectl -n argocd wait application mgmt-grafana --for=condition=Healthy --timeout=300s</code></td>
-<td>Application Healthy</td>
-</tr>
-<tr>
-<td><strong>Grafana datasource</strong></td>
-<td><code>curl -s http://prometheus.monitoring.svc:9090/api/v1/query?query=up \| python3 -m json.tool</code></td>
-<td>JSON with metric values</td>
-</tr>
-<tr>
-<td><strong>Loki ready</strong></td>
-<td><code>kubectl -n monitoring get pods -l app=loki</code></td>
-<td>Loki pod Running, 0 restarts</td>
-</tr>
-<tr>
-<td><strong>Alertmanager config</strong></td>
-<td><code>amtool validate config alertmanager.yml</code></td>
-<td>Config is valid</td>
-</tr>
-<tr>
-<td><strong>Prometheus rules</strong></td>
-<td><code>promtool check rules /path/to/rules.yml</code></td>
-<td>Rules pass validation</td>
-</tr>
-<tr>
-<td><strong>ServiceMonitors</strong></td>
-<td><code>kubectl get servicemonitor -A</code></td>
-<td>All SMs listed, no errors</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="5-scaling-expansion">5. Scaling &amp; Expansion<a class="headerlink" href="#5-scaling-expansion" title="Permanent link">&para;</a></h2>
-<h3 id="51-add-worker-node">5.1 Add Worker Node<a class="headerlink" href="#51-add-worker-node" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Command / Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Add to inventory</strong></td>
-<td>Add entry to <code>inventory/&lt;cluster&gt;/hosts.ini</code> under <code>[k8s-node]</code>: <code>k8s-w-3 ansible_host=10.20.0.23 ip=10.20.0.23</code></td>
-</tr>
-<tr>
-<td><strong>2. Add OS and container runtime</strong></td>
-<td>OS from internal mirror (Oracle Linux or Ubuntu); containerd 2.3.7 from internal repository; SSH access; NTP synchronized</td>
-</tr>
-<tr>
-<td><strong>3. Run Kubespray</strong></td>
-<td><code>ansible-playbook -i inventory/&lt;cluster&gt;/hosts.ini cluster.yml -b --limit k8s-w-3</code></td>
-</tr>
-<tr>
-<td><strong>4. Verify</strong></td>
-<td><code>kubectl get nodes k8s-w-3</code> <br> <code>kubectl get pods -o wide --field-selector spec.nodeName=k8s-w-3</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>IPAM</strong> — The Kubespray deployment uses built-in IP address management; no manual IP allocation needed. New node receives an IP from the defined subnet.</p>
-<hr />
-<h3 id="52-add-control-plane-node">5.2 Add Control-Plane Node<a class="headerlink" href="#52-add-control-plane-node" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Command / Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Add to inventory</strong></td>
-<td>Add under <code>[control-plane]</code> and <code>[etcd]</code>: <br> <code>k8s-cp-4 ansible_host=10.20.0.14 ip=10.20.0.14</code></td>
-</tr>
-<tr>
-<td><strong>2. Add OS and container runtime</strong></td>
-<td>Same as worker, plus etcd data directory on local SSD/NVMe</td>
-</tr>
-<tr>
-<td><strong>3. Run Kubespray (one at a time)</strong></td>
-<td><code>ansible-playbook -i inventory/&lt;cluster&gt;/hosts.ini cluster.yml -b --limit k8s-cp-4</code></td>
-</tr>
-<tr>
-<td><strong>4. Verify</strong></td>
-<td><code>kubectl get nodes k8s-cp-4</code> <br> <code>kubectl -n kube-system get pods -l component=etcd --field-selector spec.nodeName=k8s-cp-4</code> <br> <code>kubectl -n kube-system exec etcd-k8s-cp-4 -- etcdctl endpoint health --cluster</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>One control-plane node at a time</strong> — never add all control-plane nodes simultaneously during a rebuild (see <code>docs/kubernetes/control-plane/node-lifecycle.md</code> §C, <code>docs/lifecycle/upgrades/kubernetes.md</code> §D).</p>
-<hr />
-<h3 id="53-add-gpu-node">5.3 Add GPU Node<a class="headerlink" href="#53-add-gpu-node" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Command / Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Create gpu-node group</strong></td>
-<td>Add to inventory: <code>[gpu-node]</code> with appropriate hardware labels</td>
-</tr>
-<tr>
-<td><strong>2. NVIDIA driver DaemonSet</strong></td>
-<td>Deploy via Helm or manifest; ensure driver version matches GPU hardware</td>
-</tr>
-<tr>
-<td><strong>3. NVIDIA labels</strong></td>
-<td>Node labeled with <code>nvidia.com/gpu.count</code> and <code>nvidia.com/gpu.type</code></td>
-</tr>
-<tr>
-<td><strong>4. Test nvidia-smi</strong></td>
-<td><code>kubectl get nodes -l nvidia.com/gpu.count=1</code> <br> <code>kubectl exec -it &lt;gpu-pod&gt; -- nvidia-smi</code></td>
-</tr>
-<tr>
-<td><strong>5. Verify GPU workload scheduling</strong></td>
-<td>Deploy a test pod with <code>nvidia.com/gpu</code> toleration; run <code>cuda_vectorAdd</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>NVIDIA labels</strong> (from <code>docs/gpu-ai/drivers/compatibility-matrix.md</code>):</p>
-<div class="highlight"><pre><span></span><code><span class="k">[k8s-node]</span>
-<span class="na">k8s-gpu-1 ansible_host</span><span class="o">=</span><span class="s">10.20.0.31 ip=10.20.0.31</span>
+<p><a id="step-34"></a></p>
+<h2 id="step-34-scaling-expansion-add-worker-node">Step 34 — Scaling &amp; Expansion: Add worker node<a class="headerlink" href="#step-34-scaling-expansion-add-worker-node" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Add a worker node to the cluster with post-deployment SLO validation.</p>
+<p><strong>Prerequisites</strong>:
+- Step 33 complete (alert rules validated).
+- New node OS installed per Step 00, containerd 2.3.7 from internal mirror, SSH access, NTP synchronized.
+- <code>inventory/&lt;cluster&gt;/hosts.ini</code> writable.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Add node to inventory under [k8s-node]</span>
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">k8s-w-4 ansible_host=10.20.0.24 ip=10.20.0.24</span>
+<span class="s">EOF</span>
 
-<span class="c1"># After Kubespray deploy, add labels via taint/toleration or node-labels in group_vars</span>
+<span class="c1"># Run Kubespray limited to the new worker</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-w-4
 </code></pre></div>
-<p><strong>nvidia-smi test</strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Verify GPU is visible from a pod</span>
-kubectl<span class="w"> </span>run<span class="w"> </span>nvidia-test<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--image<span class="o">=</span>nvidia/cuda<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>nvidia-smi
-<span class="c1"># Should display GPU information</span>
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># New node Ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>k8s-w-4
+
+<span class="c1"># Post-deployment SLO validation</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide<span class="w"> </span>--field-selector<span class="w"> </span>spec.nodeName<span class="o">=</span>k8s-w-4
+
+<span class="c1"># Error budget within target</span>
+curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:9090/api/v1/query?query<span class="o">=</span><span class="s1">'sum(rate(job:requests:errors_total[5m])) / sum(rate(job:requests:total_requests[5m]))'</span>
 </code></pre></div>
+<h1 id="expected-k8s-w-4-shows-ready-all-pods-scheduled-to-it-running-error-budget-within-slo-target">Expected: <code>k8s-w-4</code> shows <code>Ready</code>; all pods scheduled to it Running; error budget within SLO target.<a class="headerlink" href="#expected-k8s-w-4-shows-ready-all-pods-scheduled-to-it-running-error-budget-within-slo-target" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 33 (anchor <code>#step-33</code>)
+- Next: Step 35 (anchor <code>#step-35</code>)</p>
 <hr />
-<h3 id="54-add-ceph-osd">5.4 Add Ceph OSD<a class="headerlink" href="#54-add-ceph-osd" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Command / Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Capacity headroom</strong></td>
-<td>Ensure remaining cluster capacity &gt; 30% before adding OSD (prevent OSD near-full)</td>
-</tr>
-<tr>
-<td><strong>2. OSD provisioning</strong></td>
-<td><code>bash &lt;br&gt; # Example: create OSD on /dev/sdb &lt;br&gt;ceph osd create /dev/sdb &lt;br&gt;# Or via Ansible role in kubespray ceph role &lt;br&gt;</code></td>
-</tr>
-<tr>
-<td><strong>3. CRUSH placement</strong></td>
-<td><code>bash &lt;br&gt;ceph osd crush add-bucket osd.&lt;id&gt; host=&lt;rack-name&gt; &lt;br&gt;ceph osd crush move osd.&lt;id&gt; host=&lt;rack-name&gt; &lt;br&gt;# Place on correct failure domain &lt;br&gt;</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Capacity headroom guideline</strong>: never let cluster exceed 85% overall; add OSD when <code>ceph_pool_bytes_used / ceph_pool_bytes_total &gt; 0.85</code> triggers <code>CephPoolNearFull</code> alert.</p>
+<p><a id="step-35"></a></p>
+<h2 id="step-35-scaling-expansion-add-control-plane-node">Step 35 — Scaling &amp; Expansion: Add control-plane node<a class="headerlink" href="#step-35-scaling-expansion-add-control-plane-node" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Add a control-plane node one at a time while preserving etcd quorum.</p>
+<p><strong>Prerequisites</strong>:
+- Step 34 complete (worker node added and validated).
+- Current control-plane quorum healthy (3 of 3 or 2 of 3).
+- New node OS installed per Step 00, etcd data directory on local SSD/NVMe.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Add node to inventory under [control-plane] and [etcd]</span>
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">k8s-cp-4 ansible_host=10.20.0.14 ip=10.20.0.14</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Run Kubespray one control-plane node at a time</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-4
+</code></pre></div>
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># New control-plane node Ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>k8s-cp-4
+
+<span class="c1"># etcd quorum healthy on new node</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">component</span><span class="o">=</span>etcd<span class="w"> </span>--field-selector<span class="w"> </span>spec.nodeName<span class="o">=</span>k8s-cp-4
+kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>etcd-k8s-cp-4<span class="w"> </span>--<span class="w"> </span>etcdctl<span class="w"> </span>endpoint<span class="w"> </span>health<span class="w"> </span>--cluster
+</code></pre></div>
+<h1 id="expected-k8s-cp-4-ready-etcd-endpoint-health-shows-all-members-healthy">Expected: <code>k8s-cp-4</code> Ready; etcd endpoint health shows all members healthy.<a class="headerlink" href="#expected-k8s-cp-4-ready-etcd-endpoint-health-shows-all-members-healthy" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 34 (anchor <code>#step-34</code>)
+- Next: Step 36 (anchor <code>#step-36</code>)</p>
 <hr />
-<h3 id="55-decision-matrix-adding-nodes-vs-adding-components">5.5 Decision Matrix: Adding Nodes vs. Adding Components<a class="headerlink" href="#55-decision-matrix-adding-nodes-vs-adding-components" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Decision</th>
-<th>When to Add Node</th>
-<th>When to Add Component</th>
-<th>Risks / Mitigations</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Add worker node</strong></td>
-<td>CPU/memory saturation &gt; 80% sustained; pod pending due to insufficient resources</td>
-<td>Scale up existing node (if resources allow)</td>
-<td><strong>Risk</strong>: Cluster disruption during Kubespray run <br> <strong>Mitigate</strong>: Add one at a time; verify node Ready before draining old</td>
-</tr>
-<tr>
-<td><strong>Add control-plane node</strong></td>
-<td>etcd quorum lost; API server availability &lt; 3 of n nodes; want HA expansion</td>
-<td>Add etcd member to existing quorum (if &lt; 3 control-plane)</td>
-<td><strong>Risk</strong>: etcd quorum loss during add <br> <strong>Mitigate</strong>: Add one at a time; maintain 3+ control-plane for quorum</td>
-</tr>
-<tr>
-<td><strong>Add GPU node</strong></td>
-<td>GPU-accelerated workloads pending; no GPU capacity</td>
-<td>Increase GPU node count; repurpose existing node</td>
-<td><strong>Risk</strong>: Driver version mismatch <br> <strong>Mitigate</strong>: Verify nvidia-smi test; match driver to hardware</td>
-</tr>
-<tr>
-<td><strong>Add Ceph OSD</strong></td>
-<td>OSD near full (&gt;85%); PG recovery stuck; pool near full alert</td>
-<td>Increase pool size; add cache tier</td>
-<td><strong>Risk</strong>: OSD full before provisioning <br> <strong>Mitigate</strong>: Monitor headroom; add OSD proactively when usage &gt; 70%</td>
-</tr>
-<tr>
-<td><strong>Add Loki node</strong></td>
-<td>Log volume growing; query latency increasing</td>
-<td>Add Promtail replicas; increase Loki storage</td>
-<td><strong>Risk</strong>: Imbalanced sharding <br> <strong>Mitigate</strong>: Add with same label set; verify Loki receives traffic</td>
-</tr>
-</tbody>
-</table>
-<p><strong>General rule</strong>: If the issue is resource-scarcity (CPU, memory, disk, GPUs), add a node. If the issue is a specific service capacity (Ceph pool, Loki storage, database), add a component to the existing infrastructure first.</p>
+<p><a id="step-36"></a></p>
+<h2 id="step-36-scaling-expansion-add-gpu-node">Step 36 — Scaling &amp; Expansion: Add GPU node<a class="headerlink" href="#step-36-scaling-expansion-add-gpu-node" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Add a GPU worker node with NVIDIA driver and verify <code>nvidia-smi</code> from a pod.</p>
+<p><strong>Prerequisites</strong>:
+- Step 35 complete (control-plane node added and validated).
+- GPU node hardware with NVIDIA GPU installed.
+- NVIDIA driver DaemonSet image mirrored to internal registry.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create gpu-node group in inventory</span>
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">[gpu-node]</span>
+<span class="s">k8s-gpu-1 ansible_host=10.50.0.11 ip=10.50.0.11 labels='{"accelerator":"nvidia"}'</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Deploy NVIDIA device plugin DaemonSet</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.14.0/nvidia-device-plugin.yml
+
+<span class="c1"># Label GPU node</span>
+kubectl<span class="w"> </span>label<span class="w"> </span>node<span class="w"> </span>k8s-gpu-1<span class="w"> </span>nvidia.com/gpu.count<span class="o">=</span><span class="m">1</span><span class="w"> </span>nvidia.com/gpu.type<span class="o">=</span>H100
+</code></pre></div>
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># GPU visible from a test pod</span>
+kubectl<span class="w"> </span>run<span class="w"> </span>nvidia-test<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--image<span class="o">=</span>nvidia/cuda<span class="w"> </span>--<span class="w"> </span>nvidia-smi
+
+<span class="c1"># Node labeled correctly</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-l<span class="w"> </span>nvidia.com/gpu.count<span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<h1 id="expected-nvidia-smi-displays-gpu-information-node-shows-the-gpu-label">Expected: <code>nvidia-smi</code> displays GPU information; node shows the GPU label.<a class="headerlink" href="#expected-nvidia-smi-displays-gpu-information-node-shows-the-gpu-label" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 35 (anchor <code>#step-35</code>)
+- Next: Step 37 (anchor <code>#step-37</code>)</p>
 <hr />
-<h2 id="6-maintenance">6. Maintenance<a class="headerlink" href="#6-maintenance" title="Permanent link">&para;</a></h2>
-<h3 id="61-os-patching">6.1 OS Patching<a class="headerlink" href="#61-os-patching" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>OS</th>
-<th>Patching Method</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Oracle Linux 9 (OL9)</strong></td>
-<td><code>dnf upgrade --refresh</code> <br> Or <code>leapp upgrade</code> for in-place major version leap</td>
-<td>OL9 uses <code>leapp</code> for supported upgrades; dnf for minor/security patches <br> Reboot required; kubelet will re-register automatically</td>
-</tr>
-<tr>
-<td><strong>Ubuntu 22.04 LTS</strong></td>
-<td><code>do-release-upgrade</code> for major version <br> <code>apt-get update &amp;&amp; apt-get upgrade -y</code> for point releases</td>
-<td><code>do-release-upgrade</code> handles kernel, system packages; may require reboot <br> Verify <code>uname -a</code> after reboot</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Procedure (OL9, dnf)</strong>:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># On each node, one at a time</span>
+<p><a id="step-37"></a></p>
+<h2 id="step-37-scaling-expansion-add-ceph-osd">Step 37 — Scaling &amp; Expansion: Add Ceph OSD<a class="headerlink" href="#step-37-scaling-expansion-add-ceph-osd" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Add a Ceph OSD when cluster capacity headroom drops below 85%.</p>
+<p><strong>Prerequisites</strong>:
+- Step 36 complete (GPU node added and validated).
+- Ceph cluster healthy (<code>ceph -s</code> shows HEALTH_OK).
+- New data disk ready on a Ceph host.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify capacity headroom before adding</span>
+ceph<span class="w"> </span>df
+<span class="c1"># Ensure: used / total &lt; 0.85 (CephPoolNearFull alert threshold)</span>
+
+<span class="c1"># List available devices</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>device<span class="w"> </span>ls
+
+<span class="c1"># Create OSD on the new disk</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>apply<span class="w"> </span>osd<span class="w"> </span>&lt;host&gt;<span class="w"> </span>--data-devices<span class="w"> </span>/dev/sdb<span class="w"> </span>--db-devices<span class="w"> </span>/dev/nvme1n1
+</code></pre></div>
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># New OSD appears and is up/in</span>
+ceph<span class="w"> </span>osd<span class="w"> </span>tree
+ceph<span class="w"> </span>-s
+
+<span class="c1"># All PGs active+clean</span>
+ceph<span class="w"> </span>pg<span class="w"> </span>stat
+</code></pre></div>
+<h1 id="expected-new-osd-in-upin-state-ceph-s-health_ok-all-pgs-activeclean">Expected: new OSD in <code>up</code>+<code>in</code> state; <code>ceph -s</code> HEALTH_OK; all PGs <code>active+clean</code>.<a class="headerlink" href="#expected-new-osd-in-upin-state-ceph-s-health_ok-all-pgs-activeclean" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 36 (anchor <code>#step-36</code>)
+- Next: Step 38 (anchor <code>#step-38</code>)</p>
+<hr />
+<p><a id="step-38"></a></p>
+<h2 id="step-38-maintenance-os-patching-kernel-updates-cert-rotation-kubespray-upgrades">Step 38 — Maintenance: OS patching, kernel updates, cert rotation, kubespray upgrades<a class="headerlink" href="#step-38-maintenance-os-patching-kernel-updates-cert-rotation-kubespray-upgrades" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Perform routine maintenance: OS patching, kernel updates, certificate rotation, and Kubespray upgrades — one node at a time.</p>
+<p><strong>Prerequisites</strong>:
+- Step 37 complete (Ceph OSD added and validated).
+- Pre-maintenance health check passed (all nodes Ready, disk &lt; 80%, memory &lt; 90%, cert expiry &gt; 30 days).
+- etcd snapshot taken before any Kubespray upgrade.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Pre-maintenance health check (6 concrete checks)</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w">                          </span><span class="c1"># all Ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>--raw<span class="o">=</span><span class="s1">'/readyz?verbose'</span><span class="w">        </span><span class="c1"># all ok</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates<span class="w"> </span>-enddate<span class="w"> </span>&lt;cert&gt;<span class="w"> </span><span class="c1"># expiry &gt; 30d</span>
+ssh<span class="w"> </span>&lt;node&gt;<span class="w"> </span><span class="s2">"df -h /var/lib/kubelet/pods"</span><span class="w">   </span><span class="c1"># disk &lt; 80%</span>
+kubectl<span class="w"> </span>top<span class="w"> </span>nodes<span class="w">                          </span><span class="c1"># memory &lt; 90%</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>certificaterequest<span class="w"> </span>-A<span class="w">          </span><span class="c1"># no pending failures</span>
+</code></pre></div>
+<p><strong>OS patching — Oracle Linux 9</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># One node at a time</span>
 sudo<span class="w"> </span>dnf<span class="w"> </span>clean<span class="w"> </span>all
 sudo<span class="w"> </span>dnf<span class="w"> </span>upgrade<span class="w"> </span>--refresh<span class="w"> </span>-y
 sudo<span class="w"> </span>reboot
-<span class="c1"># Verify after reboot</span>
 uname<span class="w"> </span>-r
 kubectl<span class="w"> </span>get<span class="w"> </span>nodes
 </code></pre></div>
-<p><strong>Procedure (Ubuntu, do-release-upgrade)</strong>:</p>
+<p><strong>OS patching — Ubuntu 22.04 LTS</strong>:</p>
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
 sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>update-manager-core
 sudo<span class="w"> </span>do-release-upgrade<span class="w"> </span>-d
 <span class="c1"># Follow prompts; reboot when complete</span>
 </code></pre></div>
+<p><strong>Certificate rotation</strong> (intermediate CA every 180 days; leaf certs renewed by cert-manager):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Manual renewal fallback if cert-manager hasn't auto-renewed within 7 days of expiry</span>
+kubectl<span class="w"> </span>cert-manager<span class="w"> </span>renew<span class="w"> </span>&lt;certname&gt;
+
+<span class="c1"># Verify</span>
+openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span>&lt;api-host&gt;:6443<span class="w"> </span>-servername<span class="w"> </span>&lt;api-host&gt;
+kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;secret&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.tls\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+</code></pre></div>
+<p><strong>Kubespray upgrade</strong> (never all control-plane nodes simultaneously):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. etcd snapshot</span>
+<span class="c1"># 2. Upgrade control-plane nodes one at a time</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory/&lt;cluster&gt;/hosts.ini<span class="w"> </span>cluster.yml<span class="w"> </span>-b<span class="w"> </span>--limit<span class="w"> </span>k8s-cp-1
+<span class="c1"># 3. Upgrade worker nodes one at a time (drain, run cluster.yml --limit, uncordon)</span>
+<span class="c1"># 4. Post-upgrade verification</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>wide
+<span class="c1"># 5. Update kubespray/VERSION and group vars in Git</span>
+</code></pre></div>
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># All nodes Ready after maintenance</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>wide
+
+<span class="c1"># No pod restarts from maintenance</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>Running<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span>Completed
+
+<span class="c1"># Cert expiry &gt; 30 days</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>certificaterequest<span class="w"> </span>-A
+</code></pre></div>
+<h1 id="expected-all-nodes-ready-no-unexpected-pod-restarts-certificates-valid-30-days">Expected: all nodes Ready; no unexpected pod restarts; certificates valid &gt; 30 days.<a class="headerlink" href="#expected-all-nodes-ready-no-unexpected-pod-restarts-certificates-valid-30-days" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 37 (anchor <code>#step-37</code>)
+- Next: Step 39 (anchor <code>#step-39</code>)</p>
 <hr />
-<h3 id="62-kernel-updates">6.2 Kernel Updates<a class="headerlink" href="#62-kernel-updates" title="Permanent link">&para;</a></h3>
+<p><a id="step-39"></a></p>
+<h2 id="step-39-troubleshooting-top-10-issues-as-numbered-procedures">Step 39 — Troubleshooting: Top 10 issues as numbered procedures<a class="headerlink" href="#step-39-troubleshooting-top-10-issues-as-numbered-procedures" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Diagnose and remediate the most frequent platform issues using numbered steps (diagnose → root-cause → remediation → verify → rollback).</p>
+<p><strong>Prerequisites</strong>:
+- Step 38 complete (maintenance procedures validated).
+- <code>kubectl</code>, <code>cilium</code>, <code>etcdctl</code>, <code>vault</code>, <code>amtool</code> available.</p>
+<p><strong>Actions</strong> — Node NotReady:
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Diagnose</span>
+kubectl<span class="w"> </span>describe<span class="w"> </span>node<span class="w"> </span>&lt;node&gt;
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[*].status.conditions[?(@.type=="Ready")].status}'</span>
+journalctl<span class="w"> </span>-u<span class="w"> </span>kubelet<span class="w"> </span>-f
+
+<span class="c1"># 2. Remediation</span>
+kubectl<span class="w"> </span>cordon<span class="w"> </span>&lt;node&gt;
+kubectl<span class="w"> </span>drain<span class="w"> </span>&lt;node&gt;<span class="w"> </span>--ignore-daemonsets<span class="w"> </span>--delete-emptydir-data
+systemctl<span class="w"> </span>restart<span class="w"> </span>kubelet
+
+<span class="c1"># 3. Verify</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>&lt;node&gt;<span class="w">  </span><span class="c1"># Ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide<span class="w"> </span>--field-selector<span class="w"> </span>spec.nodeName<span class="o">=</span>&lt;node&gt;<span class="w">  </span><span class="c1"># rescheduled</span>
+</code></pre></div></p>
+<p><strong>Actions</strong> — kubelet failure:
+<div class="highlight"><pre><span></span><code>systemctl<span class="w"> </span>status<span class="w"> </span>kubelet
+journalctl<span class="w"> </span>-u<span class="w"> </span>kubelet<span class="w"> </span>--no-pager<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span>
+<span class="c1"># Renew certs if expired (Step 38), then:</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span>kubelet
+</code></pre></div></p>
+<p><strong>Actions</strong> — CNI failure:
+<div class="highlight"><pre><span></span><code>cilium<span class="w"> </span>status<span class="w"> </span>--verbose
+cilium<span class="w"> </span>connectivity<span class="w"> </span><span class="nb">test</span>
+<span class="c1"># Fix MTU if needed:</span>
+<span class="c1">#   set ipv4.mtu: 1450 in Cilium values, then helm upgrade</span>
+</code></pre></div></p>
+<p><strong>Actions</strong> — DNS problems:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>nettest<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--image<span class="o">=</span>busybox<span class="w"> </span>--<span class="w"> </span>nslookup<span class="w"> </span>kubernetes.default.svc.cluster.local
+kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="o">=</span>kube-dns
+kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>logs<span class="w"> </span>-l<span class="w"> </span>k8s-app<span class="o">=</span>kube-dns
+<span class="c1"># Add DNS egress NetworkPolicy (UDP 53) if blocked</span>
+</code></pre></div></p>
+<p><strong>Actions</strong> — Certificate problems:
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates<span class="w"> </span>-enddate<span class="w"> </span>&lt;cert&gt;
+kubectl<span class="w"> </span>cert-manager<span class="w"> </span>renew<span class="w"> </span>&lt;cert&gt;
+kubectl<span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>--list
+openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span>&lt;api&gt;:6443
+</code></pre></div></p>
+<p><strong>Actions</strong> — Disk pressure:
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>&lt;node&gt;<span class="w"> </span><span class="s2">"df -h"</span>
+kubectl<span class="w"> </span>drain<span class="w"> </span>&lt;node&gt;<span class="w"> </span>--ignore-daemonsets<span class="w"> </span>--delete-emptydir-data
+journalctl<span class="w"> </span>--vacuum-time<span class="o">=</span>2d
+</code></pre></div></p>
+<p><strong>Actions</strong> — Memory pressure:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>top<span class="w"> </span>nodes
+kubectl<span class="w"> </span>drain<span class="w"> </span>&lt;node&gt;<span class="w"> </span>--ignore-daemonsets
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>--all-namespaces<span class="w"> </span>--sort-by<span class="o">=</span>.status.containerStatuses<span class="o">[</span><span class="m">0</span><span class="o">]</span>.restartCount
+</code></pre></div></p>
+<p><strong>Actions</strong> — Stuck terminating pods:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>&lt;pod&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.terminationMessage}'</span>
+kubectl<span class="w"> </span>patch<span class="w"> </span>pod<span class="w"> </span>&lt;pod&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">'{"metadata":{"finalizers":[]}}'</span><span class="w"> </span>--type<span class="o">=</span>merge
+kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>&lt;pod&gt;<span class="w"> </span>--grace-period<span class="o">=</span><span class="m">0</span><span class="w"> </span>--force
+</code></pre></div></p>
+<p><strong>Actions</strong> — Scheduling failures:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>&lt;pod&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[*].status.allocatable}'</span>
+<span class="c1"># Add node (Step 34) or fix taints/affinity</span>
+</code></pre></div></p>
+<p><strong>Actions</strong> — Node registration failures:
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>&lt;new-node&gt;<span class="w"> </span>--ignore-not-found
+journalctl<span class="w"> </span>-u<span class="w"> </span>kubelet<span class="w"> </span>-k
+kubectl<span class="w"> </span>delete<span class="w"> </span>node<span class="w"> </span>&lt;old-name&gt;
+kubectl<span class="w"> </span>reset<span class="w"> </span>node<span class="w"> </span>&lt;new-name&gt;
+<span class="c1"># Re-add node per Step 34</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># After any remediation:</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w">        </span><span class="c1"># all Ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A<span class="w">      </span><span class="c1"># no CrashLoopBackoff, no stuck Terminating</span>
+cilium<span class="w"> </span>connectivity<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="c1"># all pass (if CNI-related)</span>
+</code></pre></div>
+<h1 id="expected-all-nodes-ready-no-stuck-pods-cnidns-healthy-after-remediation">Expected: all nodes Ready; no stuck pods; CNI/DNS healthy after remediation.<a class="headerlink" href="#expected-all-nodes-ready-no-stuck-pods-cnidns-healthy-after-remediation" title="Permanent link">&para;</a></h1>
+<p><strong>Navigation</strong>:
+- Previous: Step 38 (anchor <code>#step-38</code>)
+- Next: Step 40 (anchor <code>#step-40</code>)</p>
+<hr />
+<p><a id="step-40"></a></p>
+<h2 id="step-40-sre-exit-criteria-and-rollback-procedures">Step 40 — SRE exit criteria and rollback procedures<a class="headerlink" href="#step-40-sre-exit-criteria-and-rollback-procedures" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Confirm the SRE operational phase is complete and document rollback for failed maintenance.</p>
+<p><strong>Prerequisites</strong>:
+- Step 39 complete (troubleshooting procedures validated).
+- All steps 31-39 reviewed.</p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Final SLO check</span>
+curl<span class="w"> </span>-s<span class="w"> </span><span class="s2">"http://localhost:9090/api/v1/query?query=sum(rate(job:requests:errors_total[5m])) / sum(rate(job:requests:total_requests[5m]))"</span>
+
+<span class="c1"># Error budget status</span>
+<span class="c1"># Phrase: "Error budget is X% consumed with Y% of the window remaining — within SLO"</span>
+
+<span class="c1"># Disaster recovery drill record (quarterly)</span>
+<span class="c1">#   Velero restore one app + checksums</span>
+<span class="c1">#   Annual drill: full rebuild per docs/lifecycle/disaster-recovery/index.md</span>
+</code></pre></div>
+<p><strong>Validation</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># All 10 SRE steps verified:</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>wide<span class="w">              </span><span class="c1"># all Ready</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>--raw<span class="o">=</span><span class="s1">'/readyz?verbose'</span><span class="w">    </span><span class="c1"># all ok</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span>CrashLoopBackOff<span class="w">  </span><span class="c1"># 0</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>--raw<span class="o">=</span><span class="s1">'/livez'</span><span class="w">             </span><span class="c1"># API server responsive</span>
+</code></pre></div>
+<h1 id="expected-all-nodes-ready-readyz-all-ok-zero-crashloopbackoff-pods-api-server-live">Expected: all nodes Ready; readyz all ok; zero CrashLoopBackOff pods; API server live.<a class="headerlink" href="#expected-all-nodes-ready-readyz-all-ok-zero-crashloopbackoff-pods-api-server-live" title="Permanent link">&para;</a></h1>
+<p><strong>Rollback procedures</strong>:</p>
 <ul>
-<li><strong>OL9</strong>: <code>dnf install kernel-&lt;new&gt;; grub2-set-default &lt;new&gt;; reboot</code></li>
-<li><strong>Ubuntu</strong>: <code>apt-get install linux-image-&lt;new&gt;; grub-set-default &lt;new&gt;; reboot</code></li>
-<li><strong>Post-update verification</strong>: <code>kubectl get nodes</code> all Ready; <code>kubectl get pods -o wide</code> no restarts; check <code>dmesg</code> for errors.</li>
+<li><strong>Failed OS patch</strong>: reboot to previous kernel/GRUB entry; re-run patch on remaining nodes one at a time.</li>
+<li><strong>Failed Kubespray upgrade</strong>: restore etcd snapshot, revert group vars, re-run Kubespray on affected node.</li>
+<li><strong>Failed cert rotation</strong>: revert to previous certificate from backup; restart affected services.</li>
+<li><strong>Failed scaling</strong>: remove the added node (cordon, drain, remove from inventory, run Kubespray removal).</li>
+<li><strong>Failed observability change</strong>: <code>helm uninstall &lt;component&gt; -n monitoring</code>; redeploy from previous values snapshot.</li>
 </ul>
-<p><strong>Safety</strong>: Always update one node at a time; drain the node before kernel update if running critical workloads.</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 39 (anchor <code>#step-39</code>)
+- Next: Return to main guide index (<code>index.md</code>)</p>
 <hr />
-<h3 id="63-certificate-rotation">6.3 Certificate Rotation<a class="headerlink" href="#63-certificate-rotation" title="Permanent link">&para;</a></h3>
-<p><strong>Procedure: intermediate CA + leaf cert re-issuance</strong></p>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Rotate intermediate CA</strong></td>
-<td>Generate new intermediate CA key/cert; sign existing leaf certs if possible; distribute new CA trust bundle to all nodes</td>
-</tr>
-<tr>
-<td><strong>2. Leaf cert re-issuance</strong></td>
-<td>For each leaf cert (API server, kubelet, user, service): <br> <code>kubectl certificate approve &lt;csr&gt;;</code> <br> Or via cert-manager: <code>kubectl cert-manager renew &lt;certname&gt;</code></td>
-</tr>
-<tr>
-<td><strong>3. Restart kube-apiserver</strong></td>
-<td>With new cert in place; verify <code>kubectl get nodes</code> still works</td>
-</tr>
-<tr>
-<td><strong>4. Verify</strong></td>
-<td><code>openssl s_client -connect &lt;api-host&gt;:6443 -servername &lt;api-host&gt;</code> <br> Check cert expiry: <code>kubectl get secret &lt;secret&gt; -o jsonpath='{.data.tls\.crt}' \| base64 -d \| openssl x509 -noout -dates</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Automation</strong>: cert-manager with external CA (Vault PKI) handles renewal automatically. For manual rotation, document in <code>docs/kubernetes/control-plane/cert-rotation.md</code>.</p>
-<hr />
-<h3 id="64-kubespray-upgrades">6.4 kubespray Upgrades<a class="headerlink" href="#64-kubespray-upgrades" title="Permanent link">&para;</a></h3>
-<p>Refer to <code>docs/lifecycle/upgrades/kubernetes.md</code> and <code>docs/lifecycle/upgrades/kubespray.md</code> for the full procedure. High-level summary:</p>
-<ol>
-<li><strong>Pre-upgrade</strong>: Take etcd snapshot (<code>docs/lifecycle/upgrades/kubernetes.md</code> §F)</li>
-<li><strong>Upgrade control-plane nodes one at a time</strong> (Section E of kubernetes.md)</li>
-<li><strong>Upgrade worker nodes one at a time</strong> (drain, run cluster.yml --limit, uncordon)</li>
-<li><strong>Post-upgrade verification</strong> (Section G of kubernetes.md)</li>
-<li><strong>Update kubespray/VERSION and group vars</strong> in Git</li>
-<li><strong>Rollback</strong> if needed (restore etcd snapshot, revert group vars, re-run Kubespray)</li>
-</ol>
-<p><strong>Never upgrade all control-plane nodes simultaneously</strong> — this loses etcd quorum.</p>
-<hr />
-<h3 id="65-health-checks">6.5 Health Checks<a class="headerlink" href="#65-health-checks" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Check</th>
-<th>Command</th>
-<th>Frequency</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Node status</strong></td>
-<td><code>kubectl get nodes -o wide</code></td>
-<td>Every shift</td>
-</tr>
-<tr>
-<td><strong>Kubelet status</strong></td>
-<td><code>systemctl status kubelet</code></td>
-<td>Every shift</td>
-</tr>
-<tr>
-<td><strong>Disk usage</strong></td>
-<td><code>ssh node "df -h /var/lib/kubelet/pods"</code></td>
-<td>Hourly</td>
-</tr>
-<tr>
-<td><strong>Memory pressure</strong></td>
-<td><code>kubectl top node</code></td>
-<td>Every 4h</td>
-</tr>
-<tr>
-<td><strong>Certificate expiry</strong></td>
-<td><code>openssl x509 -noout -dates -enddate &lt;cert&gt;</code></td>
-<td>Daily</td>
-</tr>
-<tr>
-<td><strong>API server ready</strong></td>
-<td><code>kubectl get --raw='/readyz?verbose'</code></td>
-<td>Every 30m</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="7-troubleshooting-matrix">7. Troubleshooting Matrix<a class="headerlink" href="#7-troubleshooting-matrix" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Issue</th>
-<th>Symptoms</th>
-<th>Diagnostic Commands</th>
-<th>Root-Cause</th>
-<th>Safe Remediation</th>
-<th>Verification</th>
-<th>Rollback</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Node NotReady</strong></td>
-<td><code>kubectl get nodes</code> shows <code>NotReady</code>; pods not scheduled; kubelet logs show errors</td>
-<td><code>kubectl describe node &lt;node&gt;</code> <br> <code>kubectl get nodes -o jsonpath='{.items[*].status.conditions[?(@.type=="Ready")].status}'</code> <br> <code>journalctl -u kubelet -f</code></td>
-<td>kubelet service down; node network isolation; host hardware failure</td>
-<td>1. <code>kubectl cordon &lt;node&gt;</code> <br> 2. <code>kubectl drain &lt;node&gt; --ignore-daemonsets --delete-emptydir-data</code> <br> 3. Restart kubelet: <code>systemctl restart kubelet</code> <br> 4. If hardware failed, replace node (see §5.1)</td>
-<td><code>kubectl get nodes &lt;node&gt;</code> shows <code>Ready</code> <br> All pods rescheduled to other nodes</td>
-<td>If node cannot be recovered: remove from inventory (§5.1 E), add replacement</td>
-</tr>
-<tr>
-<td><strong>kubelet failure</strong></td>
-<td>Node NotReady; <code>kubectl get nodes</code> hangs; kubelet logs show <code>failed to run Kubelet</code></td>
-<td><code>systemctl status kubelet</code> <br> <code>journalctl -u kubelet --no-pager -n 50</code> <br> <code>ps aux \| grep kubelet</code></td>
-<td>kubelet config corruption; cert issues; disk full on node</td>
-<td>1. Check kubelet config <code>/etc/kubernetes/kubelet.conf</code> <br> 2. Renew certs if expired (§6.3) <br> 3. <code>systemctl restart kubelet</code> <br> 4. If repeated failure, <code>kubectl reset node</code> then re-add</td>
-<td>kubelet Running; node Ready</td>
-<td>If kubelet won't start: rebuild node (Terraform + Ansible)</td>
-</tr>
-<tr>
-<td><strong>container runtime failure</strong></td>
-<td>Pods CrashLoopBackoff; <code>crictl pods -a</code> shows runtime error; containerd logs show error</td>
-<td><code>crictl ps -a</code> <br> <code>journalctl -u containerd -f</code> <br> <code>systemctl status containerd</code></td>
-<td>containerd crash; corrupted snapshot; missing storage driver</td>
-<td>1. <code>systemctl restart containerd</code> <br> 2. Check storage pool: <code>lsblk</code> <br> 3. If corrupted, restore from backup <br> 4. Reboot node if needed</td>
-<td>All pods Running; <code>crictl ps -a</code> shows correct state</td>
-<td>If runtime persistent failure: reinstall node OS, re-run Kubespray</td>
-</tr>
-<tr>
-<td><strong>CNI failure</strong></td>
-<td>Pods <code>ContainerCreating</code>; <code>cilium status</code> not Ready; <code>kubectl get pods -n kube-system -l k8s-app=cilium</code> shows NotReady</td>
-<td><code>cilium status --verbose</code> <br> <code>cilium connectivity test</code> <br> <code>ip route get &lt;pod-ip&gt;</code></td>
-<td>MTU mismatch; missing route; IPtables stale; NetworkPolicy default-deny</td>
-<td>1. <code>cilium agent reload</code> <br> 2. Fix MTU: set in Cilium values <code>ipv4.mtu: 1450</code> <br> 3. Add missing routes (BGP or static) <br> 4. Check NetworkPolicy rules; add allow rule if needed</td>
-<td><code>cilium status</code>: Ready <br> <code>cilium connectivity test</code>: all pass <br> Pods IP reachable</td>
-<td>Re-apply CNI manifest; if cluster-wide, rebuild CNI</td>
-</tr>
-<tr>
-<td><strong>DNS problems</strong></td>
-<td>Pods cannot resolve <code>kubernetes.default.svc.cluster.local</code>; <code>nslookup</code> timeout; CoreDNS pods Restarting</td>
-<td><code>kubectl run nettest --rm -it --restart=Never --image=busybox -- nslookup kubernetes.default.svc.cluster.local</code> <br> <code>kubectl -n kube-system get pods -l k8s-app=kube-dns</code> <br> <code>kubectl -n kube-system logs -l k8s-app=kube-dns</code></td>
-<td>CoreDNS misconfigured; NetworkPolicy blocking DNS; kube-proxy issues</td>
-<td>1. <code>kubectl restart deployment -n kube-system kube-dns</code> <br> 2. Check NetworkPolicy egress rules; add DNS allowance (UDP 53) <br> 3. <code>crictl pull</code> to verify external DNS <br> 4. If kube-proxy down, restart: <code>systemctl restart kube-proxy</code></td>
-<td>Pods can resolve cluster DNS</td>
-<td>If CoreDNS persistent: redeploy CoreDNS with corrected config</td>
-</tr>
-<tr>
-<td><strong>certificate problems</strong></td>
-<td><code>kubectl get secrets</code> shows <code>X509: certificate has expired</code>; apiserver logs <code>X509: certificate signed by unknown authority</code>; users cannot auth</td>
-<td><code>openssl x509 -noout -dates -enddate &lt;cert&gt;</code> <br> <code>kubectl describe secret &lt;secret&gt;</code> <br> <code>kubectl get certificate,clusterissuer</code></td>
-<td>Leaf cert expired; intermediate CA rotated without re-issuing; cert-manager not renewing</td>
-<td>1. Renew certs via cert-manager: <code>kubectl cert-manager renew &lt;cert&gt;</code> <br> 2. If manual: generate new CSR, sign with CA, distribute <br> 3. Restart apiserver <br> 4. Verify: <code>openssl s_client -connect &lt;api&gt;:6443</code></td>
-<td>All certs valid (not expired) <br> <code>kubectl auth can-i --list</code> works</td>
-<td>If cert rotation fails: revert to previous cert from backup; restart services</td>
-</tr>
-<tr>
-<td><strong>disk pressure</strong></td>
-<td>Node NotReady; kubelet logs <code>disk pressure</code>: <code>eviction-hard: ["imagefs.available&lt;=15%","nodefs.available&lt;=10%"]</code>; <code>kubectl describe node</code> shows <code>condition: true</code></td>
-<td><code>ssh node "df -h"</code> <br> <code>kubectl top nodes</code> <br> <code>kubelet volume_stats</code></td>
-<td>Node filesystem near full; log rotation not working</td>
-<td>1. <code>kubectl drain &lt;node&gt; --ignore-daemonsets --delete-emptydir-data</code> <br> 2. Clean up logs: <code>journalctl --vacuum-time=2d</code> <br> 3. Delete unused pods/RS <br> 4. Add disk or new node</td>
-<td>Node Ready; disk &lt; 80%</td>
-<td>If disk cannot be freed: add new node (§5.1), drain workloads</td>
-</tr>
-<tr>
-<td><strong>memory pressure</strong></td>
-<td>Node NotReady; kubelet evicting pods; <code>kubectl top nodes</code> shows memory &gt; 90%</td>
-<td><code>kubectl top nodes</code> <br> <code>ssh node "free -m"</code> <br> <code>journalctl -u kubelet -o json</code></td>
-<td>OOM on node; memory leak; too many pods scheduled</td>
-<td>1. <code>kubectl drain &lt;node&gt; --ignore-daemonsets</code> <br> 2. Reduce pod density; add new node (§5.1) <br> 3. Check pod resource requests/limits <br> 4. Restart kubelet if stuck</td>
-<td>Node Ready; memory &lt; 80%</td>
-<td>If persistent: add node; rebalance workloads</td>
-</tr>
-<tr>
-<td><strong>PID pressure</strong></td>
-<td>Pods terminated; <code>kubectl get pods</code> shows <code>OOMKilled</code>; <code>dmesg</code> shows <code>PID limit reached</code></td>
-<td><code>kubectl top pods --all-namespaces</code> <br> <code>ssh node "cat /proc/sys/kernel/pid_max"</code> <br> <code>journalctl -u kubelet -k</code></td>
-<td>Too many processes; container PID limit too low</td>
-<td>1. Increase <code>pod.spec.containers[].securityContext.capabilities.drop</code> <br> 2. Adjust kubelet <code>--pod-max-pids</code> <br> 3. Restructure workloads to reduce parallelism <br> 4. Add node if chronic</td>
-<td>Pods run without OOMKill</td>
-<td>If chronic: add node; tune PID limits</td>
-</tr>
-<tr>
-<td><strong>network connectivity</strong></td>
-<td>Pods cannot reach service IP; <code>curl &lt;svc&gt;</code> times out; <code>cilium connectivity test</code> fails</td>
-<td><code>cilium status</code> <br> <code>cilium endpoint list</code> <br> <code>ip a</code> on node <br> <code>ping &lt;service-cluster-ip&gt;</code></td>
-<td>CNI misconfigured; route missing; MTU mismatch; kube-proxy down</td>
-<td>1. <code>cilium agent reload</code> <br> 2. Fix MTU in Cilium values <br> 3. Add missing routes (BGP/static) <br> 4. <code>systemctl restart kube-proxy</code> <br> 5. If all else, rebuild CNI</td>
-<td><code>cilium connectivity test</code> all pass <br> Pods can reach services</td>
-<td>Re-apply CNI; if cluster-wide, rebuild from scratch</td>
-</tr>
-<tr>
-<td><strong>stuck terminating pods</strong></td>
-<td>Pod <code>Terminating</code> state for &gt; hour; <code>kubectl get pods</code> shows <code>Terminating</code>; cannot delete</td>
-<td><code>kubectl get pods -o wide</code> <br> <code>kubectl get pods &lt;pod&gt; -o jsonpath='{.status.terminationMessage}'</code> <br> <code>kubectl delete pod &lt;pod&gt; --grace-period=0 --force</code></td>
-<td>Pod has finalizer; waiting for graceful shutdown; PDB blocking</td>
-<td>1. <code>kubectl patch pod &lt;pod&gt; -p '{"metadata":{"finalizers":[]}}' --type=merge</code> <br> 2. <code>kubectl delete pod &lt;pod&gt; --grace-period=0 --force</code> <br> 3. If DaemonSet, ensure new pod starts before old terminates</td>
-<td>Pod deleted; no stuck Terminating</td>
-<td>If critical pod stuck: may need <code>kubectl replace pod ...</code> or drain node</td>
-</tr>
-<tr>
-<td><strong>scheduling failures</strong></td>
-<td>Pod pending <code>0/n nodes</code>; <code>kubectl describe pod &lt;pod&gt; -o json</code> shows <code>Unschedulable</code></td>
-<td><code>kubectl describe pod &lt;pod&gt; -o yaml</code> <br> <code>kubectl get nodes -o jsonpath='{.items[*].status.allocatable}'</code> <br> <code>kubectl describe node &lt;node&gt;</code></td>
-<td>Insufficient resources; taints/no matching toleration; affinity mismatch</td>
-<td>1. Add node (§5.1) <br> 2. Remove or adjust taint <br> 3. Fix affinity/selector rules <br> 4. Increase resource requests/limits</td>
-<td>Pod scheduled; <code>Ready</code> nodes increased</td>
-<td>If no nodes available: add node or increase capacity</td>
-</tr>
-<tr>
-<td><strong>node registration failures</strong></td>
-<td>New node not showing in <code>kubectl get nodes</code>; <code>kubelet</code> logs <code>failed to register node</code>: <code>the node ... already exists</code></td>
-<td><code>kubectl get nodes</code> <br> <code>kubectl get nodes &lt;new-node&gt; --ignore-not-found</code> <br> <code>journalctl -u kubelet -k</code></td>
-<td>kubelet config mismatch; node name conflict; API server unresponsive</td>
-<td>1. Verify kubelet config: <code>--node-labels</code>, <code>--hostname-override</code> <br> 2. If name conflict: <code>kubectl delete node &lt;old&gt;</code> <br> 3. Re-join: <code>kubectl reset node &lt;name&gt;</code> then re-add node <br> 4. Ensure API server reachable from new node</td>
-<td>Node appears in <code>kubectl get nodes</code> <br> Node status Ready</td>
-<td>If still not registering: rebuild node OS, reinstall containerd+kubelet</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="kubernetes-node-lifecycle-procedures">Kubernetes Node Lifecycle Procedures<a class="headerlink" href="#kubernetes-node-lifecycle-procedures" title="Permanent link">&para;</a></h2>
-<h3 id="add-worker">Add Worker<a class="headerlink" href="#add-worker" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Command / Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Cordon</strong> (prevent new scheduling)</td>
-<td><code>kubectl cordon k8s-w-3</code></td>
-</tr>
-<tr>
-<td><strong>2. Drain</strong> (evict pods safely)</td>
-<td><code>kubectl drain k8s-w-3 --ignore-daemonsets --delete-emptydir-data --force</code> <br> <em>Verify DaemonSet pods will reschedule; PDBs allow eviction</em></td>
-</tr>
-<tr>
-<td><strong>3. PeDB/stateful workload check</strong></td>
-<td>- <strong>DaemonSet</strong>: pods will self-recover on other nodes <br> - <strong>StatefulWorkloads</strong>: ensure PVCs are not node-local; verify CRUD backup <br> - <strong>Static pods</strong>: drain may not affect them; handle manually</td>
-</tr>
-<tr>
-<td><strong>4. API removal</strong></td>
-<td>If node was added via Kubespray and you want to remove the API object: <br> <code>ansible-playbook -i inventory/&lt;cluster&gt;/hosts.ini cluster.yml -b --limit k8s-w-3</code> (post-removal)</td>
-</tr>
-<tr>
-<td><strong>5. Inventory update</strong></td>
-<td>Remove node from <code>[k8s-node]</code> in <code>inventory/&lt;cluster&gt;/hosts.ini</code></td>
-</tr>
-<tr>
-<td><strong>6. Run Kubespray remove</strong></td>
-<td><code>ansible-playbook -i inventory/&lt;cluster&gt;/hosts.ini cluster.yml -b --limit k8s-w-3</code></td>
-</tr>
-<tr>
-<td><strong>7. Verify</strong></td>
-<td><code>kubectl get nodes | grep k8s-w-3</code> should return nothing <br> <code>kubectl get pods -o wide --field-selector spec.nodeName=k8s-w-3</code> should return nothing</td>
-</tr>
-<tr>
-<td><strong>8. Decommissioning</strong></td>
-<td>Physically decommission or re-image the host; wipe disks if sensitive data</td>
-</tr>
-<tr>
-<td><strong>9. Validation</strong></td>
-<td><code>kubectl get nodes</code> all Ready <br> <code>kubectl get pods -o wide</code> no pod on removed node</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Remove worker</strong> detailed procedure (cross-reference <code>docs/kubernetes/node-lifecycle.md</code> §E and <code>docs/kubernetes/control-plane/node-lifecycle.md</code> §F):</p>
-<ol>
-<li><strong>Drain the node</strong> as above, with <code>--ignore-daemonsets --delete-emptydir-data --force</code></li>
-<li><strong>PDB assessment</strong>: <code>kubectl get poddisruptionbudgets -A</code> — ensure PDBs allow eviction count</li>
-<li><strong>Remove from inventory</strong>: edit <code>inventory/&lt;cluster&gt;/hosts.ini</code>, delete the <code>[k8s-node]</code> line</li>
-<li><strong>Run Kubespray removal playbook</strong>: <code>ansible-playbook -i inventory/&lt;cluster&gt;/hosts.ini cluster.yml -b --limit k8s-w-3</code></li>
-<li><strong>Verify removal</strong>: node gone from <code>kubectl get nodes</code></li>
-<li><strong>DaemonSet considerations</strong>: DaemonSet pods auto-replicate to remaining nodes; no manual intervention needed</li>
-<li><strong>Static-pod considerations</strong>: if node runs static pods (e.g., kubelet-managed), manually stop or migrate them before drain</li>
-<li><strong>Local storage</strong>: if pods use <code>hostPath</code> or local PV, data is lost on removal; migrate to networked PV first</li>
-<li><strong>Stateful workloads</strong>: ensure StatefulSet PVCs are not node-specific; use <code>persistent-volume-reclaim-policy: Retain</code> and manually migrate data</li>
-<li><strong>API object removal</strong>: after Kubespray removes the node, verify no <code>Node</code> object remains; <code>kubectl get node &lt;name&gt;</code> should error or show <code>Removed</code></li>
-<li><strong>Inventory update</strong>: ensure Ansible inventory reflects only existing nodes</li>
-<li><strong>Decommissioning</strong>: power off or re-image host; document in asset management</li>
-</ol>
-<p><strong>Validation</strong>: <code>kubectl get nodes</code> — all nodes listed and Ready; <code>kubectl get pods -o wide</code> — no pods on removed node name.</p>
-<hr />
-<h3 id="remove-worker">Remove Worker<a class="headerlink" href="#remove-worker" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Command / Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Workload inventory</strong></td>
-<td>List all workloads on node: <code>kubectl get pods -o wide --field-selector spec.nodeName=k8s-w-3</code></td>
-</tr>
-<tr>
-<td><strong>2. PDB assessment</strong></td>
-<td><code>kubectl get poddisruptionbudgets -A</code> — verify PDBs allow eviction</td>
-</tr>
-<tr>
-<td><strong>3. Cordon</strong></td>
-<td><code>kubectl cordon k8s-w-3</code></td>
-</tr>
-<tr>
-<td><strong>4. Drain</strong></td>
-<td><code>kubectl drain k8s-w-3 --ignore-daemonsets --delete-emptydir-data --force</code></td>
-</tr>
-<tr>
-<td><strong>5. DaemonSet considerations</strong></td>
-<td>DaemonSet pods will self-replicate; no action needed</td>
-</tr>
-<tr>
-<td><strong>6. Static-pod considerations</strong></td>
-<td>Stop/migrate static pods manually before drain</td>
-</tr>
-<tr>
-<td><strong>7. Local storage</strong></td>
-<td>Migrate any <code>hostPath</code> or local PV data to networked PV</td>
-</tr>
-<tr>
-<td><strong>8. Stateful workloads</strong></td>
-<td>Migrate StatefulSet data to new nodes; verify PVCs detach/attach cleanly</td>
-</tr>
-<tr>
-<td><strong>9. API object removal</strong></td>
-<td>After Kubespray removal, verify <code>kubectl get node k8s-w-3</code> is gone</td>
-</tr>
-<tr>
-<td><strong>10. Inventory update</strong></td>
-<td>Remove <code>[k8s-node]</code> entry from <code>inventory/&lt;cluster&gt;/hosts.ini</code></td>
-</tr>
-<tr>
-<td><strong>11. Run Kubespray</strong></td>
-<td><code>ansible-playbook -i inventory/&lt;cluster&gt;/hosts.ini cluster.yml -b --limit k8s-w-3</code></td>
-</tr>
-<tr>
-<td><strong>12. Validation</strong></td>
-<td><code>kubectl get nodes | grep k8s-w-3</code> returns nothing <br> <code>kubectl get pods -o wide</code> — no pods on removed node</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h3 id="replace-control-plane">Replace Control-Plane<a class="headerlink" href="#replace-control-plane" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Step</th>
-<th>Command / Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1. Quorum/availability check</strong></td>
-<td>Ensure existing control-plane nodes have quorum (3 of 3 or 2 of 3) before starting; if 2 of 3 available, can add 1 at a time</td>
-</tr>
-<tr>
-<td><strong>2. etcd topology</strong></td>
-<td>stacked etcd (on control-plane nodes) vs external etcd; procedure differs</td>
-</tr>
-<tr>
-<td><strong>3. API server availability</strong></td>
-<td>Ensure API server reachable; have <code>kubectl</code> access to remaining nodes</td>
-</tr>
-<tr>
-<td><strong>4. Cert/endpoint implications</strong></td>
-<td>New control-plane node will receive new API server cert; update LB membership accordingly</td>
-</tr>
-<tr>
-<td><strong>5. LB membership</strong></td>
-<td>Update load balancer (HAProxy, F5, KeepAlived) to include new node VIP; remove old node after replacement</td>
-</tr>
-<tr>
-<td><strong>6. Safe replacement order</strong></td>
-<td>Replace one control-plane node at a time; never remove more than 1 unless external etcd with 3+ members</td>
-</tr>
-<tr>
-<td><strong>7. etcd member removal/replacement</strong></td>
-<td><code>bash &lt;br&gt;# Remove old member &lt;br&gt;kubectl -n kube-system exec etcd-&lt;old&gt; -- etcdctl member remove &lt;old-id&gt; --overwrite &lt;new-id&gt; &lt;br&gt;# Add new member &lt;br&gt;kubectl -n kube-system exec etcd-&lt;new&gt; -- etcdctl member add &lt;new-id&gt; &lt;br&gt;# Update CRUD &lt;br&gt;</code></td>
-</tr>
-<tr>
-<td><strong>8. Inventory consistency</strong></td>
-<td>Update <code>inventory/&lt;cluster&gt;/hosts.ini</code>: update <code>[control-plane]</code> and <code>[etcd]</code> groups; ensure new node has same group vars</td>
-</tr>
-<tr>
-<td><strong>9. Recovery/rollback</strong></td>
-<td>If replacement fails: restore etcd from pre-replacement snapshot (<code>docs/lifecycle/backup/backup-and-dr.md</code>) and re-join old node or re-run replacement sequence</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Detailed replace control-plane procedure</strong>:</p>
-<ol>
-<li><strong>Add new control-plane node to inventory</strong> (see §5.2 step 1).</li>
-<li><strong>Run Kubespray to join node</strong>: <code>ansible-playbook -i inventory/&lt;cluster&gt;/hosts.ini cluster.yml -b --limit k8s-cp-new</code></li>
-<li><strong>Verify etcd quorum</strong>: <code>kubectl -n kube-system exec etcd-k8s-cp-new -- etcdctl endpoint health --cluster</code></li>
-<li><strong>Migrate API LB</strong>: update load balancer config to include new node's VIP; keep old node in LB but in drain mode</li>
-<li><strong>Rotate API server certs</strong> if needed (§6.3); restart kube-apiserver on new node</li>
-<li><strong>Remove old control-plane node</strong>:</li>
-<li><code>kubectl drain k8s-cp-old --ignore-daemonsets --delete-emptydir-data --force</code></li>
-<li><code>kubectl -n kube-system exec etcd-&lt;old&gt; -- etcdctl member remove &lt;old-id&gt; --overwrite &lt;new-id&gt;</code></li>
-<li>Remove old node from inventory and run Kubespray removal</li>
-<li><strong>Verify cluster health</strong>: all nodes Ready; API server responding; etcd quorum healthy</li>
-<li><strong>Validation</strong>: <code>kubectl get nodes</code> — shows new node, old node removed; <code>kubectl get --raw='/readyz?verbose'</code> — all healthy</li>
-</ol>
-<p>** stacked vs external etcd**:</p>
-<ul>
-<li><strong>Stacked etcd</strong> (control-plane nodes run etcd): replacement procedure as above; must maintain quorum at all times (3 of 3, or 2 of 3 during rolling replace).</li>
-<li><strong>External etcd</strong> (separate etcd cluster): control-plane node replacement is simpler; etcd topology independent. Just ensure external etcd has 3 members minimum for quorum; remove/replace control-plane nodes one at a time without touching etcd members.</li>
-</ul>
-<hr />
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
-<ul>
-<li><code>docs/monitoring/prometheus.md</code> — Prometheus and Alertmanager architecture, installation, and validation</li>
-<li><code>docs/monitoring/grafana-dashboard-provisioning.md</code> — Grafana dashboard provisioning as code</li>
-<li><code>docs/monitoring/alertmanager-configuration.md</code> — Alertmanager receiver, routing, and silencing</li>
-<li><code>docs/monitoring/prometheus-alert-rules.md</code> — Prometheus alerting rules, recording rules, and notification routing</li>
-<li><code>docs/monitoring/victoria-metrics.md</code> — VictoriaMetrics long-term storage (optional)</li>
-<li><code>docs/lifecycle/upgrades/kubernetes.md</code> — Kubernetes minor-version upgrade procedure</li>
-<li><code>docs/lifecycle/upgrades/kubespray.md</code> — Kubespray-specific upgrade procedure</li>
-<li><code>docs/kubernetes/node-lifecycle.md</code> — Node add/remove/replace procedures</li>
-<li><code>docs/kubernetes/control-plane/node-lifecycle.md</code> — Control-plane node lifecycle</li>
-<li><code>docs/troubleshooting/prometheus.md</code> — Prometheus troubleshooting runbook</li>
-<li><code>docs/troubleshooting/cni.md</code> — CNI and network policy troubleshooting</li>
-<li><code>docs/troubleshooting/cert-manager.md</code> — cert-manager certificate issuance troubleshooting</li>
-<li><code>docs/gpu-ai/drivers/compatibility-matrix.md</code> — GPU node and driver compatibility</li>
-<li><code>docs/ceph/ceph-monitoring.md</code> — Ceph OSD and pool monitoring</li>
-</ul>
-<hr />
+<p><strong>End of Phase 4-7 — SRE Operational Guides (Steps 31-40)</strong></p>
 
 
 

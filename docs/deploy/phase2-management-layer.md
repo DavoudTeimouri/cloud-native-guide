@@ -1,33 +1,32 @@
-# Phase 2 — Management Layer
+<a id="step-11"></a>
+## Step 11 — Management cluster build — Kubespray hosts-mgmt.ini inventory
 
-**Purpose**: Deploy the centralized management plane consisting of a Kubespray-managed management cluster, Rancher HA, Keycloak OIDC, Argo CD GitOps, Vault secrets management, and platform services (Harbor + GitLab). All components integrate via OIDC and External Secrets with Vault.
+**Purpose**: Build a dedicated management cluster with Kubespray using 3 control-plane + 3 infra workers, ensuring no worker nodes are shared with application clusters per ADR-0010/0011.
 
-**Entry criteria**:
-- Phase 1 (cluster foundation) complete: Kubernetes cluster(s) provisioned with Kubespray, networking (Calico/Cilium), and external load balancer reachable.
-- DNS: `management.internal`, `rancher.internal`, `keycloak.internal`, `argocd.internal`, `harbor.internal`, `gitlab.internal`, `postgres.platform-db.internal` all resolve.
-- TLS certificates provisioned for all internal hostnames.
-- PostgreSQL external database provisioned and reachable.
-- Harbor internal registry running.
-- GitLab instance running with internal user directory.
+**Prerequisites**:
+- Phase 1 (cluster foundation) complete: Kubernetes cluster(s) provisioned with Kubespray, networking (Calico/Cilium), and external load balancer reachable
+- DNS: `management.internal` resolves to bastion/jump host IP
+- TLS certificates provisioned for `management.internal`
+- Administrative access to target hosts for Kubespray Ansible deployment
 
-**Exit criteria**:
-- Management cluster running Kubespray with 3 control-plane + 3 infra workers (no worker nodes shared with application clusters per ADR-0010/0011).
-- Rancher HA installed and reachable via `rancher.internal` with TLS.
-- Keycloak OIDC with three realms (platform, ai, external) and six clients configured.
-- Argo CD HA deployed with Redis sentinel + PostgreSQL, OIDC to Keycloak, External Secrets for client secrets, ServerSideApply enabled.
-- Vault deployed on 3 dedicated hosts outside management cluster with Raft storage, Shamir 3-of-5 unseal, and auth methods configured.
-- Harbor + GitLab integrated with Keycloak OIDC and Vault secret delivery.
-- All validation checks pass; rollback procedures documented and tested.
+**Actions**:
+```bash
+# Clone Kubespray and checkout the release
+git clone https://github.com/kubernetes-sigs/kubespray.git
+cd kubespray
+git checkout release-2.26
 
----
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 
-## 1. Management Cluster Build (Kubespray, hosts-mgmt.ini)
+# Create inventory from template
+cp -rf inventory/sample inventory/mgmt
+# Edit inventory/mgmt/hosts-mgmt.ini per the template below
 
-Build a dedicated management cluster separate from application clusters. Worker nodes must NOT be shared with app clusters per ADR-0010/0011.
-
-### A. Inventory — hosts-mgmt.ini
-
-```ini
+# Edit hosts-mgmt.ini:
+cat > inventory/mgmt/hosts-mgmt.ini << 'INI'
 [mgmt-control-plane]
 mgmt-cp-1 ansible_host=<ip1>
 mgmt-cp-2 ansible_host=<ip2>
@@ -57,26 +56,9 @@ container_runtime=containerd
 admin_access_ip=<bastion-or-jump-host-ip>
 
 # Do NOT overlap with app-cluster node pools
-```
+INI
 
-### B. Kubespray deployment
-
-```bash
-# Clone Kubespray and checkout the release
-git clone https://github.com/kubernetes-sigs/kubespray.git
-cd kubespray
-git checkout release-2.26
-
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# Generate inventory from template or create new
-cp -rf inventory/sample inventory/mgmt
-# Edit inventory/mgmt/hosts-mgmt.ini per the template above
-
-# Scale to 3 control-plane nodes + 3 infra workers
+# Generate inventory and apply Kubespray
 ansible-inventory -i inventory/mgmt/hosts-mgmt.ini -y > inventory.json
 
 # Apply Kubespray site.yml — this builds the management cluster
@@ -89,8 +71,7 @@ kubectl get nodes -A | grep -E "control-plane|etcd"
 kubectl get nodes -o wide | grep mgmt-w
 ```
 
-### C. Validation
-
+**Validation**:
 ```bash
 # All mgmt CP + worker nodes Ready
 kubectl get nodes -A | grep mgmt
@@ -104,40 +85,37 @@ for node in mgmt-cp-1 mgmt-cp-2 mgmt-cp-3; do
 done
 ```
 
-### D. Exit criteria
+**Expected**: 3 control-plane nodes + 3 worker nodes in `Ready` state; Etcd cluster healthy with 3 members; No worker nodes tagged with app-cluster labels; Kubeconfig at `/etc/kubernetes/admin.conf` valid.
 
-- 3 control-plane nodes + 3 worker nodes in `Ready` state.
-- Etcd cluster healthy with 3 members.
-- No worker nodes tagged with app-cluster labels.
-- Kubeconfig at `/etc/kubernetes/admin.conf` valid.
+**Navigation**:
+- Previous: Step 10 (anchor `#step-step-10`)
+- Next: Step 12 (anchor `#step-12`)
 
-### E. Rollback
+<a id="step-12"></a>
+## Step 12 — Rancher HA installation via Helm
 
-- Re-run Kubespray with the original `hosts.ini` (pre-mgmt scaling).
-- Destroy and recreate the management cluster from scratch if etcd data is corrupted.
+**Purpose**: Install Rancher HA with 3 replicas, external PostgreSQL, TLS termination, and private registry `harbor.internal`.
 
----
+**Prerequisites**:
+- External PostgreSQL database provisioned and reachable at `<postgres-host>:5432`
+- TLS certificates for `rancher.internal` (generated via cert-manager or openssl)
+- DNS: `rancher.internal` resolving to HAProxy/VIP
+- HAProxy or cloud LB configured port 443 TLS to three Rancher control-plane nodes
+- kubectl configured to target the management cluster
 
-## 2. Rancher HA Installation (Helm, rancher-stable repo)
-
-Install Rancher HA with 3 replicas, external PostgreSQL, TLS termination, and private registry `harbor.internal`.
-
-### A. Prerequisites (from installation-ha.md section F-H)
-
-- External PostgreSQL database (provisioned, reachable at `<postgres-host>:5432`).
-- TLS certificates for `rancher.internal` (generated via cert-manager or openssl).
-- DNS: `rancher.internal` resolving to HAProxy/VIP.
-- HAProxy or cloud LB configured port 443 TLS to three Rancher control-plane nodes.
-
-### B. Add Helm repo and install
-
+**Actions**:
 ```bash
+# Add Rancher Helm repo and update
 helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 helm repo update
+
+# Install Rancher HA via Helm
+helm install rancher rancher-stable/rancher \
+  --namespace cattle-system --create-namespace \
+  --values values-ha.yaml
 ```
 
-### C. values-ha.yaml
-
+**values-ha.yaml content**:
 ```yaml
 hostname: rancher.internal
 replicas: 3
@@ -161,16 +139,7 @@ extraEnv:
     value: "https://etcd-1.internal:2379,https://etcd-2.internal:2379,https://etcd-3.internal:2379"
 ```
 
-### D. Install Rancher
-
-```bash
-helm install rancher rancher-stable/rancher \
-  --namespace cattle-system --create-namespace \
-  --values values-ha.yaml
-```
-
-### E. Validation
-
+**Validation**:
 ```bash
 # 3 Rancher server pods Running
 kubectl -n cattle-system get pods -l app=rancher
@@ -191,35 +160,29 @@ curl -k https://rancher.internal/v3/health
 # Expected: {"status":"healthy"}
 ```
 
-### F. Exit criteria
+**Expected**: 3 Rancher server pods in `Running` state; ETCD cluster with 3 healthy members; Rancher UI reachable at `https://rancher.internal/v3/health` returning `healthy`; Load balancer distributing traffic across all 3 nodes.
 
-- 3 Rancher server pods in `Running` state.
-- ETCD cluster with 3 healthy members.
-- Rancher UI reachable at `https://rancher.internal/v3/health` returning `healthy`.
-- Load balancer distributing traffic across all 3 nodes.
+**Navigation**:
+- Previous: Step 11 (anchor `#step-11`)
+- Next: Step 13 (anchor `#step-13`)
 
-### G. Rollback
+<a id="step-13"></a>
+## Step 13 — Register application clusters into Rancher via agent manifest
 
-- `helm uninstall rancher -n cattle-system`
-- Re-install with previous `values-ha.yaml` snapshot.
-- If etcd data lost, restore from PostgreSQL backup.
+**Purpose**: Register workload clusters into Rancher using the agent join command.
 
----
+**Prerequisites**:
+- Rancher HA installed and reachable via `rancher.internal` with TLS
+- DNS for application clusters resolves
+- kubectl configured to target the management cluster
 
-## 3. Register Application Clusters into Rancher (Agent Manifest)
-
-Register workload clusters via the Rancher agent join command.
-
-### A. Generate agent join token
-
+**Actions**:
 ```bash
+# Generate agent join token from Rancher UI
 # From Rancher UI: Cluster Actions → Add cluster → Custom → Linux → Manual join settings
 # Copy the full join command including the TLS bootstrap token
-```
 
-### B. Agent manifest template (Linux worker)
-
-```bash
+# Create agent join script (join-cluster.sh)
 cat > join-cluster.sh << 'EOF'
 #!/bin/bash
 # Replace <RANCHER_IP> with the Rancher VIP or LB DNS
@@ -234,17 +197,13 @@ sudo docker run -d --rm \
   --before-pull-image
 EOF
 chmod +x join-cluster.sh
-```
 
-### C. Distribute and run on each application cluster
-
-```bash
+# Distribute and run on each application cluster
 # On each app cluster (e.g., 3 clusters: workload-1, workload-2, workload-3)
 ./join-cluster.sh
 ```
 
-### D. Verify registration
-
+**Validation**:
 ```bash
 # In Rancher UI: Clusters → Your clusters should appear as "pending" → "active"
 kubectl get clusters -A
@@ -253,27 +212,27 @@ kubectl get clusters -A
 kubectl get nodes -A
 ```
 
-### E. Validation
+**Expected**: 3 application clusters registered and showing `Active` in Rancher; Fleet and workload scheduling visible in Rancher; Cross-cluster `kubectl` access via Rancher cluster explorer.
 
-- 3 application clusters registered and showing `Active` in Rancher.
-- Fleet and workload scheduling visible in Rancher.
-- Cross-cluster `kubectl` access via Rancher cluster explorer.
+**Navigation**:
+- Previous: Step 12 (anchor `#step-12`)
+- Next: Step 14 (anchor `#step-14`)
 
-### F. Rollback
+<a id="step-14"></a>
+## Step 14 — Keycloak OIDC provider setup
 
-- Remove cluster from Rancher UI: Cluster Actions → Delete.
-- Wipe etcd data on the application cluster and re-start from scratch.
+**Purpose**: Deploy Keycloak as the identity broker with three realms (platform, ai, external) and six clients (rancher, argocd, grafana, harbor, gitlab, ai-gateway) including groups and uid protocol mappers.
 
----
+**Prerequisites**:
+- Management cluster from Step 11 running and reachable
+- PostgreSQL external database provisioned and reachable at `postgres.platform-db.internal`
+- DNS: `keycloak.internal` resolves to Keycloak service
+- TLS certificates for `keycloak.internal`
+- Helm installed on management cluster
 
-## 4. Keycloak OIDC Provider Setup
-
-Keycloak is the identity broker for the platform with three realms and six clients.
-
-### A. Deploy Keycloak (from keycloak.md)
-
+**Actions**:
 ```bash
-# Chart values subset (from keycloak.md section B)
+# Install Keycloak via Helm chart
 cat > keycloak-values.yaml << 'EOF'
 replicas: 2
 image:
@@ -315,17 +274,15 @@ helm install keycloak oci://harbor.internal/helm/keycloak \
   --values keycloak-values.yaml
 ```
 
-### B. Realms (from keycloak.md section C)
-
-| Realm | Purpose | Upstream |
-|---|---|---|
-| `platform` | Operators and developers of the platform | AD/LDAP federation + local break-glass |
-| `ai` | Service accounts and tenant identities for inference API | Local |
-| `external` | Federates to AD/LDAP and exposes to other realms | AD/LDAP |
-
-**AD/LDAP federation for `external` realm** (from keycloak.md section C):
-
+**Realm configuration** (platform, ai, external):
 ```bash
+# Configure realms via Keycloak admin API or UI
+# Realms created: platform, ai, external
+# - platform: Operators and developers of the platform
+# - ai: Service accounts and tenant identities for inference API
+# - external: Federates to AD/LDAP and exposes to other realms
+
+# AD/LDAP federation for external realm
 kc.sh config ldap --hostname=ldap.internal --port=636 --protocol=ldaps \
   --truststore-path=... --truststore-password=... \
   --bind-dn="cn=svc-keycloak,ou=services,dc=example,dc=com" \
@@ -339,44 +296,28 @@ kc.sh config ldap --hostname=ldap.internal --port=636 --protocol=ldaps \
   --groups-attribute=memberOf
 ```
 
-### C. Clients (from keycloak.md section D)
+**Client configuration** (rancher, argocd, grafana, harbor, gitlab, ai-gateway):
+```bash
+# Create clients via Keycloak admin API or UI
+# Clients: rancher, argocd, grafana, harbor, gitlab, ai-gateway
+# All: Confidential type with appropriate redirect URIs
 
-| Client | Type | Redirect URI | Notes |
-|---|---|---|---|
-| `rancher` | Confidential | `https://rancher.internal/oidc/authorize` | groups + uid claims required |
-| `argoccd` | Confidential | `https://argocd.internal/auth/callback` | Same |
-| `grafana` | Confidential | `https://grafana.internal/login/generic_oauth` | email + groups required |
-| `harbor` | Confidential | `https://harbor.internal/c/oidc/callback` | — |
-| `gitlab` | Confidential | `https://gitlab.internal/users/auth/oidc/callback` | — |
-| `ai-gateway` | Confidential | `https://llm.internal/callback` | Token validation for inference |
+# Protocol mappers (required by Rancher + Argo CD)
+# 1. groups mapper:
+#    - Mapper type: Group membership
+#    - Claim name: groups
+#    - Full path: off
+#    - Add to ID token: on
+#    - Add to access token: on
 
-**Protocol mappers (required by Rancher + Argo CD)**:
+# 2. uid mapper:
+#    - Mapper type: User Attribute
+#    - User attribute: uid
+#    - Claim name: uid
+#    - Add to ID token: on
+```
 
-1. **groups mapper**:
-   - Mapper type: `Group membership`
-   - Claim name: `groups`
-   - Full path: `off`
-   - Add to ID token: `on`
-   - Add to access token: `on`
-
-2. **uid mapper**:
-   - Mapper type: `User Attribute`
-   - User attribute: `uid`
-   - Claim name: `uid`
-   - Add to ID token: `on`
-
-### D. Roles and group mapping (from keycloak.md section E)
-
-| Keycloak group | Platform role | Grants |
-|---|---|---|
-| `platform-admins` | Administrator | Everything |
-| `platform-operators` | Operator | Cluster and platform operations, no secret values |
-| `developers` | Developer | Own namespaces only |
-| `auditors` | Auditor | Read-only access to logs and audit data |
-| `team-<name>` | Team member | The team's namespace and its Argo CD project |
-
-### E. Validation
-
+**Validation**:
 ```bash
 # Discovery document
 curl -k https://keycloak.internal/realms/platform/.well-known/openid-configuration | jq .
@@ -390,39 +331,30 @@ curl -sk -X POST https://keycloak.internal/realms/platform/protocol/openid-conne
 # Expected: groups and uid present for federated user
 ```
 
-### F. Exit criteria
+**Expected**: Keycloak reachable at `https://keycloak.internal` with 2 replicas running; Three realms (platform, ai, external) configured; Six clients (rancher, argocd, grafana, harbor, gitlab, ai-gateway) configured; `groups` and `uid` protocol mappers present and active; Group-to-platform-role mapping functional.
 
-- Keycloak reachable at `https://keycloak.internal` with 2 replicas running.
-- Three realms (platform, ai, external) configured.
-- Six clients (rancher, argocd, grafana, harbor, gitlab, ai-gateway) configured.
-- `groups` and `uid` protocol mappers present and active.
-- Group-to-platform-role mapping functional.
+**Navigation**:
+- Previous: Step 13 (anchor `#step-13`)
+- Next: Step 15 (anchor `#step-15`)
 
-### G. Rollback
+<a id="step-15"></a>
+## Step 15 — Argo CD deployment HA mode
 
-- `helm uninstall keycloak -n keycloak`
-- Restore PostgreSQL database from backup.
-- Re-deploy from Helm chart with previous values.
+**Purpose**: Deploy Argo CD in HA mode with Redis sentinel, PostgreSQL backend, OIDC to Keycloak, External Secrets for clientSecret, and ServerSideApply enabled.
 
----
+**Prerequisites**:
+- Keycloak from Step 14 running and reachable
+- PostgreSQL database reachable at `postgres.argocd.internal`
+- Redis Sentinel deployment reachable at `redis-sentinel.argocd.internal:26379`
+- TLS certificates for `argocd.internal`
+- Helm installed on management cluster
 
-## 5. Argo CD Deployment (HA: Redis Sentinel + PostgreSQL)
-
-Deploy Argo CD in HA mode with Redis sentinel, PostgreSQL backend, OIDC to Keycloak, External Secrets for clientSecret, and ServerSideApply.
-
-### A. Infrastructure prerequisites
-
-- PostgreSQL database reachable at `postgres.argocd.internal`.
-- Redis Sentinel deployment reachable at `redis-sentinel.argocd.internal:26379`.
-- TLS certificates for `argocd.internal`.
-
-### B. Install Argo CD (from argocd.md sections B-F)
-
+**Actions**:
 ```bash
 # Create namespace
 kubectl create namespace argocd
 
-# Install Argo CD with HA values (custom values below)
+# Install Argo CD with HA values
 helm repo add argo-cd https://argoproj.github.io/argo-helm
 helm repo update
 
@@ -440,11 +372,9 @@ server:
   # PostgreSQL connection
   postgresql:
     enabled: false    # Use external PostgreSQL
-    # Use external Redis Sentinel instead
   extraArgs:
     - --server-server-https-chauffeur-privacy-mode=off
-
-  # OIDC Config (from argocd.md section F)
+  # OIDC Config
   oidc:
     enabled: true
     name: Keycloak
@@ -458,7 +388,6 @@ server:
       "platform-admins": role:admin
       "platform-operators": role:admin
       "developers": role:readonly
-
   # Redis Sentinel config
   redis:
     sentinel:
@@ -466,12 +395,10 @@ server:
       sentinelCount: 3
       service: redis-sentinel
       port: 26379
-
   # ServerSideApply
   serverSuite:
     serverSideApply: true
-
-  # External Secrets setup (see section 7)
+  # External Secrets setup
   externalSecrets:
     enabled: true
 EOF
@@ -481,10 +408,8 @@ helm install argocd argo-cd/argo-cd \
   --values argocd-values-ha.yaml
 ```
 
-### C. External Secrets for clientSecret
-
+**External Secrets for clientSecret** (Vault-backed):
 ```yaml
-# ClusterSecretStore for Vault (see section 7)
 apiVersion: external-secrets.io/v1beta1
 kind: ClusterSecretStore
 metadata:
@@ -500,7 +425,7 @@ spec:
             name: vault-token
             key: token
 
-# ExternalSecret for Argo CD OIDC client secret
+---
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
@@ -520,8 +445,7 @@ spec:
         property: clientSecret
 ```
 
-### D. Validation
-
+**Validation**:
 ```bash
 # Argo CD server pods Ready
 kubectl -n argocd get pods -l app.kubernetes.io/name=argocd-server
@@ -535,48 +459,42 @@ argocd login argocd.internal
 # List applications
 argocd app list
 
-# Expected: Applications list shows synced apps; OIDC login succeeds without inline password.
+# Expected: Applications list shows synced apps; OIDC login succeeds without inline password; serverSideApply: true active
 ```
 
-### E. Exit criteria
+**Expected**: 3 Argo CD server pods in `Running` state; PostgreSQL backend reachable and storing Argo CD state; Redis Sentinel providing HA for session state; OIDC login to Argo CD UI succeeds via Keycloak; ExternalSecret for `clientSecret` populated from Vault; `serverSideApply: true` active in Argo CD server config.
 
-- 3 Argo CD server pods in `Running` state.
-- PostgreSQL backend reachable and storing Argo CD state.
-- Redis Sentinel providing HA for session state.
-- OIDC login to Argo CD UI succeeds via Keycloak.
-- ExternalSecret for `clientSecret` populated from Vault.
-- `serverSideApply: true` active in Argo CD server config.
+**Navigation**:
+- Previous: Step 14 (anchor `#step-14`)
+- Next: Step 16 (anchor `#step-16`)
 
-### F. Rollback
+<a id="step-16"></a>
+## Step 16 — Vault deployment on dedicated hosts outside management cluster
 
-- `helm uninstall argocd -n argocd`
-- Wipe PostgreSQL and Redis data; re-install from previous values backup.
-- Restore Argo CD state from etcd/PG backup if needed.
+**Purpose**: Deploy Vault on 3 dedicated hosts with Raft storage, Shamir 3-of-5 unseal, and auth methods (OIDC via Keycloak, AppRole, K8s auth); secret delivery via Vault Agent Injector/External Secrets/CSI.
 
----
+**Prerequisites**:
+- 3 dedicated Vault hosts outside management cluster provisioned
+- DNS: `vault.platform.internal` resolves to VIP or load balancer
+- TLS certificates for `vault.platform.internal`
+- Management cluster from Step 11 running
 
-## 6. Vault Deployment (Dedicated Hosts Outside Management Cluster)
-
-Deploy Vault on 3 dedicated hosts with Raft storage, Shamir 3-of-5 unseal, and multiple auth methods.
-
-### A. Infrastructure — 3 Vault hosts outside management cluster
-
-```ini
+**Actions**:
+```bash
+# Define Vault hosts inventory
+cat > vault-hosts.ini << 'INI'
 [vault-nodes]
 vault-1 ansible_host=<vault-node-1-ip>
 vault-2 ansible_host=<vault-node-2-ip>
 vault-3 ansible_host=<vault-node-3-ip>
-```
+INI
 
-### B. Vault Raft configuration (3 nodes, Shamir 3-of-5)
-
-```bash
 # Initialize the Vault cluster
 vault operator init -key-shares=5 -threshold=3 \
   -root-token-format=hex \
   > /vault/initializer-output.json
 
-# Unseal each node with 3 of 5 shares (distribute shares securely)
+# Unseal each node with 3 of 5 shares
 for i in 1 2 3; do
   vault operator unseal $(jq -r ".unseal_keys_b64[$((i-1))]" /vault/initializer-output.json)
 done
@@ -586,27 +504,15 @@ ROOT_TOKEN=$(jq -r ".root_token" /vault/initializer-output.json)
 vault login $ROOT_TOKEN
 ```
 
-### C. Auth methods (from vault-architecture.md)
-
-| Auth Method | Configuration |
-|---|---|
-| **OIDC via Keycloak** | Vault OIDC auth pointing to `https://keycloak.internal/realms/platform`; groups claim mapped to policies. |
-| **AppRole** | Role ID + Secret ID stored in External Secrets; machines fetch tokens at startup. |
-| **Kubernetes auth** | `kubernetes_auth_backend` for in-cluster service accounts; role binding scoped per namespace. |
-
-**Example: OIDC auth method**
-
+**Auth methods configuration**:
 ```bash
+# OIDC auth method via Keycloak
 vault auth enable oidc keycloak-oidc \
   -path=keycloak-oidc \
   -default-role=platform-user \
   oidc_discovery_url="https://keycloak.internal/realms/platform/platform/.well-known/openid-configuration"
-```
 
-**Example: AppRole**
-
-```bash
-# Create role
+# AppRole role for machines
 vault role-create -description "Argo CD deployment role" \
   -policy=argocd-policy \
   -period=72h \
@@ -615,33 +521,22 @@ vault role-create -description "Argo CD deployment role" \
 
 # Generate secret ID (rotate regularly)
 vault write -f auth/approle/role/argocd-role/secret-id
-```
 
-**Example: Kubernetes auth**
-
-```bash
-# Create K8s auth backend
+# Kubernetes auth backend
 vault auth enable kubernetes k8s \
   -map-server="https://kubernetes.default.svc"
 
-# Configure role
+# Configure K8s auth role
 vault write auth/kubernetes/role/ns-role \
   bound_service_account_names=harbor-sa \
   bound_service_account_namespaces=harbor-system \
   policies=harbor-policy
 ```
 
-### D. Secret delivery methods
-
-| Method | Description |
-|---|---|
-| **Vault Agent Injector** | Sidecar that injects secrets into pods via annotations; uses `sidecar.va.hashicorp.com/inject REAL` and `sidecar.va.hashicorp.com/inject-literal` |
-| **External Secrets Operator** | Syncs Vault secrets to K8s `Secret`; referenced by Argo CD, Keycloak, etc. |
-| **CSI driver** | `vault-secrets-csi` mounts secrets as volumes into pods. |
-
-**Example: Vault Agent Injector annotation**
-
-```yaml
+**Secret delivery methods**:
+```bash
+# Vault Agent Injector example for Harbor
+cat > harbor-injector.yaml << 'YAMl'
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -667,10 +562,10 @@ spec:
         - name: vault secrets
           vaultSecret:
             secretName: vault-secrets
+YAMl
 ```
 
-### E. Validation
-
+**Validation**:
 ```bash
 # Seal/unseal status
 vault status
@@ -687,38 +582,35 @@ vault write auth/kubernetes/login role=ns-role
 # List secrets engine
 vault secrets list
 
-# Expected: Vault 3-node Raft cluster healthy; all auth methods operational.
+# Expected: Vault 3-node Raft cluster healthy; all auth methods operational
 ```
 
-### F. Exit criteria
+**Expected**: 3 Vault nodes running with Raft storage healthy (`vault status` shows `Sealed: false`); Shamir unseal: 3 of 5 shares configured and operational; Auth methods: OIDC (Keycloak), AppRole, Kubernetes — all responding; Secret delivery: Vault Agent Injector and External Secrets syncing secrets to K8s; Policies attached to roles granting least-privilege access.
 
-- 3 Vault nodes running with Raft storage healthy (`vault status` shows `Sealed: false`).
-- Shamir unseal: 3 of 5 shares configured and operational.
-- Auth methods: OIDC (Keycloak), AppRole, Kubernetes — all responding.
-- Secret delivery: Vault Agent Injector and External Secrets syncing secrets to K8s.
-- Policies attached to roles granting least-privilege access.
+**Navigation**:
+- Previous: Step 15 (anchor `#step-15`)
+- Next: Step 17 (anchor `#step-17`)
 
-### G. Rollback
+<a id="step-17"></a>
+## Step 17 — Platform services: Harbor + GitLab integration with Keycloak OIDC and Vault
 
-- `vault operator raft remove-node <node-id>` to remove failed node.
-- Re-initialize Vault if Raft quorum lost.
-- Rotate all secret IDs and OIDC client secrets after rollback.
+**Purpose**: Integrate Harbor container registry and GitLab source control with Keycloak OIDC and Vault secret delivery.
 
----
+**Prerequisites**:
+- Vault from Step 16 running and reachable
+- Keycloak from Step 14 running and reachable
+- DNS: `harbor.internal` and `gitlab.internal` resolves
+- TLS certificates for `harbor.internal` and `gitlab.internal`
 
-## 7. Platform Services: Harbor + GitLab Integration with Keycloak OIDC and Vault
+**Actions**:
 
-Integrate Harbor container registry and GitLab source control with Keycloak OIDC and Vault secret delivery.
-
-### A. Harbor configuration (Keycloak OIDC + Vault)
-
-```yaml
-# values-harbor.yaml (from platform-services index)
+```bash
+# A. Harbor configuration (Keycloak OIDC + Vault)
+cat > values-harbor.yaml << 'EOF'
 harbor:
   config:
     # External URL
     ui_url: https://harbor.internal
-
     # Keycloak OIDC integration
     oauth2:
       enabled: true
@@ -728,11 +620,9 @@ harbor:
       usernameClaim: uid
       groupsClaim: groups
       autoRegister: true
-
     # Token duration
     tokenDuration: 24h
     tokenMaxRefresh: 24h
-
     # PostgreSQL (external)
     database:
       type: postgres
@@ -741,29 +631,29 @@ harbor:
       database: harbor
       username: harbor
       password: ${HARBOR_DB_PASSWORD}   # from ExternalSecret
-
     # Redis
     redis:
       host: redis.platform.internal
       port: 6379
-
     # Trust CA for internal TLS
     trustedProxy:
       enabled: true
-
-    # Proxy protocol
     protocol: https
+EOF
+
+# Install Harbor Helm chart with values-harbor.yaml
+helm install harbor harbor/harbor \
+  --namespace harbor-system --create-namespace \
+  --values values-harbor.yaml
 ```
 
-### B. GitLab configuration (Keycloak OIDC + Vault)
-
-```yaml
-# GitLab config (from automation/ or via Helm)
+```bash
+# B. GitLab configuration (Keycloak OIDC + Vault)
+cat > gitlab-values.yaml << 'EOF'
 gitlab:
   oauth:
     enable: true
     external_url: https://gitlab.internal
-
     gitlab_rails:
       oauth2:
         client_id: gitlab
@@ -772,18 +662,20 @@ gitlab:
         token_uri: https://keycloak.internal/realms/platform/protocol/openid-connect/token
         user_info_uri: https://keycloak.internal/realms/platform/protocol/openid-connect/userinfo
         scope: openid profile email groups
-
-  # Vault-integrated secrets
   secret_store:
     type: vault
     vault_url: https://vault.platform.internal:8200
     vault_token_secret: vault-token   # referenced from K8s secret
+EOF
+
+# Install/configure GitLab with values-gitlab.yaml
+# (GitLab Helm chart installation with OAuth and Vault integration)
 ```
 
-### C. Vault-backed secrets for Harbor + GitLab
-
-```yaml
+```bash
+# C. Vault-backed secrets for Harbor + GitLab (ExternalSecrets)
 # ExternalSecret for Harbor clientSecret
+cat > harbor-oidc-secret.yaml << 'EOF'
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
@@ -801,8 +693,10 @@ spec:
       remoteRef:
         key: harbor
         property: oidc.clientSecret
+EOF
 
 # ExternalSecret for GitLab clientSecret
+cat > gitlab-oidc-secret.yaml << 'EOF'
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
@@ -820,67 +714,144 @@ spec:
       remoteRef:
         key: gitlab
         property: oidc.clientSecret
+EOF
+
+# Apply ExternalSecret manifests
+kubectl apply -f harbor-oidc-secret.yaml
+kubectl apply -f gitlab-oidc-secret.yaml
 ```
 
-### D. Validation
-
+**Validation**:
 ```bash
 # Harbor UI reachable at https://harbor.internal with Keycloak login
-curl -k https://harbor.internal/api/v2.0/users/me -H "Authorization: Bearer $(vault token lookup)"
+curl -k https://harbor.internal/api/v2.0/users/me -H "Authorization: Bearer ..."
 
 # GitLab UI reachable at https://gitlab.internal with Keycloak login
-curl -k https://gitlab.internal/api/v4/user -H "Authorization: Bearer $(vault token lookup)"
+curl -k https://gitlab.internal/api/v4/user -H "Authorization: Bearer ..."
 
 # Harbor registry push/pull test
 docker tag myimage harbor.internal/myimage:latest
 docker push harbor.internal/myimage:latest
 
-# GitLab API authenticated via OIDC token
-gitlab personal token or OIDC session verified via UI.
+# GitLab API authenticated via OIDC session verified via UI
 
 # Vault secrets synced to Harbor + GitLab Secrets
 kubectl get secret -n harbor-system vault-secrets
 kubectl get secret -n gitlab-system vault-secrets
 ```
 
-### E. Exit criteria
+**Expected**: Harbor UI reachable at `https://harbor.internal`; Keycloak OIDC login works; GitLab UI reachable at `https://gitlab.internal`; Keycloak OIDC login works; Harbor + GitLab OIDC client secrets populated from Vault via External Secrets; Image push/pull to Harbor functional; GitLab repo cloning functional with Keycloak-authenticated user; Vault secrets (DB passwords, API keys) synced to both Harbor and GitLab configurations.
 
-- Harbor UI reachable at `https://harbor.internal`; Keycloak OIDC login works.
-- GitLab UI reachable at `https://gitlab.internal`; Keycloak OIDC login works.
-- Harbor + GitLab OIDC client secrets populated from Vault via External Secrets.
-- Image push/pull to Harbor functional.
-- GitLab repo cloning functional with Keycloak-authenticated user.
-- Vault secrets (DB passwords, API keys) synced to both Harbor and GitLab configurations.
+**Navigation**:
+- Previous: Step 16 (anchor `#step-16`)
+- Next: Step 18 (anchor `#step-18`)
 
-### F. Rollback
+<a id="step-18"></a>
+## Step 18 — Cross-component validation
 
-- `helm uninstall harbor -n harbor-system` (if Helm-deployed).
-- Revert ExternalSecret configurations to previous values.
-- Restore Harbor and GitLab databases from backup.
-- Rotate all OIDC client secrets and Vault tokens.
+**Purpose**: Validate OIDC login across all components and External Secrets synchronization.
 
----
+**Prerequisites**:
+- All previous steps complete: Rancher (12), Keycloak (14), Argo CD (15), Vault (16), Harbor + GitLab (17)
+- DNS resolves for all internal hostnames
 
-## Summary Checklist — Phase 2 Complete
+**Actions**:
+```bash
+# OIDC login to Rancher
+curl -k https://rancher.internal/v3/auth/login \
+  -d "redirect_url=https://rancher.internal/v3/console" \
+  -H "Content-Type: application/x-www-form-urlencoded"
 
-| # | Component | Status |
-|---|---|---|
-| 1 | Management cluster (Kubespray, 3 CP + 3 workers, no share with app clusters) | ✅ / ❌ |
-| 2 | Rancher HA (Helm, 3 replicas, hostname, TLS, harbor.internal registry) | ✅ / ❌ |
-| 3 | App clusters registered via agent manifest | ✅ / ❌ |
-| 4 | Keycloak OIDC (3 realms: platform/ai/external; 6 clients: rancher/argocd/grafana/harbor/gitlab/ai-gateway) | ✅ / ❌ |
-| 5 | Argo CD HA (Redis sentinel + PostgreSQL, OIDC to Keycloak, ExternalSecret clientSecret, ServerSideApply) | ✅ / ❌ |
-| 6 | Vault (3 nodes Raft, Shamir 3-of-5 unseal, OIDC/AppRole/K8s auth; Injector/External Secrets/CSI) | ✅ / ❌ |
-| 7 | Harbor + GitLab (Keycloak OIDC + Vault secret delivery) | ✅ / ❌ |
+# OIDC login to Argo CD
+argocd login argocd.internal --token-arg-hash=false
+# Successful login returns no authentication error
 
-**Next**: Proceed to Phase 3 — Application Workloads and GitOps Fleet if all exit criteria pass.
+# OIDC login to Grafana (if configured)
+# Access via https://grafana.internal/login/generic_oauth
 
-**References**:
-- `docs/management-cluster/rancher/installation-ha.md` — Rancher HA installation
-- `docs/management-cluster/argocd/argocd.md` — Argo CD GitOps
-- `docs/secrets-management/vault/vault-architecture.md` — Vault architecture
-- `docs/security/kubewarden.md` — Policy admission control
-- `docs/deploy/choose-cluster-type.md` — Path selection
-- `docs/deploy/other-deployment-methods.md` — Alternative deployment methods
-- ADR-0010, ADR-0011 — Management cluster worker node separation
-- ADR-0025 — Identity provider isolation
+# OIDC login to Harbor
+# Access via https://harbor.internal; login with Keycloak credentials
+
+# OIDC login to GitLab
+# Access via https://gitlab.internal; login with Keycloak credentials
+
+# Verify External Secrets sync status
+kubectl get externalsecret -A
+
+# Verify Vault secrets are reachable
+vault secrets list
+```
+
+**Expected**:
+- OIDC login to Rancher/Argo CD/Grafana/Harbor/GitLab all succeed via Keycloak
+- External Secrets are synced and populated in respective namespaces
+- Vault secrets list returns expected secret engines and paths
+- All component health checks pass
+
+**Navigation**:
+- Previous: Step 17 (anchor `#step-17`)
+- Next: Step 19 (anchor `#step-19`)
+
+<a id="step-19"></a>
+## Step 19 — Exit criteria checklist
+
+**Purpose**: Verify all Phase 2 exit criteria are met before proceeding to Phase 3.
+
+**Exit criteria**:
+- [ ] Management cluster running Kubespray with 3 control-plane + 3 infra workers (no worker nodes shared with application clusters per ADR-0010/0011)
+- [ ] Rancher HA installed and reachable via `rancher.internal` with TLS
+- [ ] Keycloak OIDC with three realms (platform, ai, external) and six clients configured
+- [ ] Argo CD HA deployed with Redis sentinel + PostgreSQL, OIDC to Keycloak, External Secrets for client secrets, ServerSideApply enabled
+- [ ] Vault deployed on 3 dedicated hosts outside management cluster with Raft storage, Shamir 3-of-5 unseal, and auth methods configured (OIDC via Keycloak, AppRole, K8s auth)
+- [ ] Harbor + GitLab integrated with Keycloak OIDC and Vault secret delivery
+- [ ] All validation checks pass (Step 18)
+- [ ] Rollback procedures documented and tested (Step 20)
+
+**Navigation**:
+- Previous: Step 18 (anchor `#step-18`)
+- Next: Step 20 (anchor `#step-20`)
+
+<a id="step-20"></a>
+## Step 20 — Rollback procedures
+
+**Purpose**: Document and test rollback procedures for all Phase 2 components.
+
+**Rollback procedures**:
+
+```bash
+# Management cluster rollback (Step 11)
+# - Re-run Kubespray with the original hosts.ini (pre-mgmt scaling)
+# - Or destroy and recreate the management cluster from scratch if etcd data is corrupted
+
+# Rancher HA rollback (Step 12)
+# - helm uninstall rancher -n cattle-system
+# - Re-install with previous values-ha.yaml snapshot
+# - If etcd data lost, restore from PostgreSQL backup
+
+# Keycloak rollback (Step 14)
+# - helm uninstall keycloak -n keycloak
+# - Restore PostgreSQL database from backup
+# - Re-deploy from Helm chart with previous values
+
+# Argo CD rollback (Step 15)
+# - helm uninstall argocd -n argocd
+# - Wipe PostgreSQL and Redis data; re-install from previous values backup
+# - Restore Argo CD state from etcd/PG backup if needed
+
+# Vault rollback (Step 16)
+# - vault operator raft remove-node <node-id> to remove failed node
+# - Re-initialize Vault if Raft quorum lost
+# - Rotate all secret IDs and OIDC client secrets after rollback
+
+# Harbor + GitLab rollback (Step 17)
+# - helm uninstall harbor -n harbor-system (if Helm-deployed)
+# - Revert ExternalSecret configurations to previous values
+# - Restore Harbor and GitLab databases from backup
+# - Rotate all OIDC client secrets and Vault tokens
+```
+
+**Expected**: All rollback procedures documented; each procedure tested in staging environment; data recovery paths validated; rollback timeline documented (< 30 minutes for critical components).
+
+**Navigation**:
+- Previous: Step 19 (anchor `#step-19`)
+- End of Phase 2 guide

@@ -1,8 +1,4 @@
-# Phase 1 — Cluster Foundation
-
-**Purpose**: Deploy a Kubespray-managed Kubernetes cluster on bare-metal with Cilium CNI, kube-proxy-free mode, containerd runtime, and NGINX Ingress Controller. This phase covers inventory generation, group variable configuration, offline registry setup, pre-deployment validation, control-plane and worker node deployment, CNI and ingress installation, and post-deployment validation.
-
-**Entry criteria**:
+# Entry criteria
 - Automation Management Server provisioned with Ansible venv (or bastion host)
 - All nodes have OS installed from internal mirror, containerd 2.3.7, Ansible 2.19.x, Python 3.11-3.13
 - NTP synchronized on all nodes (`chronyc tracking` shows synchronized)
@@ -18,24 +14,27 @@
 - F5 NGINX Ingress Controller chart mirrored (`helm search repo nginx-ingress` shows chart)
 - DNS resolves the control-plane VIP from all nodes
 
----
+<a id="step-00"></a>
+<a id="step-01"></a>
+## Step 01 — Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups
 
-## 1. Kubespray inventory generation from hosts.ini with control-plane/etcd/worker groups
+**Purpose**: Generate the Ansible inventory file that defines host groups for Kubespray cluster deployment.
 
-Generate the Ansible inventory file at `kubespray/inventory/<cluster>/hosts.ini`. This file defines host groups that Kubespray uses to orchestrate deployment.
+**Prerequisites**:
+- Step 00 complete (OS selection and node provisioning per OS selection guide)
+- All nodes reachable via SSH with Ansible user
 
-### Inventory structure
-
-```ini
+**Actions**:
+```bash
+# From the repo root (where kubespray/ lives), generate inventory
+cat > inventory/mycluster/hosts.ini << 'EOF'
 [all:vars]
 ansible_user=ansible
 ansible_become=yes
 ansible_python_interpreter=/usr/bin/python3
 ansible_ssh_common_args='-o StrictHostKeyChecking=accept-new'
 
-# ---------------------------------------------------------------------------
 # Control plane (3 nodes, stacked etcd)
-# ---------------------------------------------------------------------------
 [control-plane]
 k8s-cp-1 ansible_host=10.20.0.11 ip=10.20.0.11
 k8s-cp-2 ansible_host=10.20.0.12 ip=10.20.0.12
@@ -46,9 +45,7 @@ k8s-cp-1
 k8s-cp-2
 k8s-cp-3
 
-# ---------------------------------------------------------------------------
 # Workers
-# ---------------------------------------------------------------------------
 [k8s-node]
 k8s-w-1 ansible_host=10.20.0.21 ip=10.20.0.21
 k8s-w-2 ansible_host=10.20.0.22 ip=10.20.0.22
@@ -60,9 +57,7 @@ gpu-node
 [gpu-node]
 k8s-gpu-1 ansible_host=10.50.0.11 ip=10.50.0.11 labels='{"accelerator":"nvidia"}'
 
-# ---------------------------------------------------------------------------
 # Groups Kubespray expects (do not reorder)
-# ---------------------------------------------------------------------------
 [kube-master]
 control-plane
 
@@ -74,23 +69,40 @@ k8s-node
 control-plane
 etcd
 k8s-node
+EOF
 ```
 
-### Rules
-- Every worker, including GPU and storage nodes, must be in the `k8s-node` group.
-- `etcd` members must also be in `control-plane` when etcd is stacked.
-- A host must not appear in two `k8s-node` groups.
-- `ip=` must be the address on the cluster network, not the management address.
+**Validation**:
+```bash
+# Verify inventory structure
+grep -c '\[' inventory/mycluster/hosts.ini
+# Expected: 11 group headers (all:vars, control-plane, etcd, k8s-node, k8s-node:children, gpu-node, kube-master, kube-node, k8s-cluster)
+grep '\[control-plane\]' inventory/mycluster/hosts.ini | wc -l
+# Expected: 3
+grep '\[etcd\]' inventory/mycluster/hosts.ini | wc -l
+# Expected: 3
+grep '\[k8s-node\]' inventory/mycluster/hosts.ini | wc -l
+# Expected: 3
+```
 
----
+**Navigation**:
+- Previous: Step 00 (anchor `#step-00`)
+- Next: Step 02 (anchor `#step-02`)
 
-## 2. group_vars/k8s_cluster/k8s-cluster.yml configuration
+<a id="step-02"></a>
+## Step 02 — group_vars/k8s_cluster/k8s-cluster.yml configuration (Cilium CNI, kube-proxy-free, containerd)
 
-Configure core group variables for the cluster. These variables live at `kubespray/inventory/<cluster>/group_vars/k8s_cluster/k8s-cluster.yml`.
+**Purpose**: Configure core group variables for the cluster including CNI, kube-proxy mode, and service CIDRs.
 
-### Core configuration
+**Prerequisites**:
+- Step 01 complete (hosts.ini generated)
+- Inventory directory exists with host definitions
 
-```yaml
+**Actions**:
+```bash
+# Create group vars directory and write configuration
+mkdir -p inventory/mycluster/group_vars/k8s_cluster
+cat > inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml << 'EOF'
 # Kubernetes version. Must be inside the pinned Kubespray release's supported range.
 kube_version: v1.36.5
 
@@ -109,27 +121,39 @@ k8sServiceHost: "10.20.0.100"      # the control-plane VIP
 k8sServicePort: 6443
 
 enable_coredns: true
+EOF
 ```
 
-### Key settings explained
+**Validation**:
+```bash
+# Verify key variables are set correctly
+grep 'kube_network_plugin' inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
+# Expected: kube_network_plugin: cilium
+grep 'kube_proxy_mode' inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
+# Expected: kube_proxy_mode: ""
+grep 'kube_pods_subnet' inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
+# Expected: kube_pods_subnet: "10.30.0.0/16"
+```
 
-- `kube_proxy_mode: ""` — an empty value disables kube-proxy. This is required for Cilium's kube-proxy-free mode. The variable name is per-release — verify against the pinned release's `roles/kubespray_defaults/defaults/main/` before use.
-- `kube_network_plugin: cilium` — tells Kubespray to install Cilium as the CNI plugin.
-- `k8sServiceHost` / `k8sServicePort` — Cilium agent needs the API server endpoint when running in kube-proxy-free mode; these values must match the control-plane VIP and port.
+**Navigation**:
+- Previous: Step 01 (anchor `#step-01`)
+- Next: Step 03 (anchor `#step-03`)
 
-### Reference
-- `docs/kubespray/group-vars-template.md` — authoritative group vars template
-- `docs/kubespray/inventory-and-variables.md` — inventory design reference
+<a id="step-03"></a>
+## Step 03 — Offline image registry setup via group_vars/all/offline.yml
 
----
+**Purpose**: Configure the internal container registry and file mirror so Kubespray can pull all images and OS packages without internet access.
 
-## 3. Offline image registry setup via group_vars/all/offline.yml
+**Prerequisites**:
+- Step 02 complete (group vars configured)
+- Internal container registry reachable from all nodes
+- Internal file repository reachable from all nodes
 
-Configure the internal container registry and file mirror so Kubespray can pull all images and OS packages without internet access.
-
-### Offline group variables
-
-```yaml
+**Actions**:
+```bash
+# Create offline group vars directory and write configuration
+mkdir -p inventory/mycluster/group_vars/all
+cat > inventory/mycluster/group_vars/all/offline.yml << 'EOF'
 # Internal registry and file mirror. See the Kubespray release-2.32 offline guide.
 kube_image_repo: "{{ registry_host }}"
 gcr_image_repo: "{{ registry_host }}"
@@ -186,110 +210,110 @@ cilium_extra_values:
   envoy:
     image:
       useDigest: false
-```
 
-### OS package repositories (Oracle Linux / RHEL family)
-
-```yaml
+# OS package repositories (Oracle Linux / RHEL family)
 containerd_rh_repo_base_url: "{{ yum_repo }}/containerd"
 containerd_rh_repo_gpgkey: "{{ yum_repo }}/containerd/gpgkey"
-```
 
-### OS package repositories (Ubuntu)
-
-```yaml
+# OS package repositories (Ubuntu)
 containerd_ubuntu_repo_base_url: "{{ ubuntu_repo }}/containerd"
 containerd_ubuntu_repo_gpgkey: "{{ ubuntu_repo }}/containerd/gpgkey"
 containerd_ubuntu_repo_repokey: 'YOURREPOKEY'
+EOF
 ```
 
-### Key variables
-
-- `registry_host` — container image registry hostname (e.g. `harbor.internal`). If the internal registry uses the same repository paths as upstream, no per-image overrides are needed.
-- `registry_addr` — registry as `[domain or ip]:[port]` only.
-- `files_repo` — HTTP server or reverse proxy serving the static file tree. Include the version in the path so an upgrade does not change the URL.
-- `yum_repo` / `debian_repo` / `ubuntu_repo` — internal OS package repository for the matching OS.
-- `registry_user` / `registry_pass` — registry credentials, stored with `!vault`.
-
-### Reference
-- `docs/kubespray/kubespray-deployment.md` §F — offline image configuration
-- `docs/kubespray/group-vars-template.md` — full group vars template
-
----
-
-## 4. syntax-check and pre-check commands
-
-Before any Kubespray playbook execution, run syntax and pre-checks to catch configuration errors early.
-
-### 4.1 Syntax check
-
-Validate the playbook YAML for parsing errors without contacting any hosts.
-
+**Validation**:
 ```bash
-# From the repo root (where kubespray/ lives)
-ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml --syntax-check
+# Verify offline group vars are present and properly structured
+grep 'kube_image_repo' inventory/mycluster/group_vars/all/offline.yml
+# Expected: kube_image_repo: "{{ registry_host }}"
+grep 'cilium_install_extra_flags' inventory/mycluster/group_vars/all/offline.yml
+# Expected: cilium_install_extra_flags: "--repository {{ files_repo }}/helm.cilium.io/"
+grep 'containerd_registries_mirrors' inventory/mycluster/group_vars/all/offline.yml
+# Expected: containerd_registries_mirrors section present
 ```
 
-Expected output: `playbook: cluster.yml: syntax check passed`
+**Navigation**:
+- Previous: Step 02 (anchor `#step-02`)
+- Next: Step 04 (anchor `#step-04`)
 
-### 4.2 Ansible ping
+<a id="step-04"></a>
+## Step 04 — Syntax-check and pre-check commands
 
-Verify Ansible can communicate with all hosts.
+**Purpose**: Validate the playbook YAML for parsing errors and verify Ansible communication with all hosts before deployment.
 
+**Prerequisites**:
+- Step 03 complete (offline registry configured)
+- Inventory file exists with host definitions
+
+**Actions**:
 ```bash
-ansible -i inventory/<cluster>/hosts.ini all -m ping
+# 4.1 Syntax check - validate playbook YAML without contacting hosts
+ansible-playbook -i inventory/mycluster/hosts.ini cluster.yml --syntax-check
+# Expected output: playbook: cluster.yml: syntax check passed
+
+# 4.2 Ansible ping - verify communication with all hosts
+ansible -i inventory/mycluster/hosts.ini all -m ping
+# Expected output (one line per host):
+# k8s-cp-1 | pong
+# k8s-cp-2 | pong
+# k8s-cp-3 | pong
+# k8s-w-1 | pong
+# k8s-w-2 | pong
+# k8s-w-3 | pong
+
+# 4.3 Check and diff - simulated deployment limited to control-plane nodes
+ansible-playbook -i inventory/mycluster/hosts.ini cluster.yml -b --check --diff --limit control-plane
+# Expected output: playbook plan with changed/ok for each task, no actual system modifications
 ```
 
-Expected output (one line per host): `k8s-cp-1 | pong`
-`k8s-cp-2 | pong`
-`k8s-cp-3 | pong`
-`k8s-w-1 | pong`
-`k8s-w-2 | pong`
-`k8s-w-3 | pong`
-
-### 4.3 Check and diff (control-plane limited run)
-
-Run a simulated deployment limited to control-plane nodes, showing diffs without making changes.
-
+**Validation**:
 ```bash
-ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml -b --check --diff --limit control-plane
+# Verify syntax check passed
+grep "syntax check passed" <(ansible-playbook -i inventory/mycluster/hosts.ini cluster.yml --syntax-check 2>&1)
+# Expected: contain string "syntax check passed"
 ```
 
-Expected output: playbook plan with `changed`/`ok` for each task, no actual system modifications.
+**Navigation**:
+- Previous: Step 03 (anchor `#step-03`)
+- Next: Step 05 (anchor `#step-05`)
 
----
+<a id="step-05"></a>
+## Step 05 — Control-plane deployment one node at a time with kubeadm join and upload-certs
 
-## 5. Control-plane deployment one node at a time with kubeadm join and upload-certs
+**Purpose**: Deploy the control-plane nodes sequentially using Kubespray, one node at a time to preserve API server quorum.
 
-Deploy the control-plane nodes sequentially. Kubespray handles `kubeadm init` under the hood, but the procedure is one node at a time to preserve API server quorum.
+**Prerequisites**:
+- Step 04 complete (pre-checks passed)
+- All control-plane nodes reachable via SSH
 
-### 5.1 Deploy first control-plane node
-
+**Actions**:
 ```bash
-ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml -b --limit k8s-cp-1
-```
+# 5.1 Deploy first control-plane node
+ansible-playbook -i inventory/mycluster/hosts.ini cluster.yml -b --limit k8s-cp-1
 
-### 5.2 Verify first node is ready
-
-```bash
+# 5.2 Verify first node is ready
 kubectl get nodes k8s-cp-1
 # Expected: Ready, Status=Ready
+
 kubectl get --raw='/readyz?verbose' | grep -E "(IP|kubelet|apiserver|controller-manager|scheduler)"
-```
+# Expected: all components responding
 
-### 5.3 Deploy remaining control-plane nodes one at a time
-
-```bash
+# 5.3 Deploy remaining control-plane nodes one at a time
 # Second control-plane node
-ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml -b --limit k8s-cp-2
+ansible-playbook -i inventory/mycluster/hosts.ini cluster.yml -b --limit k8s-cp-2
 
 # Third control-plane node
-ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml -b --limit k8s-cp-3
+ansible-playbook -i inventory/mycluster/hosts.ini cluster.yml -b --limit k8s-cp-3
 ```
 
-### 5.4 Verify etcd cluster health
-
+**Validation**:
 ```bash
+# Verify all control-plane nodes are ready
+kubectl get nodes
+# Expected: 3 control-plane nodes showing Ready status with VERSION v1.36.5
+
+# Verify etcd cluster health
 etcdctl --endpoints=https://127.0.0.1:2379 endpoint health \
   --cacert=/etc/kubernetes/pki/etcd/ca.crt \
   --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt \
@@ -297,30 +321,25 @@ etcdctl --endpoints=https://127.0.0.1:2379 endpoint health \
 # Expected: all healthy
 ```
 
-### 5.5 kubeadm join (if joining additional control-plane nodes outside Kubespray)
+**Navigation**:
+- Previous: Step 04 (anchor `#step-04`)
+- Next: Step 06 (anchor `#step-06`)
 
+<a id="step-06"></a>
+## Step 06 — Worker node join
+
+**Purpose**: Add worker nodes to the cluster. Kubespray generates the kubeadm join command and nodes pick it up automatically from their kubelet configuration.
+
+**Prerequisites**:
+- Step 05 complete (all control-plane nodes deployed and etcd healthy)
+- Worker nodes reachable via SSH
+
+**Actions**:
 ```bash
-# On each additional control-plane node
-kubeadm join <control-plane-vip>:6443 --control-plane --certificate-key <key>
-```
+# 6.1 Deploy workers
+ansible-playbook -i inventory/mycluster/hosts.ini cluster.yml -b --limit k8s-node
 
-**Note**: Kubespray manages the control-plane setup internally. The `kubeadm join --control-plane` command is only needed when adding extra control-plane nodes after the initial Kubespray deploy, or for recovery procedures.
-
----
-
-## 6. Worker node join
-
-Add worker nodes to the cluster. Kubespray generates the `kubeadm join` command and nodes pick it up automatically from their `kubelet` configuration.
-
-### 6.1 Deploy workers
-
-```bash
-ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml -b --limit k8s-node
-```
-
-### 6.2 Verify worker nodes are ready
-
-```bash
+# 6.2 Verify worker nodes are ready
 kubectl get nodes
 # Expected output:
 # NAME         STATUS   ROLES           AGE   VERSION
@@ -330,31 +349,44 @@ kubectl get nodes
 # k8s-w-1      Ready    <none>          5m    v1.36.5
 # k8s-w-2      Ready    <none>          3m    v1.36.5
 # k8s-w-3      Ready    <none>          1m    v1.36.5
-```
 
-### 6.3 Verify pod readiness across namespaces
-
-```bash
+# 6.3 Verify pod readiness across namespaces
 kubectl get pods -A
-# All kube-system pods should be Running, except possibly short-lived startup containers
+# Expected: All kube-system pods should be Running, except possibly short-lived startup containers
 ```
 
----
-
-## 7. Cilium CNI installation and validation
-
-Cilium is installed by Kubespray via the `kube_network_plugin: cilium` variable and the offline Helm chart configuration in `group_vars/all/offline.yml`.
-
-### 7.1 Verify Cilium DaemonSet is running
-
+**Validation**:
 ```bash
+# Verify all 6 nodes are Ready
+kubectl get nodes -o json | python3 -c "
+import sys, json
+nodes = json.load(sys.stdin)['items']
+ready = [n for n in nodes if 'Ready' in n['status']['conditions'][0]['type']]
+print(f'Total nodes: {len(nodes)}, Ready: {len(ready)}')
+# Expected: Total nodes: 6, Ready: 6
+"
+```
+
+**Navigation**:
+- Previous: Step 05 (anchor `#step-05`)
+- Next: Step 07 (anchor `#step-07`)
+
+<a id="step-07"></a>
+## Step 07 — Cilium CNI installation and validation
+
+**Purpose**: Verify Cilium CNI is properly installed and functioning, including BPF data path and connectivity.
+
+**Prerequisites**:
+- Step 06 complete (all worker nodes joined and Ready)
+- kubectl access to the cluster
+
+**Actions**:
+```bash
+# 7.1 Verify Cilium DaemonSet is running
 kubectl -n kube-system get pods -l k8s-app=cilium
 # Expected: 6 pods (3 agents + 3 relays, or as DaemonSet size)
-```
 
-### 7.2 Check Cilium status
-
-```bash
+# 7.2 Check Cilium status
 cilium status
 # Expected output sections:
 # - Cluster info
@@ -363,18 +395,12 @@ cilium status
 # - kubeProxyReplacementError: none
 # - Cluster CIDR: 10.30.0.0/16
 # - Service CIDR: 10.32.0.0/16
-```
 
-### 7.3 Run connectivity test
-
-```bash
+# 7.3 Run connectivity test
 cilium connectivity test
 # Expected: all probes pass (e2e, host, l3, l2, etc. depending on mode)
-```
 
-### 7.4 Validate kube-proxy replacement
-
-```bash
+# 7.4 Validate kube-proxy replacement
 kubectl -n kube-system get daemonset cilium-agent
 # Or check the kube-proxy replacement status
 kubectl get nodes -o json | python3 -c "
@@ -384,11 +410,8 @@ for node in json.load(sys.stdin)['items']:
     addresses = [a['address'] for a in node['status']['addresses']]
     print(f'{node_name}: addresses={addresses}')
 "
-```
 
-### 7.5 Basic network policy test (audit mode first)
-
-```bash
+# 7.5 Basic network policy test (audit mode first)
 # Allow DNS egress
 cat <<EOF | kubectl apply -f -
 apiVersion: cilium.io/v2
@@ -411,34 +434,44 @@ spec:
 EOF
 ```
 
-### 7.6 Hubble observability (optional but recommended)
-
+**Validation**:
 ```bash
-cilium hubble status
-cilium hubble relay status
-cilium hubble ui status
+# Verify Cilium is running and kube-proxy is replaced
+cilium status | grep 'KubeProxyReplacement'
+# Expected: KubeProxyReplacement: True
+
+cilium status | grep 'kubeProxyReplacementError'
+# Expected: kubeProxyReplacementError: none
+
+# Verify cluster CIDR
+cilium status | grep 'Cluster CIDR'
+# Expected: Cluster CIDR: 10.30.0.0/16
+
+# Verify service CIDR
+cilium status | grep 'Service CIDR'
+# Expected: Service CIDR: 10.32.0.0/16
 ```
 
-### Reference
-- `docs/kubernetes/networking/cilium.md` — full Cilium configuration and troubleshooting
-- `docs/kubespray/offline-deployment-checklist.md` §F — CNI verification items
+**Navigation**:
+- Previous: Step 06 (anchor `#step-06`)
+- Next: Step 08 (anchor `#step-08`)
 
----
+<a id="step-08"></a>
+## Step 08 — NGINX ingress controller installation and validation
 
-## 8. NGINX ingress controller installation and validation
+**Purpose**: Install the F5 NGINX Ingress Controller using Helm with exact chart version and offline image digests, and configure Gateway API support.
 
-Install the F5 NGINX Ingress Controller (retired the community `kubernetes/ingress-nginx` in March 2026). Use Helm with the exact chart version and offline image digests.
+**Prerequisites**:
+- Step 07 complete (Cilium CNI installed and validated)
+- Helm installed and configured with offline repositories
 
-### 8.1 Add Helm repository
-
+**Actions**:
 ```bash
+# 8.1 Add Helm repository
 helm repo add nginx-ingress https://nginx.github.io/helm-charts
 helm repo update
-```
 
-### 8.2 Install NGINX Ingress Controller
-
-```bash
+# 8.2 Install NGINX Ingress Controller
 helm install nic nginx-ingress/nginx-ingress \
   --version 2.8.0 \
   --namespace ingress-nginx --create-namespace \
@@ -450,115 +483,101 @@ helm install nic nginx-ingress/nginx-ingress \
   --set controller.config.ingress-class=nginx \
   --set controller.metrics.enabled=true \
   --set controller.metrics.serviceMonitor.enabled=true
-```
 
-### 8.3 Configure Gateway API (required for the replacement controller)
-
-```bash
+# 8.3 Configure Gateway API
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/standard-install.yaml
-```
 
-Configure the controller to watch Gateway API resources:
+# Configure the controller to watch Gateway API resources
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-ingress-gateway-api
+  namespace: ingress-nginx
+data:
+  enable-gateway-api: "true"
+  gateway-class: nginx
+EOF
 
-```yaml
-controller:
-  config:
-    enable-gateway-api: "true"
-    gateway-class: nginx
-```
+# Disable snippet annotations (security hardening)
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-ingress-snippet-hardening
+  namespace: ingress-nginx
+data:
+  enable-snippets: "false"
+  enable-server-snippets: "false"
+  enable-stream-snippets: "false"
+  allow-snippet-annotations: "false"
+EOF
 
-Disable snippet annotations (security hardening):
-
-```yaml
-controller:
-  config:
-    enable-snippets: "false"
-    enable-server-snippets: "false"
-    enable-stream-snippets: "false"
-    allow-snippet-annotations: "false"
-```
-
-### 8.4 Verify ingress controller is running
-
-```bash
+# 8.4 Verify ingress controller is running
 kubectl -n ingress-nginx get pods
 # Expected: controller pod(s) Ready
+
 kubectl -n ingress-nginx get svc
 # Expected: Service with VIP (MetalLB or cloud LB)
+
 kubectl get gatewayclass
 # Expected: gatewayclass.k8s.io/nginx listed
+
 kubectl get gateway,httproute -A
 # Expected: no resources yet, or your application resources
 ```
 
-### 8.5 TLS validation (cert-manager + Vault PKI)
-
-Certificates are issued via cert-manager from the Vault PKI issuer (see `docs/kubernetes/ingress/nginx-ingress.md` §TLS). Validate a certificate:
-
+**Validation**:
 ```bash
-kubectl -n ingress-nginx get secret <secret-name> -o jsonpath='{.data.tls\.crt}' | openssl x509 -noout -dates
+# Verify NGINX Ingress Controller pods are Ready
+kubectl -n ingress-nginx get pods
+# Expected: 1 or more pods with READY=1/1 or READY=2/2
+
+# Verify GatewayClass is available
+kubectl get gatewayclass
+# Expected: gatewayclass.k8s.io/nginx listed as available
+
+# Verify ingress service has VIP
+kubectl -n ingress-nginx get svc
+# Expected: LoadBalancer INGRESS-IP assigned (or pending if using MetalLB in defer mode)
 ```
 
-### 8.6 External health check
+**Navigation**:
+- Previous: Step 07 (anchor `#step-07`)
+- Next: Step 09 (anchor `#step-09`)
 
+<a id="step-09"></a>
+## Step 09 — Post-deployment validation commands
+
+**Purpose**: Run comprehensive validation commands after all components (CNI, ingress, add-ons) are deployed to confirm the cluster is healthy and ready for workloads.
+
+**Prerequisites**:
+- Step 08 complete (NGINX Ingress Controller installed and validated)
+- All cluster components deployed
+
+**Actions**:
 ```bash
-curl -vk https://<ingress-vip>/healthz \
-  -H 'Host: app.internal'
-# Expected: 200 with valid certificate chain
-```
-
-### 8.7 Verify admission webhook failure policy
-
-```bash
-kubectl get mutatingwebhookconfiguration -A | grep nginx-ingress
-# Confirm failurePolicy is Fail for application namespaces
-```
-
-### Reference
-- `docs/kubernetes/ingress/nginx-ingress.md` — full F5 NGINX Ingress Controller configuration
-- `docs/kubespray/offline-deployment-checklist.md` §G — Platform services items
-
----
-
-## 9. Post-deployment validation commands
-
-Run these commands after all components (CNI, ingress, add-ons) are deployed to confirm the cluster is healthy and ready for workloads.
-
-### 9.1 Get nodes status
-
-```bash
+# 9.1 Get nodes status
 kubectl get nodes -o wide
 # Expected: all nodes Ready, with correct roles and IP addresses
-```
 
-### 9.2 Readyz check
-
-```bash
+# 9.2 Readyz check
 kubectl get --raw='/readyz?verbose'
 # Expected: all ok (no failures, no warnings)
-```
 
-### 9.3 Cilium status
-
-```bash
+# 9.3 Cilium status
 cilium status
 # Expected: KubeProxyReplacement: True, KubeProxyReplacementError: none
 # Cross-node pod CIDR routing healthy
-```
 
-### 9.4 Ingress health
-
-```bash
+# 9.4 Ingress health
 kubectl -n ingress-nginx get pods
 kubectl -n ingress-nginx get svc
 curl -vk https://<ingress-vip>/healthz \
   -H 'Host: app.internal'
 # Expected: 200 with valid certificate chain
-```
 
-### 9.5 Full cluster validation
-
-```bash
+# 9.5 Full cluster validation
 # All namespaces pods
 kubectl get pods -A wide
 
@@ -576,88 +595,96 @@ kubectl api-versions
 
 # Storage (Ceph RBD/FS if configured)
 kubectl get storageclass
-```
 
-### 9.6 DNS resolution from pod
-
-```bash
+# 9.6 DNS resolution from pod
 kubectl run test-dns --rm -i --tty --image=harbor.internal/tools/dnstools \
   -- dig kubernetes.default.svc.cluster.local +short
 # Expected: 10.32.0.1 (cluster IP of kube-dns)
 ```
 
----
+**Validation**:
+```bash
+# Verify all validation checks pass
+# At least 5/6 nodes showing Ready
+kubectl get nodes -o json | python3 -c "
+import sys, json
+nodes = json.load(sys.stdin)['items']
+ready = sum(1 for n in nodes if 'Ready' in n['status']['conditions'][0]['type'])
+print(f'Nodes: {len(nodes)}, Ready: {ready}')
+# Expected: ready >= 5, api-versions returns non-empty list
+"
+```
 
-## Rollback procedures
+**Navigation**:
+- Previous: Step 08 (anchor `#step-08`)
+- Next: Step 10 (anchor `#step-10`)
 
-### Rollback control-plane node
+<a id="step-10"></a>
+## Step 10 — Rollback procedures
 
-If a control-plane node fails to join or becomes unhealthy:
+**Purpose**: Document rollback procedures for control-plane node failures and full cluster resets.
 
-1. **Reset the failed node** (if kubeadm initialized it):
+**Prerequisites**:
+- Step 09 complete (post-deployment validation passed)
+- Inventory and group vars preserved in Git
 
-   ```bash
-   ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml --limit <failed-node>
-   ```
+**Actions**:
+```bash
+# Rollback control-plane node
+# If a control-plane node fails to join or becomes unhealthy:
 
-   *Kubespray-provided reset script removes kubeadm state and resets the node to join again.*
+# 1. Reset the failed node (if kubeadm initialized it):
+ansible-playbook -i inventory/mycluster/hosts.ini reset.yml --limit <failed-node>
 
-2. **Re-deploy the node**:
+# Kubespray-provided reset script removes kubeadm state and resets the node to join again.
 
-   ```bash
-   ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml --limit <failed-node>
-   ```
+# 2. Re-deploy the node:
+ansible-playbook -i inventory/mycluster/hosts.ini cluster.yml --limit <failed-node>
 
-3. **Verify etcd quorum** after re-deploy:
+# 3. Verify etcd quorum after re-deploy:
+etcdctl endpoint health --cluster \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt \
+  --key=/etc/kubernetes/pki/etcd/healthcheck-client.key
+# Expected: all healthy
 
-   ```bash
-   etcdctl endpoint health --cluster --cacert=/etc/kubernetes/pki/etcd/ca.crt \
-     --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt \
-     --key=/etc/kubernetes/pki/etcd/healthcheck-client.key
-   ```
+# Rollback full cluster
+# If the deployment is fundamentally broken and needs to be restarted from scratch:
 
-### Rollback full cluster
+# 1. Reset all nodes (ordered: workers first, then control-plane):
+# Reset workers
+ansible-playbook -i inventory/mycluster/hosts.ini reset.yml --limit k8s-node
 
-If the deployment is fundamentally broken and needs to be restarted from scratch:
+# Reset control-plane nodes (one at a time to preserve etcd quorum during reset)
+ansible-playbook -i inventory/mycluster/hosts.ini reset.yml --limit k8s-cp-1
+ansible-playbook -i inventory/mycluster/hosts.ini reset.yml --limit k8s-cp-2
+ansible-playbook -i inventory/mycluster/hosts.ini reset.yml --limit k8s-cp-3
 
-1. **Reset all nodes** (ordered: workers first, then control-plane):
+# 2. Clean etcd data (optional, destructive):
+# On each control-plane node
+rm -rf /var/lib/etcd/default.etcd
+rm -rf /etc/kubernetes/pki/etcd
 
-   ```bash
-   # Reset workers
-   ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml --limit k8s-node
+# 3. Re-run the full deployment from Step 1 (inventory generation) through Step 9 (validation).
 
-   # Reset control-plane nodes (one at a time to preserve etcd quorum during reset)
-   ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml --limit k8s-cp-1
-   ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml --limit k8s-cp-2
-   ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml --limit k8s-cp-3
-   ```
+# Important rollback rules
+# - Never delete /etc/kubernetes to "start clean" on a node that holds state. Use kubespray reset (Kubespray-provided) as the intended teardown.
+# - Keep the inventory and group vars in Git so a rerun is reproducible from the recorded state.
+# - Take a snapshot before starting any deployment that you may need to roll back. etcd snapshots are the authoritative backup.
+# - Reruns are safe — Kubespray is idempotent by design. A rerun after a failed deploy is the recommended recovery step, not a fresh install.
+```
 
-2. **Clean etcd data** (optional, destructive):
+**Validation**:
+```bash
+# Verify rollback procedures are documented and inventory is preserved
+ls inventory/mycluster/hosts.ini
+# Expected: file exists (inventory preserved in Git)
 
-   ```bash
-   # On each control-plane node
-   rm -rf /var/lib/etcd/default.etcd
-   rm -rf /etc/kubernetes/pki/etcd
-   ```
+# Verify kubespray reset script is available
+ls kubespray/reset.yml
+# Expected: file exists (Kubespray-provided)
+```
 
-3. **Re-run the full deployment** from Step 1 (inventory generation) through Step 9 (validation).
-
-### Important rollback rules
-
-- **Never delete `/etc/kubernetes` to "start clean"** on a node that holds state. Use `kubespray reset` (Kubespray-provided) as the intended teardown.
-- **Keep the inventory and group vars in Git** so a rerun is reproducible from the recorded state.
-- **Take a snapshot before starting** any deployment that you may need to roll back. etcd snapshots are the authoritative backup.
-- **Reruns are safe** — Kubespray is idempotent by design. A rerun after a failed deploy is the recommended recovery step, not a fresh install.
-
----
-
-## Cross-references
-
-- `docs/kubespray/kubespray-deployment.md` — full Kubespray deployment guide (offline execution, best practices, validation)
-- `docs/kubespray/group-vars-template.md` — authoritative group vars template with variable names
-- `docs/kubespray/inventory-and-variables.md` — inventory design reference
-- `docs/kubespray/inventory-template.ini` — inventory template
-- `docs/kubernetes/networking/cilium.md` — Cilium CNI configuration, offline preparation, validation
-- `docs/kubernetes/ingress/nginx-ingress.md` — F5 NGINX Ingress Controller installation, Gateway API, TLS
-- `docs/kubespray/offline-deployment-checklist.md` — end-to-end offline deployment checklist
-- `compatibility/version-matrix.md` — supported Kubernetes/Cilium/NGINX versions per release
+**Navigation**:
+- Previous: Step 09 (anchor `#step-09`)
+- Next: None (Step 10 is the last step)

@@ -46,14 +46,14 @@ plugins:
 nav:
   - Home: index.md
   - Deploy:
-      - Choose OS: operating-systems/os-selection-guide.md
       - Choose Cluster Type: deploy/choose-cluster-type.md
       - Other Deployment Methods: deploy/other-deployment-methods.md
   - Step-by-Step Operations:
-      - 'Phase 1: Cluster Foundation': deploy/phase1-cluster-foundation.md
-      - 'Phase 2: Management Layer': deploy/phase2-management-layer.md
-      - 'Phase 3: Storage Lifecycle': deploy/phase3-storage-lifecycle.md
-      - 'Phase 4-7: SRE Operations': deploy/phase4-7-sre-operations.md
+      - 'Step 00: OS Selection': operating-systems/os-selection-guide.md
+      - 'Steps 01-10: Cluster Foundation': deploy/phase1-cluster-foundation.md
+      - 'Steps 11-20: Management Layer': deploy/phase2-management-layer.md
+      - 'Steps 21-30: Storage Lifecycle': deploy/phase3-storage-lifecycle.md
+      - 'Steps 31-40: SRE Operations': deploy/phase4-7-sre-operations.md
       - 'Kubespray Version Contradiction Findings': release-artifacts/status-review/kubespray-version-contradiction-findings.md
   - Overview:
       - Overview: architecture/00-overview.md
@@ -184,7 +184,6 @@ nav:
       - Port Requirements: network-matrix/port-requirements.md
       - Cloud-Native DMZ: network-matrix/cloud-native-dmz.md
   - Operating Systems:
-      - 'Phase 0: OS Selection Guide': operating-systems/os-selection-guide.md
       - Host Configuration: operating-systems/host-configuration.md
       - Oracle Linux Baseline: operating-systems/oracle-linux/baseline.md
       - Ubuntu Baseline: operating-systems/ubuntu/baseline.md
