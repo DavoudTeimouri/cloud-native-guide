@@ -27,7 +27,7 @@
     
     
       
-        <title>Phase 2: Management Layer - Cloud-Native Guide</title>
+        <title>Steps 11-20: Management Layer - Cloud-Native Guide</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#phase-2-management-layer" class="md-skip">
+        <a href="#step-11-management-cluster-build-kubespray-hosts-mgmtini-inventory" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Phase 2: Management Layer
+              Steps 11-20: Management Layer
             
           </span>
         </div>
@@ -331,34 +331,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Choose OS
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../choose-cluster-type/" class="md-nav__link">
         
   
@@ -471,6 +443,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Step 00: OS Selection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../phase1-cluster-foundation/" class="md-nav__link">
         
   
@@ -478,7 +478,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 1: Cluster Foundation
+    Steps 01-10: Cluster Foundation
   
 
     
@@ -505,8 +505,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -515,7 +513,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 2: Management Layer
+    Steps 11-20: Management Layer
   
 
     
@@ -533,7 +531,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 2: Management Layer
+    Steps 11-20: Management Layer
   
 
     
@@ -549,8 +547,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -559,613 +555,109 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-management-cluster-build-kubespray-hosts-mgmtini" class="md-nav__link">
+  <a href="#step-11-management-cluster-build-kubespray-hosts-mgmtini-inventory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Management Cluster Build (Kubespray, hosts-mgmt.ini)
+        Step 11 — Management cluster build — Kubespray hosts-mgmt.ini inventory
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="1. Management Cluster Build (Kubespray, hosts-mgmt.ini)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-inventory-hosts-mgmtini" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Inventory — hosts-mgmt.ini
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-kubespray-deployment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Kubespray deployment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-exit-criteria" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-rollback" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-rancher-ha-installation-helm-rancher-stable-repo" class="md-nav__link">
+  <a href="#step-12-rancher-ha-installation-via-helm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Rancher HA Installation (Helm, rancher-stable repo)
+        Step 12 — Rancher HA installation via Helm
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="2. Rancher HA Installation (Helm, rancher-stable repo)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-prerequisites-from-installation-hamd-section-f-h" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Prerequisites (from installation-ha.md section F-H)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-add-helm-repo-and-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Add Helm repo and install
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-values-hayaml" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. values-ha.yaml
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-install-rancher" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Install Rancher
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-exit-criteria" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#g-rollback" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        G. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-register-application-clusters-into-rancher-agent-manifest" class="md-nav__link">
+  <a href="#step-13-register-application-clusters-into-rancher-via-agent-manifest" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Register Application Clusters into Rancher (Agent Manifest)
+        Step 13 — Register application clusters into Rancher via agent manifest
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="3. Register Application Clusters into Rancher (Agent Manifest)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-generate-agent-join-token" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Generate agent join token
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-agent-manifest-template-linux-worker" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Agent manifest template (Linux worker)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-distribute-and-run-on-each-application-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Distribute and run on each application cluster
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-verify-registration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Verify registration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-validation_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-rollback" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-keycloak-oidc-provider-setup" class="md-nav__link">
+  <a href="#step-14-keycloak-oidc-provider-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Keycloak OIDC Provider Setup
+        Step 14 — Keycloak OIDC provider setup
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="4. Keycloak OIDC Provider Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-deploy-keycloak-from-keycloakmd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Deploy Keycloak (from keycloak.md)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-realms-from-keycloakmd-section-c" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Realms (from keycloak.md section C)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-clients-from-keycloakmd-section-d" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Clients (from keycloak.md section D)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-roles-and-group-mapping-from-keycloakmd-section-e" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Roles and group mapping (from keycloak.md section E)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-validation_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-exit-criteria_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#g-rollback_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        G. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-argo-cd-deployment-ha-redis-sentinel-postgresql" class="md-nav__link">
+  <a href="#step-15-argo-cd-deployment-ha-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Argo CD Deployment (HA: Redis Sentinel + PostgreSQL)
+        Step 15 — Argo CD deployment HA mode
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="5. Argo CD Deployment (HA: Redis Sentinel + PostgreSQL)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-infrastructure-prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Infrastructure prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-install-argo-cd-from-argocdmd-sections-b-f" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Install Argo CD (from argocd.md sections B-F)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-external-secrets-for-clientsecret" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. External Secrets for clientSecret
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-exit-criteria" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-rollback_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-vault-deployment-dedicated-hosts-outside-management-cluster" class="md-nav__link">
+  <a href="#step-16-vault-deployment-on-dedicated-hosts-outside-management-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Vault Deployment (Dedicated Hosts Outside Management Cluster)
+        Step 16 — Vault deployment on dedicated hosts outside management cluster
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="6. Vault Deployment (Dedicated Hosts Outside Management Cluster)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-infrastructure-3-vault-hosts-outside-management-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Infrastructure — 3 Vault hosts outside management cluster
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-vault-raft-configuration-3-nodes-shamir-3-of-5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Vault Raft configuration (3 nodes, Shamir 3-of-5)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-auth-methods-from-vault-architecturemd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Auth methods (from vault-architecture.md)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-secret-delivery-methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Secret delivery methods
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-validation_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-exit-criteria_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#g-rollback_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        G. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-platform-services-harbor-gitlab-integration-with-keycloak-oidc-and-vault" class="md-nav__link">
+  <a href="#step-17-platform-services-harbor-gitlab-integration-with-keycloak-oidc-and-vault" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Platform Services: Harbor + GitLab Integration with Keycloak OIDC and Vault
+        Step 17 — Platform services: Harbor + GitLab integration with Keycloak OIDC and Vault
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="7. Platform Services: Harbor + GitLab Integration with Keycloak OIDC and Vault">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-harbor-configuration-keycloak-oidc-vault" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Harbor configuration (Keycloak OIDC + Vault)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-gitlab-configuration-keycloak-oidc-vault" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. GitLab configuration (Keycloak OIDC + Vault)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-vault-backed-secrets-for-harbor-gitlab" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Vault-backed secrets for Harbor + GitLab
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-validation_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-exit-criteria_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-rollback_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary-checklist-phase-2-complete" class="md-nav__link">
+  <a href="#step-18-cross-component-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Summary Checklist — Phase 2 Complete
+        Step 18 — Cross-component validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-19-exit-criteria-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 19 — Exit criteria checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-20-rollback-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 20 — Rollback procedures
       
     </span>
   </a>
@@ -1195,7 +687,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 3: Storage Lifecycle
+    Steps 21-30: Storage Lifecycle
   
 
     
@@ -1223,7 +715,7 @@
   <span class="md-ellipsis">
     
   
-    Phase 4-7: SRE Operations
+    Steps 31-40: SRE Operations
   
 
     
@@ -5300,34 +4792,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Choose OS
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../operating-systems/host-configuration/" class="md-nav__link">
         
   
@@ -5869,8 +5333,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -5879,613 +5341,109 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-management-cluster-build-kubespray-hosts-mgmtini" class="md-nav__link">
+  <a href="#step-11-management-cluster-build-kubespray-hosts-mgmtini-inventory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Management Cluster Build (Kubespray, hosts-mgmt.ini)
+        Step 11 — Management cluster build — Kubespray hosts-mgmt.ini inventory
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="1. Management Cluster Build (Kubespray, hosts-mgmt.ini)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-inventory-hosts-mgmtini" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Inventory — hosts-mgmt.ini
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-kubespray-deployment" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Kubespray deployment
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-exit-criteria" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-rollback" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-rancher-ha-installation-helm-rancher-stable-repo" class="md-nav__link">
+  <a href="#step-12-rancher-ha-installation-via-helm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Rancher HA Installation (Helm, rancher-stable repo)
+        Step 12 — Rancher HA installation via Helm
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="2. Rancher HA Installation (Helm, rancher-stable repo)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-prerequisites-from-installation-hamd-section-f-h" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Prerequisites (from installation-ha.md section F-H)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-add-helm-repo-and-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Add Helm repo and install
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-values-hayaml" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. values-ha.yaml
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-install-rancher" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Install Rancher
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-exit-criteria" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#g-rollback" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        G. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-register-application-clusters-into-rancher-agent-manifest" class="md-nav__link">
+  <a href="#step-13-register-application-clusters-into-rancher-via-agent-manifest" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Register Application Clusters into Rancher (Agent Manifest)
+        Step 13 — Register application clusters into Rancher via agent manifest
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="3. Register Application Clusters into Rancher (Agent Manifest)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-generate-agent-join-token" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Generate agent join token
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-agent-manifest-template-linux-worker" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Agent manifest template (Linux worker)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-distribute-and-run-on-each-application-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Distribute and run on each application cluster
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-verify-registration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Verify registration
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-validation_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-rollback" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-keycloak-oidc-provider-setup" class="md-nav__link">
+  <a href="#step-14-keycloak-oidc-provider-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Keycloak OIDC Provider Setup
+        Step 14 — Keycloak OIDC provider setup
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="4. Keycloak OIDC Provider Setup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-deploy-keycloak-from-keycloakmd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Deploy Keycloak (from keycloak.md)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-realms-from-keycloakmd-section-c" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Realms (from keycloak.md section C)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-clients-from-keycloakmd-section-d" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Clients (from keycloak.md section D)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-roles-and-group-mapping-from-keycloakmd-section-e" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Roles and group mapping (from keycloak.md section E)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-validation_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-exit-criteria_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#g-rollback_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        G. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-argo-cd-deployment-ha-redis-sentinel-postgresql" class="md-nav__link">
+  <a href="#step-15-argo-cd-deployment-ha-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Argo CD Deployment (HA: Redis Sentinel + PostgreSQL)
+        Step 15 — Argo CD deployment HA mode
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="5. Argo CD Deployment (HA: Redis Sentinel + PostgreSQL)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-infrastructure-prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Infrastructure prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-install-argo-cd-from-argocdmd-sections-b-f" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Install Argo CD (from argocd.md sections B-F)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-external-secrets-for-clientsecret" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. External Secrets for clientSecret
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-validation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-exit-criteria" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-rollback_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-vault-deployment-dedicated-hosts-outside-management-cluster" class="md-nav__link">
+  <a href="#step-16-vault-deployment-on-dedicated-hosts-outside-management-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Vault Deployment (Dedicated Hosts Outside Management Cluster)
+        Step 16 — Vault deployment on dedicated hosts outside management cluster
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="6. Vault Deployment (Dedicated Hosts Outside Management Cluster)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-infrastructure-3-vault-hosts-outside-management-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Infrastructure — 3 Vault hosts outside management cluster
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-vault-raft-configuration-3-nodes-shamir-3-of-5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Vault Raft configuration (3 nodes, Shamir 3-of-5)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-auth-methods-from-vault-architecturemd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Auth methods (from vault-architecture.md)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-secret-delivery-methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Secret delivery methods
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-validation_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-exit-criteria_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#g-rollback_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        G. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-platform-services-harbor-gitlab-integration-with-keycloak-oidc-and-vault" class="md-nav__link">
+  <a href="#step-17-platform-services-harbor-gitlab-integration-with-keycloak-oidc-and-vault" class="md-nav__link">
     <span class="md-ellipsis">
       
-        7. Platform Services: Harbor + GitLab Integration with Keycloak OIDC and Vault
+        Step 17 — Platform services: Harbor + GitLab integration with Keycloak OIDC and Vault
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="7. Platform Services: Harbor + GitLab Integration with Keycloak OIDC and Vault">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-harbor-configuration-keycloak-oidc-vault" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Harbor configuration (Keycloak OIDC + Vault)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-gitlab-configuration-keycloak-oidc-vault" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. GitLab configuration (Keycloak OIDC + Vault)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-vault-backed-secrets-for-harbor-gitlab" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        C. Vault-backed secrets for Harbor + GitLab
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#d-validation_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        D. Validation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#e-exit-criteria_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        E. Exit criteria
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#f-rollback_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        F. Rollback
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#summary-checklist-phase-2-complete" class="md-nav__link">
+  <a href="#step-18-cross-component-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Summary Checklist — Phase 2 Complete
+        Step 18 — Cross-component validation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-19-exit-criteria-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 19 — Exit criteria checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-20-rollback-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 20 — Rollback procedures
       
     </span>
   </a>
@@ -6512,58 +5470,17 @@
   
 
 
-<h1 id="phase-2-management-layer">Phase 2 — Management Layer<a class="headerlink" href="#phase-2-management-layer" title="Permanent link">&para;</a></h1>
-<p><strong>Purpose</strong>: Deploy the centralized management plane consisting of a Kubespray-managed management cluster, Rancher HA, Keycloak OIDC, Argo CD GitOps, Vault secrets management, and platform services (Harbor + GitLab). All components integrate via OIDC and External Secrets with Vault.</p>
-<p><strong>Entry criteria</strong>:
-- Phase 1 (cluster foundation) complete: Kubernetes cluster(s) provisioned with Kubespray, networking (Calico/Cilium), and external load balancer reachable.
-- DNS: <code>management.internal</code>, <code>rancher.internal</code>, <code>keycloak.internal</code>, <code>argocd.internal</code>, <code>harbor.internal</code>, <code>gitlab.internal</code>, <code>postgres.platform-db.internal</code> all resolve.
-- TLS certificates provisioned for all internal hostnames.
-- PostgreSQL external database provisioned and reachable.
-- Harbor internal registry running.
-- GitLab instance running with internal user directory.</p>
-<p><strong>Exit criteria</strong>:
-- Management cluster running Kubespray with 3 control-plane + 3 infra workers (no worker nodes shared with application clusters per ADR-0010/0011).
-- Rancher HA installed and reachable via <code>rancher.internal</code> with TLS.
-- Keycloak OIDC with three realms (platform, ai, external) and six clients configured.
-- Argo CD HA deployed with Redis sentinel + PostgreSQL, OIDC to Keycloak, External Secrets for client secrets, ServerSideApply enabled.
-- Vault deployed on 3 dedicated hosts outside management cluster with Raft storage, Shamir 3-of-5 unseal, and auth methods configured.
-- Harbor + GitLab integrated with Keycloak OIDC and Vault secret delivery.
-- All validation checks pass; rollback procedures documented and tested.</p>
-<hr />
-<h2 id="1-management-cluster-build-kubespray-hosts-mgmtini">1. Management Cluster Build (Kubespray, hosts-mgmt.ini)<a class="headerlink" href="#1-management-cluster-build-kubespray-hosts-mgmtini" title="Permanent link">&para;</a></h2>
-<p>Build a dedicated management cluster separate from application clusters. Worker nodes must NOT be shared with app clusters per ADR-0010/0011.</p>
-<h3 id="a-inventory-hosts-mgmtini">A. Inventory — hosts-mgmt.ini<a class="headerlink" href="#a-inventory-hosts-mgmtini" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="k">[mgmt-control-plane]</span>
-<span class="na">mgmt-cp-1 ansible_host</span><span class="o">=</span><span class="s">&lt;ip1&gt;</span>
-<span class="na">mgmt-cp-2 ansible_host</span><span class="o">=</span><span class="s">&lt;ip2&gt;</span>
-<span class="na">mgmt-cp-3 ansible_host</span><span class="o">=</span><span class="s">&lt;ip3&gt;</span>
+  <h1>Steps 11-20: Management Layer</h1>
 
-<span class="k">[mgmt-workers]</span>
-<span class="na">mgmt-w-1 ansible_host</span><span class="o">=</span><span class="s">&lt;ip4&gt;</span>
-<span class="na">mgmt-w-2 ansible_host</span><span class="o">=</span><span class="s">&lt;ip5&gt;</span>
-<span class="na">mgmt-w-3 ansible_host</span><span class="o">=</span><span class="s">&lt;ip6&gt;</span>
-
-<span class="k">[mgmt:children:vars]</span>
-<span class="c1"># Ensure worker nodes are NOT tagged for app clusters</span>
-<span class="na">kubespray_node_role</span><span class="o">=</span><span class="s">worker</span>
-<span class="na">kubespray_node_role</span><span class="o">=</span><span class="s">control-plane</span>
-
-<span class="c1"># Etcd on control-plane nodes only</span>
-<span class="na">etcd_endpoints</span><span class="o">=</span><span class="s">"https://mgmt-cp-1:2379,https://mgmt-cp-2:2379,https://mgmt-cp-3:2379"</span>
-
-<span class="c1"># Networking (Cilium recommended)</span>
-<span class="na">cluster_network</span><span class="o">=</span><span class="s">10.30.0.0/16</span>
-<span class="na">service_network</span><span class="o">=</span><span class="s">10.32.0.0/16</span>
-
-<span class="c1"># Container runtime</span>
-<span class="na">container_runtime</span><span class="o">=</span><span class="s">containerd</span>
-
-<span class="c1"># TLS bootstrap</span>
-<span class="na">admin_access_ip</span><span class="o">=</span><span class="s">&lt;bastion-or-jump-host-ip&gt;</span>
-
-<span class="c1"># Do NOT overlap with app-cluster node pools</span>
-</code></pre></div>
-<h3 id="b-kubespray-deployment">B. Kubespray deployment<a class="headerlink" href="#b-kubespray-deployment" title="Permanent link">&para;</a></h3>
+<p><a id="step-11"></a></p>
+<h2 id="step-11-management-cluster-build-kubespray-hosts-mgmtini-inventory">Step 11 — Management cluster build — Kubespray hosts-mgmt.ini inventory<a class="headerlink" href="#step-11-management-cluster-build-kubespray-hosts-mgmtini-inventory" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Build a dedicated management cluster with Kubespray using 3 control-plane + 3 infra workers, ensuring no worker nodes are shared with application clusters per ADR-0010/0011.</p>
+<p><strong>Prerequisites</strong>:
+- Phase 1 (cluster foundation) complete: Kubernetes cluster(s) provisioned with Kubespray, networking (Calico/Cilium), and external load balancer reachable
+- DNS: <code>management.internal</code> resolves to bastion/jump host IP
+- TLS certificates provisioned for <code>management.internal</code>
+- Administrative access to target hosts for Kubespray Ansible deployment</p>
+<p><strong>Actions</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># Clone Kubespray and checkout the release</span>
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/kubernetes-sigs/kubespray.git
 <span class="nb">cd</span><span class="w"> </span>kubespray
@@ -6574,11 +5491,44 @@ python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </
 <span class="nb">source</span><span class="w"> </span>venv/bin/activate
 pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 
-<span class="c1"># Generate inventory from template or create new</span>
+<span class="c1"># Create inventory from template</span>
 cp<span class="w"> </span>-rf<span class="w"> </span>inventory/sample<span class="w"> </span>inventory/mgmt
-<span class="c1"># Edit inventory/mgmt/hosts-mgmt.ini per the template above</span>
+<span class="c1"># Edit inventory/mgmt/hosts-mgmt.ini per the template below</span>
 
-<span class="c1"># Scale to 3 control-plane nodes + 3 infra workers</span>
+<span class="c1"># Edit hosts-mgmt.ini:</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>inventory/mgmt/hosts-mgmt.ini<span class="w"> </span><span class="s">&lt;&lt; 'INI'</span>
+<span class="s">[mgmt-control-plane]</span>
+<span class="s">mgmt-cp-1 ansible_host=&lt;ip1&gt;</span>
+<span class="s">mgmt-cp-2 ansible_host=&lt;ip2&gt;</span>
+<span class="s">mgmt-cp-3 ansible_host=&lt;ip3&gt;</span>
+
+<span class="s">[mgmt-workers]</span>
+<span class="s">mgmt-w-1 ansible_host=&lt;ip4&gt;</span>
+<span class="s">mgmt-w-2 ansible_host=&lt;ip5&gt;</span>
+<span class="s">mgmt-w-3 ansible_host=&lt;ip6&gt;</span>
+
+<span class="s">[mgmt:children:vars]</span>
+<span class="s"># Ensure worker nodes are NOT tagged for app clusters</span>
+<span class="s">kubespray_node_role=worker</span>
+<span class="s">kubespray_node_role=control-plane</span>
+
+<span class="s"># Etcd on control-plane nodes only</span>
+<span class="s">etcd_endpoints="https://mgmt-cp-1:2379,https://mgmt-cp-2:2379,https://mgmt-cp-3:2379"</span>
+
+<span class="s"># Networking (Cilium recommended)</span>
+<span class="s">cluster_network=10.30.0.0/16</span>
+<span class="s">service_network=10.32.0.0/16</span>
+
+<span class="s"># Container runtime</span>
+<span class="s">container_runtime=containerd</span>
+
+<span class="s"># TLS bootstrap</span>
+<span class="s">admin_access_ip=&lt;bastion-or-jump-host-ip&gt;</span>
+
+<span class="s"># Do NOT overlap with app-cluster node pools</span>
+<span class="s">INI</span>
+
+<span class="c1"># Generate inventory and apply Kubespray</span>
 ansible-inventory<span class="w"> </span>-i<span class="w"> </span>inventory/mgmt/hosts-mgmt.ini<span class="w"> </span>-y<span class="w"> </span>&gt;<span class="w"> </span>inventory.json
 
 <span class="c1"># Apply Kubespray site.yml — this builds the management cluster</span>
@@ -6589,8 +5539,8 @@ kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> 
 
 <span class="c1"># Verify no worker nodes overlap with app clusters</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>wide<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>mgmt-w
-</code></pre></div>
-<h3 id="c-validation">C. Validation<a class="headerlink" href="#c-validation" title="Permanent link">&para;</a></h3>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># All mgmt CP + worker nodes Ready</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-A<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>mgmt
 
@@ -6601,34 +5551,31 @@ kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> 
 <span class="s2">    --cert /etc/kubernetes/pki/etcd/peer.crt \</span>
 <span class="s2">    --key /etc/kubernetes/pki/etcd/peer.key"</span>
 <span class="k">done</span>
-</code></pre></div>
-<h3 id="d-exit-criteria">D. Exit criteria<a class="headerlink" href="#d-exit-criteria" title="Permanent link">&para;</a></h3>
-<ul>
-<li>3 control-plane nodes + 3 worker nodes in <code>Ready</code> state.</li>
-<li>Etcd cluster healthy with 3 members.</li>
-<li>No worker nodes tagged with app-cluster labels.</li>
-<li>Kubeconfig at <code>/etc/kubernetes/admin.conf</code> valid.</li>
-</ul>
-<h3 id="e-rollback">E. Rollback<a class="headerlink" href="#e-rollback" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Re-run Kubespray with the original <code>hosts.ini</code> (pre-mgmt scaling).</li>
-<li>Destroy and recreate the management cluster from scratch if etcd data is corrupted.</li>
-</ul>
-<hr />
-<h2 id="2-rancher-ha-installation-helm-rancher-stable-repo">2. Rancher HA Installation (Helm, rancher-stable repo)<a class="headerlink" href="#2-rancher-ha-installation-helm-rancher-stable-repo" title="Permanent link">&para;</a></h2>
-<p>Install Rancher HA with 3 replicas, external PostgreSQL, TLS termination, and private registry <code>harbor.internal</code>.</p>
-<h3 id="a-prerequisites-from-installation-hamd-section-f-h">A. Prerequisites (from installation-ha.md section F-H)<a class="headerlink" href="#a-prerequisites-from-installation-hamd-section-f-h" title="Permanent link">&para;</a></h3>
-<ul>
-<li>External PostgreSQL database (provisioned, reachable at <code>&lt;postgres-host&gt;:5432</code>).</li>
-<li>TLS certificates for <code>rancher.internal</code> (generated via cert-manager or openssl).</li>
-<li>DNS: <code>rancher.internal</code> resolving to HAProxy/VIP.</li>
-<li>HAProxy or cloud LB configured port 443 TLS to three Rancher control-plane nodes.</li>
-</ul>
-<h3 id="b-add-helm-repo-and-install">B. Add Helm repo and install<a class="headerlink" href="#b-add-helm-repo-and-install" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>rancher-stable<span class="w"> </span>https://releases.rancher.com/server-charts/stable
+</code></pre></div></p>
+<p><strong>Expected</strong>: 3 control-plane nodes + 3 worker nodes in <code>Ready</code> state; Etcd cluster healthy with 3 members; No worker nodes tagged with app-cluster labels; Kubeconfig at <code>/etc/kubernetes/admin.conf</code> valid.</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 10 (anchor <code>#step-step-10</code>)
+- Next: Step 12 (anchor <code>#step-12</code>)</p>
+<p><a id="step-12"></a></p>
+<h2 id="step-12-rancher-ha-installation-via-helm">Step 12 — Rancher HA installation via Helm<a class="headerlink" href="#step-12-rancher-ha-installation-via-helm" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Install Rancher HA with 3 replicas, external PostgreSQL, TLS termination, and private registry <code>harbor.internal</code>.</p>
+<p><strong>Prerequisites</strong>:
+- External PostgreSQL database provisioned and reachable at <code>&lt;postgres-host&gt;:5432</code>
+- TLS certificates for <code>rancher.internal</code> (generated via cert-manager or openssl)
+- DNS: <code>rancher.internal</code> resolving to HAProxy/VIP
+- HAProxy or cloud LB configured port 443 TLS to three Rancher control-plane nodes
+- kubectl configured to target the management cluster</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Add Rancher Helm repo and update</span>
+helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>rancher-stable<span class="w"> </span>https://releases.rancher.com/server-charts/stable
 helm<span class="w"> </span>repo<span class="w"> </span>update
-</code></pre></div>
-<h3 id="c-values-hayaml">C. values-ha.yaml<a class="headerlink" href="#c-values-hayaml" title="Permanent link">&para;</a></h3>
+
+<span class="c1"># Install Rancher HA via Helm</span>
+helm<span class="w"> </span>install<span class="w"> </span>rancher<span class="w"> </span>rancher-stable/rancher<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>cattle-system<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--values<span class="w"> </span>values-ha.yaml
+</code></pre></div></p>
+<p><strong>values-ha.yaml content</strong>:
 <div class="highlight"><pre><span></span><code><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rancher.internal</span>
 <span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
 <span class="nt">ingress</span><span class="p">:</span>
@@ -6649,13 +5596,8 @@ helm<span class="w"> </span>repo<span class="w"> </span>update
 <span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"postgresql://rancher:***@&lt;postgres-host&gt;:5432/rancher?sslmode=require"</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CATTLE_ETCD_SERVERS</span>
 <span class="w">    </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"https://etcd-1.internal:2379,https://etcd-2.internal:2379,https://etcd-3.internal:2379"</span>
-</code></pre></div>
-<h3 id="d-install-rancher">D. Install Rancher<a class="headerlink" href="#d-install-rancher" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>rancher<span class="w"> </span>rancher-stable/rancher<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>cattle-system<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--values<span class="w"> </span>values-ha.yaml
-</code></pre></div>
-<h3 id="e-validation">E. Validation<a class="headerlink" href="#e-validation" title="Permanent link">&para;</a></h3>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># 3 Rancher server pods Running</span>
 kubectl<span class="w"> </span>-n<span class="w"> </span>cattle-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>rancher
 
@@ -6673,29 +5615,25 @@ kubectl<span class="w"> </span>-n<span class="w"> </span>cattle-system<span clas
 curl<span class="w"> </span>-k<span class="w"> </span>https://rancher.internal/v3/health
 
 <span class="c1"># Expected: {"status":"healthy"}</span>
-</code></pre></div>
-<h3 id="f-exit-criteria">F. Exit criteria<a class="headerlink" href="#f-exit-criteria" title="Permanent link">&para;</a></h3>
-<ul>
-<li>3 Rancher server pods in <code>Running</code> state.</li>
-<li>ETCD cluster with 3 healthy members.</li>
-<li>Rancher UI reachable at <code>https://rancher.internal/v3/health</code> returning <code>healthy</code>.</li>
-<li>Load balancer distributing traffic across all 3 nodes.</li>
-</ul>
-<h3 id="g-rollback">G. Rollback<a class="headerlink" href="#g-rollback" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>helm uninstall rancher -n cattle-system</code></li>
-<li>Re-install with previous <code>values-ha.yaml</code> snapshot.</li>
-<li>If etcd data lost, restore from PostgreSQL backup.</li>
-</ul>
-<hr />
-<h2 id="3-register-application-clusters-into-rancher-agent-manifest">3. Register Application Clusters into Rancher (Agent Manifest)<a class="headerlink" href="#3-register-application-clusters-into-rancher-agent-manifest" title="Permanent link">&para;</a></h2>
-<p>Register workload clusters via the Rancher agent join command.</p>
-<h3 id="a-generate-agent-join-token">A. Generate agent join token<a class="headerlink" href="#a-generate-agent-join-token" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># From Rancher UI: Cluster Actions → Add cluster → Custom → Linux → Manual join settings</span>
+</code></pre></div></p>
+<p><strong>Expected</strong>: 3 Rancher server pods in <code>Running</code> state; ETCD cluster with 3 healthy members; Rancher UI reachable at <code>https://rancher.internal/v3/health</code> returning <code>healthy</code>; Load balancer distributing traffic across all 3 nodes.</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 11 (anchor <code>#step-11</code>)
+- Next: Step 13 (anchor <code>#step-13</code>)</p>
+<p><a id="step-13"></a></p>
+<h2 id="step-13-register-application-clusters-into-rancher-via-agent-manifest">Step 13 — Register application clusters into Rancher via agent manifest<a class="headerlink" href="#step-13-register-application-clusters-into-rancher-via-agent-manifest" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Register workload clusters into Rancher using the agent join command.</p>
+<p><strong>Prerequisites</strong>:
+- Rancher HA installed and reachable via <code>rancher.internal</code> with TLS
+- DNS for application clusters resolves
+- kubectl configured to target the management cluster</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate agent join token from Rancher UI</span>
+<span class="c1"># From Rancher UI: Cluster Actions → Add cluster → Custom → Linux → Manual join settings</span>
 <span class="c1"># Copy the full join command including the TLS bootstrap token</span>
-</code></pre></div>
-<h3 id="b-agent-manifest-template-linux-worker">B. Agent manifest template (Linux worker)<a class="headerlink" href="#b-agent-manifest-template-linux-worker" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>join-cluster.sh<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+
+<span class="c1"># Create agent join script (join-cluster.sh)</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>join-cluster.sh<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
 <span class="s">#!/bin/bash</span>
 <span class="s"># Replace &lt;RANCHER_IP&gt; with the Rancher VIP or LB DNS</span>
 <span class="s">sudo docker run -d --rm \</span>
@@ -6709,34 +5647,33 @@ curl<span class="w"> </span>-k<span class="w"> </span>https://rancher.internal/v
 <span class="s">  --before-pull-image</span>
 <span class="s">EOF</span>
 chmod<span class="w"> </span>+x<span class="w"> </span>join-cluster.sh
-</code></pre></div>
-<h3 id="c-distribute-and-run-on-each-application-cluster">C. Distribute and run on each application cluster<a class="headerlink" href="#c-distribute-and-run-on-each-application-cluster" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># On each app cluster (e.g., 3 clusters: workload-1, workload-2, workload-3)</span>
+
+<span class="c1"># Distribute and run on each application cluster</span>
+<span class="c1"># On each app cluster (e.g., 3 clusters: workload-1, workload-2, workload-3)</span>
 ./join-cluster.sh
-</code></pre></div>
-<h3 id="d-verify-registration">D. Verify registration<a class="headerlink" href="#d-verify-registration" title="Permanent link">&para;</a></h3>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># In Rancher UI: Clusters → Your clusters should appear as "pending" → "active"</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>clusters<span class="w"> </span>-A
 
 <span class="c1"># From Rancher</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-A
-</code></pre></div>
-<h3 id="e-validation_1">E. Validation<a class="headerlink" href="#e-validation_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li>3 application clusters registered and showing <code>Active</code> in Rancher.</li>
-<li>Fleet and workload scheduling visible in Rancher.</li>
-<li>Cross-cluster <code>kubectl</code> access via Rancher cluster explorer.</li>
-</ul>
-<h3 id="f-rollback">F. Rollback<a class="headerlink" href="#f-rollback" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Remove cluster from Rancher UI: Cluster Actions → Delete.</li>
-<li>Wipe etcd data on the application cluster and re-start from scratch.</li>
-</ul>
-<hr />
-<h2 id="4-keycloak-oidc-provider-setup">4. Keycloak OIDC Provider Setup<a class="headerlink" href="#4-keycloak-oidc-provider-setup" title="Permanent link">&para;</a></h2>
-<p>Keycloak is the identity broker for the platform with three realms and six clients.</p>
-<h3 id="a-deploy-keycloak-from-keycloakmd">A. Deploy Keycloak (from keycloak.md)<a class="headerlink" href="#a-deploy-keycloak-from-keycloakmd" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Chart values subset (from keycloak.md section B)</span>
+</code></pre></div></p>
+<p><strong>Expected</strong>: 3 application clusters registered and showing <code>Active</code> in Rancher; Fleet and workload scheduling visible in Rancher; Cross-cluster <code>kubectl</code> access via Rancher cluster explorer.</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 12 (anchor <code>#step-12</code>)
+- Next: Step 14 (anchor <code>#step-14</code>)</p>
+<p><a id="step-14"></a></p>
+<h2 id="step-14-keycloak-oidc-provider-setup">Step 14 — Keycloak OIDC provider setup<a class="headerlink" href="#step-14-keycloak-oidc-provider-setup" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Deploy Keycloak as the identity broker with three realms (platform, ai, external) and six clients (rancher, argocd, grafana, harbor, gitlab, ai-gateway) including groups and uid protocol mappers.</p>
+<p><strong>Prerequisites</strong>:
+- Management cluster from Step 11 running and reachable
+- PostgreSQL external database provisioned and reachable at <code>postgres.platform-db.internal</code>
+- DNS: <code>keycloak.internal</code> resolves to Keycloak service
+- TLS certificates for <code>keycloak.internal</code>
+- Helm installed on management cluster</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Install Keycloak via Helm chart</span>
 cat<span class="w"> </span>&gt;<span class="w"> </span>keycloak-values.yaml<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
 <span class="s">replicas: 2</span>
 <span class="s">image:</span>
@@ -6776,36 +5713,16 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>keycloak-values.yaml<span
 helm<span class="w"> </span>install<span class="w"> </span>keycloak<span class="w"> </span>oci://harbor.internal/helm/keycloak<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>keycloak<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--values<span class="w"> </span>keycloak-values.yaml
-</code></pre></div>
-<h3 id="b-realms-from-keycloakmd-section-c">B. Realms (from keycloak.md section C)<a class="headerlink" href="#b-realms-from-keycloakmd-section-c" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Realm</th>
-<th>Purpose</th>
-<th>Upstream</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>platform</code></td>
-<td>Operators and developers of the platform</td>
-<td>AD/LDAP federation + local break-glass</td>
-</tr>
-<tr>
-<td><code>ai</code></td>
-<td>Service accounts and tenant identities for inference API</td>
-<td>Local</td>
-</tr>
-<tr>
-<td><code>external</code></td>
-<td>Federates to AD/LDAP and exposes to other realms</td>
-<td>AD/LDAP</td>
-</tr>
-</tbody>
-</table>
-<p><strong>AD/LDAP federation for <code>external</code> realm</strong> (from keycloak.md section C):</p>
-<div class="highlight"><pre><span></span><code>kc.sh<span class="w"> </span>config<span class="w"> </span>ldap<span class="w"> </span>--hostname<span class="o">=</span>ldap.internal<span class="w"> </span>--port<span class="o">=</span><span class="m">636</span><span class="w"> </span>--protocol<span class="o">=</span>ldaps<span class="w"> </span><span class="se">\</span>
+</code></pre></div></p>
+<p><strong>Realm configuration</strong> (platform, ai, external):
+<div class="highlight"><pre><span></span><code><span class="c1"># Configure realms via Keycloak admin API or UI</span>
+<span class="c1"># Realms created: platform, ai, external</span>
+<span class="c1"># - platform: Operators and developers of the platform</span>
+<span class="c1"># - ai: Service accounts and tenant identities for inference API</span>
+<span class="c1"># - external: Federates to AD/LDAP and exposes to other realms</span>
+
+<span class="c1"># AD/LDAP federation for external realm</span>
+kc.sh<span class="w"> </span>config<span class="w"> </span>ldap<span class="w"> </span>--hostname<span class="o">=</span>ldap.internal<span class="w"> </span>--port<span class="o">=</span><span class="m">636</span><span class="w"> </span>--protocol<span class="o">=</span>ldaps<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--truststore-path<span class="o">=</span>...<span class="w"> </span>--truststore-password<span class="o">=</span>...<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--bind-dn<span class="o">=</span><span class="s2">"cn=svc-keycloak,ou=services,dc=example,dc=com"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--bind-credential<span class="o">=</span><span class="s2">"</span><span class="nv">$BIND_PASSWORD</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
@@ -6816,112 +5733,27 @@ helm<span class="w"> </span>install<span class="w"> </span>keycloak<span class="
 <span class="w">  </span>--email-attribute<span class="o">=</span>mail<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--group-query<span class="o">=</span><span class="s2">"(&amp;(objectClass=group)(member={0}))"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--groups-attribute<span class="o">=</span>memberOf
-</code></pre></div>
-<h3 id="c-clients-from-keycloakmd-section-d">C. Clients (from keycloak.md section D)<a class="headerlink" href="#c-clients-from-keycloakmd-section-d" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Client</th>
-<th>Type</th>
-<th>Redirect URI</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>rancher</code></td>
-<td>Confidential</td>
-<td><code>https://rancher.internal/oidc/authorize</code></td>
-<td>groups + uid claims required</td>
-</tr>
-<tr>
-<td><code>argoccd</code></td>
-<td>Confidential</td>
-<td><code>https://argocd.internal/auth/callback</code></td>
-<td>Same</td>
-</tr>
-<tr>
-<td><code>grafana</code></td>
-<td>Confidential</td>
-<td><code>https://grafana.internal/login/generic_oauth</code></td>
-<td>email + groups required</td>
-</tr>
-<tr>
-<td><code>harbor</code></td>
-<td>Confidential</td>
-<td><code>https://harbor.internal/c/oidc/callback</code></td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>gitlab</code></td>
-<td>Confidential</td>
-<td><code>https://gitlab.internal/users/auth/oidc/callback</code></td>
-<td>—</td>
-</tr>
-<tr>
-<td><code>ai-gateway</code></td>
-<td>Confidential</td>
-<td><code>https://llm.internal/callback</code></td>
-<td>Token validation for inference</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Protocol mappers (required by Rancher + Argo CD)</strong>:</p>
-<ol>
-<li><strong>groups mapper</strong>:</li>
-<li>Mapper type: <code>Group membership</code></li>
-<li>Claim name: <code>groups</code></li>
-<li>Full path: <code>off</code></li>
-<li>Add to ID token: <code>on</code></li>
-<li>
-<p>Add to access token: <code>on</code></p>
-</li>
-<li>
-<p><strong>uid mapper</strong>:</p>
-</li>
-<li>Mapper type: <code>User Attribute</code></li>
-<li>User attribute: <code>uid</code></li>
-<li>Claim name: <code>uid</code></li>
-<li>Add to ID token: <code>on</code></li>
-</ol>
-<h3 id="d-roles-and-group-mapping-from-keycloakmd-section-e">D. Roles and group mapping (from keycloak.md section E)<a class="headerlink" href="#d-roles-and-group-mapping-from-keycloakmd-section-e" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Keycloak group</th>
-<th>Platform role</th>
-<th>Grants</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>platform-admins</code></td>
-<td>Administrator</td>
-<td>Everything</td>
-</tr>
-<tr>
-<td><code>platform-operators</code></td>
-<td>Operator</td>
-<td>Cluster and platform operations, no secret values</td>
-</tr>
-<tr>
-<td><code>developers</code></td>
-<td>Developer</td>
-<td>Own namespaces only</td>
-</tr>
-<tr>
-<td><code>auditors</code></td>
-<td>Auditor</td>
-<td>Read-only access to logs and audit data</td>
-</tr>
-<tr>
-<td><code>team-&lt;name&gt;</code></td>
-<td>Team member</td>
-<td>The team's namespace and its Argo CD project</td>
-</tr>
-</tbody>
-</table>
-<h3 id="e-validation_2">E. Validation<a class="headerlink" href="#e-validation_2" title="Permanent link">&para;</a></h3>
+</code></pre></div></p>
+<p><strong>Client configuration</strong> (rancher, argocd, grafana, harbor, gitlab, ai-gateway):
+<div class="highlight"><pre><span></span><code><span class="c1"># Create clients via Keycloak admin API or UI</span>
+<span class="c1"># Clients: rancher, argocd, grafana, harbor, gitlab, ai-gateway</span>
+<span class="c1"># All: Confidential type with appropriate redirect URIs</span>
+
+<span class="c1"># Protocol mappers (required by Rancher + Argo CD)</span>
+<span class="c1"># 1. groups mapper:</span>
+<span class="c1">#    - Mapper type: Group membership</span>
+<span class="c1">#    - Claim name: groups</span>
+<span class="c1">#    - Full path: off</span>
+<span class="c1">#    - Add to ID token: on</span>
+<span class="c1">#    - Add to access token: on</span>
+
+<span class="c1"># 2. uid mapper:</span>
+<span class="c1">#    - Mapper type: User Attribute</span>
+<span class="c1">#    - User attribute: uid</span>
+<span class="c1">#    - Claim name: uid</span>
+<span class="c1">#    - Add to ID token: on</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># Discovery document</span>
 curl<span class="w"> </span>-k<span class="w"> </span>https://keycloak.internal/realms/platform/.well-known/openid-configuration<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
 
@@ -6932,35 +5764,25 @@ curl<span class="w"> </span>-sk<span class="w"> </span>-X<span class="w"> </span
 <span class="w">  </span>-d<span class="w"> </span><span class="nv">client_secret</span><span class="o">=</span><span class="s2">"</span><span class="nv">$SECRET</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.access_token'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d.<span class="w"> </span>-f2<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.groups
 
 <span class="c1"># Expected: groups and uid present for federated user</span>
-</code></pre></div>
-<h3 id="f-exit-criteria_1">F. Exit criteria<a class="headerlink" href="#f-exit-criteria_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Keycloak reachable at <code>https://keycloak.internal</code> with 2 replicas running.</li>
-<li>Three realms (platform, ai, external) configured.</li>
-<li>Six clients (rancher, argocd, grafana, harbor, gitlab, ai-gateway) configured.</li>
-<li><code>groups</code> and <code>uid</code> protocol mappers present and active.</li>
-<li>Group-to-platform-role mapping functional.</li>
-</ul>
-<h3 id="g-rollback_1">G. Rollback<a class="headerlink" href="#g-rollback_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>helm uninstall keycloak -n keycloak</code></li>
-<li>Restore PostgreSQL database from backup.</li>
-<li>Re-deploy from Helm chart with previous values.</li>
-</ul>
-<hr />
-<h2 id="5-argo-cd-deployment-ha-redis-sentinel-postgresql">5. Argo CD Deployment (HA: Redis Sentinel + PostgreSQL)<a class="headerlink" href="#5-argo-cd-deployment-ha-redis-sentinel-postgresql" title="Permanent link">&para;</a></h2>
-<p>Deploy Argo CD in HA mode with Redis sentinel, PostgreSQL backend, OIDC to Keycloak, External Secrets for clientSecret, and ServerSideApply.</p>
-<h3 id="a-infrastructure-prerequisites">A. Infrastructure prerequisites<a class="headerlink" href="#a-infrastructure-prerequisites" title="Permanent link">&para;</a></h3>
-<ul>
-<li>PostgreSQL database reachable at <code>postgres.argocd.internal</code>.</li>
-<li>Redis Sentinel deployment reachable at <code>redis-sentinel.argocd.internal:26379</code>.</li>
-<li>TLS certificates for <code>argocd.internal</code>.</li>
-</ul>
-<h3 id="b-install-argo-cd-from-argocdmd-sections-b-f">B. Install Argo CD (from argocd.md sections B-F)<a class="headerlink" href="#b-install-argo-cd-from-argocdmd-sections-b-f" title="Permanent link">&para;</a></h3>
+</code></pre></div></p>
+<p><strong>Expected</strong>: Keycloak reachable at <code>https://keycloak.internal</code> with 2 replicas running; Three realms (platform, ai, external) configured; Six clients (rancher, argocd, grafana, harbor, gitlab, ai-gateway) configured; <code>groups</code> and <code>uid</code> protocol mappers present and active; Group-to-platform-role mapping functional.</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 13 (anchor <code>#step-13</code>)
+- Next: Step 15 (anchor <code>#step-15</code>)</p>
+<p><a id="step-15"></a></p>
+<h2 id="step-15-argo-cd-deployment-ha-mode">Step 15 — Argo CD deployment HA mode<a class="headerlink" href="#step-15-argo-cd-deployment-ha-mode" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Deploy Argo CD in HA mode with Redis sentinel, PostgreSQL backend, OIDC to Keycloak, External Secrets for clientSecret, and ServerSideApply enabled.</p>
+<p><strong>Prerequisites</strong>:
+- Keycloak from Step 14 running and reachable
+- PostgreSQL database reachable at <code>postgres.argocd.internal</code>
+- Redis Sentinel deployment reachable at <code>redis-sentinel.argocd.internal:26379</code>
+- TLS certificates for <code>argocd.internal</code>
+- Helm installed on management cluster</p>
+<p><strong>Actions</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># Create namespace</span>
 kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>argocd
 
-<span class="c1"># Install Argo CD with HA values (custom values below)</span>
+<span class="c1"># Install Argo CD with HA values</span>
 helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>argo-cd<span class="w"> </span>https://argoproj.github.io/argo-helm
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
@@ -6978,11 +5800,9 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>argocd-values-ha.yaml<spa
 <span class="s">  # PostgreSQL connection</span>
 <span class="s">  postgresql:</span>
 <span class="s">    enabled: false    # Use external PostgreSQL</span>
-<span class="s">    # Use external Redis Sentinel instead</span>
 <span class="s">  extraArgs:</span>
 <span class="s">    - --server-server-https-chauffeur-privacy-mode=off</span>
-
-<span class="s">  # OIDC Config (from argocd.md section F)</span>
+<span class="s">  # OIDC Config</span>
 <span class="s">  oidc:</span>
 <span class="s">    enabled: true</span>
 <span class="s">    name: Keycloak</span>
@@ -6996,7 +5816,6 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>argocd-values-ha.yaml<spa
 <span class="s">      "platform-admins": role:admin</span>
 <span class="s">      "platform-operators": role:admin</span>
 <span class="s">      "developers": role:readonly</span>
-
 <span class="s">  # Redis Sentinel config</span>
 <span class="s">  redis:</span>
 <span class="s">    sentinel:</span>
@@ -7004,12 +5823,10 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>argocd-values-ha.yaml<spa
 <span class="s">      sentinelCount: 3</span>
 <span class="s">      service: redis-sentinel</span>
 <span class="s">      port: 26379</span>
-
 <span class="s">  # ServerSideApply</span>
 <span class="s">  serverSuite:</span>
 <span class="s">    serverSideApply: true</span>
-
-<span class="s">  # External Secrets setup (see section 7)</span>
+<span class="s">  # External Secrets setup</span>
 <span class="s">  externalSecrets:</span>
 <span class="s">    enabled: true</span>
 <span class="s">EOF</span>
@@ -7017,10 +5834,9 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>argocd-values-ha.yaml<spa
 helm<span class="w"> </span>install<span class="w"> </span>argocd<span class="w"> </span>argo-cd/argo-cd<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>argocd<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--values<span class="w"> </span>argocd-values-ha.yaml
-</code></pre></div>
-<h3 id="c-external-secrets-for-clientsecret">C. External Secrets for clientSecret<a class="headerlink" href="#c-external-secrets-for-clientsecret" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># ClusterSecretStore for Vault (see section 7)</span>
-<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">external-secrets.io/v1beta1</span>
+</code></pre></div></p>
+<p><strong>External Secrets for clientSecret</strong> (Vault-backed):
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">external-secrets.io/v1beta1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterSecretStore</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-secret-store</span>
@@ -7035,7 +5851,7 @@ helm<span class="w"> </span>install<span class="w"> </span>argocd<span class="w"
 <span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-token</span>
 <span class="w">            </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
 
-<span class="c1"># ExternalSecret for Argo CD OIDC client secret</span>
+<span class="nn">---</span>
 <span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">external-secrets.io/v1beta1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ExternalSecret</span>
 <span class="nt">metadata</span><span class="p">:</span>
@@ -7053,8 +5869,8 @@ helm<span class="w"> </span>install<span class="w"> </span>argocd<span class="w"
 <span class="w">      </span><span class="nt">remoteRef</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oidc</span>
 <span class="w">        </span><span class="nt">property</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clientSecret</span>
-</code></pre></div>
-<h3 id="d-validation">D. Validation<a class="headerlink" href="#d-validation" title="Permanent link">&para;</a></h3>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># Argo CD server pods Ready</span>
 kubectl<span class="w"> </span>-n<span class="w"> </span>argocd<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>argocd-server
 
@@ -7067,39 +5883,35 @@ argocd<span class="w"> </span>login<span class="w"> </span>argocd.internal
 <span class="c1"># List applications</span>
 argocd<span class="w"> </span>app<span class="w"> </span>list
 
-<span class="c1"># Expected: Applications list shows synced apps; OIDC login succeeds without inline password.</span>
-</code></pre></div>
-<h3 id="e-exit-criteria">E. Exit criteria<a class="headerlink" href="#e-exit-criteria" title="Permanent link">&para;</a></h3>
-<ul>
-<li>3 Argo CD server pods in <code>Running</code> state.</li>
-<li>PostgreSQL backend reachable and storing Argo CD state.</li>
-<li>Redis Sentinel providing HA for session state.</li>
-<li>OIDC login to Argo CD UI succeeds via Keycloak.</li>
-<li>ExternalSecret for <code>clientSecret</code> populated from Vault.</li>
-<li><code>serverSideApply: true</code> active in Argo CD server config.</li>
-</ul>
-<h3 id="f-rollback_1">F. Rollback<a class="headerlink" href="#f-rollback_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>helm uninstall argocd -n argocd</code></li>
-<li>Wipe PostgreSQL and Redis data; re-install from previous values backup.</li>
-<li>Restore Argo CD state from etcd/PG backup if needed.</li>
-</ul>
-<hr />
-<h2 id="6-vault-deployment-dedicated-hosts-outside-management-cluster">6. Vault Deployment (Dedicated Hosts Outside Management Cluster)<a class="headerlink" href="#6-vault-deployment-dedicated-hosts-outside-management-cluster" title="Permanent link">&para;</a></h2>
-<p>Deploy Vault on 3 dedicated hosts with Raft storage, Shamir 3-of-5 unseal, and multiple auth methods.</p>
-<h3 id="a-infrastructure-3-vault-hosts-outside-management-cluster">A. Infrastructure — 3 Vault hosts outside management cluster<a class="headerlink" href="#a-infrastructure-3-vault-hosts-outside-management-cluster" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="k">[vault-nodes]</span>
-<span class="na">vault-1 ansible_host</span><span class="o">=</span><span class="s">&lt;vault-node-1-ip&gt;</span>
-<span class="na">vault-2 ansible_host</span><span class="o">=</span><span class="s">&lt;vault-node-2-ip&gt;</span>
-<span class="na">vault-3 ansible_host</span><span class="o">=</span><span class="s">&lt;vault-node-3-ip&gt;</span>
-</code></pre></div>
-<h3 id="b-vault-raft-configuration-3-nodes-shamir-3-of-5">B. Vault Raft configuration (3 nodes, Shamir 3-of-5)<a class="headerlink" href="#b-vault-raft-configuration-3-nodes-shamir-3-of-5" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Initialize the Vault cluster</span>
+<span class="c1"># Expected: Applications list shows synced apps; OIDC login succeeds without inline password; serverSideApply: true active</span>
+</code></pre></div></p>
+<p><strong>Expected</strong>: 3 Argo CD server pods in <code>Running</code> state; PostgreSQL backend reachable and storing Argo CD state; Redis Sentinel providing HA for session state; OIDC login to Argo CD UI succeeds via Keycloak; ExternalSecret for <code>clientSecret</code> populated from Vault; <code>serverSideApply: true</code> active in Argo CD server config.</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 14 (anchor <code>#step-14</code>)
+- Next: Step 16 (anchor <code>#step-16</code>)</p>
+<p><a id="step-16"></a></p>
+<h2 id="step-16-vault-deployment-on-dedicated-hosts-outside-management-cluster">Step 16 — Vault deployment on dedicated hosts outside management cluster<a class="headerlink" href="#step-16-vault-deployment-on-dedicated-hosts-outside-management-cluster" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Deploy Vault on 3 dedicated hosts with Raft storage, Shamir 3-of-5 unseal, and auth methods (OIDC via Keycloak, AppRole, K8s auth); secret delivery via Vault Agent Injector/External Secrets/CSI.</p>
+<p><strong>Prerequisites</strong>:
+- 3 dedicated Vault hosts outside management cluster provisioned
+- DNS: <code>vault.platform.internal</code> resolves to VIP or load balancer
+- TLS certificates for <code>vault.platform.internal</code>
+- Management cluster from Step 11 running</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Define Vault hosts inventory</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>vault-hosts.ini<span class="w"> </span><span class="s">&lt;&lt; 'INI'</span>
+<span class="s">[vault-nodes]</span>
+<span class="s">vault-1 ansible_host=&lt;vault-node-1-ip&gt;</span>
+<span class="s">vault-2 ansible_host=&lt;vault-node-2-ip&gt;</span>
+<span class="s">vault-3 ansible_host=&lt;vault-node-3-ip&gt;</span>
+<span class="s">INI</span>
+
+<span class="c1"># Initialize the Vault cluster</span>
 vault<span class="w"> </span>operator<span class="w"> </span>init<span class="w"> </span>-key-shares<span class="o">=</span><span class="m">5</span><span class="w"> </span>-threshold<span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-root-token-format<span class="o">=</span>hex<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>&gt;<span class="w"> </span>/vault/initializer-output.json
 
-<span class="c1"># Unseal each node with 3 of 5 shares (distribute shares securely)</span>
+<span class="c1"># Unseal each node with 3 of 5 shares</span>
 <span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">  </span>vault<span class="w"> </span>operator<span class="w"> </span>unseal<span class="w"> </span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s2">".unseal_keys_b64[</span><span class="k">$((</span><span class="nv">i</span><span class="o">-</span><span class="m">1</span><span class="k">))</span><span class="s2">]"</span><span class="w"> </span>/vault/initializer-output.json<span class="k">)</span>
 <span class="k">done</span>
@@ -7107,38 +5919,15 @@ vault<span class="w"> </span>operator<span class="w"> </span>init<span class="w"
 <span class="c1"># Root token (keep in password manager, never in repo)</span>
 <span class="nv">ROOT_TOKEN</span><span class="o">=</span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s2">".root_token"</span><span class="w"> </span>/vault/initializer-output.json<span class="k">)</span>
 vault<span class="w"> </span>login<span class="w"> </span><span class="nv">$ROOT_TOKEN</span>
-</code></pre></div>
-<h3 id="c-auth-methods-from-vault-architecturemd">C. Auth methods (from vault-architecture.md)<a class="headerlink" href="#c-auth-methods-from-vault-architecturemd" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Auth Method</th>
-<th>Configuration</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>OIDC via Keycloak</strong></td>
-<td>Vault OIDC auth pointing to <code>https://keycloak.internal/realms/platform</code>; groups claim mapped to policies.</td>
-</tr>
-<tr>
-<td><strong>AppRole</strong></td>
-<td>Role ID + Secret ID stored in External Secrets; machines fetch tokens at startup.</td>
-</tr>
-<tr>
-<td><strong>Kubernetes auth</strong></td>
-<td><code>kubernetes_auth_backend</code> for in-cluster service accounts; role binding scoped per namespace.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Example: OIDC auth method</strong></p>
-<div class="highlight"><pre><span></span><code>vault<span class="w"> </span>auth<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>oidc<span class="w"> </span>keycloak-oidc<span class="w"> </span><span class="se">\</span>
+</code></pre></div></p>
+<p><strong>Auth methods configuration</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># OIDC auth method via Keycloak</span>
+vault<span class="w"> </span>auth<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>oidc<span class="w"> </span>keycloak-oidc<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-path<span class="o">=</span>keycloak-oidc<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-default-role<span class="o">=</span>platform-user<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">oidc_discovery_url</span><span class="o">=</span><span class="s2">"https://keycloak.internal/realms/platform/platform/.well-known/openid-configuration"</span>
-</code></pre></div>
-<p><strong>Example: AppRole</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Create role</span>
+
+<span class="c1"># AppRole role for machines</span>
 vault<span class="w"> </span>role-create<span class="w"> </span>-description<span class="w"> </span><span class="s2">"Argo CD deployment role"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-policy<span class="o">=</span>argocd-policy<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-period<span class="o">=</span>72h<span class="w"> </span><span class="se">\</span>
@@ -7147,69 +5936,48 @@ vault<span class="w"> </span>role-create<span class="w"> </span>-description<spa
 
 <span class="c1"># Generate secret ID (rotate regularly)</span>
 vault<span class="w"> </span>write<span class="w"> </span>-f<span class="w"> </span>auth/approle/role/argocd-role/secret-id
-</code></pre></div>
-<p><strong>Example: Kubernetes auth</strong></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Create K8s auth backend</span>
+
+<span class="c1"># Kubernetes auth backend</span>
 vault<span class="w"> </span>auth<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>kubernetes<span class="w"> </span>k8s<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-map-server<span class="o">=</span><span class="s2">"https://kubernetes.default.svc"</span>
 
-<span class="c1"># Configure role</span>
+<span class="c1"># Configure K8s auth role</span>
 vault<span class="w"> </span>write<span class="w"> </span>auth/kubernetes/role/ns-role<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">bound_service_account_names</span><span class="o">=</span>harbor-sa<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">bound_service_account_namespaces</span><span class="o">=</span>harbor-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="nv">policies</span><span class="o">=</span>harbor-policy
-</code></pre></div>
-<h3 id="d-secret-delivery-methods">D. Secret delivery methods<a class="headerlink" href="#d-secret-delivery-methods" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Vault Agent Injector</strong></td>
-<td>Sidecar that injects secrets into pods via annotations; uses <code>sidecar.va.hashicorp.com/inject REAL</code> and <code>sidecar.va.hashicorp.com/inject-literal</code></td>
-</tr>
-<tr>
-<td><strong>External Secrets Operator</strong></td>
-<td>Syncs Vault secrets to K8s <code>Secret</code>; referenced by Argo CD, Keycloak, etc.</td>
-</tr>
-<tr>
-<td><strong>CSI driver</strong></td>
-<td><code>vault-secrets-csi</code> mounts secrets as volumes into pods.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Example: Vault Agent Injector annotation</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor-repo-server</span>
-<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">vault.hashicorp.com/role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-role</span>
-<span class="w">    </span><span class="nt">vault.hashicorp.com/secret-volume-path</span><span class="p">:</span><span class="w"> </span><span class="s">"/vault/secrets"</span>
-<span class="w">    </span><span class="nt">vault.hashicorp.com/agent-inject</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
-<span class="w">    </span><span class="nt">vault.hashicorp.com/agent-inject-status</span><span class="p">:</span><span class="w"> </span><span class="s">"update"</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">template</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">vault.hashicorp.com/role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-role</span>
-<span class="w">        </span><span class="nt">vault.hashicorp.com/secret-volume-path</span><span class="p">:</span><span class="w"> </span><span class="s">"/vault/secrets"</span>
-<span class="w">    </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">containers</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo-server</span>
-<span class="w">          </span><span class="nt">volumeMounts</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault secrets</span>
-<span class="w">              </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/vault/secrets</span>
-<span class="w">      </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault secrets</span>
-<span class="w">          </span><span class="nt">vaultSecret</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-secrets</span>
-</code></pre></div>
-<h3 id="e-validation_3">E. Validation<a class="headerlink" href="#e-validation_3" title="Permanent link">&para;</a></h3>
+</code></pre></div></p>
+<p><strong>Secret delivery methods</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># Vault Agent Injector example for Harbor</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>harbor-injector.yaml<span class="w"> </span><span class="s">&lt;&lt; 'YAMl'</span>
+<span class="s">apiVersion: apps/v1</span>
+<span class="s">kind: Deployment</span>
+<span class="s">metadata:</span>
+<span class="s">  name: harbor-repo-server</span>
+<span class="s">  annotations:</span>
+<span class="s">    vault.hashicorp.com/role: vault-role</span>
+<span class="s">    vault.hashicorp.com/secret-volume-path: "/vault/secrets"</span>
+<span class="s">    vault.hashicorp.com/agent-inject: "true"</span>
+<span class="s">    vault.hashicorp.com/agent-inject-status: "update"</span>
+<span class="s">spec:</span>
+<span class="s">  template:</span>
+<span class="s">    metadata:</span>
+<span class="s">      annotations:</span>
+<span class="s">        vault.hashicorp.com/role: vault-role</span>
+<span class="s">        vault.hashicorp.com/secret-volume-path: "/vault/secrets"</span>
+<span class="s">    spec:</span>
+<span class="s">      containers:</span>
+<span class="s">        - name: repo-server</span>
+<span class="s">          volumeMounts:</span>
+<span class="s">            - name: vault secrets</span>
+<span class="s">              mountPath: /vault/secrets</span>
+<span class="s">      volumes:</span>
+<span class="s">        - name: vault secrets</span>
+<span class="s">          vaultSecret:</span>
+<span class="s">            secretName: vault-secrets</span>
+<span class="s">YAMl</span>
+</code></pre></div></p>
+<p><strong>Validation</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># Seal/unseal status</span>
 vault<span class="w"> </span>status
 
@@ -7225,220 +5993,245 @@ vault<span class="w"> </span>write<span class="w"> </span>auth/kubernetes/login<
 <span class="c1"># List secrets engine</span>
 vault<span class="w"> </span>secrets<span class="w"> </span>list
 
-<span class="c1"># Expected: Vault 3-node Raft cluster healthy; all auth methods operational.</span>
+<span class="c1"># Expected: Vault 3-node Raft cluster healthy; all auth methods operational</span>
+</code></pre></div></p>
+<p><strong>Expected</strong>: 3 Vault nodes running with Raft storage healthy (<code>vault status</code> shows <code>Sealed: false</code>); Shamir unseal: 3 of 5 shares configured and operational; Auth methods: OIDC (Keycloak), AppRole, Kubernetes — all responding; Secret delivery: Vault Agent Injector and External Secrets syncing secrets to K8s; Policies attached to roles granting least-privilege access.</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 15 (anchor <code>#step-15</code>)
+- Next: Step 17 (anchor <code>#step-17</code>)</p>
+<p><a id="step-17"></a></p>
+<h2 id="step-17-platform-services-harbor-gitlab-integration-with-keycloak-oidc-and-vault">Step 17 — Platform services: Harbor + GitLab integration with Keycloak OIDC and Vault<a class="headerlink" href="#step-17-platform-services-harbor-gitlab-integration-with-keycloak-oidc-and-vault" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Integrate Harbor container registry and GitLab source control with Keycloak OIDC and Vault secret delivery.</p>
+<p><strong>Prerequisites</strong>:
+- Vault from Step 16 running and reachable
+- Keycloak from Step 14 running and reachable
+- DNS: <code>harbor.internal</code> and <code>gitlab.internal</code> resolves
+- TLS certificates for <code>harbor.internal</code> and <code>gitlab.internal</code></p>
+<p><strong>Actions</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># A. Harbor configuration (Keycloak OIDC + Vault)</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>values-harbor.yaml<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">harbor:</span>
+<span class="s">  config:</span>
+<span class="s">    # External URL</span>
+<span class="s">    ui_url: https://harbor.internal</span>
+<span class="s">    # Keycloak OIDC integration</span>
+<span class="s">    oauth2:</span>
+<span class="s">      enabled: true</span>
+<span class="s">      clientID: harbor</span>
+<span class="s">      clientSecret: $harbor:oidc.clientSecret   # from ExternalSecret</span>
+<span class="s">      discovery: https://keycloak.internal/realms/platform/.well-known/openid-configuration</span>
+<span class="s">      usernameClaim: uid</span>
+<span class="s">      groupsClaim: groups</span>
+<span class="s">      autoRegister: true</span>
+<span class="s">    # Token duration</span>
+<span class="s">    tokenDuration: 24h</span>
+<span class="s">    tokenMaxRefresh: 24h</span>
+<span class="s">    # PostgreSQL (external)</span>
+<span class="s">    database:</span>
+<span class="s">      type: postgres</span>
+<span class="s">      host: postgres.platform-db.internal</span>
+<span class="s">      port: 5432</span>
+<span class="s">      database: harbor</span>
+<span class="s">      username: harbor</span>
+<span class="s">      password: ${HARBOR_DB_PASSWORD}   # from ExternalSecret</span>
+<span class="s">    # Redis</span>
+<span class="s">    redis:</span>
+<span class="s">      host: redis.platform.internal</span>
+<span class="s">      port: 6379</span>
+<span class="s">    # Trust CA for internal TLS</span>
+<span class="s">    trustedProxy:</span>
+<span class="s">      enabled: true</span>
+<span class="s">    protocol: https</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Install Harbor Helm chart with values-harbor.yaml</span>
+helm<span class="w"> </span>install<span class="w"> </span>harbor<span class="w"> </span>harbor/harbor<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>harbor-system<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--values<span class="w"> </span>values-harbor.yaml
 </code></pre></div>
-<h3 id="f-exit-criteria_2">F. Exit criteria<a class="headerlink" href="#f-exit-criteria_2" title="Permanent link">&para;</a></h3>
-<ul>
-<li>3 Vault nodes running with Raft storage healthy (<code>vault status</code> shows <code>Sealed: false</code>).</li>
-<li>Shamir unseal: 3 of 5 shares configured and operational.</li>
-<li>Auth methods: OIDC (Keycloak), AppRole, Kubernetes — all responding.</li>
-<li>Secret delivery: Vault Agent Injector and External Secrets syncing secrets to K8s.</li>
-<li>Policies attached to roles granting least-privilege access.</li>
-</ul>
-<h3 id="g-rollback_2">G. Rollback<a class="headerlink" href="#g-rollback_2" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>vault operator raft remove-node &lt;node-id&gt;</code> to remove failed node.</li>
-<li>Re-initialize Vault if Raft quorum lost.</li>
-<li>Rotate all secret IDs and OIDC client secrets after rollback.</li>
-</ul>
-<hr />
-<h2 id="7-platform-services-harbor-gitlab-integration-with-keycloak-oidc-and-vault">7. Platform Services: Harbor + GitLab Integration with Keycloak OIDC and Vault<a class="headerlink" href="#7-platform-services-harbor-gitlab-integration-with-keycloak-oidc-and-vault" title="Permanent link">&para;</a></h2>
-<p>Integrate Harbor container registry and GitLab source control with Keycloak OIDC and Vault secret delivery.</p>
-<h3 id="a-harbor-configuration-keycloak-oidc-vault">A. Harbor configuration (Keycloak OIDC + Vault)<a class="headerlink" href="#a-harbor-configuration-keycloak-oidc-vault" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># values-harbor.yaml (from platform-services index)</span>
-<span class="nt">harbor</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="c1"># External URL</span>
-<span class="w">    </span><span class="nt">ui_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://harbor.internal</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># B. GitLab configuration (Keycloak OIDC + Vault)</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>gitlab-values.yaml<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">gitlab:</span>
+<span class="s">  oauth:</span>
+<span class="s">    enable: true</span>
+<span class="s">    external_url: https://gitlab.internal</span>
+<span class="s">    gitlab_rails:</span>
+<span class="s">      oauth2:</span>
+<span class="s">        client_id: gitlab</span>
+<span class="s">        client_secret: $gitlab:oidc.clientSecret   # from ExternalSecret</span>
+<span class="s">        auth_uri: https://keycloak.internal/realms/platform/protocol/openid-connect/auth</span>
+<span class="s">        token_uri: https://keycloak.internal/realms/platform/protocol/openid-connect/token</span>
+<span class="s">        user_info_uri: https://keycloak.internal/realms/platform/protocol/openid-connect/userinfo</span>
+<span class="s">        scope: openid profile email groups</span>
+<span class="s">  secret_store:</span>
+<span class="s">    type: vault</span>
+<span class="s">    vault_url: https://vault.platform.internal:8200</span>
+<span class="s">    vault_token_secret: vault-token   # referenced from K8s secret</span>
+<span class="s">EOF</span>
 
-<span class="w">    </span><span class="c1"># Keycloak OIDC integration</span>
-<span class="w">    </span><span class="nt">oauth2</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">      </span><span class="nt">clientID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor</span>
-<span class="w">      </span><span class="nt">clientSecret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$harbor:oidc.clientSecret</span><span class="w">   </span><span class="c1"># from ExternalSecret</span>
-<span class="w">      </span><span class="nt">discovery</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://keycloak.internal/realms/platform/.well-known/openid-configuration</span>
-<span class="w">      </span><span class="nt">usernameClaim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uid</span>
-<span class="w">      </span><span class="nt">groupsClaim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">groups</span>
-<span class="w">      </span><span class="nt">autoRegister</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
-<span class="w">    </span><span class="c1"># Token duration</span>
-<span class="w">    </span><span class="nt">tokenDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24h</span>
-<span class="w">    </span><span class="nt">tokenMaxRefresh</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24h</span>
-
-<span class="w">    </span><span class="c1"># PostgreSQL (external)</span>
-<span class="w">    </span><span class="nt">database</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
-<span class="w">      </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres.platform-db.internal</span>
-<span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
-<span class="w">      </span><span class="nt">database</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor</span>
-<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor</span>
-<span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${HARBOR_DB_PASSWORD}</span><span class="w">   </span><span class="c1"># from ExternalSecret</span>
-
-<span class="w">    </span><span class="c1"># Redis</span>
-<span class="w">    </span><span class="nt">redis</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis.platform.internal</span>
-<span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6379</span>
-
-<span class="w">    </span><span class="c1"># Trust CA for internal TLS</span>
-<span class="w">    </span><span class="nt">trustedProxy</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
-<span class="w">    </span><span class="c1"># Proxy protocol</span>
-<span class="w">    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https</span>
+<span class="c1"># Install/configure GitLab with values-gitlab.yaml</span>
+<span class="c1"># (GitLab Helm chart installation with OAuth and Vault integration)</span>
 </code></pre></div>
-<h3 id="b-gitlab-configuration-keycloak-oidc-vault">B. GitLab configuration (Keycloak OIDC + Vault)<a class="headerlink" href="#b-gitlab-configuration-keycloak-oidc-vault" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># GitLab config (from automation/ or via Helm)</span>
-<span class="nt">gitlab</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">oauth</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">external_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://gitlab.internal</span>
-
-<span class="w">    </span><span class="nt">gitlab_rails</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">oauth2</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">client_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitlab</span>
-<span class="w">        </span><span class="nt">client_secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$gitlab:oidc.clientSecret</span><span class="w">   </span><span class="c1"># from ExternalSecret</span>
-<span class="w">        </span><span class="nt">auth_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://keycloak.internal/realms/platform/protocol/openid-connect/auth</span>
-<span class="w">        </span><span class="nt">token_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://keycloak.internal/realms/platform/protocol/openid-connect/token</span>
-<span class="w">        </span><span class="nt">user_info_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://keycloak.internal/realms/platform/protocol/openid-connect/userinfo</span>
-<span class="w">        </span><span class="nt">scope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openid profile email groups</span>
-
-<span class="w">  </span><span class="c1"># Vault-integrated secrets</span>
-<span class="w">  </span><span class="nt">secret_store</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault</span>
-<span class="w">    </span><span class="nt">vault_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://vault.platform.internal:8200</span>
-<span class="w">    </span><span class="nt">vault_token_secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-token</span><span class="w">   </span><span class="c1"># referenced from K8s secret</span>
-</code></pre></div>
-<h3 id="c-vault-backed-secrets-for-harbor-gitlab">C. Vault-backed secrets for Harbor + GitLab<a class="headerlink" href="#c-vault-backed-secrets-for-harbor-gitlab" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># ExternalSecret for Harbor clientSecret</span>
-<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">external-secrets.io/v1beta1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ExternalSecret</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor-oidc-client-secret</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor-system</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">secretStoreRef</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-secret-store</span>
-<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterSecretStore</span>
-<span class="w">  </span><span class="nt">target</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor-oidc-secret</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-<span class="w">  </span><span class="nt">data</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secretKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clientSecret</span>
-<span class="w">      </span><span class="nt">remoteRef</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor</span>
-<span class="w">        </span><span class="nt">property</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oidc.clientSecret</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># C. Vault-backed secrets for Harbor + GitLab (ExternalSecrets)</span>
+<span class="c1"># ExternalSecret for Harbor clientSecret</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>harbor-oidc-secret.yaml<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">apiVersion: external-secrets.io/v1beta1</span>
+<span class="s">kind: ExternalSecret</span>
+<span class="s">metadata:</span>
+<span class="s">  name: harbor-oidc-client-secret</span>
+<span class="s">  namespace: harbor-system</span>
+<span class="s">spec:</span>
+<span class="s">  secretStoreRef:</span>
+<span class="s">    name: vault-secret-store</span>
+<span class="s">    kind: ClusterSecretStore</span>
+<span class="s">  target:</span>
+<span class="s">    name: harbor-oidc-secret</span>
+<span class="s">    type: Opaque</span>
+<span class="s">  data:</span>
+<span class="s">    - secretKey: clientSecret</span>
+<span class="s">      remoteRef:</span>
+<span class="s">        key: harbor</span>
+<span class="s">        property: oidc.clientSecret</span>
+<span class="s">EOF</span>
 
 <span class="c1"># ExternalSecret for GitLab clientSecret</span>
-<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">external-secrets.io/v1beta1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ExternalSecret</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitlab-oidc-client-secret</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitlab-system</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">secretStoreRef</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-secret-store</span>
-<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterSecretStore</span>
-<span class="w">  </span><span class="nt">target</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitlab-oidc-secret</span>
-<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-<span class="w">  </span><span class="nt">data</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secretKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clientSecret</span>
-<span class="w">      </span><span class="nt">remoteRef</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitlab</span>
-<span class="w">        </span><span class="nt">property</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oidc.clientSecret</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>gitlab-oidc-secret.yaml<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+<span class="s">apiVersion: external-secrets.io/v1beta1</span>
+<span class="s">kind: ExternalSecret</span>
+<span class="s">metadata:</span>
+<span class="s">  name: gitlab-oidc-client-secret</span>
+<span class="s">  namespace: gitlab-system</span>
+<span class="s">spec:</span>
+<span class="s">  secretStoreRef:</span>
+<span class="s">    name: vault-secret-store</span>
+<span class="s">    kind: ClusterSecretStore</span>
+<span class="s">  target:</span>
+<span class="s">    name: gitlab-oidc-secret</span>
+<span class="s">    type: Opaque</span>
+<span class="s">  data:</span>
+<span class="s">    - secretKey: clientSecret</span>
+<span class="s">      remoteRef:</span>
+<span class="s">        key: gitlab</span>
+<span class="s">        property: oidc.clientSecret</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Apply ExternalSecret manifests</span>
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>harbor-oidc-secret.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>gitlab-oidc-secret.yaml
 </code></pre></div>
-<h3 id="d-validation_1">D. Validation<a class="headerlink" href="#d-validation_1" title="Permanent link">&para;</a></h3>
+<p><strong>Validation</strong>:
 <div class="highlight"><pre><span></span><code><span class="c1"># Harbor UI reachable at https://harbor.internal with Keycloak login</span>
-curl<span class="w"> </span>-k<span class="w"> </span>https://harbor.internal/api/v2.0/users/me<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="k">$(</span>vault<span class="w"> </span>token<span class="w"> </span>lookup<span class="k">)</span><span class="s2">"</span>
+curl<span class="w"> </span>-k<span class="w"> </span>https://harbor.internal/api/v2.0/users/me<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer ..."</span>
 
 <span class="c1"># GitLab UI reachable at https://gitlab.internal with Keycloak login</span>
-curl<span class="w"> </span>-k<span class="w"> </span>https://gitlab.internal/api/v4/user<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="k">$(</span>vault<span class="w"> </span>token<span class="w"> </span>lookup<span class="k">)</span><span class="s2">"</span>
+curl<span class="w"> </span>-k<span class="w"> </span>https://gitlab.internal/api/v4/user<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer ..."</span>
 
 <span class="c1"># Harbor registry push/pull test</span>
 docker<span class="w"> </span>tag<span class="w"> </span>myimage<span class="w"> </span>harbor.internal/myimage:latest
 docker<span class="w"> </span>push<span class="w"> </span>harbor.internal/myimage:latest
 
-<span class="c1"># GitLab API authenticated via OIDC token</span>
-gitlab<span class="w"> </span>personal<span class="w"> </span>token<span class="w"> </span>or<span class="w"> </span>OIDC<span class="w"> </span>session<span class="w"> </span>verified<span class="w"> </span>via<span class="w"> </span>UI.
+<span class="c1"># GitLab API authenticated via OIDC session verified via UI</span>
 
 <span class="c1"># Vault secrets synced to Harbor + GitLab Secrets</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span>harbor-system<span class="w"> </span>vault-secrets
 kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span>gitlab-system<span class="w"> </span>vault-secrets
+</code></pre></div></p>
+<p><strong>Expected</strong>: Harbor UI reachable at <code>https://harbor.internal</code>; Keycloak OIDC login works; GitLab UI reachable at <code>https://gitlab.internal</code>; Keycloak OIDC login works; Harbor + GitLab OIDC client secrets populated from Vault via External Secrets; Image push/pull to Harbor functional; GitLab repo cloning functional with Keycloak-authenticated user; Vault secrets (DB passwords, API keys) synced to both Harbor and GitLab configurations.</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 16 (anchor <code>#step-16</code>)
+- Next: Step 18 (anchor <code>#step-18</code>)</p>
+<p><a id="step-18"></a></p>
+<h2 id="step-18-cross-component-validation">Step 18 — Cross-component validation<a class="headerlink" href="#step-18-cross-component-validation" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Validate OIDC login across all components and External Secrets synchronization.</p>
+<p><strong>Prerequisites</strong>:
+- All previous steps complete: Rancher (12), Keycloak (14), Argo CD (15), Vault (16), Harbor + GitLab (17)
+- DNS resolves for all internal hostnames</p>
+<p><strong>Actions</strong>:
+<div class="highlight"><pre><span></span><code><span class="c1"># OIDC login to Rancher</span>
+curl<span class="w"> </span>-k<span class="w"> </span>https://rancher.internal/v3/auth/login<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">"redirect_url=https://rancher.internal/v3/console"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/x-www-form-urlencoded"</span>
+
+<span class="c1"># OIDC login to Argo CD</span>
+argocd<span class="w"> </span>login<span class="w"> </span>argocd.internal<span class="w"> </span>--token-arg-hash<span class="o">=</span><span class="nb">false</span>
+<span class="c1"># Successful login returns no authentication error</span>
+
+<span class="c1"># OIDC login to Grafana (if configured)</span>
+<span class="c1"># Access via https://grafana.internal/login/generic_oauth</span>
+
+<span class="c1"># OIDC login to Harbor</span>
+<span class="c1"># Access via https://harbor.internal; login with Keycloak credentials</span>
+
+<span class="c1"># OIDC login to GitLab</span>
+<span class="c1"># Access via https://gitlab.internal; login with Keycloak credentials</span>
+
+<span class="c1"># Verify External Secrets sync status</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>externalsecret<span class="w"> </span>-A
+
+<span class="c1"># Verify Vault secrets are reachable</span>
+vault<span class="w"> </span>secrets<span class="w"> </span>list
+</code></pre></div></p>
+<p><strong>Expected</strong>:
+- OIDC login to Rancher/Argo CD/Grafana/Harbor/GitLab all succeed via Keycloak
+- External Secrets are synced and populated in respective namespaces
+- Vault secrets list returns expected secret engines and paths
+- All component health checks pass</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 17 (anchor <code>#step-17</code>)
+- Next: Step 19 (anchor <code>#step-19</code>)</p>
+<p><a id="step-19"></a></p>
+<h2 id="step-19-exit-criteria-checklist">Step 19 — Exit criteria checklist<a class="headerlink" href="#step-19-exit-criteria-checklist" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Verify all Phase 2 exit criteria are met before proceeding to Phase 3.</p>
+<p><strong>Exit criteria</strong>:
+- [ ] Management cluster running Kubespray with 3 control-plane + 3 infra workers (no worker nodes shared with application clusters per ADR-0010/0011)
+- [ ] Rancher HA installed and reachable via <code>rancher.internal</code> with TLS
+- [ ] Keycloak OIDC with three realms (platform, ai, external) and six clients configured
+- [ ] Argo CD HA deployed with Redis sentinel + PostgreSQL, OIDC to Keycloak, External Secrets for client secrets, ServerSideApply enabled
+- [ ] Vault deployed on 3 dedicated hosts outside management cluster with Raft storage, Shamir 3-of-5 unseal, and auth methods configured (OIDC via Keycloak, AppRole, K8s auth)
+- [ ] Harbor + GitLab integrated with Keycloak OIDC and Vault secret delivery
+- [ ] All validation checks pass (Step 18)
+- [ ] Rollback procedures documented and tested (Step 20)</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 18 (anchor <code>#step-18</code>)
+- Next: Step 20 (anchor <code>#step-20</code>)</p>
+<p><a id="step-20"></a></p>
+<h2 id="step-20-rollback-procedures">Step 20 — Rollback procedures<a class="headerlink" href="#step-20-rollback-procedures" title="Permanent link">&para;</a></h2>
+<p><strong>Purpose</strong>: Document and test rollback procedures for all Phase 2 components.</p>
+<p><strong>Rollback procedures</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Management cluster rollback (Step 11)</span>
+<span class="c1"># - Re-run Kubespray with the original hosts.ini (pre-mgmt scaling)</span>
+<span class="c1"># - Or destroy and recreate the management cluster from scratch if etcd data is corrupted</span>
+
+<span class="c1"># Rancher HA rollback (Step 12)</span>
+<span class="c1"># - helm uninstall rancher -n cattle-system</span>
+<span class="c1"># - Re-install with previous values-ha.yaml snapshot</span>
+<span class="c1"># - If etcd data lost, restore from PostgreSQL backup</span>
+
+<span class="c1"># Keycloak rollback (Step 14)</span>
+<span class="c1"># - helm uninstall keycloak -n keycloak</span>
+<span class="c1"># - Restore PostgreSQL database from backup</span>
+<span class="c1"># - Re-deploy from Helm chart with previous values</span>
+
+<span class="c1"># Argo CD rollback (Step 15)</span>
+<span class="c1"># - helm uninstall argocd -n argocd</span>
+<span class="c1"># - Wipe PostgreSQL and Redis data; re-install from previous values backup</span>
+<span class="c1"># - Restore Argo CD state from etcd/PG backup if needed</span>
+
+<span class="c1"># Vault rollback (Step 16)</span>
+<span class="c1"># - vault operator raft remove-node &lt;node-id&gt; to remove failed node</span>
+<span class="c1"># - Re-initialize Vault if Raft quorum lost</span>
+<span class="c1"># - Rotate all secret IDs and OIDC client secrets after rollback</span>
+
+<span class="c1"># Harbor + GitLab rollback (Step 17)</span>
+<span class="c1"># - helm uninstall harbor -n harbor-system (if Helm-deployed)</span>
+<span class="c1"># - Revert ExternalSecret configurations to previous values</span>
+<span class="c1"># - Restore Harbor and GitLab databases from backup</span>
+<span class="c1"># - Rotate all OIDC client secrets and Vault tokens</span>
 </code></pre></div>
-<h3 id="e-exit-criteria_1">E. Exit criteria<a class="headerlink" href="#e-exit-criteria_1" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Harbor UI reachable at <code>https://harbor.internal</code>; Keycloak OIDC login works.</li>
-<li>GitLab UI reachable at <code>https://gitlab.internal</code>; Keycloak OIDC login works.</li>
-<li>Harbor + GitLab OIDC client secrets populated from Vault via External Secrets.</li>
-<li>Image push/pull to Harbor functional.</li>
-<li>GitLab repo cloning functional with Keycloak-authenticated user.</li>
-<li>Vault secrets (DB passwords, API keys) synced to both Harbor and GitLab configurations.</li>
-</ul>
-<h3 id="f-rollback_2">F. Rollback<a class="headerlink" href="#f-rollback_2" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>helm uninstall harbor -n harbor-system</code> (if Helm-deployed).</li>
-<li>Revert ExternalSecret configurations to previous values.</li>
-<li>Restore Harbor and GitLab databases from backup.</li>
-<li>Rotate all OIDC client secrets and Vault tokens.</li>
-</ul>
-<hr />
-<h2 id="summary-checklist-phase-2-complete">Summary Checklist — Phase 2 Complete<a class="headerlink" href="#summary-checklist-phase-2-complete" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Component</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>Management cluster (Kubespray, 3 CP + 3 workers, no share with app clusters)</td>
-<td>✅ / ❌</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Rancher HA (Helm, 3 replicas, hostname, TLS, harbor.internal registry)</td>
-<td>✅ / ❌</td>
-</tr>
-<tr>
-<td>3</td>
-<td>App clusters registered via agent manifest</td>
-<td>✅ / ❌</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Keycloak OIDC (3 realms: platform/ai/external; 6 clients: rancher/argocd/grafana/harbor/gitlab/ai-gateway)</td>
-<td>✅ / ❌</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Argo CD HA (Redis sentinel + PostgreSQL, OIDC to Keycloak, ExternalSecret clientSecret, ServerSideApply)</td>
-<td>✅ / ❌</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Vault (3 nodes Raft, Shamir 3-of-5 unseal, OIDC/AppRole/K8s auth; Injector/External Secrets/CSI)</td>
-<td>✅ / ❌</td>
-</tr>
-<tr>
-<td>7</td>
-<td>Harbor + GitLab (Keycloak OIDC + Vault secret delivery)</td>
-<td>✅ / ❌</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Next</strong>: Proceed to Phase 3 — Application Workloads and GitOps Fleet if all exit criteria pass.</p>
-<p><strong>References</strong>:
-- <code>docs/management-cluster/rancher/installation-ha.md</code> — Rancher HA installation
-- <code>docs/management-cluster/argocd/argocd.md</code> — Argo CD GitOps
-- <code>docs/secrets-management/vault/vault-architecture.md</code> — Vault architecture
-- <code>docs/security/kubewarden.md</code> — Policy admission control
-- <code>docs/deploy/choose-cluster-type.md</code> — Path selection
-- <code>docs/deploy/other-deployment-methods.md</code> — Alternative deployment methods
-- ADR-0010, ADR-0011 — Management cluster worker node separation
-- ADR-0025 — Identity provider isolation</p>
+<p><strong>Expected</strong>: All rollback procedures documented; each procedure tested in staging environment; data recovery paths validated; rollback timeline documented (&lt; 30 minutes for critical components).</p>
+<p><strong>Navigation</strong>:
+- Previous: Step 19 (anchor <code>#step-19</code>)
+- End of Phase 2 guide</p>
 
 
 

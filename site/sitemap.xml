@@ -1441,10 +1441,6 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/security/audit-logging/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/security/host-baseline/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
@@ -1462,14 +1458,6 @@
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/security/pod-security-standards/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/security/sbom-generation-pipeline/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/security/secret-rotation/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
