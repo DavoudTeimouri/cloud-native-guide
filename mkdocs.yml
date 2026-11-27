@@ -45,89 +45,122 @@ plugins:
 
 nav:
   - Home: index.md
-  - Journey 00-12:
-      - 'Step 00 — Overview & architecture': en/cloud-native-stack-step-by-step.md
-      - 'Step 01 — Offline artifact infrastructure': en/cloud-native-stack-step-by-step.md
-      - 'Step 02 — Foundational infrastructure': en/cloud-native-stack-step-by-step.md
-      - 'Step 03 — OS baseline': en/cloud-native-stack-step-by-step.md
-      - 'Step 04 — Container engine and offline images': en/cloud-native-stack-step-by-step.md
-      - 'Step 05 — Storage — Ceph': en/cloud-native-stack-step-by-step.md
-      - 'Step 06 — Kubernetes via Kubespray v2.32.0': en/cloud-native-stack-step-by-step.md
-      - 'Step 07 — Management cluster': en/cloud-native-stack-step-by-step.md
-      - 'Step 08 — Traffic edge (LB and ingress)': en/cloud-native-stack-step-by-step.md
-      - 'Step 09 — Platform services and add-ons': en/cloud-native-stack-step-by-step.md
-      - 'Step 10 — Validation, backup, upgrade, disaster recovery': en/cloud-native-stack-step-by-step.md
-      - 'Step 11 — Day-2 Operations': journey/step-11-day-2-operations.md
-      - 'Step 12 — Upgrades, Retirement & Decommission': journey/step-12-upgrades-retirement.md
-  - Reference:
-      - Architecture:
-          - Overview: architecture/00-overview.md
-          - Logical diagram: architecture/01-logical-diagram.md
-          - Deployment topology: architecture/02-deployment-topology.md
-          - Failure domains: architecture/03-failure-domains.md
-          - Two-tier repository & registry: architecture/two-tier-repository-registry.md
-          - Technical consistency matrix: architecture/technical-consistency-matrix.md
-      - Versions & compatibility:
-          - Version matrix: compatibility/version-matrix.md
-          - Version lifecycle policy: en/version-lifecycle-policy.md
-      - Decisions (ADR):
-          - ADR-0001 Oracle Linux & Ubuntu standardization: decisions/ADR-0001-oracle-linux-and-ubuntu-server-standardization.md
-          - ADR-0006 CNI selection: decisions/ADR-0006-cni-selection.md
-          - ADR-0007 Ingress controller & Gateway API: decisions/ADR-0007-ingress-controller-and-gateway-api.md
-          - ADR-0026 Kubespray multi-version support: decisions/ADR-0026-kubespray-multi-version-support.md
-          - ADR-0027 Ingress portfolio & deprecation: decisions/ADR-0027-ingress-controller-portfolio-and-deprecation-policy.md
-          - ADR-0030 No service mesh initially: decisions/ADR-0030-no-service-mesh-initially.md
-      - Components:
-          - Kubespray: kubespray/kubespray-deployment.md
-          - Kubernetes control plane: kubernetes/control-plane/index.md
-      - Network:
-          - Port requirements: network-matrix/port-requirements.md
-          - Firewall rules generation: network-matrix/firewall-rules-generation.md
-          - Cloud-Native DMZ: network-matrix/cloud-native-dmz.md
-          - External load balancer: network-matrix/external-load-balancer.md
-          - Traffic flow matrix: network-matrix/traffic-flow-matrix.md
-          - Network communication matrix: network-matrix/network-communication-matrix.md
-      - Security:
-          - Host baseline: security/host-baseline.md
-          - Pod Security Standards: security/pod-security-standards.md
-          - Kubewarden: security/kubewarden.md
-  - Knowledge:
-      - Concepts:
-          - Deployment topology: architecture/02-deployment-topology.md
-      - Troubleshooting:
-          - Runbooks & checklists: troubleshooting/runbooks-and-checklists.md
-          - Common errors index: troubleshooting/README.md
-          - etcd: troubleshooting/etcd.md
-          - Ceph: troubleshooting/ceph.md
-          - CNI: troubleshooting/cni.md
-          - CSI: troubleshooting/csi.md
-          - Vault: troubleshooting/vault.md
-          - Argo CD: troubleshooting/argocd.md
-          - Registry auth: troubleshooting/registry-auth.md
-          - GPU: troubleshooting/gpu.md
-          - Prometheus: troubleshooting/prometheus.md
-          - TLS: troubleshooting/tls.md
-          - DNS: troubleshooting/dns.md
-          - Network: troubleshooting/network.md
-          - Upgrades: troubleshooting/upgrades.md
-      - Contribution:
-          - Contributing: CONTRIBUTING.md
-          - Documentation standards: en/documentation-standards.md
-  - Operations:
-      - Backup & DR: lifecycle/backup/backup-and-dr.md
-      - Disaster Recovery:
-          - Index: lifecycle/disaster-recovery/index.md
-          - Etcd backup & restore: lifecycle/disaster-recovery/etcd-backup-restore.md
-          - Etcd backup automation: lifecycle/disaster-recovery/etcd-backup-automation.md
-          - Backup drill evidence: lifecycle/disaster-recovery/backup-drill-evidence.md
-          - DR exercises: lifecycle/disaster-recovery/dr-exercises.md
-          - RPO/RTO measurement: lifecycle/disaster-recovery/rpo-rto-measurement.md
-          - Full site rebuild: lifecycle/disaster-recovery/full-site-rebuild.md
-          - Ceph recovery scenarios: lifecycle/disaster-recovery/ceph-recovery-scenarios.md
-      - Upgrades:
-          - Upgrade procedures: lifecycle/upgrades/upgrade-procedures.md
-          - Kubernetes upgrade: lifecycle/upgrades/kubernetes.md
-          - Kubespray upgrade: lifecycle/upgrades/kubespray.md
+  - 01 · Overview:
+      - 1.1 Project Introduction & Goals: 01-overview-and-architecture/1.1-project-introduction-and-goals.md
+      - 1.2 Reference Architectures: 01-overview-and-architecture/1.2-reference-architectures.md
+      - 1.3 Infrastructure Sizing & Resource Calculation: 01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md
+  - 02 · Components:
+      - 2.1 Operating Systems: 02-components/2.1-operating-systems.md
+      - 2.2 Physical vs Virtual Machines: 02-components/2.2-physical-vs-vm.md
+      - 2.3 Physical Infrastructure Preparation: 02-components/2.3-physical-infra-prep.md
+      - 2.4 Virtualization Platform Preparation: 02-components/2.4-virtualization-prep.md
+      - 2.5 OS Preparation by Role: 02-components/2.5-os-prep-by-role.md
+      - 2.6 Operation & Management Servers: 02-components/2.6-operation-mgmt-servers.md
+      - 2.7 Kubernetes Nodes: 02-components/2.7-kubernetes-nodes.md
+      - 2.8 Ceph & Storage Nodes: 02-components/2.8-ceph-storage-nodes.md
+      - 2.9 Load Balancer Nodes: 02-components/2.9-lb-nodes.md
+      - 2.10 Repository & Registry Manager Servers: 02-components/2.10-repo-registry-servers.md
+      - 2.11 GitLab Server: 02-components/2.11-gitlab-server.md
+      - 2.12 Other Infrastructure Components: 02-components/2.12-other-infra.md
+  - 03 · Repository & Registry Management:
+      - 3.1 Architecture: 03-repository-registry/3.1-architecture.md
+      - 3.2 Platform Selection: 03-repository-registry/3.2-platform-selection.md
+      - 3.3 Installation & Configuration: 03-repository-registry/3.3-installation-config.md
+      - 3.4 Repository & Registry Catalog: 03-repository-registry/3.4-repository-catalog.md
+      - 3.5 Reverse Proxy Architecture: 03-repository-registry/3.5-reverse-proxy.md
+      - 3.6 Client Configuration: 03-repository-registry/3.6-client-config.md
+      - 3.7 Validation & Operations: 03-repository-registry/3.7-validation-operations.md
+  - 04 · Operation Servers & GitLab:
+      - 4.1 Operation Server Architecture: 04-operation-servers/4.1-operation-server-architecture.md
+      - 4.2 Required Tools: 04-operation-servers/4.2-required-tools.md
+      - 4.3 Centralized Network Access Matrix: 04-operation-servers/4.3-centralized-network-access-matrix.md
+      - 4.4 Operational Workflows: 04-operation-servers/4.4-operational-workflows.md
+      - 4.5 GitLab: 04-operation-servers/4.5-gitlab.md
+  - 05 · Load Balancers:
+      - 5.1 Architecture: 05-load-balancers/5.1-architecture.md
+      - 5.2 Management Cluster Load Balancers: 05-load-balancers/5.2-mgmt-cluster-lbs.md
+      - 5.3 Application Cluster Load Balancers: 05-load-balancers/5.3-app-cluster-lbs.md
+      - 5.4 Deployment Methods: 05-load-balancers/5.4-deployment-methods.md
+      - 5.5 Configuration & Operations: 05-load-balancers/5.5-configuration-operations.md
+  - 06 · Kubernetes:
+      - 6.1 Architecture: 06-kubernetes-infrastructure/6.1-kubernetes-architecture.md
+      - 6.3 Deployment Methods: 06-kubernetes-infrastructure/6.3-deployment-methods.md
+      - 6.4 Management Cluster Deployment: 06-kubernetes-infrastructure/6.4-mgmt-cluster-deployment.md
+      - 6.5 Application Cluster Deployment: 06-kubernetes-infrastructure/6.5-app-cluster-deployment.md
+      - 6.6 Additional Application Clusters: 06-kubernetes-infrastructure/6.6-additional-clusters.md
+      - 6.7 Kubernetes Management Platform: 06-kubernetes-infrastructure/6.7-kubernetes-management-platform.md
+      - 6.8 Cluster Storage Integration: 06-kubernetes-infrastructure/6.8-cluster-storage-integration.md
+      - 6.9 Kubernetes Networking: 06-kubernetes-infrastructure/6.9-kubernetes-networking.md
+      - 6.10 CSI and Storage Integration: 06-kubernetes-infrastructure/6.10-csi-and-storage-integration.md
+      - 6.11 Kubernetes Add-ons: 06-kubernetes-infrastructure/6.11-kubernetes-add-ons.md
+      - 6.12 GitOps & Application Delivery: 06-kubernetes-infrastructure/6.12-gitops-and-application-delivery.md
+      - 6.13 Monitoring & Logging: 06-kubernetes-infrastructure/6.13-monitoring-and-logging.md
+      - 6.14 Alert Management: 06-kubernetes-infrastructure/6.14-alert-management.md
+      - 6.15 Deployment Governance & Auditing: 06-kubernetes-infrastructure/6.15-deployment-governance-and-auditing.md
+      - 6.16 Security & Identity: 06-kubernetes-infrastructure/6.16-security-and-identity.md
+      - 6.17 Validation & Acceptance Testing: 06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing.md
+  - 07 · SDS:
+      - 7.1 Architecture: 07-software-defined-storage/7.1-architecture.md
+      - 7.2 Best Practices: 07-software-defined-storage/7.2-best-practices.md
+      - 7.3 Storage Platform Selection: 07-software-defined-storage/7.3-storage-platform-selection.md
+      - 7.4 Independent Ceph Deployment: 07-software-defined-storage/7.4-independent-ceph.md
+      - 7.5 Other SDS Solutions: 07-software-defined-storage/7.5-other-sds-solutions.md
+      - 7.6 Monitoring & Logging: 07-software-defined-storage/7.6-monitoring-and-logging.md
+      - 7.7 Maintenance & Data Protection: 07-software-defined-storage/7.7-maintenance-and-data-protection.md
+  - 08 · Troubleshooting & Diagnostics:
+      - Index: 08-troubleshooting-and-diagnostics/index.md
+      - Operating Systems: 08-troubleshooting-and-diagnostics/08-operating-systems.md
+      - DNS & NTP: 08-troubleshooting-and-diagnostics/08-dns-and-ntp.md
+      - Network & Firewall: 08-troubleshooting-and-diagnostics/08-network-and-firewall.md
+      - Load Balancers: 08-troubleshooting-and-diagnostics/08-load-balancers.md
+      - Kubernetes: 08-troubleshooting-and-diagnostics/08-kubernetes.md
+      - CNI: 08-troubleshooting-and-diagnostics/08-cni.md
+      - CSI: 08-troubleshooting-and-diagnostics/08-csi.md
+      - Rancher: 08-troubleshooting-and-diagnostics/08-rancher.md
+      - Argo CD: 08-troubleshooting-and-diagnostics/08-argocd.md
+      - Ceph: 08-troubleshooting-and-diagnostics/08-ceph.md
+      - Rook-Ceph: 08-troubleshooting-and-diagnostics/08-rook-ceph.md
+      - Longhorn: 08-troubleshooting-and-diagnostics/08-longhorn.md
+      - Repositories & Registries: 08-troubleshooting-and-diagnostics/08-repositories-and-registries.md
+      - GitLab: 08-troubleshooting-and-diagnostics/08-gitlab.md
+      - Monitoring & Logging: 08-troubleshooting-and-diagnostics/08-monitoring-and-logging.md
+      - Authentication & AD: 08-troubleshooting-and-diagnostics/08-authentication-and-ad.md
+      - Certificates & TLS: 08-troubleshooting-and-diagnostics/08-certificates-and-tls.md
+      - Performance: 08-troubleshooting-and-diagnostics/08-performance.md
+      - HA & Failover: 08-troubleshooting-and-diagnostics/08-ha-and-failover.md
+  - 09 · Scaling & Expansion:
+      - 09 · Adding Physical Servers & VMs: 09-scaling-and-expansion/09-adding-physical-vm.md
+      - 09 · Expanding Kubernetes Clusters: 09-scaling-and-expansion/09-expanding-k8s-clusters.md
+      - 09 · Adding Application Clusters: 09-scaling-and-expansion/09-adding-app-clusters.md
+      - 09 · Expanding Worker & GPU Pools: 09-scaling-and-expansion/09-expanding-worker-gpu-pools.md
+      - 09 · Expanding Ceph & Storage: 09-scaling-and-expansion/09-expanding-ceph-storage.md
+      - 09 · Expanding Repo, Monitoring, LB: 09-scaling-and-expansion/09-expanding-repo-monitoring-lb.md
+      - 09 · Network & IP Pool Expansion: 09-scaling-and-expansion/09-network-ip-pool-expansion.md
+      - 09 · Capacity Planning & Risk: 09-scaling-and-expansion/09-capacity-planning-risk.md
+  - 10 · Upgrade & Lifecycle Management:
+      - 10 · OS, Firmware, Hypervisor: 10-upgrade-and-lifecycle-management/10-01-os-firmware-hypervisor.md
+      - 10 · Kubernetes & Kubespray: 10-upgrade-and-lifecycle-management/10-02-kubernetes-kubespray.md
+      - 10 · CNI, CSI, Add-ons, Argo CD: 10-upgrade-and-lifecycle-management/10-03-cni-csi-addons-argocd.md
+      - 10 · Ceph, Rook-Ceph, Storage Appliances: 10-upgrade-and-lifecycle-management/10-04-ceph-rook-storage-appliances.md
+      - 10 · Load Balancer, GitLab, Nexus, Harbor: 10-upgrade-and-lifecycle-management/10-05-lb-gitlab-nexus-harbor.md
+      - 10 · Monitoring Components: 10-upgrade-and-lifecycle-management/10-06-monitoring-components.md
+      - 10 · Compatibility, Order, Backup, Rollback: 10-upgrade-and-lifecycle-management/10-07-compat-order-backup-rollback.md
+      - 10 · Air-Gapped Upgrade: 10-upgrade-and-lifecycle-management/10-08-air-gapped-upgrade.md
+  - 11 · Maintenance & Operations:
+      - 11 · Daily, Weekly, Monthly Operations: 11-maintenance-and-operations/11-daily-weekly-monthly.md
+      - 11 · Quarterly Capacity Review: 11-maintenance-and-operations/11-quarterly-capacity-review.md
+      - 11 · Security Patching & Certificate Renewal: 11-maintenance-and-operations/11-security-patching-cert-renewal.md
+      - 11 · Backup Verification & Recovery Testing: 11-maintenance-and-operations/11-backup-verification-recovery-test.md
+      - 11 · Storage & Cluster Health: 11-maintenance-and-operations/11-storage-cluster-health.md
+      - 11 · Monitoring Review & Vulnerability Management: 11-maintenance-and-operations/11-monitoring-review-vuln-mgmt.md
+      - 11 · Repo Sync, Log Retention, Config Drift: 11-maintenance-and-operations/11-repo-sync-log-retention-drift.md
+      - 11 · Hardware Maintenance, Node Replacement, DR Exercise: 11-maintenance-and-operations/11-hardware-node-replacement-dr-exercise.md
+  - Shared:
+      - Network Matrix: shared/network-matrix/index.md
+      - Version & Compatibility Matrix: shared/matrices/version-matrix/index.md
+      - ADRs: shared/decision-records/index.md
+      - Templates: shared/templates/index.md
+      - Diagrams: shared/diagrams/index.md
   - Contributing & Project:
       - Contributing: CONTRIBUTING.md
       - Project plan: PLAN-future.md

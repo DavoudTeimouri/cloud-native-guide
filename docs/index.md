@@ -1,45 +1,43 @@
 # Cloud-Native Guide
 
-Step-by-step deployment and operations guide for on-premises, air-gapped, production-oriented cloud-native infrastructure.
+Production-oriented deployment and operations guide for on-premises, air-gapped cloud-native infrastructure. Follow the numbered sections in order — each section lists purpose, prerequisites, implementation, validation, and cross-references.
 
 ## The 5-second test
 
-**What**: A pinned, ordered playbook for deploying and operating a cloud-native stack on premises or air-gapped — Kubernetes via Kubespray, Ceph storage, F5/NGINX Gateway ingress, Rancher/Argo CD management, Vault/Keycloak identity and secrets, Velero backup.
+**What**: A pinned, ordered playbook for designing, deploying, operating, troubleshooting, scaling, upgrading, and maintaining a cloud-native stack on premises or air-gapped — Kubernetes via Kubespray, Ceph storage, F5/NGINX Gateway ingress, Rancher/Argo CD management, Vault/Keycloak identity and secrets, Velero backup.
 
 **Why**: Production on-prem stacks fail at the edges — day-2 restore, upgrades, ingress retirement, Helm EOL. This guide pins versions, orders the work, and validates each phase before the next starts.
 
-**How**: Follow the 3-layer journey below. Do not start step N+1 until step N validation passes.
+**How**: Work through sections 01–11 in order. Do not start section N+1 until section N validation passes. All versions are pinned from the [shared version & compatibility matrix](shared/matrices/version-matrix/index.md).
 
-## The 3-layer journey
+## Numbered sections
 
-| Layer | What it covers | Start here |
-|-------|----------------|------------|
-| **Home** | Orientation: what this guide is, where each domain lives, source of truth | This page |
-| **Journey 00–12** | Ordered build-and-operate flow: architecture → offline artifacts → OS baseline → cluster → traffic edge → platform services → validation → day-2 operations → upgrades, retirement, decommission | [Journey 00 — Overview & architecture →](en/cloud-native-stack-step-by-step.md#step-00) |
-| **Reference & Operations** | Architecture, version matrix, ADRs, components, network, security; concepts, troubleshooting, contribution; backup/DR, upgrades | Sidebar sections **Reference**, **Knowledge**, **Operations** |
+| Section | What it covers | Start here |
+|---|---|---|
+| **[01 · Overview](01-overview-and-architecture/index.md)** | Orientation: architecture, sizing, network matrix, air-gapped models, repositories/registries, components, technologies, standards, design principles | [01-overview-and-architecture/index.md](01-overview-and-architecture/index.md) |
+| **[02 · Components](02-components/index.md)** | Component preparation: operating systems, physical/virtual, hardware/virtualization, OS by role, operation servers, K8s nodes, Ceph/storage nodes, LB nodes, repo/registry servers, GitLab, other infra | [02-components/index.md](02-components/index.md) |
+| **[03 · Repository & Registry Management](03-repository-registry/index.md)** | Upstream/downstream software distribution, platform selection, install, catalog, reverse proxy, client config, validation | [03-repository-registry/index.md](03-repository-registry/index.md) |
+| **[04 · Operation Servers & GitLab](04-operation-servers/index.md)** | Mgmt/automation servers, tools, network access matrix, operational workflows, GitLab CI/CD | [04-operation-servers/index.md](04-operation-servers/index.md) |
+| **[05 · Load Balancers](05-load-balancers/index.md)** | HA load balancing, mgmt + app cluster LBs, native/container deploy, config & operations | [05-load-balancers/index.md](05-load-balancers/index.md) |
+| **[06 · Kubernetes](06-kubernetes-infrastructure/index.md)** | Architecture, best practices, Kubespray deploy, mgmt + app clusters, Rancher, Argo CD GitOps, CNI/CSI/networking, add-ons, observability, policies, alerts | [06-kubernetes-infrastructure/index.md](06-kubernetes-infrastructure/index.md) |
+| **[07 · SDS](07-software-defined-storage/index.md)** | Storage architecture, platform selection, independent Ceph, Rook-Ceph, storage appliances, monitoring | [07-software-defined-storage/index.md](07-software-defined-storage/index.md) |
+| **[08 · Troubleshooting](08-troubleshooting-and-diagnostics/index.md)** | Symptom-driven runbooks by component and failure category | [08-troubleshooting-and-diagnostics/index.md](08-troubleshooting-and-diagnostics/index.md) |
+| **[09 · Scaling & Expansion](09-scaling-and-expansion/index.md)** | Controlled infrastructure growth: servers, VMs, K8s clusters, worker pools, Ceph, storage, repo, monitoring, LB | [09-scaling-and-expansion/index.md](09-scaling-and-expansion/index.md) |
+| **[10 · Upgrade](10-upgrade-and-lifecycle-management/index.md)** | Controlled upgrades for every component: OS, firmware, hypervisor, K8s, Kubespray, Rancher, CNI, CSI, add-ons, Ceph, LB, GitLab, Nexus, Harbor, monitoring | [10-upgrade-and-lifecycle-management/index.md](10-upgrade-and-lifecycle-management/index.md) |
+| **[11 · Maintenance](11-maintenance-and-operations/index.md)** | Daily/weekly/monthly ops, quarterly reviews, patching, cert renewal, backup verification, recovery testing, drift, node replacement, DR exercises | [11-maintenance-and-operations/index.md](11-maintenance-and-operations/index.md) |
 
-## Journey 00–12
+## Shared catalogs (referenced by all sections)
 
-The journey is a single ordered flow. Every step lists purpose, prerequisites, actions, and validation. All versions are pinned from `compatibility/version-matrix.md`.
-
-1. [Step 00 — Overview & architecture](en/cloud-native-stack-step-by-step.md#step-00)
-2. [Step 01 — Offline artifact infrastructure](en/cloud-native-stack-step-by-step.md#step-01)
-3. [Step 02 — Foundational infrastructure](en/cloud-native-stack-step-by-step.md#step-02)
-4. [Step 03 — OS baseline](en/cloud-native-stack-step-by-step.md#step-03)
-5. [Step 04 — Container engine and offline images](en/cloud-native-stack-step-by-step.md#step-04)
-6. [Step 05 — Storage — Ceph](en/cloud-native-stack-step-by-step.md#step-05)
-7. [Step 06 — Kubernetes via Kubespray v2.32.0](en/cloud-native-stack-step-by-step.md#step-06)
-8. [Step 07 — Management cluster](en/cloud-native-stack-step-by-step.md#step-07)
-9. [Step 08 — Traffic edge (LB and ingress)](en/cloud-native-stack-step-by-step.md#step-08)
-10. [Step 09 — Platform services and add-ons](en/cloud-native-stack-step-by-step.md#step-09)
-11. [Step 10 — Validation, backup, upgrade, disaster recovery](en/cloud-native-stack-step-by-step.md#step-10)
-12. [Step 11 — Day-2 Operations](journey/step-11-day-2-operations.md)
-13. [Step 12 — Upgrades, Retirement & Decommission](journey/step-12-upgrades-retirement.md)
+- [Shared network matrix](shared/network-matrix/index.md) — authoritative communication matrix and port requirements
+- [Shared version & compatibility matrix](shared/matrices/version-matrix/index.md) — pinned versions with source URLs and check dates
+- [Shared ADRs](shared/decision-records/index.md) — architecture decisions
+- [Shared templates](shared/templates/index.md) — reusable deployment, validation, troubleshooting, upgrade, maintenance templates
+- [Shared diagrams](shared/diagrams/index.md) — Mermaid architecture diagrams
 
 ## Key references
 
-- **Version & Compatibility Matrix**: [compatibility/version-matrix.md](compatibility/version-matrix.md) — every pinned version with source URL and check date.
-- **Architecture Decisions (ADR)**: [decisions/ADR-0001 … ADR-0031](decisions/ADR-0001-oracle-linux-and-ubuntu-server-standardization.md) — control-plane topology, CNI, ingress, storage, secrets, Kubespray multi-release, external load balancer.
+- **Version & Compatibility Matrix**: `shared/matrices/version-matrix/index.md` — every pinned version with source URL and check date.
+- **Architecture Decisions (ADR)**: `decisions/ADR-0001 … ADR-0031` — control-plane topology, CNI, ingress, storage, secrets, Kubespray multi-release, external load balancer.
 
 ## Source of truth
 
