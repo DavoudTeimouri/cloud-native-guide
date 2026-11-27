@@ -493,12 +493,12 @@ crictl pull harbor.internal/oci/pause:3.9
 
 ## مراجع
 
-- [معماری دو cấp مخزن و د瑞ج (طراحی)](../../architecture/two-tier-repository-registry.md)
+- [معماری دو cấp مخزن و د瑞ج (طراحی)](../architecture/two-tier-repository-registry.md)
 - [پیش‌نیازهای سیستم عامل](os-prerequisites.md)
 - [پیکربندی مخزن](repository-configuration.md)
 - [تهیه هسته و شبکه](kernel-networking-preparation.md)
 - [پیش‌نیازهای Containerd](containerd-prerequisites.md)
-- [ماتریس نسخه و سازگاری](../../compatibility/version-matrix.md)
+- [ماتریس نسخه و سازگاری](../compatibility/version-matrix.md)
 
 ---
 

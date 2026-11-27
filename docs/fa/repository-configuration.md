@@ -101,7 +101,7 @@ curl -f https://nexus.internal/repository/ubuntu-main/
 ## منابع
 
 - [راهنمای آماده‌سازی سیستم‌عامل](os-preparation.md)
-- [ماتریس خانواده RHEL](../../operating-systems/rhel-family-matrix.md)
-- [ماتریس خانواده دبیان](../../operating-systems/debian-family-matrix.md)
+- [ماتریس خانواده RHEL](../operating-systems/host-configuration.md)
+- [ماتریس خانواده دبیان](../operating-systems/host-configuration.md)
 
 ---\n*وضعیت: پیش‌نویس | مالک: تیم پلتفرم | آخرین بازبینی: 2026-11-25*

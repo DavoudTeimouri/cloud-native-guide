@@ -186,9 +186,9 @@ Source of truth: <URL مستندات رسمی + تاریخ بررسی>
 
 ## Cross-Referenceها
 
-- لینک ADRها: `[ADR-0017](../../decisions/ADR-0017-pki-and-certificate-ownership.md)`
-- لینک ماتریس نسخه: `[Version Matrix](../../compatibility/version-matrix.md)`
-- لینک استانداردهای پلتفرم: `[Platform Standards](../../requirements/platform-standards.md)`
+- لینک ADRها: `[ADR-0017](../decisions/ADR-0017-pki-and-certificate-ownership.md)`
+- لینک ماتریس نسخه: `[Version Matrix](../compatibility/version-matrix.md)`
+- لینک استانداردهای پلتفرم: `[Platform Standards](../requirements/platform-standards.md)`
 
 ## اعتبارسنجی
 

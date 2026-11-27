@@ -1,0 +1,6626 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Step-by-step deployment and operations guide for on-premises, air-gapped, production-oriented cloud-native infrastructure.">
+      
+      
+      
+        <link rel="canonical" href="https://davoudteimouri.github.io/cloud-native-guide/en/two-tier-repository-registry/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Two-Tier Repository & Registry Architecture - Cloud-Native Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#two-tier-repository-registry-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cloud-Native Guide" class="md-header__button md-logo" aria-label="Cloud-Native Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud-Native Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Two-Tier Repository &amp; Registry Architecture
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DavoudTeimouri/cloud-native-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DavoudTeimouri/cloud-native-guide
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cloud-Native Guide" class="md-nav__button md-logo" aria-label="Cloud-Native Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud-Native Guide
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DavoudTeimouri/cloud-native-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DavoudTeimouri/cloud-native-guide
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/01-logical-diagram/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logical Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/02-deployment-topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Topology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/03-failure-domains/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Domains
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes & Kubespray
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Kubernetes & Kubespray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubespray/kubespray-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubespray Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubespray/multi-version-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Version Support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubespray/group-vars-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group Vars Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/control-plane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Plane
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/networking/cilium/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/ingress/nginx-ingress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/security/security-controls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/node-resource-reservation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Node Resource Reservation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/multiple-clusters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Clusters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/windows-workers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Workers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/access/end-user-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-User Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/ingress/multi-controller-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Controller Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/networking/coredns-forwarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CoreDNS Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/networking/metallb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MetalLB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rancher & Cluster Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rancher & Cluster Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/rancher/rancher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rancher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/argocd/argocd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Argo CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/keycloak/keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keycloak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/platform-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ceph & Rook-Ceph
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ceph & Rook-Ceph
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/ceph/cephadm-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cephadm Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/rook-ceph/rook-ceph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rook-Ceph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/alternatives/storage-alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline & Air-Gapped
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Offline & Air-Gapped
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../offline-artifacts/offline-artifact-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline Artifact Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../offline-artifacts/artifact-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Artifact Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Secrets Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Secrets Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/vault/vault-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/vault/hashicorp-vault-decision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault Decision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/pki/root-ca-rotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PKI Root CA Rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/pki/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PKI Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/kubernetes-integration/secret-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Secret Delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/recovery/restore/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/host-baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Host Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring & Observability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoring & Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitoring/prometheus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prometheus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logging/log-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup, Disaster Recovery & Continuity
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backup, Disaster Recovery & Continuity
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lifecycle/disaster-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disaster Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lifecycle/backup/backup-and-dr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup and DR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lifecycle/upgrades/upgrade-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrade Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation, Testing & Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Automation, Testing & Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/ansible/ansible-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/gitlab-ci/gitlab-ansible-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitLab CI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/gitlab-ci/pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/awx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/requirements-and-assumptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/acceptance-criteria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/component-guide-backlog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Guide Backlog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/component-guide-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Guide Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/performance-and-capacity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance and Capacity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/platform-standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Standards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/validation-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/technology-selection-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technology Selection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/implementation-roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/etcd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    etcd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/ceph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ceph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/cni/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CNI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/csi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/vault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/argocd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Argo CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/registry-auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registry Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU & AI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GPU & AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/gpu-ai-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU AI Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/drivers/compatibility-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Driver Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/sharing/mig-and-time-slicing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MIG & Time-Slicing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/gpu-workers/gpu-worker-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU Worker Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/scheduling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/inference/llm-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM Serving
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Identity
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../identity/directory-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Directory Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Version & Compatibility
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compatibility/version-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisions (ADR)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Decisions (ADR)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0001-oracle-linux-and-ubuntu-server-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0002-kubernetes-control-plane-topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0002
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0003-etcd-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0003
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0004-load-balancing-for-control-plane-and-ingress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0004
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0005-container-runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0005
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0006-cni-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0006
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0007-ingress-controller-and-gateway-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0007
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0008-ceph-deployment-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0008
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0009-service-mesh-adoption/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0009
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0010-management-cluster-design-and-what-runs-inside-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0010
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0011-rancher-versus-alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0011
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0012-ansible-gui-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0012
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0013-gitlab-runner-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0013
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0014-gitops-strategy-and-division-of-labour-with-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0014
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0015-identity-integration-layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0015
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0016-vault-deployment-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0016
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0017-pki-and-certificate-ownership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0017
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0018-monitoring-platform-and-long-term-metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0018
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0019-centralized-logging-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0020-security-policy-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0020
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0021-gpu-worker-architecture-and-isolation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0021
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0022-gpu-sharing-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0023-llm-inference-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0024-offline-repository-and-registry-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0025-vault-recovery-and-avoidance-of-circular-dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0026-kubespray-multi-version-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0027-ingress-controller-portfolio-and-deprecation-policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0027
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0028-external-load-balancer-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0028
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0029-cephadm-dedicated-storage-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0029
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0030-no-service-mesh-initially/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0030
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0031-identity-integration-with-ldap-ad-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0031
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Matrix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Network Matrix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/network-communication-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Communication Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/firewall-rules-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Rules Generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/external-load-balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Load Balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/port-requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Port Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/cloud-native-dmz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud-Native DMZ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operating Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/host-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Host Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/oracle-linux/baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oracle Linux Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/ubuntu/baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service Mesh
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Service Mesh
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../service-mesh/evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../service-mesh/istio/istio-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Istio Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Addons
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Addons
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../addons/platform-addons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Addons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tests & Acceptance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tests & Acceptance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/acceptance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" >
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing & Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing & Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PLAN-future/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../USER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MEMORY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-purpose-and-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Purpose and Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Purpose and Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trust-boundaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust Boundaries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment Location
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-supported-versions-and-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Supported Versions and Compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#infrastructure-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infrastructure Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#software-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Software Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-network-and-dns-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Network and DNS Conventions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Network and DNS Conventions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#endpoint-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Endpoint URLs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-records-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS Records Required
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-segments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Segments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-firewall-and-connectivity-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Firewall and Connectivity Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Firewall and Connectivity Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required Ports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#firewall-rules-nftables-example-rhel-family" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Firewall Rules (nftables example, RHEL family)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connectivity-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connectivity Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-step-by-step-setup-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Step-by-Step Setup Procedures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Step-by-Step Setup Procedures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-install-nexus-repository-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Install Nexus Repository Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-install-harbor-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Install Harbor Registry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-configure-upstream-remotes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Configure Upstream Remotes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-authentication-and-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Authentication and Authorization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Authentication and Authorization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sso-integration-keycloak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSO Integration (Keycloak)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rbac-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RBAC Policies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service Accounts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-tls-and-certificate-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. TLS and Certificate Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. TLS and Certificate Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#certificate-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Certificate Sources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nexus-tls-via-cert-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nexus TLS via Cert-manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#harbor-tls-via-cert-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harbor TLS via Cert-manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#self-signed-certificate-air-gapoffline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-Signed Certificate (Air-Gap/Offline)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-proxy-and-hosted-repository-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Proxy and Hosted Repository Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Proxy and Hosted Repository Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nexus-proxy-repository-proxy-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nexus Proxy Repository (Proxy + Cache)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#harbor-registry-proxy-remote" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harbor Registry Proxy Remote
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hosted-repository-for-internal-uploads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hosted Repository (for internal uploads)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-teamproject-onboarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Team/Project Onboarding
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Team/Project Onboarding">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-team-provisioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Team Provisioning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#developer-workstation-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Developer Workstation Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project-repository-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Project Repository Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-artifact-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Artifact Synchronization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Artifact Synchronization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pull-synchronization-scheduled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pull Synchronization (Scheduled)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#push-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Push Synchronization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronization-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronization Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-backup-and-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Backup and Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Backup and Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backup-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup Procedures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore Procedures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rtorpo-targets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RTO/RPO Targets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-ha-and-failure-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. HA and Failure Recovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. HA and Failure Recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nexus-ha-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nexus HA Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#harbor-ha-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harbor HA Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-recovery-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Recovery Procedures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-validation-commands-and-expected-outputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Validation Commands and Expected Outputs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="14. Validation Commands and Expected Outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nexus-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nexus Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#harbor-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harbor Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#expected-output-samples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expected Output Samples
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failure-condition-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failure Condition Detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-common-errors-and-troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Common Errors and Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15. Common Errors and Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#proxy-connection-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proxy Connection Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlscertificate-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLS/Certificate Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repositoryregistry-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository/Registry Errors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="two-tier-repository-registry-architecture">Two-Tier Repository &amp; Registry Architecture<a class="headerlink" href="#two-tier-repository-registry-architecture" title="Permanent link">&para;</a></h1>
+<p>Status: DRAFT
+Owner: Platform Team
+Last reviewed: 2026-11-25
+Applies to version: 1.0
+Source of truth: Nexus Repository Manager docs + Harbor docs + checked 2026-11-25</p>
+<h2 id="1-purpose-and-architecture">1. Purpose and Architecture<a class="headerlink" href="#1-purpose-and-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h3>
+<p>This document describes the two-tier repository and registry architecture for the Cloud-Native Stack implementation. The architecture separates <strong>package repositories</strong> (for OS-level and language-level binary artifacts) from <strong>container image registries</strong> (for container images and Helm charts), providing distinct trust boundaries, scaling characteristics, and operational models.</p>
+<p>The two-tier design consists of:
+- <strong>Tier 1 (Local/Proxied)</strong>: Primary repositories/registries that serve as the authoritative source for artifacts. These are deployed in the management cluster with high availability.
+- <strong>Tier 2 (Remote/Upstream)</strong>: External public repositories and registries (e.g., Docker Hub, Maven Central, PyPI, GitHub Packages) that are mirrored or proxied through Tier 1.</p>
+<p>This separation enables:
+- Offline operation via cached artifacts
+- Fine-grained access control per artifact type
+- Bandwidth optimization through selective mirroring
+- Trust boundary isolation (public vs. internal artifacts)</p>
+<h3 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>graph TD
+    subgraph Tier 1 - Local
+        direction LR
+        L1[Local Nexus Repository&lt;br/&gt;(yum/apt/maven/nuget)]
+        L2[Local Harbor Registry&lt;br/&gt;(Docker/OCI images)]
+    end
+
+    subgraph Tier 2 - Remote
+        direction LR
+        R1[Docker Hub&lt;br/&gt;upstream]
+        R2[Maven Central&lt;br/&gt;upstream]
+        R3[PyPI&lt;br/&gt;upstream]
+        R4[GitHub Packages&lt;br/&gt;upstream]
+    end
+
+    subgraph Consumers
+        direction LR
+        C1[Kubernetes Nodes]
+        C2[Developer Workstations]
+        C3[CI/CD Pipelines]
+        C4[Internal Services]
+    end
+
+    C1 --&gt;|pull| L1
+    C2 --&gt;|pull| L1
+    C3 --&gt;|pull| L1
+    C4 --&gt;|pull| L1
+    C1 --&gt;|pull| L2
+    C2 --&gt;|pull| L2
+    C3 --&gt;|pull| L2
+    C4 --&gt;|pull| L2
+
+    L1 --&gt;|proxy/proxy+cache| R1
+    L1 --&gt;|proxy/proxy+cache| R2
+    L1 --&gt;|proxy/proxy+cache| R3
+    L2 --&gt;|proxy/proxy+cache| R4
+
+    style Tier 1 fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    style Tier 2 fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    style Consumers fill:#fff3e0,stroke:#fb8c00,stroke-width:2px
+</code></pre></div>
+<h3 id="trust-boundaries">Trust Boundaries<a class="headerlink" href="#trust-boundaries" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Boundary</th>
+<th>Direction</th>
+<th>Artifacts</th>
+<th>Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Public → Local</strong></td>
+<td>Inbound</td>
+<td>Public upstream artifacts</td>
+<td>Rate limiting, GPG verification</td>
+</tr>
+<tr>
+<td><strong>Local → Public</strong></td>
+<td>Outbound</td>
+<td>Proxy requests to upstream</td>
+<td>Proxy authentication, bandwidth caps</td>
+</tr>
+<tr>
+<td><strong>Internal → Local</strong></td>
+<td>North-South</td>
+<td>Internal/custom artifacts</td>
+<td>RBAC, SSO integration</td>
+</tr>
+<tr>
+<td><strong>Cluster → Cluster</strong></td>
+<td>East-West</td>
+<td>HA sync between replica pairs</td>
+<td>encrypted replication, quorum</td>
+</tr>
+</tbody>
+</table>
+<h3 id="deployment-location">Deployment Location<a class="headerlink" href="#deployment-location" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Tier 1 repositories</strong> (Nexus): Deployed on the <code>repository</code> role in the management cluster</li>
+<li><strong>Tier 2 registries</strong> (Harbor): Deployed on the <code>infra</code> role in the management cluster</li>
+<li>Both tiers run as highly available StatefulSets with PVC-backed storage</li>
+</ul>
+<h2 id="2-supported-versions-and-compatibility">2. Supported Versions and Compatibility<a class="headerlink" href="#2-supported-versions-and-compatibility" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Requirement</th>
+<th>Verified</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OS</td>
+<td>Ubuntu 24.04 LTS / Oracle Linux 9</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>2+ cores per tier component</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>4 GB minimum per component</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>100 GB minimum per component, SSD recommended</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>IPv4+, TLS 1.2+ capable</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>Docker/OCI</td>
+<td>Image format v2.2 compatible</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>Package managers</td>
+<td>DNF 4+, APT 2.6+, Maven 3.6+</td>
+<td>UNVERIFIED</td>
+</tr>
+<tr>
+<td>TLS</td>
+<td>Cert-manager managed, CA signed</td>
+<td>UNVERIFIED</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong>: Anything not verified is marked <strong>UNVERIFIED</strong> with the verification procedure in Section 14.</p>
+</blockquote>
+<h2 id="3-prerequisites">3. Prerequisites<a class="headerlink" href="#3-prerequisites" title="Permanent link">&para;</a></h2>
+<h3 id="infrastructure-dependencies">Infrastructure Dependencies<a class="headerlink" href="#infrastructure-dependencies" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Management cluster with 3 control-plane nodes minimum</li>
+<li>PersistentVolumeClaim storage &gt;= 100 GB per Nexus/Haror component</li>
+<li>Static IP addresses or DNS names for both tiers</li>
+<li>Load balancer (internal) fronting both Tier 1 components</li>
+</ul>
+<h3 id="software-dependencies">Software Dependencies<a class="headerlink" href="#software-dependencies" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Nexus Repository Manager 3.55+ (or latest stable)</li>
+<li>Harbor Registry v2.110+ (or latest stable)</li>
+<li>Containers runtime with docker/OCI support</li>
+<li><code>kubectl</code> configured to management cluster</li>
+<li><code>jq</code> for JSON parsing in validation commands</li>
+</ul>
+<h3 id="configuration-prerequisites">Configuration Prerequisites<a class="headerlink" href="#configuration-prerequisites" title="Permanent link">&para;</a></h3>
+<ul>
+<li>DNS entries configured (see Section 4)</li>
+<li>TLS certificates provisioned (see Section 8)</li>
+<li>SSO/IdP integration ready (see Section 7)</li>
+<li>Backup storage configured (see Section 12)</li>
+</ul>
+<h2 id="4-network-and-dns-conventions">4. Network and DNS Conventions<a class="headerlink" href="#4-network-and-dns-conventions" title="Permanent link">&para;</a></h2>
+<h3 id="endpoint-urls">Endpoint URLs<a class="headerlink" href="#endpoint-urls" title="Permanent link">&para;</a></h3>
+<p>All endpoints follow the pattern <code>&lt;service&gt;.&lt;namespace&gt;.internal</code> for internal access or <code>&lt;service&gt;.&lt;domain&gt;</code> for external access.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Internal Endpoint</th>
+<th>External Endpoint</th>
+<th>Port</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nexus Repository Manager</td>
+<td><code>nexus.repo.internal</code></td>
+<td><code>nexus.corp.example.com</code></td>
+<td>8081, 8082</td>
+</tr>
+<tr>
+<td>Harbor Registry</td>
+<td><code>harbor.registry.internal</code></td>
+<td><code>harbor.corp.example.com</code></td>
+<td>443</td>
+</tr>
+<tr>
+<td>Nexus Health Check</td>
+<td><code>nexus.repo.internal/health</code></td>
+<td>—</td>
+<td>8081</td>
+</tr>
+<tr>
+<td>Harbor Health Check</td>
+<td><code>harbor.registry.internal/health</code></td>
+<td>—</td>
+<td>443</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dns-records-required">DNS Records Required<a class="headerlink" href="#dns-records-required" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Type</th>
+<th>Value</th>
+<th>TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nexus.repo.internal</code></td>
+<td>A</td>
+<td><code>&lt;load-balancer-ip&gt;</code></td>
+<td>300</td>
+</tr>
+<tr>
+<td><code>harbor.registry.internal</code></td>
+<td>A</td>
+<td><code>&lt;load-balancer-ip&gt;</code></td>
+<td>300</td>
+</tr>
+<tr>
+<td><code>nexus.repo.internal-api</code></td>
+<td>A</td>
+<td><code>&lt;nexus-pod-ip&gt;</code></td>
+<td>300</td>
+</tr>
+<tr>
+<td><code>harbor.registry.internal-api</code></td>
+<td>A</td>
+<td><code>&lt;harbor-pod-ip&gt;</code></td>
+<td>300</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note</strong>: Do not assume public DNS resolution. Verify with <code>dig nexus.repo.internal</code> and <code>dig harbor.registry.internal</code> before proceeding.</p>
+</blockquote>
+<h3 id="network-segments">Network Segments<a class="headerlink" href="#network-segments" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>CIDR</th>
+<th>Purpose</th>
+<th>Restriction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>net.repo-tier1</code></td>
+<td>10.10.10.0/24</td>
+<td>Nexus Tier 1 traffic</td>
+<td>Inter-tier only</td>
+</tr>
+<tr>
+<td><code>net.registry-tier1</code></td>
+<td>10.10.20.0/24</td>
+<td>Harbor Tier 1 traffic</td>
+<td>Inter-tier only</td>
+</tr>
+<tr>
+<td><code>net.proxy-upstream</code></td>
+<td>10.10.30.0/24</td>
+<td>Outbound to upstream repos/registries</td>
+<td>Firewalled</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-firewall-and-connectivity-requirements">5. Firewall and Connectivity Requirements<a class="headerlink" href="#5-firewall-and-connectivity-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="required-ports">Required Ports<a class="headerlink" href="#required-ports" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Protocol</th>
+<th>Port(s)</th>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inbound</td>
+<td>TCP</td>
+<td>8081</td>
+<td>Nexus</td>
+<td>HTTP API</td>
+</tr>
+<tr>
+<td>Inbound</td>
+<td>TCP</td>
+<td>8082</td>
+<td>Nexus</td>
+<td>HTTPS API</td>
+</tr>
+<tr>
+<td>Inbound</td>
+<td>TCP</td>
+<td>443</td>
+<td>Harbor</td>
+<td>HTTPS API</td>
+</tr>
+<tr>
+<td>Inbound</td>
+<td>TCP</td>
+<td>22</td>
+<td>All</td>
+<td>SSH (admin)</td>
+</tr>
+<tr>
+<td>Outbound</td>
+<td>TCP</td>
+<td>443</td>
+<td>Nexus</td>
+<td>Upstream proxy</td>
+</tr>
+<tr>
+<td>Outbound</td>
+<td>TCP</td>
+<td>443</td>
+<td>Harbor</td>
+<td>Upstream proxy</td>
+</tr>
+<tr>
+<td>Outbound</td>
+<td>TCP</td>
+<td>80</td>
+<td>Nexus</td>
+<td>Metadata fetch (optional)</td>
+</tr>
+<tr>
+<td>Outbound</td>
+<td>UDP</td>
+<td>123</td>
+<td>All</td>
+<td>NTP time sync</td>
+</tr>
+</tbody>
+</table>
+<h3 id="firewall-rules-nftables-example-rhel-family">Firewall Rules (nftables example, RHEL family)<a class="headerlink" href="#firewall-rules-nftables-example-rhel-family" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>#!/usr/sbin/nft -i
+
+flush ruleset
+
+table inet repo_fw {
+    chain input {
+        type filter hook input priority 0
+        ct state established,related accept
+
+        # Nexus
+        ip daddr 10.10.10.1/32 tcp dport 8081 accept
+        ip daddr 10.10.10.1/32 tcp dport 8082 accept
+
+        # Harbor
+        ip daddr 10.10.20.1/32 tcp dport 443 accept
+
+        # SSH
+        ip daddr anywhere tcp dport 22 accept
+
+        drop
+    }
+
+    chain forward {
+        type filter hook forward priority 0
+        ct state established,related accept
+
+        # Allow proxy to upstream
+        ip daddr 10.10.30.0/24 tcp dport 443 accept
+
+        drop
+    }
+
+    chain output {
+        type filter hook output priority 0
+        ct state established,related accept
+
+        # Outbound HTTPS for proxy
+        tcp dport 443 accept
+
+        drop
+    }
+}
+</code></pre></div>
+<h3 id="connectivity-verification">Connectivity Verification<a class="headerlink" href="#connectivity-verification" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify Nexus reachability</span>
+curl<span class="w"> </span>-f<span class="w"> </span>https://nexus.repo.internal/health<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"NEXUS UNREACHABLE"</span>
+
+<span class="c1"># Verify Harbor reachability</span>
+curl<span class="w"> </span>-f<span class="w"> </span>https://harbor.registry.internal/health<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"HARBOR UNREACHABLE"</span>
+
+<span class="c1"># Verify upstream proxy connectivity</span>
+curl<span class="w"> </span>-f<span class="w"> </span>--proxy<span class="w"> </span>https://nexus.repo.internal:8081<span class="w"> </span>https://registry-1.docker.io/v2/<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"PROXY FAILURE"</span>
+</code></pre></div>
+<h2 id="6-step-by-step-setup-procedures">6. Step-by-Step Setup Procedures<a class="headerlink" href="#6-step-by-step-setup-procedures" title="Permanent link">&para;</a></h2>
+<h3 id="61-install-nexus-repository-manager">6.1 Install Nexus Repository Manager<a class="headerlink" href="#61-install-nexus-repository-manager" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Prerequisites: kubectl context set to management cluster</span>
+<span class="c1"># Execution context: management-cluster namespace "repository"</span>
+
+<span class="c1"># 1. Create namespace if not exists</span>
+kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>repository<span class="w"> </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-
+
+<span class="c1"># 2. Install Nexus via Helm</span>
+helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>nexus<span class="w"> </span>https://charts.nexus.com/chart-repository/nexus-repository-manager
+helm<span class="w"> </span>install<span class="w"> </span>nexus/nexus-repository-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>nexus<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>repository<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>persistence.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>persistence.size<span class="o">=</span>100Gi<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>service.type<span class="o">=</span>LoadBalancer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>proxy.enabled<span class="o">=</span><span class="nb">true</span>
+
+<span class="c1"># 3. Wait for pod to be ready</span>
+kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>nexus-repository-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span>repository<span class="w"> </span>--condition<span class="o">=</span>Ready<span class="w"> </span>--timeout<span class="o">=</span>300s
+
+<span class="c1"># 4. Get the external IP</span>
+<span class="nv">LB_IP</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>repository<span class="w"> </span>nexus-repository-manager<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.loadBalancer.ingress[0].ip}'</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Nexus UI: https://</span><span class="si">${</span><span class="nv">LB_IP</span><span class="si">}</span><span class="s2">:8082"</span>
+</code></pre></div>
+<h3 id="62-install-harbor-registry">6.2 Install Harbor Registry<a class="headerlink" href="#62-install-harbor-registry" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Prerequisites: TLS certs installed in secret "harbor-core-secret"</span>
+<span class="c1"># Execution context: management-cluster namespace "registry"</span>
+
+<span class="c1"># 1. Create configuration file</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/harbor/harbor.yml<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">hostname: harbor.registry.internal</span>
+<span class="s">http:</span>
+<span class="s">  port: 443</span>
+<span class="s">  https:</span>
+<span class="s">    port: 443</span>
+<span class="s">    certificate: /certs/cert.pem</span>
+<span class="s">    privateKey: /certs/key.pem</span>
+<span class="s">storage:</span>
+<span class="s">  path: /data</span>
+<span class="s">  volume:</span>
+<span class="s">    capacity: 100TB</span>
+<span class="s">  maxJobWorkers: 10</span>
+<span class="s">  maxWorkers: 8</span>
+<span class="s">  logLevel: info</span>
+<span class="s">trust:</span>
+<span class="s">  token: notary</span>
+<span class="s">  certificate: /certs/trustedca.crt</span>
+
+<span class="s">componentLog:</span>
+<span class="s">  enabled: true</span>
+<span class="s">  defaultLogLevel: info</span>
+<span class="s">EOF</span>
+
+<span class="c1"># 2. Install Harbor via Helm</span>
+helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>harbor<span class="w"> </span>https://helm.goharbor.io/repo/
+helm<span class="w"> </span>install<span class="w"> </span>harbor/harbor<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span>harbor<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>registry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--values<span class="w"> </span>/harbor/harbor.yml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dependency-update
+
+<span class="c1"># 3. Wait for pods</span>
+kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/instance<span class="o">=</span>harbor<span class="w"> </span>-n<span class="w"> </span>registry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--condition<span class="o">=</span>Ready<span class="w"> </span>--timeout<span class="o">=</span>300s
+</code></pre></div>
+<h3 id="63-configure-upstream-remotes">6.3 Configure Upstream Remotes<a class="headerlink" href="#63-configure-upstream-remotes" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus: Add Maven Central remote</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"https://nexus.repo.internal:8082/service/rest/v1/repositories/maven"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span>&lt;NEXUS_USER&gt;:&lt;NEXUS_PASS&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"name":"maven-central","online":true,"remoteStorageUrl":"https://repo1.maven.org/maven2","remoteId":"maven-central"}'</span>
+
+<span class="c1"># Harbor: Add Docker Hub registry</span>
+helm<span class="w"> </span>upgrade<span class="w"> </span>harbor<span class="w"> </span>harbor/harbor<span class="w"> </span>--set<span class="w"> </span>config.repository.config<span class="o">[</span><span class="m">0</span><span class="o">]</span>.upstreamUrl<span class="o">=</span>https://registry-1.docker.io
+</code></pre></div>
+<h2 id="7-authentication-and-authorization">7. Authentication and Authorization<a class="headerlink" href="#7-authentication-and-authorization" title="Permanent link">&para;</a></h2>
+<h3 id="sso-integration-keycloak">SSO Integration (Keycloak)<a class="headerlink" href="#sso-integration-keycloak" title="Permanent link">&para;</a></h3>
+<p>Both Nexus and Harbor integrate with Keycloak for centralized identity management.</p>
+<p><strong>Keycloak setup:</strong>
+- Realm: <code>repo-registry</code>
+- Client: <code>nexus</code> and <code>harbor</code> with valid redirect URIs
+- Groups: <code>admin</code>, <code>developer</code>, <code>viewer</code></p>
+<p><strong>Nexus LDAP/SSO configuration:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Via Nexus UI or API</span>
+<span class="c1"># 1. Login to Nexus as admin</span>
+<span class="c1"># 2. Navigate to: Security → Login Settings → SSO</span>
+<span class="c1"># 3. Configure Keycloak connection:</span>
+<span class="c1">#    - SSO Login URL: https://keycloak.internal/auth/realms/repo-registry/protocol/saml</span>
+<span class="c1">#    - SSO Logout URL: https://keycloak.internal/auth/realms/repo-registry/protocol/saml/logout</span>
+<span class="c1">#    - Entity ID: keycloak.internal</span>
+</code></pre></div></p>
+<p><strong>Harbor LDAP/SSO configuration:</strong>
+<div class="highlight"><pre><span></span><code><span class="c1"># Harbor values.yaml snippet</span>
+<span class="nt">harbor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">externalURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://harbor.registry.internal</span>
+<span class="w">  </span><span class="nt">secretKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;NEXUS_SECRET_KEY&gt;</span>
+<span class="w">  </span><span class="nt">db</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;HARBOR_DB_PASSWORD&gt;</span>
+<span class="w">  </span><span class="nt">core</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">harbor</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ui</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">anonymouse</span><span class="p">:</span><span class="w"> </span><span class="s">"false"</span>
+<span class="w">        </span><span class="nt">authentication</span><span class="p">:</span>
+<span class="w">          </span><span class="c1"># Use Keycloak OAuth2</span>
+<span class="w">          </span><span class="nt">oauth2</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">client</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">keycloak</span>
+<span class="w">            </span><span class="nt">secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${KEYCLOAK_CLIENT_SECRET}</span>
+<span class="w">            </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://keycloak.internal/auth/realms/repo-registry/protocol/openid connect</span>
+</code></pre></div></p>
+<h3 id="rbac-policies">RBAC Policies<a class="headerlink" href="#rbac-policies" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Nexus Permissions</th>
+<th>Harbor Permissions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>admin</code></td>
+<td>Full repository read/write, user management</td>
+<td>Full registry read/write, user management</td>
+</tr>
+<tr>
+<td><code>developer</code></td>
+<td>Read/write to personal namespace repos</td>
+<td>Read/write to personal image projects</td>
+</tr>
+<tr>
+<td><code>viewer</code></td>
+<td>Read-only repository view</td>
+<td>Read-only image gallery</td>
+</tr>
+</tbody>
+</table>
+<h3 id="service-accounts">Service Accounts<a class="headerlink" href="#service-accounts" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>nexus-service-account</code>: Used by CI/CD pipelines for artifact deployment</li>
+<li><code>harbor-service-account</code>: Used by Kubernetes clusters for image pull</li>
+</ul>
+<h2 id="8-tls-and-certificate-configuration">8. TLS and Certificate Configuration<a class="headerlink" href="#8-tls-and-certificate-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="certificate-sources">Certificate Sources<a class="headerlink" href="#certificate-sources" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Preferred</strong>: Cert-manager issued certificates from ACME provider (Let's Encrypt for external, internal CA for internal)</li>
+<li><strong>Alternative</strong>: Manual PKI with certs mounted as Secrets</li>
+</ul>
+<h3 id="nexus-tls-via-cert-manager">Nexus TLS via Cert-manager<a class="headerlink" href="#nexus-tls-via-cert-manager" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ClusterIssuer reference</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cert-manager.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIssuer</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lets-encrypt-prod</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">acme</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://acme-v02.api.letsencrypt.org/directory</span>
+<span class="w">    </span><span class="nt">email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docs-team@corp.example.com</span>
+<span class="w">    </span><span class="nt">privateKeySecretRef</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lets-encrypt-private-key</span>
+<span class="w">    </span><span class="nt">solvers</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">http01</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">ingressClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">          </span><span class="nt">clusterIssuerReference</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lets-encrypt-prod</span>
+
+<span class="c1"># TLS Certificate for Nexus</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cert-manager.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Certificate</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nexus-tls</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repository</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nexus-tls-secret</span>
+<span class="w">  </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lets-encrypt-prod</span>
+<span class="w">  </span><span class="nt">commonName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nexus.corp.example.com</span>
+<span class="w">  </span><span class="nt">dnsNames</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nexus.corp.example.com</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nexus.repo.internal</span>
+<span class="w">  </span><span class="nt">renewBefore</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30d</span>
+<span class="w">  </span><span class="nt">maturityDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">90d</span>
+</code></pre></div>
+<h3 id="harbor-tls-via-cert-manager">Harbor TLS via Cert-manager<a class="headerlink" href="#harbor-tls-via-cert-manager" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Harbor registry TLS</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cert-manager.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Certificate</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor-tls</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">registry</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor-tls-secret</span>
+<span class="w">  </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">lets-encrypt-prod</span>
+<span class="w">  </span><span class="nt">commonName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor.corp.example.com</span>
+<span class="w">  </span><span class="nt">dnsNames</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor.corp.example.com</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">harbor.registry.internal</span>
+<span class="w">  </span><span class="nt">renewBefore</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30d</span>
+</code></pre></div>
+<h3 id="self-signed-certificate-air-gapoffline">Self-Signed Certificate (Air-Gap/Offline)<a class="headerlink" href="#self-signed-certificate-air-gapoffline" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate CA</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">3650</span><span class="w"> </span>-nodes<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-subj<span class="w"> </span><span class="s2">"/CN=internal-repo-ca/O=Corp Inc/C=US"</span>
+
+<span class="c1"># Generate Nexus certificate</span>
+openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:2048<span class="w"> </span>-keyout<span class="w"> </span>nexus.key<span class="w"> </span>-out<span class="w"> </span>nexus.csr<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-nodes<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-subj<span class="w"> </span><span class="s2">"/CN=nexus.repo.internal"</span>
+
+<span class="c1"># Sign by CA</span>
+openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>nexus.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="w"> </span>nexus.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span>
+
+<span class="c1"># Create Kubernetes secret</span>
+kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>nexus-tls<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span><span class="nv">tls</span><span class="o">=</span>nexus.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span><span class="nv">key</span><span class="o">=</span>nexus.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span>repository
+</code></pre></div>
+<blockquote>
+<p><strong>Warning</strong>: Self-signed certificates require trust distribution to all client systems. Prefer ACME/CA-signed certificates when possible.</p>
+</blockquote>
+<h2 id="9-proxy-and-hosted-repository-configuration">9. Proxy and Hosted Repository Configuration<a class="headerlink" href="#9-proxy-and-hosted-repository-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="nexus-proxy-repository-proxy-cache">Nexus Proxy Repository (Proxy + Cache)<a class="headerlink" href="#nexus-proxy-repository-proxy-cache" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create proxy repository via API</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"https://nexus.repo.internal:8082/service/rest/v1/repositories/maven"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span>&lt;NEXUS_USER&gt;:&lt;NEXUS_PASS&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "name": "maven-proxy",</span>
+<span class="s1">    "online": true,</span>
+<span class="s1">    "type": "proxy",</span>
+<span class="s1">    "storage": "default",</span>
+<span class="s1">    "component": "maven",</span>
+<span class="s1">    "remoteStorageUrl": "https://repo1.maven.org/maven2",</span>
+<span class="s1">    "remoteId": "maven-proxy"</span>
+<span class="s1">  }'</span>
+
+<span class="c1"># Create hosted repository for internal artifacts</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"https://nexus.repo.internal:8082/service/rest/v1/repositories/maven"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span>&lt;NEXUS_USER&gt;:&lt;NEXUS_PASS&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "name": "maven-internal",</span>
+<span class="s1">    "online": true,</span>
+<span class="s1">    "type": "hosted",</span>
+<span class="s1">    "storage": "default",</span>
+<span class="s1">    "component": "maven"</span>
+<span class="s1">  }'</span>
+</code></pre></div>
+<h3 id="harbor-registry-proxy-remote">Harbor Registry Proxy Remote<a class="headerlink" href="#harbor-registry-proxy-remote" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Harbor values.yaml - proxy configuration</span>
+<span class="nt">harbor</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">repository</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker-proxy</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">proxy</span>
+<span class="w">        </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://registry-1.docker.io</span>
+<span class="w">        </span><span class="nt">pullThrough</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">credential</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">user</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="w">          </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr-proxy</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">proxy</span>
+<span class="w">        </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://ghcr.io</span>
+<span class="w">        </span><span class="nt">pullThrough</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">credential</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">user</span><span class="p">:</span><span class="w"> </span><span class="s">"${GITHUB_ACTOR}"</span>
+<span class="w">          </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="s">"${GITHUB_TOKEN}"</span>
+</code></pre></div>
+<h3 id="hosted-repository-for-internal-uploads">Hosted Repository (for internal uploads)<a class="headerlink" href="#hosted-repository-for-internal-uploads" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus: Upload internal Maven artifact</span>
+curl<span class="w"> </span>-u<span class="w"> </span>admin:admin<span class="w"> </span>-T<span class="w"> </span>/path/to/internal-artifact-1.0.0.jar<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"https://nexus.repo.internal:8082/repository/maven-internal/content"</span>
+
+<span class="c1"># Harbor: Push image to hosted repository</span>
+docker<span class="w"> </span>tag<span class="w"> </span>my-image:latest<span class="w"> </span>harbor.registry.internal/library/my-image:latest
+docker<span class="w"> </span>push<span class="w"> </span>harbor.registry.internal/library/my-image:latest
+</code></pre></div>
+<h2 id="10-teamproject-onboarding">10. Team/Project Onboarding<a class="headerlink" href="#10-teamproject-onboarding" title="Permanent link">&para;</a></h2>
+<h3 id="new-team-provisioning">New Team Provisioning<a class="headerlink" href="#new-team-provisioning" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Create Keycloak group: <code>team-&lt;team-name&gt;</code></li>
+<li>Assign Nexus/Harbor RBAC roles matching group</li>
+<li>Provide team members with access instructions</li>
+</ol>
+<h3 id="developer-workstation-setup">Developer Workstation Setup<a class="headerlink" href="#developer-workstation-setup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install Nexus CLI (if available) or use curl</span>
+npm<span class="w"> </span>install<span class="w"> </span>-g<span class="w"> </span>nexus-repository-manager-cli<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Use curl/HTTP API instead"</span>
+
+<span class="c1"># Configure npm for internal registry</span>
+npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>//nexus.repo.internal:8082/maven<span class="w"> </span>internal
+npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>//nexus.repo.internal:8082/npm<span class="w"> </span>npm-registry
+
+<span class="c1"># Configure docker for Harbor</span>
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.docker/config.json<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">{</span>
+<span class="s">  "auths": {</span>
+<span class="s">    "https://harbor.registry.internal": {</span>
+<span class="s">      "auth": "$(echo -n 'harbor-user:harbor-pass' | base64)"</span>
+<span class="s">    }</span>
+<span class="s">  }</span>
+<span class="s">}</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Test connectivity</span>
+npm<span class="w"> </span>login<span class="w"> </span>--registry<span class="o">=</span>https://nexus.repo.internal:8082/repository/npm/npm-registry/
+docker<span class="w"> </span>login<span class="w"> </span>https://harbor.registry.internal
+</code></pre></div>
+<h3 id="project-repository-configuration">Project Repository Configuration<a class="headerlink" href="#project-repository-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create project-specific Nexus repository</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"https://nexus.repo.internal:8082/service/rest/v1/repositories/maven"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span>&lt;NEXUS_USER&gt;:&lt;NEXUS_PASS&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "name": "project-alpha-maven",</span>
+<span class="s1">    "online": true,</span>
+<span class="s1">    "type": "hosted",</span>
+<span class="s1">    "storage": "default",</span>
+<span class="s1">    "component": "maven"</span>
+<span class="s1">  }'</span>
+
+<span class="c1"># Configure Maven for project</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>/tmp/settings-alpha.xml<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">&lt;settings&gt;</span>
+<span class="s">  &lt;profiles&gt;</span>
+<span class="s">    &lt;profile&gt;</span>
+<span class="s">      &lt;id&gt;alpha-repo&lt;/id&gt;</span>
+<span class="s">      &lt;repositories&gt;</span>
+<span class="s">        &lt;repository&gt;</span>
+<span class="s">          &lt;id&gt;project-alpha&lt;/id&gt;</span>
+<span class="s">          &lt;layout&gt;default&lt;/layout&gt;</span>
+<span class="s">          &lt;url&gt;https://nexus.repo.internal:8082/repository/project-alpha-maven/&lt;/url&gt;</span>
+<span class="s">          &lt;releases&gt;</span>
+<span class="s">            &lt;enabled&gt;true&lt;/enabled&gt;</span>
+<span class="s">          &lt;/releases&gt;</span>
+<span class="s">          &lt;snapshots&gt;</span>
+<span class="s">            &lt;enabled&gt;true&lt;/enabled&gt;</span>
+<span class="s">          &lt;/snapshots&gt;</span>
+<span class="s">        &lt;/repository&gt;</span>
+<span class="s">      &lt;/repositories&gt;</span>
+<span class="s">    &lt;/profile&gt;</span>
+<span class="s">  &lt;/profiles&gt;</span>
+<span class="s">  &lt;activeProfiles&gt;</span>
+<span class="s">    &lt;activeProfile&gt;alpha-repo&lt;/activeProfile&gt;</span>
+<span class="s">  &lt;/activeProfiles&gt;</span>
+<span class="s">&lt;/settings&gt;</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<h2 id="11-artifact-synchronization">11. Artifact Synchronization<a class="headerlink" href="#11-artifact-synchronization" title="Permanent link">&para;</a></h2>
+<h3 id="pull-synchronization-scheduled">Pull Synchronization (Scheduled)<a class="headerlink" href="#pull-synchronization-scheduled" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus: Pull from Maven Central daily via cron</span>
+<span class="c1"># Create a scheduled task via Nexus UI or script</span>
+
+<span class="c1"># Script: sync-nexus-remotes.sh</span>
+<span class="c1">#!/bin/bash</span>
+<span class="c1"># Execution context: host with curl access to Nexus</span>
+
+<span class="nv">NEURUS_URL</span><span class="o">=</span><span class="s2">"https://nexus.repo.internal:8082"</span>
+<span class="nv">NEURUS_USER</span><span class="o">=</span><span class="s2">"admin"</span>
+<span class="nv">NEURUS_PASS</span><span class="o">=</span><span class="s2">"admin"</span>
+
+<span class="c1"># Trigger sync for all proxy repositories</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NEURUS_URL</span><span class="si">}</span><span class="s2">/service/rest/v1/repositories/proxy/*/content/sync"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NEURUS_USER</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">NEURUS_PASS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span>
+
+<span class="c1"># Harbor: Garbage collection and sync</span>
+helm<span class="w"> </span>upgrade<span class="w"> </span>harbor<span class="w"> </span>harbor/harbor<span class="w"> </span>--set<span class="w"> </span>job.jobGraveyard.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span>--set<span class="w"> </span>job.garbageCollection.enabled<span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+<h3 id="push-synchronization">Push Synchronization<a class="headerlink" href="#push-synchronization" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus: Promote snapshot to release</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"https://nexus.repo.internal:8082/service/rest/v1/repositories/maven/project-alpha-maven/content/release"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span>&lt;NEXUS_USER&gt;:&lt;NEXUS_PASS&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span>
+
+<span class="c1"># Harbor: Replicate image to remote site</span>
+helm<span class="w"> </span>upgrade<span class="w"> </span>harbor<span class="w"> </span>harbor/harbor<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>replica.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>replica.remoteSites<span class="o">[</span><span class="m">0</span><span class="o">]</span>.url<span class="o">=</span>https://remote-harbor.internal<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>replica.remoteSites<span class="o">[</span><span class="m">0</span><span class="o">]</span>.credential.user<span class="o">=</span>admin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>replica.remoteSites<span class="o">[</span><span class="m">0</span><span class="o">]</span>.credential.password<span class="o">=</span>&lt;HARBOR_REPLICA_PASSWORD&gt;
+</code></pre></div>
+<h3 id="synchronization-verification">Synchronization Verification<a class="headerlink" href="#synchronization-verification" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify synchronized artifacts count</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-u<span class="w"> </span>admin:admin<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NEURUS_URL</span><span class="si">}</span><span class="s2">/service/rest/v1/repositories/maven/maven-proxy/content"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.items | length'</span>
+
+<span class="c1"># Verify Harbor replication status</span>
+helm<span class="w"> </span>status<span class="w"> </span>harbor-replica<span class="w"> </span>-n<span class="w"> </span>registry
+</code></pre></div>
+<h2 id="12-backup-and-restore">12. Backup and Restore<a class="headerlink" href="#12-backup-and-restore" title="Permanent link">&para;</a></h2>
+<h3 id="backup-procedures">Backup Procedures<a class="headerlink" href="#backup-procedures" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Backup Method</th>
+<th>Frequency</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nexus</td>
+<td><code>nexus backup</code> API + PVC snapshot</td>
+<td>Daily (02:00 UTC)</td>
+<td>14 days</td>
+</tr>
+<tr>
+<td>Harbor</td>
+<td><code>harbor job configuration export</code> + PVC snapshot</td>
+<td>Daily (03:00 UTC)</td>
+<td>30 days</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus backup via API</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NEURUS_URL</span><span class="si">}</span><span class="s2">/service/rest/v1/admin/system/backup"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span>&lt;NEXUS_USER&gt;:&lt;NEXUS_PASS&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"format":"tar","name":"backup-'</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d-%H%M%S<span class="k">)</span><span class="s1">'"}'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>/backup/nexus/backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>.tar
+
+<span class="c1"># Harbor backup via velero or built-in</span>
+velero<span class="w"> </span>backup<span class="w"> </span>create<span class="w"> </span>harbor-backup-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--selector<span class="w"> </span><span class="nv">include</span><span class="o">=</span>harbor.io/backup<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--storage-location<span class="w"> </span>velero-rgw
+</code></pre></div>
+<h3 id="restore-procedures">Restore Procedures<a class="headerlink" href="#restore-procedures" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus restore</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NEURUS_URL</span><span class="si">}</span><span class="s2">/service/rest/v1/admin/system/restore"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-u<span class="w"> </span>&lt;NEXUS_USER&gt;:&lt;NEXUS_PASS&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s2">"{\"format\":\"tar\",\"filePath\":\"file:///backup/nexus/backup-20261125.tar\"}"</span>
+
+<span class="c1"># Harbor restore</span>
+velero<span class="w"> </span>restore<span class="w"> </span>create<span class="w"> </span>--from-backup<span class="w"> </span>harbor-restore-<span class="k">$(</span>date<span class="w"> </span>+%Y%m%d<span class="k">)</span>
+
+<span class="c1"># Verify restore</span>
+<span class="c1"># Nexus: Check backup manifest</span>
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>repository<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span>repository<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>nexus-repository-manager<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--<span class="w"> </span>nexus<span class="w"> </span>backup:list
+
+<span class="c1"># Harbor: Check restored projects</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>projects<span class="w"> </span>-n<span class="w"> </span>registry
+</code></pre></div>
+<h3 id="rtorpo-targets">RTO/RPO Targets<a class="headerlink" href="#rtorpo-targets" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>RTO (Recovery Time Objective)</strong>: 4 hours</li>
+<li><strong>RPO (Recovery Point Objective)</strong>: 24 hours (daily backups)</li>
+</ul>
+<h2 id="13-ha-and-failure-recovery">13. HA and Failure Recovery<a class="headerlink" href="#13-ha-and-failure-recovery" title="Permanent link">&para;</a></h2>
+<h3 id="nexus-ha-configuration">Nexus HA Configuration<a class="headerlink" href="#nexus-ha-configuration" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Deployment</strong>: 3-replica StatefulSet with PVCs</li>
+<li><strong>Replication</strong>: Local secret replication via <code>Nexus sync</code> API</li>
+<li><strong>Failover</strong>: Automatic via StatefulSet ordinal indexing</li>
+<li><strong>Quorum</strong>: Based on persistent storage quorum (etcd or external DB)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check Nexus HA status</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>repository<span class="w"> </span>nexus-repository-manager
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>repository<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>nexus-repository-manager<span class="w"> </span>-o<span class="w"> </span>wide
+
+<span class="c1"># Force failover to replica-2</span>
+kubectl<span class="w"> </span>patch<span class="w"> </span>statefulset<span class="w"> </span>nexus-repository-manager<span class="w"> </span>-n<span class="w"> </span>repository<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec":{"replicas":3}}'</span><span class="w">  </span><span class="c1"># Ensure 3 replicas running</span>
+</code></pre></div>
+<h3 id="harbor-ha-configuration">Harbor HA Configuration<a class="headerlink" href="#harbor-ha-configuration" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Deployment</strong>: 3-replica Core + 3-replica Registry deployment</li>
+<li><strong>Replication</strong>: Notary2 transparency log replication</li>
+<li><strong>Failover</strong>: DNS switchover + load balancer reconfiguration</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check Harbor HA status</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>registry<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/instance<span class="o">=</span>harbor<span class="w"> </span>-o<span class="w"> </span>wide
+kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>registry<span class="w"> </span>harbor-registry-core<span class="w"> </span>-o<span class="w"> </span>wide
+
+<span class="c1"># Simulate node failure - drain and redeploy</span>
+kubectl<span class="w"> </span>drain<span class="w"> </span>node-worker-3<span class="w"> </span>--ignore-daemonsets<span class="w"> </span>--delete-emptydata<span class="w"> </span>--force
+<span class="c1"># Pods reschedule on remaining nodes</span>
+</code></pre></div>
+<h3 id="failure-recovery-procedures">Failure Recovery Procedures<a class="headerlink" href="#failure-recovery-procedures" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Node failure</strong>: Kubernetes auto-replaces pods on healthy nodes</li>
+<li><strong>Node pool failure</strong>: Re-deploy StatefulSet on new pool, restore from backup if PVC lost</li>
+<li><strong>Total site failure</strong>: Restore from off-site backup (see Section 12)</li>
+<li><strong>Certificate expiry</strong>: Cert-manager auto-renewal; manual renewal if using self-signed</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># Monitor HA health</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"nexus|harbor"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
+
+<span class="c1"># Check replica status</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>repository<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>nexus-repository-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[*].status.containerStatuses[0].ready}'</span>
+
+<span class="c1"># Verify data integrity post-recovery</span>
+nexus<span class="w"> </span>repo<span class="w"> </span>list<span class="w"> </span><span class="o">||</span><span class="w"> </span>harbor<span class="w"> </span>project<span class="w"> </span>list
+</code></pre></div>
+<h2 id="14-validation-commands-and-expected-outputs">14. Validation Commands and Expected Outputs<a class="headerlink" href="#14-validation-commands-and-expected-outputs" title="Permanent link">&para;</a></h2>
+<h3 id="nexus-validation">Nexus Validation<a class="headerlink" href="#nexus-validation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Check Nexus service status</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>repository<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>nexus-repository-manager
+
+<span class="c1"># 2. Verify HTTP API endpoint</span>
+curl<span class="w"> </span>-s<span class="w"> </span>https://nexus.repo.internal:8082/service/rest/v1/status<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.'</span>
+
+<span class="c1"># 3. Verify proxy repository is online</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-u<span class="w"> </span>admin:admin<span class="w"> </span>https://nexus.repo.internal:8082/service/rest/v1/repositories/maven/maven-proxy<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.online'</span>
+
+<span class="c1"># 4. Verify hosted repository has content</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-u<span class="w"> </span>admin:admin<span class="w"> </span>https://nexus.repo.internal:8082/repository/maven-internal/<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-5
+</code></pre></div>
+<h3 id="harbor-validation">Harbor Validation<a class="headerlink" href="#harbor-validation" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Check Harbor pod status</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span>registry<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/instance<span class="o">=</span>harbor
+
+<span class="c1"># 2. Verify Harbor API health</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-k<span class="w"> </span>https://harbor.registry.internal/health<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.'</span>
+
+<span class="c1"># 3. Verify registry is operational</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-k<span class="w"> </span>https://harbor.registry.internal/v2/_catalog<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.'</span>
+
+<span class="c1"># 4. List projects</span>
+curl<span class="w"> </span>-s<span class="w"> </span>-k<span class="w"> </span>-u<span class="w"> </span>admin:admin<span class="w"> </span>https://harbor.registry.internal/api/projects<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span><span class="s1">'.'</span>
+</code></pre></div>
+<h3 id="expected-output-samples">Expected Output Samples<a class="headerlink" href="#expected-output-samples" title="Permanent link">&para;</a></h3>
+<p><strong>Nexus status JSON:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nexus Repository Manager"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.55.20241115"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"running"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"licensed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"lastHealthCheck"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-25T10:30:00Z"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"healthCheck"</span><span class="p">:</span><span class="w"> </span><span class="s2">"healthy"</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Harbor health JSON:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Harbor is running"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"v2.110.3"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2026-11-25T10:30:00Z"</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="failure-condition-detection">Failure Condition Detection<a class="headerlink" href="#failure-condition-detection" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Expected</th>
+<th>Failure Indicator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curl -f https://nexus.repo.internal:8082/health</code></td>
+<td>RC 0, <code>healthy</code></td>
+<td>RC non-0, timeout, <code>unhealthy</code></td>
+</tr>
+<tr>
+<td><code>curl -f https://harbor.registry.internal/health</code></td>
+<td>RC 0, <code>success</code></td>
+<td>RC non-0, timeout, error JSON</td>
+</tr>
+<tr>
+<td><code>kubectl -n repository get pod</code></td>
+<td>All 3 pods <code>Ready</code></td>
+<td>Any pod <code>ContainerCreating</code> or <code>Error</code></td>
+</tr>
+<tr>
+<td><code>helm status harbor -n registry</code></td>
+<td>All components <code>deployed</code></td>
+<td>Any component <code>pending</code> or <code>failed</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-common-errors-and-troubleshooting">15. Common Errors and Troubleshooting<a class="headerlink" href="#15-common-errors-and-troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="proxy-connection-errors">Proxy Connection Errors<a class="headerlink" href="#proxy-connection-errors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Diagnosis</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curl: (7) Failed to connect to Nexus</code></td>
+<td>Network unreachable or wrong DNS</td>
+<td>Verify DNS resolution: <code>dig nexus.repo.internal</code>; Check firewall rules (Section 5)</td>
+</tr>
+<tr>
+<td><code>HTTP 502 Bad Gateway</code></td>
+<td>Upstream proxy not running</td>
+<td>Check Nexus pod: <code>kubectl get pods -n repository</code>; Restart: <code>kubectl rollout restart deployment/nexus-repository-manager -n repository</code></td>
+</tr>
+<tr>
+<td><code>HTTP 403 Forbidden</code></td>
+<td>Authentication failure</td>
+<td>Verify admin credentials; Check Keycloak SSO integration (Section 7)</td>
+</tr>
+<tr>
+<td><code>HTTP 404 Not Found</code></td>
+<td>Repository not found</td>
+<td>Verify repository name: <code>nexus repo list</code>; Check spelling and case</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tlscertificate-errors">TLS/Certificate Errors<a class="headerlink" href="#tlscertificate-errors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Diagnosis</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curl: (60) SSL certificate problem: self signed certificate</code></td>
+<td>Self-signed cert not trusted</td>
+<td>Add CA to system trust store: <code>cp ca.crt /usr/local/share/ca-certificates/ &amp;&amp; update-ca-certificates</code>; Or use <code>--insecure</code> flag temporarily</td>
+</tr>
+<tr>
+<td><code>curl: (28) Connection timed out</code></td>
+<td>Certificate expiry or firewall</td>
+<td>Check cert expiry: <code>openssl x509 -in cert.crt -text -noout | grep "Not After"</code>; Verify firewall allows 443 TCP</td>
+</tr>
+<tr>
+<td><code>NET::ERR_CERT_COMMON_NAME_INVALID</code></td>
+<td>CN mismatch in certificate</td>
+<td>Verify certificate CN matches endpoint: <code>openssl x509 -in cert.crt -text -noout | grep "Subject:"</code>; Regenerate cert with correct CN</td>
+</tr>
+</tbody>
+</table>
+<h3 id="repositoryregistry-errors">Repository/Registry Errors<a class="headerlink" href="#repositoryregistry-errors" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Diagnosis</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>404 Not found</code> when pulling image</td>
+<td>Image not in repository</td>
+<td>Verify image tag: <code>docker images</code>; List projects: <code>harbor project list</code></td>
+</tr>
+<tr>
+<td><code>Maven artifact not found</code></td>
+<td>Proxy not caching</td>
+<td>Force re-sync: <code>curl -X POST /service/rest/v1/repositories/proxy/*/content/sync</code>; Check upstream availability</td>
+</tr>
+<tr>
+<td><code>Permission denied</code> when pushing</td>
+<td>RBAC misconfiguration</td>
+<td>Check user/group assignments in Keycloak; Verify Harbor/RBAC policies (Section 7)</td>
+</tr>
+<tr>
+<td><code>Tag already exists</code></td>
+<td>Duplicate tag push</td>
+<td>Allow overwrite: Update Harbor chart <code>push.allowOverwrite: true</code>; Or use different tag</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Status: DRAFT | Owner: Platform Team | Last reviewed: 2026-11-25</em></p>
+<p><strong>Cross-references:</strong>
+- <a href="../../requirements/platform-standards/">Platform Standards</a>
+- <a href="../../compatibility/version-matrix/">Version Matrix</a>
+- <a href="../../architecture/00-overview/">Architecture Overview</a>
+- <a href="../../requirements/validation-strategy/">Validation Strategy</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -186,9 +186,9 @@ Source of truth: <official documentation URL + check date>
 
 ## Cross-References
 
-- Link ADRs: `[ADR-0017](../../decisions/ADR-0017-pki-and-certificate-ownership.md)`
-- Link version matrix: `[Version Matrix](../../compatibility/version-matrix.md)`
-- Link platform standards: `[Platform Standards](../../requirements/platform-standards.md)`
+- Link ADRs: `[ADR-0017](../decisions/ADR-0017-pki-and-certificate-ownership.md)`
+- Link version matrix: `[Version Matrix](../compatibility/version-matrix.md)`
+- Link platform standards: `[Platform Standards](../requirements/platform-standards.md)`
 
 ## Validation
 

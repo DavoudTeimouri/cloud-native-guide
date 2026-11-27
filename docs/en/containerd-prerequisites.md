@@ -90,7 +90,7 @@ cat /etc/containerd/certs.d/*/hosts.toml
 ## References
 
 - [OS Preparation Guide](os-preparation.md)
-- [RHEL Family Procedures](../../operating-systems/rhel-family-procedures.md)
-- [Debian Family Procedures](../../operating-systems/debian-family-procedures.md)
+- [RHEL Family Procedures](../operating-systems/host-configuration.md)
+- [Debian Family Procedures](../operating-systems/host-configuration.md)
 
 ---\n*Status: DRAFT | Owner: Platform Team | Last reviewed: 2026-11-25*

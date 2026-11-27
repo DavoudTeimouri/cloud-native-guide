@@ -74,7 +74,7 @@ stat -fc %T /sys/fs/cgroup
 
 ## منابع
 
-- [ماتریس نسخه و سازگاری](../../compatibility/version-matrix.md)
+- [ماتریس نسخه و سازگاری](../compatibility/version-matrix.md)
 - [راهنمای آماده‌سازی سیستم‌عامل](os-preparation.md)
 
 ---\n*وضعیت: پیش‌نویس | مالک: تیم پلتفرم | آخرین بازبینی: 2026-11-25*

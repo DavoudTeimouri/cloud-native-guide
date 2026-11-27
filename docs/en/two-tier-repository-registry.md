@@ -812,7 +812,7 @@ curl -s -k -u admin:admin https://harbor.registry.internal/api/projects | jq '.'
 *Status: DRAFT | Owner: Platform Team | Last reviewed: 2026-11-25*
 
 **Cross-references:**
-- [Platform Standards](../../requirements/platform-standards.md)
-- [Version Matrix](../../compatibility/version-matrix.md)
-- [Architecture Overview](../../architecture/00-overview.md)
-- [Validation Strategy](../../requirements/validation-strategy.md)
+- [Platform Standards](../requirements/platform-standards.md)
+- [Version Matrix](../compatibility/version-matrix.md)
+- [Architecture Overview](../architecture/00-overview.md)
+- [Validation Strategy](../requirements/validation-strategy.md)

@@ -364,13 +364,13 @@ ansible all -i inventories/production/hosts.ini -m shell -a "crictl info"
 
 ## References
 
-- [Ansible Project README](../../automation/ansible/README.md)
-- [Inventory Usage Guide](../../inventories/README.md)
-- [Platform Standards](../../requirements/platform-standards.md)
-- [Version & Compatibility Matrix](../../compatibility/version-matrix.md)
-- [Kubespray Deployment Guide](../../docs/en/kubespray-deployment.md)
-- [Persian OS Preparation Guide](../../docs/fa/os-preparation.md)
-- [Persian Kubespray Deployment Guide](../../docs/fa/kubespray-deployment.md)
+- [Ansible Project README](../automation/ansible/index.md)
+- [Inventory Usage Guide](../inventories/README.md)
+- [Platform Standards](../requirements/platform-standards.md)
+- [Version & Compatibility Matrix](../compatibility/version-matrix.md)
+- [Kubespray Deployment Guide](../en/kubespray-deployment.md)
+- [Persian OS Preparation Guide](../fa/os-preparation.md)
+- [Persian Kubespray Deployment Guide](../fa/kubespray-deployment.md)
 
 ---
 

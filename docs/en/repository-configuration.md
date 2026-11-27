@@ -101,7 +101,7 @@ curl -f https://nexus.internal/repository/ubuntu-main/
 ## References
 
 - [OS Preparation Guide](os-preparation.md)
-- [RHEL Family Matrix](../../operating-systems/rhel-family-matrix.md)
-- [Debian Family Matrix](../../operating-systems/debian-family-matrix.md)
+- [RHEL Family Matrix](../operating-systems/host-configuration.md)
+- [Debian Family Matrix](../operating-systems/host-configuration.md)
 
 ---\n*Status: DRAFT | Owner: Platform Team | Last reviewed: 2026-11-25*

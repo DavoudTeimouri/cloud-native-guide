@@ -90,7 +90,7 @@ cat /etc/containerd/certs.d/*/hosts.toml
 ## منابع
 
 - [راهنمای آماده‌سازی سیستم‌عامل](os-preparation.md)
-- [عملیات خانواده RHEL](../../operating-systems/rhel-family-procedures.md)
-- [عملیات خانواده دبیان](../../operating-systems/debian-family-procedures.md)
+- [عملیات خانواده RHEL](../operating-systems/host-configuration.md)
+- [عملیات خانواده دبیان](../operating-systems/host-configuration.md)
 
 ---\n*وضعیت: پیش‌نویس | مالک: تیم پلتفرم | آخرین بازبینی: 2026-11-25*

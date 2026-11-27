@@ -74,7 +74,7 @@ stat -fc %T /sys/fs/cgroup
 
 ## References
 
-- [Version & Compatibility Matrix](../../compatibility/version-matrix.md)
+- [Version & Compatibility Matrix](../compatibility/version-matrix.md)
 - [OS Preparation Guide](os-preparation.md)
 
 ---\n*Status: DRAFT | Owner: Platform Team | Last reviewed: 2026-11-25*
