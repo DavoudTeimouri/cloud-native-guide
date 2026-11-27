@@ -18,7 +18,7 @@ Monitoring review, vulnerability management, security scanning.
 ## Implementation
 ```bash
 # Trivy image scan
-trivy image 
+trivy image
 trivy fs .
 
 # Gitleaks
