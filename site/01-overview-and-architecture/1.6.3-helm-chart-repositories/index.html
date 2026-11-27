@@ -4643,10 +4643,12 @@
 </table>
 <h2 id="internal-helm-repo-configuration">Internal Helm repo configuration<a class="headerlink" href="#internal-helm-repo-configuration" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># Add internal Helm repo</span>
+
 helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>internal<span class="w"> </span>http://harbor.internal:5000/helm
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
 <span class="c1"># Install from internal repo only</span>
+
 helm<span class="w"> </span>install<span class="w"> </span>prometheus<span class="w"> </span>internal/prometheus<span class="w"> </span>--namespace<span class="w"> </span>monitoring
 </code></pre></div>
 <h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>

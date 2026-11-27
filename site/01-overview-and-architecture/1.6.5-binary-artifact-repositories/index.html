@@ -4643,6 +4643,7 @@
 </table>
 <h2 id="internal-nexus-configuration">Internal Nexus configuration<a class="headerlink" href="#internal-nexus-configuration" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># Configure pip to use internal PyPI</span>
+
 cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/pip.conf<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 <span class="s">[global]</span>
 <span class="s">index-url = http://nexus.internal/repository/pypi/simple</span>
@@ -4650,6 +4651,7 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/pip.conf<span class=
 <span class="s">EOF</span>
 
 <span class="c1"># Configure npm to use internal registry</span>
+
 npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>registry<span class="w"> </span>http://nexus.internal/repository/npm
 </code></pre></div>
 <h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>

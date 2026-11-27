@@ -4635,6 +4635,7 @@
 </table>
 <h2 id="internal-client-configuration">Internal client configuration<a class="headerlink" href="#internal-client-configuration" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># Oracle Linux / RHEL / Rocky (DNF/YUM)</span>
+
 cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/yum.repos.d/internal.repo<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 <span class="s">[internal-base]</span>
 <span class="s">name=Internal Base Repository</span>
@@ -4645,6 +4646,7 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/yum.repos.d/internal
 <span class="s">EOF</span>
 
 <span class="c1"># Ubuntu / Debian (APT)</span>
+
 cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/apt/sources.list.d/internal.list<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 <span class="s">deb http://nexus.internal/repository/ubuntu $(lsb_release -sc) main restricted universe multiverse</span>
 <span class="s">EOF</span>
