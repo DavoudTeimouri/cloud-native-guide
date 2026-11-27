@@ -47,7 +47,7 @@ The sequence below respects the dependency groups above. **Each step must be ver
 
 ### Directional Dependency Note
 
-> **Do not impose a universal order where upstream compatibility requirements differ.**  
+> **Do not impose a universal order where upstream compatibility requirements differ.**
 > Example: Upgrading Kubernetes before CNI is only safe if the new CNI version is installed *before* or *concurrently* with the K8s upgrade. Always verify the target CNI/CSI supports the target K8s version before proceeding. The dependency graph above marks the direction; the actual sequence must be adapted to the installed component versions.
 
 ---

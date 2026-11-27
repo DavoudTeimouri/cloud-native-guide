@@ -4,7 +4,7 @@
 
 **Next task candidates:**
 1. architecture/02-deployment-topology.md — standalone documentation modification, low risk
-2. architecture/03-failure-domains.md — standalone documentation modification, low risk  
+2. architecture/03-failure-domains.md — standalone documentation modification, low risk
 3. security/host-baseline.md — standalone documentation, low risk
 
 **Dependencies:** None — all 3 candidates are standalone with no conflict dependencies

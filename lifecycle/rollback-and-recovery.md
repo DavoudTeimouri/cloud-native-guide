@@ -106,14 +106,14 @@ Did the upgrade fail during canary phase?
 ```
 Are application errors or data corruption observed after upgrade?
   ├── Yes → Identify changed component(s)
-  │       ├── If security component (Vault, Keycloak, Gatekeeper): 
+  │       ├── If security component (Vault, Keycloak, Gatekeeper):
   │       │       • Check audit logs for API changes
   │       │       • Verify secrets and tokens still validate
   │       │       • If incompatible: RB from verified backup
-  │       ├── If networking (CNI, ingress): 
+  │       ├── If networking (CNI, ingress):
   │       │       • Roll back CNI daemon set image tag
   │       │       • Roll back ingress-nginx via `kubectl rollout undo`
-  │       └── If application: 
+  │       └── If application:
   │           ├── Check database schema migration reversibility
   │           ├── If schema changed: RI (reinstallation and data restoration)
   │           └── If data-only issue: RB from database snapshot

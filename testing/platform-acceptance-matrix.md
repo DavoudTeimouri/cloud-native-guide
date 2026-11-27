@@ -60,7 +60,7 @@
 
 ### Lab Acceptance
 - **When**: Early in the release cycle, after static validation and component-level validation complete.
-- **Gate criteria**: 
+- **Gate criteria**:
   - All static YAML schema validation PASS (criterion #1 in matrix).
   - All component-level artifact validation PASS (criterion #2).
   - All interface/dependency contract validations PASS (criterion #3).

@@ -157,7 +157,7 @@ groups:
 
 ## Dashboard Organization, Provisioning and Version Control
 
-- Dashboards are JSON files stored in Git under `observability/grafana-dashboards/`. 
+- Dashboards are JSON files stored in Git under `observability/grafana-dashboards/`.
 - Grafana provisioning uses labels `dashboard: true` and `search: true` to auto-discover dashboards; no need to hardcode UIDs.
 - Version control: all dashboards, rules, and scrape configs live in Git; Argo CD applies them to the monitoring namespace.
 - Change workflow: PR → CI (`promtool check rules`, `promtool check dashboards`) → merge → Argo CD sync.

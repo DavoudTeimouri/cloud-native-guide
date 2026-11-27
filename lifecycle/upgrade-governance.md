@@ -43,11 +43,11 @@
 ```markdown
 # Upgrade Change Record
 
-**Date:** YYYY‑MM‑DD  
-**Upgrade ID:** `prefix-YYYYMMDD-N` (increment per change)  
-**Change Window:** [start‑timestamp] – [end‑timestamp]  
-**Risk Classification:** low / medium / high / critical  
-**Error‑Budget Impact:** % consumed during/after upgrade (pre‑ and post‑upgrade values)  
+**Date:** YYYY‑MM‑DD
+**Upgrade ID:** `prefix-YYYYMMDD-N` (increment per change)
+**Change Window:** [start‑timestamp] – [end‑timestamp]
+**Risk Classification:** low / medium / high / critical
+**Error‑Budget Impact:** % consumed during/after upgrade (pre‑ and post‑upgrade values)
 
 ## 1. Upgrade Scope
 | Component | Current Version | Target Version | Type (upgrade/patch/minor/major/migration/reinstall/rollback/DR) | Reversible? |
@@ -100,9 +100,9 @@
 | GitOps synchronization |  |  |
 | Application‑level validation |  |  |
 
-**Status:** `accepted` / `deferred` / `rollback initiated`  
-**Rollback decision deadline met?** `yes` / `no`  
-**Post‑upgrade acceptance sign‑off:** SRE lead __________, Component owner __________  
+**Status:** `accepted` / `deferred` / `rollback initiated`
+**Rollback decision deadline met?** `yes` / `no`
+**Post‑upgrade acceptance sign‑off:** SRE lead __________, Component owner __________
 
 ## 6. Version Inventory Updates
 | Component | New Version | `version-matrix.md` updated? | `artifact-matrix.md` updated? | Check date |

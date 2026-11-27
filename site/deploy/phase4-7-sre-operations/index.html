@@ -7071,7 +7071,7 @@ sudo<span class="w"> </span>do-release-upgrade<span class="w"> </span>-d
 <li><strong>Verify etcd quorum</strong>: <code>kubectl -n kube-system exec etcd-k8s-cp-new -- etcdctl endpoint health --cluster</code></li>
 <li><strong>Migrate API LB</strong>: update load balancer config to include new node's VIP; keep old node in LB but in drain mode</li>
 <li><strong>Rotate API server certs</strong> if needed (§6.3); restart kube-apiserver on new node</li>
-<li><strong>Remove old control-plane node</strong>: </li>
+<li><strong>Remove old control-plane node</strong>:</li>
 <li><code>kubectl drain k8s-cp-old --ignore-daemonsets --delete-emptydir-data --force</code></li>
 <li><code>kubectl -n kube-system exec etcd-&lt;old&gt; -- etcdctl member remove &lt;old-id&gt; --overwrite &lt;new-id&gt;</code></li>
 <li>Remove old node from inventory and run Kubespray removal</li>
