@@ -4,6 +4,14 @@ Seven test families. Every test states: procedure, expected result, evidence art
 
 Status column is authoritative: a test is PASSED only if it was executed and evidence is stored. Not-run tests read NOT RUN.
 
+## Canonical test registry
+
+The authoritative test definitions live in `requirements/test-registry.md`. This file is the acceptance gate: it lists every acceptance-test ID with its phase, owner, validation method, and current status. All IDs, statuses, and cross-references are generated from or synchronized with `requirements/test-registry.md`.
+
+**Total acceptance-test IDs: 86** (families A–G, M, P, S; all currently NOT RUN).
+
+**B-12 (internal registry only):** Kept as B-12 in `validation-strategy.md` (family B connectivity). The acceptance-criteria upgrade test that previously shared the B-12 ID has been renamed to **D-13** in `requirements/acceptance-criteria.md`. Old→new mapping: `B-12 (upgrade) → D-13`. No test was deleted.
+
 ## A. Compatibility and version validation
 
 | ID | Test | Procedure | Expected | Evidence | Pass/fail | Status |

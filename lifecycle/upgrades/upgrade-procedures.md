@@ -1,8 +1,17 @@
 # Upgrade procedures
 
+[Previous step](../backup/backup-and-dr.md)
+
+---
+
 Format for every component upgrade: source -> target, compatibility, pre-validation, offline artifact preparation, backup, dependency and upgrade order, canary, execution, post-checks, rollback feasibility, downtime, risks, success criteria.
 
 ## Rules that apply to every upgrade
+
+**This document is the authority; the site renders a configurable walkthrough of it.** Each flow
+in `catalog/upgrades.json` maps to a section here and carries the same gates, the same order, and
+the rollback statement. If the two disagree, fix the catalog — the site must not become a second
+source of truth.
 
 1. **Never skip a minor version.** Kubernetes supports one minor of skew; Ceph and Istio have explicit supported upgrade paths.
 2. **Pin, do not float.** The target version is added to `compatibility/version-matrix.md` with a source URL and a check date before the upgrade starts.
@@ -137,3 +146,6 @@ Not a version upgrade, but the same discipline applies.
 - Update `offline-artifacts/artifact-matrix.md` status for the affected artifacts.
 - Re-run the affected acceptance tests.
 - Record the actual downtime and any deviation from this procedure in the change record.
+
+
+[Previous step](../backup/backup-and-dr.md)

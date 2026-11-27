@@ -97,6 +97,17 @@ Status: `MIRRORED` = present in the internal system and pull-verified. `STAGED` 
 | Python wheels | pinned | PyPI | `https://pypi.org` | `nexus.internal/pypi` | transitive wheels | `pip download -r requirements.txt` | wheel hashes | `pip.conf` | per release | `pip install --no-index` |
 | Ansible collections | pinned | Galaxy | `https://galaxy.ansible.com` | `nexus.internal/ansible-galaxy` + vendored tarballs in GitLab | transitive collections | `ansible-galaxy collection download -r requirements.yml` | galaxy metadata | `ansible.cfg` | per release | `ansible-galaxy collection list` |
 
+## External load balancer (edge)
+
+| Component | Version | Artifact type | Official source | Internal destination | Dependencies | Download procedure | Integrity | Configuration | Refresh | Validation |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Nginx (edge) | pin (1.31.8) | OCI | `https://hub.docker.com/_/nginx` | `harbor.internal/edge/nginx` | none (static binary image) | `skopeo copy` | digest | `manifests/external-lb/nginx.conf` | per release | `nginx -t` in the container |
+| HAProxy (edge) | pin (3.2.26) | OCI | `https://hub.docker.com/_/haproxy` | `harbor.internal/edge/haproxy` | none | `skopeo copy` | digest | `manifests/external-lb/haproxy.cfg` | per release | `haproxy -c -f ...` in the container |
+| Keepalived (edge) | pin (2.4.3) | OCI | `https://hub.docker.com/r/acassen/keepalived` | `harbor.internal/edge/keepalived` | iproute2, iptables (in the image) | `skopeo copy` | digest | `manifests/external-lb/keepalived.conf` + `keepalived.d/` | per release | `docker logs edge-keepalived` shows a MASTER/BACKUP transition |
+| Docker Compose (plugin) | pin (v5.6.1) | OCI | `https://github.com/docker/compose/releases` | `harbor.internal/tools/compose` | Docker Engine | `skopeo copy` | digest | CLI plugin directory | per release | `docker compose version` |
+| Edge configuration | n/a | Git | `gitlab.internal/platform/edge` | GitLab | none | `git clone` | commit SHA | Compose file, Nginx, HAProxy, keepalived configs | per change | `docker compose config` |
+| Edge TLS certificate | n/a | Secret | Vault PKI | Vault | CA chain | Ansible from Vault | cert chain | mounted read-only at `/etc/nginx/certs` | 30d, auto-renewed | `openssl s_client` against the VIP |
+
 ## Scanning and signature databases
 
 | Item | Version | Artifact type | Source | Internal destination | Refresh | Validation |

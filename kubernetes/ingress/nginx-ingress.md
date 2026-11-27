@@ -105,17 +105,82 @@ Confirm the exact key names for the pinned version before relying on them.
 ## TLS
 
 ```yaml
-# cert-manager + Vault PKI issuer
+# cert-manager + Vault PKI issuer (canonical per ADR-0017)
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: internal-ca
 spec:
-  ca:
-    secretName: internal-ca-key-pair
+  vault:
+    server: https://vault.internal:8200
+    path: pki/sign/platform
+    auth:
+      kubernetes:
+        role: cert-manager
+        mountPath: /v1/auth/kubernetes
+        serviceAccountRef:
+          name: cert-manager-vault-issuer
 ```
 
-The CA key pair comes from Vault PKI via External Secrets, so it is never in Git. The controller serves the certificate from a Secret in its namespace or from a `Secret` in the application namespace, depending on the mode.
+Vault PKI holds and protects the CA signing key; cert-manager authenticates to Vault via Kubernetes auth using a projected ServiceAccount token for ServiceAccount `cert-manager-vault-issuer` (no long-lived token Secret), and requests/renews certificates; Vault performs certificate signing. The root CA key remains offline.
+
+Certificate trust is distributed to workloads and clients through the OS baseline and container images (see `operating-systems/host-configuration.md`).
+
+A bootstrap/self-signed CA Issuer may be used temporarily only while the Vault PKI path is being built; it must be removed once the Vault Issuer is operational. It is not a supported production path.
+
+**ClusterIssuer namespace semantics (cert-manager v1.21):** `serviceAccountRef` has no namespace field. The referenced ServiceAccount resolves in cert-manager's configured `--cluster-resource-namespace` — `cert-manager` is only an example and only if that is the configured value. The dedicated ServiceAccount `cert-manager-vault-issuer`, its Role, and its RoleBinding must be created in the configured ClusterResourceNamespace. The RoleBinding subject must identify the actual cert-manager controller ServiceAccount and its actual controller namespace (which may differ from the ClusterResourceNamespace). Verify the effective ClusterResourceNamespace from the cert-manager controller deployment arguments or configuration, as it is not necessarily the Helm release namespace.
+
+**cert-manager v1.21 TokenRequest RBAC:** cert-manager v1.21 no longer grants the controller ServiceAccount permission to create tokens for itself by default. When `serviceAccountRef.name` points to a ServiceAccount, you must create:
+
+- A dedicated ServiceAccount for Vault certificate issuance (`cert-manager-vault-issuer` in the configured ClusterResourceNamespace).
+- A narrow Role allowing `create` on `serviceaccounts/token` for that ServiceAccount only, in the ClusterResourceNamespace.
+- A RoleBinding allowing the cert-manager controller ServiceAccount (in its actual namespace) to use that Role, in the ClusterResourceNamespace.
+- A Vault Kubernetes-auth role (`cert-manager`) bound to that ServiceAccount and its namespace, with `pki/sign/platform` signing permissions.
+
+Example (substitute namespace and ServiceAccount name as needed; the namespace shown is the configured ClusterResourceNamespace, not assumed to always be `cert-manager`):
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cert-manager-vault-issuer
+  namespace: <cluster-resource-namespace>
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cert-manager-vault-token-request
+  namespace: <cluster-resource-namespace>
+rules:
+- apiGroups: [""]
+  resources: ["serviceaccounts/token"]
+  resourceNames: ["cert-manager-vault-issuer"]
+  verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cert-manager-vault-token-request
+  namespace: <cluster-resource-namespace>
+subjects:
+- kind: ServiceAccount
+  name: <controller-serviceaccount-name>
+  namespace: <controller-namespace>
+roleRef:
+  kind: Role
+  name: cert-manager-vault-token-request
+  apiGroup: rbac.authorization.k8s.io
+```
+
+**Vault audience:** cert-manager automatically includes the Vault server address from `spec.vault.server` and the issuer-specific audience `vault://internal-ca` (the form `vault://<cluster-issuer-name>` for a ClusterIssuer) in the projected ServiceAccount JWT via the Kubernetes TokenRequest API. Do not describe `https://kubernetes.default.svc` as cert-manager's default audience.
+
+**Kubernetes API audience is conditional:** When Vault uses a configured `token_reviewer_jwt`, cert-manager does not need to add the Kubernetes API audience merely for that reason. When Vault runs outside Kubernetes and reuses the cert-manager JWT for TokenReview, with `token_reviewer_jwt` omitted, the JWT must additionally include the actual Kubernetes API server audience. In that case, configure `serviceAccountRef.audiences` with the API server audience discovered from the cluster — do not use a hardcoded universal value. The automatically generated Vault server and issuer-specific audiences are preserved; `serviceAccountRef.audiences` adds audiences rather than replacing them.
+
+**Safe audience discovery:** Obtain a short-lived token with `kubectl create token` and inspect its `aud` claim to discover the Kubernetes API audience. Do not print or persist a live token in documentation or logs.
+
+**Vault role audience:** For a dedicated ClusterIssuer Vault role using Kubernetes auth, the issuer-specific audience `vault://internal-ca` must match the Vault role's `audience` restriction (the Kubernetes auth role field is `audience`; `bound_audiences` is for JWT auth roles). The actual ClusterIssuer name must match the audience configured in Vault. Keep `bound_service_account_names` and `bound_service_account_namespaces` aligned with the dedicated ServiceAccount and its actual ClusterResourceNamespace.
+
+**ServiceAccount token projection:** cert-manager uses its own ServiceAccount (in the controller namespace) to request a short-lived, projected JWT from the Kubernetes API server and presents it to Vault. Configure an RBAC rule allowing `cert-manager` to request tokens, and a Vault Kubernetes-auth role (`cert-manager`) bound to that ServiceAccount with `pki/sign/platform` signing permissions. Token audiences follow the Vault role configuration; no manually provisioned token Secret is required.
 
 ## Validation
 
