@@ -1,0 +1,288 @@
+---
+# OS preparation playbook — base role (all Linux nodes)
+# Applies: users, SSH, NTP, DNS, kernel params, modules, swap/THP, limits,
+# firewall, auditd, AIDE, unattended updates, CA bundle, containerd prereqs
+- name: Apply OS base preparation to all Linux nodes
+  hosts: all
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Detect OS family
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - '!facts'
+          - '!ohai'
+          - '!virtual'
+          - '!network'
+      register: ohai_minimal
+
+  tasks:
+    - name: Update packages
+      ansible.builtin.package:
+        name: "*"
+        state: latest
+
+    - name: Create admin user
+      ansible.builtin.user:
+        name: ansible
+        shell: /bin/bash
+        groups: "{{ 'wheel' if ansible_os_family == 'RedHat' else 'sudo' }}"
+        append: yes
+        create_home: yes
+
+    - name: Configure passwordless sudo for ansible user
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/ansible
+        line: "ansible ALL=(ALL) NOPASSWD:ALL"
+        mode: '0440'
+        create: yes
+
+    - name: Set up SSH key for ansible user
+      ansible.builtin.authorized_key:
+        user: ansible
+        key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
+        state: present
+
+    - name: Harden SSH configuration
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "{{ item.key }}"
+        line: "{{ item.key }} {{ item.value }}"
+      loop:
+        - { key: 'PermitRootLogin', value: 'no' }
+        - { key: 'PasswordAuthentication', value: 'no' }
+        - { key: 'PubkeyAuthentication', value: 'yes' }
+        - { key: 'X11Forwarding', value: 'no' }
+        - { key: 'MaxAuthTries', value: '3' }
+        - { key: 'ClientAliveInterval', value: '300' }
+        - { key: 'ClientAliveCountMax', value: '0' }
+      notify: restart sshd
+
+    - name: Install chrony
+      ansible.builtin.package:
+        name: chrony
+        state: present
+
+    - name: Configure chrony NTP servers
+      ansible.builtin.copy:
+        dest: /etc/chrony.conf
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          server 10.10.0.1 iburst
+          server 10.10.0.2 iburst
+          allow 10.10.0.0/16
+          local stratum 10
+      notify: restart chronyd
+
+    - name: Enable and start chronyd
+      ansible.posix.service:
+        name: chronyd
+        state: started
+        enabled: yes
+
+    - name: Configure DNS
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/resolved.conf
+        regexp: "^#?DNS="
+        line: "DNS=10.10.0.53"
+      notify: restart systemd-resolved
+
+    - name: Apply kernel parameters
+      ansible.posix.sysctl:
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: yes
+      loop:
+        - { key: 'net.ipv4.ip_forward', value: '1' }
+        - { key: 'net.bridge.bridge-nf-call-iptables', value: '1' }
+        - { key: 'net.bridge.bridge-nf-call-ip6tables', value: '1' }
+        - { key: 'vm.swappiness', value: '0' }
+        - { key: 'vm.overcommit_memory', value: '1' }
+        - { key: 'vm.panic_on_oom', value: '0' }
+        - { key: 'kernel.panic', value: '10' }
+        - { key: 'kernel.softlockup_panic', value: '1' }
+        - { key: 'net.core.somaxconn', value: '65535' }
+        - { key: 'net.core.netdev_max_backlog', value: '65535' }
+        - { key: 'net.ipv4.tcp_tw_reuse', value: '1' }
+        - { key: 'net.ipv4.ip_local_port_range', value: '1024 65535' }
+
+    - name: Load kernel modules
+      ansible.builtin.modprobe:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - overlay
+        - br_netfilter
+        - ip_vs
+        - nf_conntrack
+
+    - name: Ensure kernel modules load on boot
+      ansible.builtin.copy:
+        dest: /etc/modules-load.d/containerd.conf
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          overlay
+          br_netfilter
+          ip_vs
+          nf_conntrack
+
+    - name: Disable swap permanently
+      ansible.builtin.command: swapoff -a
+      changed_when: true
+
+    - name: Comment swap lines in fstab
+      ansible.builtin.replace:
+        path: /etc/fstab
+        regexp: '^[^#].*[[:space:]]swap[[:space:]]'
+        replace: '#&'
+
+    - name: Disable transparent huge pages
+      ansible.builtin.command: >
+        bash -c "echo never > /sys/kernel/mm/transparent_hugepage/enabled
+        && echo never > /sys/kernel/mm/transparent_hugepage/defrag"
+      changed_when: true
+
+    - name: Set file descriptor and process limits
+      ansible.builtin.copy:
+        dest: /etc/security/limits.d/99-cloud-native.conf
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          * soft nofile 1048576
+          * hard nofile 1048576
+          * soft nproc 65535
+          * hard nproc 65535
+          root soft nofile 1048576
+          root hard nofile 1048576
+
+    - name: Install nftables
+      ansible.builtin.package:
+        name: nftables
+        state: present
+
+    - name: Configure nftables
+      ansible.builtin.copy:
+        dest: /etc/nftables.conf
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          flush ruleset
+
+          table inet filter {
+            chain input {
+              type filter hook input priority 0; policy drop;
+              iifname "lo" accept
+              ct state established,related accept
+              icmp type echo-request accept
+              tcp dport 22 accept
+            }
+            chain forward {
+              type filter hook forward priority 0; policy drop;
+              ct state established,related accept
+            }
+            chain output {
+              type filter hook output priority 0; policy accept;
+            }
+          }
+
+    - name: Enable and start nftables
+      ansible.posix.service:
+        name: nftables
+        state: started
+        enabled: yes
+
+    - name: Install auditd
+      ansible.builtin.package:
+        name: auditd
+        state: present
+
+    - name: Enable and start auditd
+      ansible.posix.service:
+        name: auditd
+        state: started
+        enabled: yes
+
+    - name: Install AIDE
+      ansible.builtin.package:
+        name: aide
+        state: present
+
+    - name: Initialize AIDE database
+      ansible.builtin.command: aide --init
+      args:
+        creates: /var/lib/aide/aide.db.gz
+
+    - name: Install dnf-automatic (RHEL family)
+      ansible.builtin.package:
+        name: dnf-automatic
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Enable dnf-automatic (RHEL family)
+      ansible.builtin.lineinfile:
+        path: /etc/dnf/automatic.conf
+        regexp: '^apply_updates ='
+        line: 'apply_updates = yes'
+      when: ansible_os_family == 'RedHat'
+      notify: restart dnf-automatic.timer
+
+    - name: Install unattended-upgrades (Debian family)
+      ansible.builtin.package:
+        name: unattended-upgrades
+        state: present
+      when: ansible_os_family == 'Debian'
+
+    - name: Copy internal CA certificate
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'HOME') + '/.ssh/internal-ca.crt' }}"
+        dest: /etc/pki/ca-trust/source/anchors/internal-ca.crt
+        owner: root
+        group: root
+        mode: '0644'
+      when: lookup('env', 'HOME') + '/.ssh/internal-ca.crt' | exists
+
+    - name: Update CA trust
+      ansible.builtin.command: update-ca-trust extract
+      changed_when: false
+      when: lookup('env', 'HOME') + '/.ssh/internal-ca.crt' | exists
+
+    - name: Install containerd prerequisites
+      ansible.builtin.package:
+        name:
+          - containerd
+          - conntrack
+          - ethtool
+        state: present
+
+  handlers:
+    - name: restart sshd
+      ansible.posix.service:
+        name: sshd
+        state: restarted
+      listen: restart sshd
+
+    - name: restart chronyd
+      ansible.posix.service:
+        name: chronyd
+        state: restarted
+      listen: restart chronyd
+
+    - name: restart systemd-resolved
+      ansible.builtin.command: systemctl restart systemd-resolved
+      listen: restart systemd-resolved
+
+    - name: restart dnf-automatic.timer
+      ansible.posix.service:
+        name: dnf-automatic.timer
+        state: restarted
+      listen: restart dnf-automatic.timer

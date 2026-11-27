@@ -1,0 +1,70 @@
+---
+# OS preparation playbook — Repository/registry manager role (Harbor/Nexus)
+# Applies common baseline then registry-specific tuning:
+# large disk for image layers, backup, TLS certificates
+- name: Prepare repository/registry nodes
+  hosts: repo_registry_servers
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Run OS base preparation
+      ansible.builtin.import_playbook: playbooks/os-prep-base.yml
+
+  tasks:
+    - name: Prepare registry storage disk
+      ansible.builtin.command: >
+        wipefs -af {{ registry_disk }}
+        && mkfs.xfs -f {{ registry_disk }}
+        && mkdir -p {{ registry_mount }}
+        && mount {{ registry_disk }} {{ registry_mount }}
+      args:
+        creates: "{{ registry_mount }}/lost+found"
+      vars:
+        registry_disk: "{{ lookup('env', 'REGISTRY_DISK') | default('/dev/nvme1n1') }}"
+        registry_mount: "{{ lookup('env', 'REGISTRY_MOUNT') | default('/opt/registry') }}"
+
+    - name: Add registry mount to fstab
+      ansible.builtin.mount:
+        path: "{{ lookup('env', 'REGISTRY_MOUNT') | default('/opt/registry') }}"
+        src: "{{ lookup('env', 'REGISTRY_DISK') | default('/dev/nvme1n1') }}"
+        fstype: xfs
+        opts: defaults,noatime
+        state: mounted
+
+    - name: Install docker-compose
+      ansible.builtin.package:
+        name: docker-compose
+        state: present
+
+    - name: Install TLS certificates for registry
+      ansible.builtin.copy:
+        src: "{{ lookup('env', 'HOME') + '/.ssh/' + item }}"
+        dest: "/etc/registry/certs/{{ item }}"
+        owner: root
+        group: root
+        mode: '0644'
+      loop:
+        - registry.crt
+        - registry.key
+      when:
+        - lookup('env', 'HOME') + '/.ssh/' + item | exists
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Set registry cert key permissions
+      ansible.builtin.file:
+        path: "/etc/registry/certs/registry.key"
+        mode: '0600'
+      when: lookup('env', 'HOME') + '/.ssh/registry.key' | exists
+
+    - name: Verify registry preparation
+      ansible.builtin.command: mount | grep {{ lookup('env', 'REGISTRY_MOUNT') | default('/opt/registry') }}
+      register: registry_mount_check
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Display registry mount status
+      ansible.builtin.debug:
+        msg: "{{ registry_mount_check.stdout_lines }}"

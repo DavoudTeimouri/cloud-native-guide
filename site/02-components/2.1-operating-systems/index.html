@@ -721,10 +721,82 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#component-to-os-support-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component-to-OS support matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#per-os-notes" class="md-nav__link">
     <span class="md-ellipsis">
       
         Per-OS notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-server-worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Server worker node
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Server worker node">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-worker-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows worker requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-worker-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows worker limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-preparation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows preparation checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cis-benchmark-bypass-per-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIS benchmark bypass per role
       
     </span>
   </a>
@@ -4119,10 +4191,82 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#component-to-os-support-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component-to-OS support matrix
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#per-os-notes" class="md-nav__link">
     <span class="md-ellipsis">
       
         Per-OS notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-server-worker-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows Server worker node
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Server worker node">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#windows-worker-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows worker requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-worker-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows worker limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows-preparation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Windows preparation checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cis-benchmark-bypass-per-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIS benchmark bypass per role
       
     </span>
   </a>
@@ -4162,7 +4306,7 @@
 
 <h1 id="operating-systems">Operating Systems<a class="headerlink" href="#operating-systems" title="Permanent link">&para;</a></h1>
 <h2 id="purpose-and-scope">Purpose and scope<a class="headerlink" href="#purpose-and-scope" title="Permanent link">&para;</a></h2>
-<p>Cover supported operating systems: Oracle Linux, RHEL, Rocky Linux, AlmaLinux, Ubuntu Server, Debian, SUSE Linux Enterprise Server, Windows Server. For each: support status, install, offline, hardening, network, DNS/NTP, storage, firewall, packages, services, kernel, updates, automation.</p>
+<p>Cover supported operating systems: Oracle Linux, RHEL, Rocky Linux, AlmaLinux, Ubuntu Server, Debian, SUSE Linux Enterprise Server, Windows Server. For each: support status, install, offline, hardening, network, DNS/NTP, storage, firewall, packages, kernel, updates, automation, component compatibility matrix, Windows worker node coverage, CIS bypass per role.</p>
 <h2 id="supported-os-matrix">Supported OS matrix<a class="headerlink" href="#supported-os-matrix" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -4171,48 +4315,166 @@
 <th>Version</th>
 <th>Kernel</th>
 <th>Status</th>
-<th>Roles</th>
+<th>Supported roles</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Oracle Linux</td>
-<td>9</td>
-<td>5.14 UEK/RHCK</td>
+<td>9.4+</td>
+<td>6.8+ UEK/RHCK</td>
 <td>Preferred</td>
-<td>all</td>
+<td>control-plane, worker, storage, LB, repo/registry, GitLab, automation, monitoring</td>
 </tr>
 <tr>
 <td>Ubuntu Server</td>
 <td>24.04 LTS</td>
 <td>6.8+ GA</td>
 <td>Preferred</td>
-<td>all</td>
+<td>control-plane, worker, storage, LB, repo/registry, GitLab, automation, monitoring</td>
 </tr>
 <tr>
-<td>RHEL/Rocky/Alma</td>
-<td>9</td>
-<td>5.14</td>
+<td>RHEL</td>
+<td>9.4+</td>
+<td>5.14+</td>
 <td>Supported</td>
-<td>all</td>
+<td>control-plane, worker, storage, LB, repo/registry, GitLab, automation, monitoring</td>
+</tr>
+<tr>
+<td>Rocky Linux</td>
+<td>9.4+</td>
+<td>5.14+</td>
+<td>Supported</td>
+<td>control-plane, worker, storage, LB, repo/registry, GitLab, automation, monitoring</td>
+</tr>
+<tr>
+<td>AlmaLinux</td>
+<td>9.4+</td>
+<td>5.14+</td>
+<td>Supported</td>
+<td>control-plane, worker, storage, LB, repo/registry, GitLab, automation, monitoring</td>
 </tr>
 <tr>
 <td>Ubuntu Server</td>
 <td>22.04 LTS</td>
 <td>5.15</td>
 <td>Supported</td>
-<td>all</td>
+<td>control-plane, worker, storage, LB, repo/registry, GitLab, automation, monitoring</td>
 </tr>
 <tr>
 <td>Windows Server</td>
 <td>2022</td>
 <td>—</td>
 <td>Supported</td>
-<td>mgmt GUI only</td>
+<td>worker node only (with containerd)</td>
 </tr>
 </tbody>
 </table>
-<p>OL8 and Ubuntu 20.04 are below Kubespray's 4.19 minimum — not supported.</p>
+<p>OL8 and Ubuntu 20.04 are below Kubespray's 4.19 minimum kernel — not supported.</p>
+<h2 id="component-to-os-support-matrix">Component-to-OS support matrix<a class="headerlink" href="#component-to-os-support-matrix" title="Permanent link">&para;</a></h2>
+<p>Each infrastructure component below lists the OS versions it is certified to run on.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Oracle Linux</th>
+<th>Ubuntu</th>
+<th>RHEL/Rocky/Alma</th>
+<th>Windows Server</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kubernetes control plane</td>
+<td>9.4+</td>
+<td>24.04 LTS, 22.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>Kubespray requires Linux control plane</td>
+</tr>
+<tr>
+<td>Kubernetes worker (Linux)</td>
+<td>9.4+</td>
+<td>24.04 LTS, 22.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>containerd required</td>
+</tr>
+<tr>
+<td>Kubernetes worker (Windows)</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>2022</td>
+<td>containerd + win-kubelet, Windows containers only</td>
+</tr>
+<tr>
+<td>Ceph MON/MGR/OSD</td>
+<td>9.4+</td>
+<td>24.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>Ceph Quincy/Reef; XFS required</td>
+</tr>
+<tr>
+<td>Ceph RGW</td>
+<td>9.4+</td>
+<td>24.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>Object storage gateway</td>
+</tr>
+<tr>
+<td>Load balancer (HAProxy/NGINX)</td>
+<td>9.4+</td>
+<td>24.04 LTS, 22.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>IP forwarding, keepalived</td>
+</tr>
+<tr>
+<td>Repository/registry (Harbor/Nexus)</td>
+<td>9.4+</td>
+<td>24.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>Large disk for layers</td>
+</tr>
+<tr>
+<td>GitLab</td>
+<td>9.4+</td>
+<td>24.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>omnibus package</td>
+</tr>
+<tr>
+<td>Automation server (Ansible)</td>
+<td>9.4+</td>
+<td>24.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>Python 3, ansible-core</td>
+</tr>
+<tr>
+<td>Monitoring (Prometheus/Grafana/Loki)</td>
+<td>9.4+</td>
+<td>24.04 LTS</td>
+<td>9.4+</td>
+<td>No</td>
+<td>node_exporter, Loki</td>
+</tr>
+<tr>
+<td>Management server (GUI/admin)</td>
+<td>9.4+</td>
+<td>24.04 LTS</td>
+<td>9.4+</td>
+<td>2022</td>
+<td>Windows for GUI administration</td>
+</tr>
+</tbody>
+</table>
 <h2 id="per-os-notes">Per-OS notes<a class="headerlink" href="#per-os-notes" title="Permanent link">&para;</a></h2>
 <ul>
 <li>SELinux (OL/RHEL/Rocky/Alma): enforcing, do not disable</li>
@@ -4221,10 +4483,205 @@
 <li>sysctl: net.ipv4.ip_forward=1, net.bridge.bridge-nf-call-iptables=1</li>
 <li>Swap: off; transparent huge pages: never</li>
 </ul>
+<h2 id="windows-server-worker-node">Windows Server worker node<a class="headerlink" href="#windows-server-worker-node" title="Permanent link">&para;</a></h2>
+<p>Windows Server 2022 is supported as a Kubernetes worker node only — not as a control plane node.</p>
+<h3 id="windows-worker-requirements">Windows worker requirements<a class="headerlink" href="#windows-worker-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Windows Server 2022 Datacenter or Standard</li>
+<li>containerd 1.7+ as the container runtime</li>
+<li>win-kubelet for Kubernetes node agent</li>
+<li>Windows containers only (no Linux containers on Windows worker)</li>
+<li>Hyper-V isolation for container security</li>
+<li>Join via Kubespray Windows playbook or manual node join</li>
+</ul>
+<h3 id="windows-worker-limitations">Windows worker limitations<a class="headerlink" href="#windows-worker-limitations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>No control plane components</li>
+<li>No Ceph OSD/MON/MDS</li>
+<li>No load balancer (HAProxy/NGINX/Keepalived)</li>
+<li>No repository/registry server</li>
+<li>No GitLab server</li>
+<li>Linux CNI plugins only; Windows uses HNS or Azure CNI equivalents</li>
+</ul>
+<h3 id="windows-preparation-checklist">Windows preparation checklist<a class="headerlink" href="#windows-preparation-checklist" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Enable Windows Update from internal WSUS</li>
+<li>Install containerd via Chocolatey or direct MSI</li>
+<li>Configure Windows Firewall rules for Kubernetes (10250, 3389, 5985)</li>
+<li>Set page file on dedicated volume</li>
+<li>Enable BitLocker for OS volume</li>
+<li>Join domain via Group Policy (not local accounts only — Windows exception)</li>
+</ul>
+<h2 id="cis-benchmark-bypass-per-role">CIS benchmark bypass per role<a class="headerlink" href="#cis-benchmark-bypass-per-role" title="Permanent link">&para;</a></h2>
+<p>CIS benchmarks are the baseline, but some controls break infrastructure components. The following items may be bypassed per role:</p>
+<table>
+<thead>
+<tr>
+<th>CIS Control</th>
+<th>Control plane</th>
+<th>Worker</th>
+<th>Storage</th>
+<th>LB</th>
+<th>Registry</th>
+<th>GitLab</th>
+<th>Automation</th>
+<th>Monitoring</th>
+<th>Windows worker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Disable unused filesystems (cramfs, freevxfs, jffs2, hfs, hfsplus, squashfs, udf)</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Set sticky bit on world-writable directories</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Disable core dumps</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Enable auditd</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>SSH: PermitRootLogin no</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>SSH: PasswordAuthentication no</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Firewall: default deny inbound</td>
+<td>Bypass for 6443, 2379-2380, 10250</td>
+<td>Bypass for 10250, 30000-32767</td>
+<td>Bypass for 6789, 3300, 6800-7300</td>
+<td>Bypass for 80, 443, 6443</td>
+<td>Bypass for 443, 8080</td>
+<td>Bypass for 22, 80, 443</td>
+<td>Bypass for 22</td>
+<td>Bypass for 9090, 3000</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Filesystem: noexec on /tmp</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Filesystem: nosuid on /tmp</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Kernel: sysctl hardening</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Password complexity</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep (Windows)</td>
+</tr>
+<tr>
+<td>Account lockout</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep</td>
+<td>Keep (Windows)</td>
+</tr>
+</tbody>
+</table>
+<p>"Keep" = apply the CIS control. "Bypass" = do not apply because the component requires the port/filesystem setting.</p>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../2.5-os-prep-by-role/">Components (2.5 OS Preparation by Role)</a></li>
-<li><a href="../../01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation/">Overview (1.2 Resource Calculation)</a></li>
+<li><a href="../2.7-kubernetes-nodes/">Components (2.7 Kubernetes Nodes)</a></li>
+<li><a href="../../01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation/">Overview (1.3 Infrastructure Sizing)</a></li>
 </ul>
 
 

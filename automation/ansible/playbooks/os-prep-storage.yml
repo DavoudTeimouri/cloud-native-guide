@@ -1,0 +1,60 @@
+---
+# OS preparation playbook — Ceph storage node role
+# Applies common baseline then storage-specific tuning:
+# XFS with ftype=1, dedicated journal/WAL devices, disk tuning
+- name: Prepare Ceph storage nodes
+  hosts: ceph_nodes
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Run OS base preparation
+      ansible.builtin.import_playbook: playbooks/os-prep-base.yml
+
+  tasks:
+    - name: Format OSD devices as XFS with ftype=1
+      ansible.builtin.command: >
+        wipefs -af {{ item }}
+        && mkfs.xfs -f -n ftype=1 {{ item }}
+      args:
+        creates: /var/lib/ceph/osd/{{ item | basename }}
+      loop: "{{ lookup('env', 'OSD_DISKS') | default(['/dev/nvme1n1', '/dev/nvme2n1']) | split(',') }}"
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Tune OSD disk read-ahead
+      ansible.builtin.command: >
+        echo 1024 > /sys/block/{{ item | basename }}/queue/read_ahead_kb
+      changed_when: true
+      loop: "{{ lookup('env', 'OSD_DISKS') | default(['/dev/nvme1n1', '/dev/nvme2n1']) | split(',') }}"
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Create ceph user
+      ansible.builtin.user:
+        name: ceph
+        shell: /sbin/nologin
+        create_home: no
+        system: yes
+
+    - name: Apply Ceph sysctl tuning
+      ansible.posix.sysctl:
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: yes
+      loop:
+        - { key: 'vm.vfs_cache_pressure', value: '50' }
+        - { key: 'vm.dirty_ratio', value: '10' }
+        - { key: 'vm.dirty_background_ratio', value: '5' }
+
+    - name: Verify storage preparation
+      ansible.builtin.command: xfs_info /dev/nvme1n1
+      register: xfs_info
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Display XFS info
+      ansible.builtin.debug:
+        msg: "{{ xfs_info.stdout_lines }}"

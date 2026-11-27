@@ -1,0 +1,106 @@
+---
+# OS preparation playbook — Kubernetes control plane role
+# Applies common baseline then control-plane-specific tuning:
+# dedicated NVMe for etcd, max_pods, kubelet reserved resources
+- name: Prepare Kubernetes control plane nodes
+  hosts: kube_control_plane
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Run OS base preparation
+      ansible.builtin.import_playbook: playbooks/os-prep-base.yml
+
+  tasks:
+    - name: Detect etcd disk
+      ansible.builtin.command: lsblk -d -n -o NAME,SIZE,TYPE
+      register: lsblk_output
+      changed_when: false
+
+    - name: Prepare etcd storage on NVMe disk
+      ansible.builtin.command: >
+        wipefs -af {{ etcd_disk }}
+        && mkfs.xfs -f {{ etcd_disk }}
+        && mkdir -p /var/lib/etcd
+        && mount {{ etcd_disk }} /var/lib/etcd
+      args:
+        creates: /var/lib/etcd/ lost+found
+      vars:
+        etcd_disk: "{{ lookup('env', 'ETCD_DISK') | default('/dev/nvme1n1') }}"
+      when: ansible_facts['mounts'] | selectattr('mount', 'eq', '/var/lib/etcd') | list | length == 0
+
+    - name: Add etcd mount to fstab
+      ansible.builtin.mount:
+        path: /var/lib/etcd
+        src: "{{ lookup('env', 'ETCD_DISK') | default('/dev/nvme1n1') }}"
+        fstype: xfs
+        opts: defaults,noatime
+        state: mounted
+
+    - name: Configure kubelet config directory
+      ansible.builtin.file:
+        path: /etc/kubernetes/kubelet
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Write kubelet configuration
+      ansible.builtin.copy:
+        dest: /etc/kubernetes/kubelet/kubelet-config.yaml
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          apiVersion: kubelet.config.k8s.io/v1beta1
+          kind: KubeletConfiguration
+          staticPodPath: /etc/kubernetes/manifests
+          clusterDNS: 10.96.0.10
+          clusterDomain: cluster.local
+          maxPods: 110
+          readOnlyPort: 10255
+          authentication:
+            anonymous:
+              enabled: false
+            webhook:
+              enabled: true
+          authorization:
+            mode: Webhook
+          evictionHard:
+            memory.available: "500Mi"
+            nodefs.available: "10%"
+            nodefs.inodesFree: "5%"
+            imagefs.available: "10%"
+          reservedSystemCPUs: "500m"
+          reservedSystemMemory: "512Mi"
+
+    - name: Apply control plane kernel tuning
+      ansible.posix.sysctl:
+        name: "{{ item.key }}"
+        value: "{{ item.value }}"
+        state: present
+        reload: yes
+      loop:
+        - { key: 'net.ipv4.tcp_keepalive_time', value: '600' }
+        - { key: 'net.ipv4.tcp_keepalive_intvl', value: '30' }
+        - { key: 'net.ipv4.tcp_keepalive_probes', value: '10' }
+
+    - name: Ensure swap is off
+      ansible.builtin.command: swapoff -a
+      changed_when: true
+
+    - name: Comment swap lines in fstab
+      ansible.builtin.replace:
+        path: /etc/fstab
+        regexp: '^[^#].*[[:space:]]swap[[:space:]]'
+        replace: '#&'
+
+    - name: Verify control plane preparation
+      ansible.builtin.command: chronyc tracking
+      register: chrony_status
+      changed_when: false
+
+    - name: Display chrony status
+      ansible.builtin.debug:
+        msg: "{{ chrony_status.stdout_lines }}"

@@ -1,0 +1,95 @@
+---
+# OS preparation playbook — Automation server role (Ansible control node)
+# Applies common baseline then automation-specific tuning:
+# Ansible venv, collections from internal mirror, SSH keys
+- name: Prepare automation server nodes
+  hosts: automation_servers
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Run OS base preparation
+      ansible.builtin.import_playbook: playbooks/os-prep-base.yml
+
+  tasks:
+    - name: Install Python 3 and pip
+      ansible.builtin.package:
+        name:
+          - python3
+          - python3-pip
+        state: present
+
+    - name: Create Ansible virtualenv
+      ansible.builtin.command: python3 -m venv /opt/ansible/venv
+      args:
+        creates: /opt/ansible/venv/bin/python3
+
+    - name: Install Ansible in venv
+      ansible.builtin.command: >
+        /opt/ansible/venv/bin/pip install --upgrade pip
+        && /opt/ansible/venv/bin/pip install ansible-core==2.19.2 ansible-lint==25.1.0 netaddr jinja2
+      args:
+        creates: /opt/ansible/venv/bin/ansible
+
+    - name: Configure pip to use internal index
+      ansible.builtin.copy:
+        dest: /opt/ansible/venv/pip.conf
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          [global]
+          index-url = http://nexus.internal/repository/pypi/simple
+          trusted-host = nexus.internal
+
+    - name: Create Ansible collections requirements file
+      ansible.builtin.copy:
+        dest: /tmp/ansible-requirements.yml
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          collections:
+            - name: community.general
+              version: ">=8.0.0,<10.0.0"
+            - name: ansible.posix
+              version: ">=1.5.0,<2.0.0"
+            - name: kubernetes.core
+              version: ">=3.0.0,<5.0.0"
+            - name: community.crypto
+              version: ">=2.20.0,<3.0.0"
+
+    - name: Install Ansible collections
+      ansible.builtin.command: >
+        /opt/ansible/venv/bin/ansible-galaxy collection install -r /tmp/ansible-requirements.yml
+      changed_when: true
+
+    - name: Set up SSH keys for ansible user
+      ansible.builtin.authorized_key:
+        user: ansible
+        key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
+        state: present
+
+    - name: Pre-populate SSH known_hosts
+      ansible.builtin.command: >
+        ssh-keyscan 10.10.0.101 10.10.0.102 10.10.0.103
+        10.10.0.201 10.10.0.202 10.10.0.203
+        >> /home/ansible/.ssh/known_hosts
+      changed_when: true
+
+    - name: Fix known_hosts ownership
+      ansible.builtin.file:
+        path: /home/ansible/.ssh/known_hosts
+        owner: ansible
+        group: ansible
+        mode: '0644'
+
+    - name: Verify Ansible installation
+      ansible.builtin.command: /opt/ansible/venv/bin/ansible --version
+      register: ansible_version
+      changed_when: false
+
+    - name: Display Ansible version
+      ansible.builtin.debug:
+        msg: "{{ ansible_version.stdout_lines }}"

@@ -1,0 +1,60 @@
+---
+# OS preparation playbook — Kubernetes worker node role (Linux)
+# Applies common baseline then worker-specific tuning:
+# container runtime, kubelet, node labels/taints, GPU drivers (optional)
+- name: Prepare Kubernetes worker nodes (Linux)
+  hosts: kube_node
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Run OS base preparation
+      ansible.builtin.import_playbook: playbooks/os-prep-base.yml
+
+  tasks:
+    - name: Configure containerd
+      ansible.builtin.copy:
+        dest: /etc/containerd/config.toml
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          version = 2
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+            options = { SystemdCgroup = true }
+          [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+            endpoint = ["https://harbor.internal:5000"]
+          [plugins."io.containerd.grpc.v1.cri".registry.mirrors."harbor.internal:5000"]
+            endpoint = ["https://harbor.internal:5000"]
+
+    - name: Enable and start containerd
+      ansible.posix.service:
+        name: containerd
+        state: started
+        enabled: yes
+
+    - name: Configure crictl
+      ansible.builtin.command: crictl config --set runtime-endpoint=unix:///run/containerd/containerd.sock
+      changed_when: false
+
+    - name: Install GPU drivers (NVIDIA detected)
+      ansible.builtin.package:
+        name:
+          - nvidia-driver-latest-dkms
+          - nvidia-container-toolkit
+        state: present
+      when:
+        - ansible_facts['hardware'] is defined
+        - ansible_facts['hardware']['devices']['pcidevices'] is defined
+        - ansible_facts['hardware']['devices']['pcidevices'] | selectattr('device', 'match', '.*NVIDIA.*') | list | length > 0
+      ignore_errors: yes
+
+    - name: Verify containerd is active
+      ansible.builtin.command: systemctl is-active containerd
+      register: containerd_status
+      changed_when: false
+
+    - name: Display containerd status
+      ansible.builtin.debug:
+        msg: "{{ containerd_status.stdout }}"

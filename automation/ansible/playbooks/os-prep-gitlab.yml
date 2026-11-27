@@ -1,0 +1,85 @@
+---
+# OS preparation playbook — GitLab server role
+# Applies common baseline then GitLab-specific tuning:
+# PostgreSQL, Redis, object storage, GitLab omnibus package
+- name: Prepare GitLab server nodes
+  hosts: gitlab_servers
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Run OS base preparation
+      ansible.builtin.import_playbook: playbooks/os-prep-base.yml
+
+  tasks:
+    - name: Prepare GitLab storage disk
+      ansible.builtin.command: >
+        wipefs -af {{ gitlab_disk }}
+        && mkfs.xfs -f {{ gitlab_disk }}
+        && mkdir -p {{ gitlab_mount }}
+        && mount {{ gitlab_disk }} {{ gitlab_mount }}
+      args:
+        creates: "{{ gitlab_mount }}/lost+found"
+      vars:
+        gitlab_disk: "{{ lookup('env', 'GITLAB_DISK') | default('/dev/nvme1n1') }}"
+        gitlab_mount: "{{ lookup('env', 'GITLAB_MOUNT') | default('/var/opt/gitlab') }}"
+
+    - name: Add GitLab mount to fstab
+      ansible.builtin.mount:
+        path: "{{ lookup('env', 'GITLAB_MOUNT') | default('/var/opt/gitlab') }}"
+        src: "{{ lookup('env', 'GITLAB_DISK') | default('/dev/nvme1n1') }}"
+        fstype: xfs
+        opts: defaults,noatime
+        state: mounted
+
+    - name: Install GitLab dependencies
+      ansible.builtin.package:
+        name:
+          - curl
+          - openssh-server
+          - ca-certificates
+          - tzdata
+          - perl
+        state: present
+
+    - name: Install GitLab omnibus package repository (RHEL family)
+      ansible.builtin.command: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script/rpm.sh | bash
+      when: ansible_os_family == 'RedHat'
+      changed_when: true
+
+    - name: Install GitLab omnibus package repository (Debian family)
+      ansible.builtin.command: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script/deb.sh | bash
+      when: ansible_os_family == 'Debian'
+      changed_when: true
+
+    - name: Install gitlab-ee package
+      ansible.builtin.package:
+        name: gitlab-ee
+        state: present
+
+    - name: Configure GitLab
+      ansible.builtin.copy:
+        dest: /etc/gitlab/gitlab.rb
+        owner: root
+        group: root
+        mode: '0600'
+        content: |
+          external_url 'https://gitlab.internal'
+          gitlab_rails['initial_root_password'] = 'CHANGE_ME'
+          nginx['redirect_http_to_https'] = true
+          nginx['ssl_certificate'] = '/etc/gitlab/ssl/gitlab.internal.crt'
+          nginx['ssl_certificate_key'] = '/etc/gitlab/ssl/gitlab.internal.key'
+          gitlab_rails['smtp_enable'] = true
+          gitlab_rails['smtp_address'] = 'smtp.internal'
+          gitlab_rails['smtp_port'] = 25
+
+    - name: Verify GitLab preparation
+      ansible.builtin.command: mount | grep {{ lookup('env', 'GITLAB_MOUNT') | default('/var/opt/gitlab') }}
+      register: gitlab_mount_check
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Display GitLab mount status
+      ansible.builtin.debug:
+        msg: "{{ gitlab_mount_check.stdout_lines }}"

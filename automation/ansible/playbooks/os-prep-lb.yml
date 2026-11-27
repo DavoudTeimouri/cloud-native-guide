@@ -1,0 +1,120 @@
+---
+# OS preparation playbook — Load balancer node role
+# Applies common baseline then LB-specific tuning:
+# IP forwarding, keepalived, HAProxy/NGINX, VIP health checks
+- name: Prepare load balancer nodes
+  hosts: lb_nodes
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Run OS base preparation
+      ansible.builtin.import_playbook: playbooks/os-prep-base.yml
+
+  tasks:
+    - name: Enable IP forwarding
+      ansible.posix.sysctl:
+        name: "{{ item }}"
+        value: 1
+        state: present
+        reload: yes
+      loop:
+        - net.ipv4.ip_forward
+        - net.ipv4.ip_nonlocal_bind
+
+    - name: Install HAProxy and Keepalived
+      ansible.builtin.package:
+        name:
+          - haproxy
+          - keepalived
+        state: present
+
+    - name: Configure HAProxy
+      ansible.builtin.copy:
+        dest: /etc/haproxy/haproxy.cfg
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          global
+            log /dev/log local0
+            maxconn 2000
+            user haproxy
+            group haproxy
+            daemon
+
+          defaults
+            log global
+            mode tcp
+            retries 3
+            timeout connect 5000
+            timeout client 50000
+            timeout server 50000
+
+          frontend kubernetes-api
+            bind *:6443
+            default_backend kubernetes-api
+
+          backend kubernetes-api
+            balance roundrobin
+            option tcp-check
+            # Server entries added by Kubespray/Ansible
+
+          frontend k8s-ingress
+            bind *:80
+            bind *:443
+            default_backend k8s-ingress
+
+          backend k8s-ingress
+            balance roundrobin
+            option tcp-check
+            # Server entries added by Kubespray/Ansible
+
+    - name: Enable and start HAProxy
+      ansible.posix.service:
+        name: haproxy
+        state: started
+        enabled: yes
+
+    - name: Configure Keepalived
+      ansible.builtin.copy:
+        dest: /etc/keepalived/keepalived.conf
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          vrrp_instance VI_1 {
+            state BACKUP
+            interface eth0
+            virtual_router_id 51
+            priority 100
+            advert_int 1
+            virtual_ipaddress {
+              10.10.0.10
+            }
+            track_script {
+              chk_haproxy
+            }
+          }
+
+          vrrp_script chk_haproxy {
+            script "killall -0 haproxy"
+            interval 2
+            weight 2
+          }
+
+    - name: Enable and start Keepalived
+      ansible.posix.service:
+        name: keepalived
+        state: started
+        enabled: yes
+
+    - name: Verify load balancer preparation
+      ansible.builtin.command: systemctl is-active haproxy
+      register: haproxy_status
+      changed_when: false
+
+    - name: Display HAProxy status
+      ansible.builtin.debug:
+        msg: "{{ haproxy_status.stdout }}"

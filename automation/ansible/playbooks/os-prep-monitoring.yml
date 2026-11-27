@@ -1,0 +1,99 @@
+---
+# OS preparation playbook — Monitoring node role
+# Applies common baseline then monitoring-specific tuning:
+# node_exporter, Fluent Bit, Prometheus scrape targets
+- name: Prepare monitoring nodes
+  hosts: monitoring_nodes
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  pre_tasks:
+    - name: Run OS base preparation
+      ansible.builtin.import_playbook: playbooks/os-prep-base.yml
+
+  tasks:
+    - name: Prepare monitoring storage disk
+      ansible.builtin.command: >
+        wipefs -af {{ monitoring_disk }}
+        && mkfs.xfs -f {{ monitoring_disk }}
+        && mkdir -p {{ monitoring_mount }}
+        && mount {{ monitoring_disk }} {{ monitoring_mount }}
+      args:
+        creates: "{{ monitoring_mount }}/lost+found"
+      vars:
+        monitoring_disk: "{{ lookup('env', 'MONITORING_DISK') | default('/dev/nvme1n1') }}"
+        monitoring_mount: "{{ lookup('env', 'MONITORING_MOUNT') | default('/var/lib/prometheus') }}"
+
+    - name: Add monitoring mount to fstab
+      ansible.builtin.mount:
+        path: "{{ lookup('env', 'MONITORING_MOUNT') | default('/var/lib/prometheus') }}"
+        src: "{{ lookup('env', 'MONITORING_DISK') | default('/dev/nvme1n1') }}"
+        fstype: xfs
+        opts: defaults,noatime
+        state: mounted
+
+    - name: Install monitoring packages
+      ansible.builtin.package:
+        name:
+          - prometheus
+          - grafana
+          - alertmanager
+          - prometheus-node-exporter
+        state: present
+
+    - name: Enable and start node_exporter
+      ansible.posix.service:
+        name: prometheus-node-exporter
+        state: started
+        enabled: yes
+
+    - name: Configure Prometheus
+      ansible.builtin.copy:
+        dest: /etc/prometheus/prometheus.yml
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          global:
+            scrape_interval: 15s
+            evaluation_interval: 15s
+
+          scrape_configs:
+            - job_name: 'prometheus'
+              static_configs:
+                - targets: ['localhost:9090']
+
+            - job_name: 'node-exporter'
+              static_configs:
+                - targets:
+                  - 'localhost:9100'
+
+    - name: Enable and start Prometheus
+      ansible.posix.service:
+        name: prometheus
+        state: started
+        enabled: yes
+
+    - name: Enable and start Grafana
+      ansible.posix.service:
+        name: grafana-server
+        state: started
+        enabled: yes
+      ignore_errors: yes
+
+    - name: Enable and start Alertmanager
+      ansible.posix.service:
+        name: alertmanager
+        state: started
+        enabled: yes
+      ignore_errors: yes
+
+    - name: Verify monitoring preparation
+      ansible.builtin.command: systemctl is-active prometheus-node-exporter
+      register: node_exporter_status
+      changed_when: false
+
+    - name: Display node_exporter status
+      ansible.builtin.debug:
+        msg: "{{ node_exporter_status.stdout }}"
