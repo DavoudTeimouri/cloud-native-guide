@@ -1,4 +1,4 @@
-# 08 · CSI
+# CSI
 
 ## Symptoms
 - PVC stuck in Pending

@@ -1,4 +1,4 @@
-# 08 · CNI
+# CNI
 
 ## Symptoms
 - Pod cannot reach another pod (cross-node)

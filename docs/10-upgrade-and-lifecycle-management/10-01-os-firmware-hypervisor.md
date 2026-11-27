@@ -1,4 +1,4 @@
-# 10 · OS, Firmware, Hypervisor
+# OS, Firmware, Hypervisor
 
 ## Purpose and scope
 OS patches, firmware, hypervisor upgrades; compatibility, backup, rollback.

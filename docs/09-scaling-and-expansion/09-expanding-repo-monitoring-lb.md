@@ -1,4 +1,4 @@
-# 09 · Expanding Repo, Monitoring, LB
+# Expanding Repo, Monitoring, LB
 
 ## Purpose and scope
 Expand registry capacity, monitoring infrastructure, load balancers.

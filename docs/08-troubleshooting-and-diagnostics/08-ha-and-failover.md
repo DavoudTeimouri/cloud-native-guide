@@ -1,4 +1,4 @@
-# 08 · HA and Failover
+# HA and Failover
 
 ## Symptoms
 - Control plane VIP not failing over

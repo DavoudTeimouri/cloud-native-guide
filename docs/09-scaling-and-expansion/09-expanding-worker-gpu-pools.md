@@ -1,4 +1,4 @@
-# 09 · Expanding Worker & GPU Pools
+# Expanding Worker & GPU Pools
 
 ## Purpose and scope
 Expand general and GPU worker pools; node labels/taints, MIG, scheduling.

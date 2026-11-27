@@ -1,4 +1,4 @@
-# 11 · Security Patching & Certificate Renewal
+# Security Patching & Certificate Renewal
 
 ## Purpose and scope
 Security patching, certificate renewal, PKI/CA rotation, Vault unseal shares.

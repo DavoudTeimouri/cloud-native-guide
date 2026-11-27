@@ -1,4 +1,4 @@
-# 08 · DNS and NTP
+# DNS and NTP
 
 ## Symptoms
 - Service name resolution fails

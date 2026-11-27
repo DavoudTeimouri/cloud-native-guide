@@ -1,4 +1,4 @@
-# 08 · Certificates and TLS
+# Certificates and TLS
 
 ## Symptoms
 - TLS handshake failing

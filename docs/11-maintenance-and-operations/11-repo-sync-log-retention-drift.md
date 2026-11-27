@@ -1,4 +1,4 @@
-# 11 · Repo Sync, Log Retention, Config Drift
+# Repo Sync, Log Retention, Config Drift
 
 ## Purpose and scope
 Repository synchronization, log retention, configuration drift detection.

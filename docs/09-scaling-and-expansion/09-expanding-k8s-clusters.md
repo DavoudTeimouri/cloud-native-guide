@@ -1,4 +1,4 @@
-# 09 · Expanding Kubernetes Clusters
+# Expanding Kubernetes Clusters
 
 ## Purpose and scope
 Add control-plane and worker nodes to an existing cluster; preserve etcd quorum; one node at a time.

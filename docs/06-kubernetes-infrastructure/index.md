@@ -1,4 +1,4 @@
-# 06 · Kubernetes
+# Kubernetes
 
 ## Purpose and scope
 Kubernetes infrastructure: architecture, best practices, Kubespray deployment, management and application clusters, Rancher, Argo CD GitOps, CNI/CSI networking, add-ons, observability, policies, alerts, security, validation.

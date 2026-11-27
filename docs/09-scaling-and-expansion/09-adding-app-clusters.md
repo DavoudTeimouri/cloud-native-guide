@@ -1,4 +1,4 @@
-# 09 · Adding Application Clusters
+# Adding Application Clusters
 
 ## Purpose and scope
 Prepare infrastructure/networking, deploy additional clusters, register with Rancher, apply consistent configuration.

@@ -1,4 +1,4 @@
-# 10 · Compatibility, Order, Backup, Rollback
+# Compatibility, Order, Backup, Rollback
 
 ## Purpose and scope
 Version compatibility, upgrade order, backup, pre/post validation, rollback strategy, downtime considerations.

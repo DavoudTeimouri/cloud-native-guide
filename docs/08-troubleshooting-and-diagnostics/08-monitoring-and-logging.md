@@ -1,4 +1,4 @@
-# 08 · Monitoring and Logging
+# Monitoring and Logging
 
 ## Symptoms
 - Prometheus targets down

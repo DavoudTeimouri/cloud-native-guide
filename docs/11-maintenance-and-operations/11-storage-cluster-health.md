@@ -1,4 +1,4 @@
-# 11 · Storage & Cluster Health
+# Storage & Cluster Health
 
 ## Purpose and scope
 Storage health, Ceph health, cluster health monitoring.

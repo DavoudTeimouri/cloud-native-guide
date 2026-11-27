@@ -1,4 +1,4 @@
-# 03 · Repository and Registry Management
+# Repository and Registry Management
 
 Centralized software-distribution architecture: upstream/downstream repos and registries, platform selection, installation, catalog, reverse proxy, client configuration, and validation.
 

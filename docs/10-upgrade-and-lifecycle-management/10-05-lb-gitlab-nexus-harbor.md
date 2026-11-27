@@ -1,4 +1,4 @@
-# 10 · Load Balancer, GitLab, Nexus, Harbor
+# Load Balancer, GitLab, Nexus, Harbor
 
 ## Purpose and scope
 LB, GitLab, Nexus, Harbor upgrades; TLS, backup/restore.

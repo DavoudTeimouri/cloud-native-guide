@@ -1,4 +1,4 @@
-# 02 · Components
+# Components
 
 Preparation and configuration of every infrastructure component before deploying the Cloud-Native stack. This section is about readying the hardware, OS, and per-role node configuration — it does not deploy Kubernetes itself (see [06 · Kubernetes](../06-kubernetes-infrastructure/)).
 

@@ -1,4 +1,4 @@
-# 08 · Troubleshooting and Diagnostics
+# Troubleshooting and Diagnostics
 
 ## Purpose and scope
 Comprehensive troubleshooting handbook organized by infrastructure component and failure category. Every procedure follows: symptoms, possible causes, diagnostic commands, expected output, investigation procedure, resolution, verification, prevention.

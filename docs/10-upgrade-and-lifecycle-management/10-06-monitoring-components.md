@@ -1,4 +1,4 @@
-# 10 · Monitoring Components
+# Monitoring Components
 
 ## Purpose and scope
 Prometheus, Grafana, Alertmanager, Loki upgrades.

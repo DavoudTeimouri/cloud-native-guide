@@ -1,4 +1,4 @@
-# 01 · Overview and Architecture
+# Overview and Architecture
 
 Orientation for the complete Cloud-Native infrastructure and its design. Start here to understand the target architecture, sizing, network requirements, deployment environments, repositories/registries, components, technologies, standards, and design principles before touching infrastructure.
 

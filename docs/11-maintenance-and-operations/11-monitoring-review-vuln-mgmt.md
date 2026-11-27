@@ -1,4 +1,4 @@
-# 11 · Monitoring Review & Vulnerability Management
+# Monitoring Review & Vulnerability Management
 
 ## Purpose and scope
 Monitoring review, vulnerability management, security scanning.

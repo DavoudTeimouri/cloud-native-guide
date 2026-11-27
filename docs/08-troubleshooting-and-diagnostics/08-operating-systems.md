@@ -1,4 +1,4 @@
-# 08 · Operating systems
+# Operating systems
 
 ## Symptoms
 - Node not reachable via SSH

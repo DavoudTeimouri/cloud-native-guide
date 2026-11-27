@@ -1,4 +1,4 @@
-# 10 · Kubernetes & Kubespray
+# Kubernetes & Kubespray
 
 ## Purpose and scope
 K8s and Kubespray version upgrades; upgrade order, etcd backup, one control-plane node at a time.

@@ -1,4 +1,4 @@
-# 08 · Longhorn
+# Longhorn
 
 ## Symptoms
 - Volume stuck in Pending/Attaching

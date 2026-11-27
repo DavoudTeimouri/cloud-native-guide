@@ -1,4 +1,4 @@
-# 04 · Operation Servers and GitLab
+# Operation Servers and GitLab
 
 Operational management environment and GitLab: architecture, tools, network access matrix, operational workflows, and GitLab installation/CI/CD.
 

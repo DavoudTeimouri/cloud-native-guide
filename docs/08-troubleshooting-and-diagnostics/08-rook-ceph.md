@@ -1,4 +1,4 @@
-# 08 · Rook-Ceph
+# Rook-Ceph
 
 ## Symptoms
 - Rook operator pod not running

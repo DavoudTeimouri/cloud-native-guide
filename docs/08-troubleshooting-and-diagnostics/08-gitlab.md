@@ -1,4 +1,4 @@
-# 08 · GitLab
+# GitLab
 
 ## Symptoms
 - GitLab unreachable (502/503)

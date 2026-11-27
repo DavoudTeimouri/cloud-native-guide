@@ -1,4 +1,4 @@
-# 10 · Air-Gapped Upgrade
+# Air-Gapped Upgrade
 
 ## Purpose and scope
 Upgrade procedures for fully disconnected environments.

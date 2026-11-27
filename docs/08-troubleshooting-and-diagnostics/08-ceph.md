@@ -1,4 +1,4 @@
-# 08 · Ceph
+# Ceph
 
 ## Symptoms
 - Ceph health HEALTH_ERR/WARN

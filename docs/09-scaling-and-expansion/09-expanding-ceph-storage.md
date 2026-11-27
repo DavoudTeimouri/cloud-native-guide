@@ -1,4 +1,4 @@
-# 09 · Expanding Ceph & Storage
+# Expanding Ceph & Storage
 
 ## Purpose and scope
 Add OSDs/MON/MGR/RGW, expand pools, storage appliances.

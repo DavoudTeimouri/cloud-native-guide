@@ -1,4 +1,4 @@
-# 10 · Upgrade and Lifecycle Management
+# Upgrade and Lifecycle Management
 
 ## Purpose and scope
 Document controlled upgrade procedures for every infrastructure component: OS, firmware, hypervisors, Kubernetes, Kubespray, Rancher, CNI, CSI, add-ons, Argo CD, Ceph, Rook-Ceph, storage appliances, load balancers, GitLab, Nexus, Harbor, monitoring. Includes version compatibility, upgrade order, prerequisites, backup, pre-upgrade validation, execution, post-upgrade validation, rollback strategy, downtime considerations, air-gapped upgrade procedures.

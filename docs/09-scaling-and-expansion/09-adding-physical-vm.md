@@ -1,4 +1,4 @@
-# 09 · Adding Physical Servers & VMs
+# Adding Physical Servers & VMs
 
 ## Purpose and scope
 Add physical servers and VMs to the stack: hardware/VM prep, OS baseline, join to cluster.

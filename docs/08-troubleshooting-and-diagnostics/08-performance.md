@@ -1,4 +1,4 @@
-# 08 · Performance
+# Performance
 
 ## Symptoms
 - Application slow or timeout

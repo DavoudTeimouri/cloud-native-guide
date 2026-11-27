@@ -1,4 +1,4 @@
-# 07 · SDS
+# SDS
 
 ## Purpose and scope
 Software-Defined Storage: architecture, platform selection, independent Ceph, Rook-Ceph, other SDS solutions, monitoring, maintenance, data protection.

@@ -1,4 +1,4 @@
-# 11 · Hardware Maintenance, Node Replacement, DR Exercise
+# Hardware Maintenance, Node Replacement, DR Exercise
 
 ## Purpose and scope
 Hardware maintenance, node replacement, DR exercises, RTO/RPO measurement.

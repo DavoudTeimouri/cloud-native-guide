@@ -1,4 +1,4 @@
-# 11 · Maintenance and Operations
+# Maintenance and Operations
 
 ## Purpose and scope
 Document ongoing operational procedures: daily/weekly/monthly operations, quarterly reviews, security patching, certificate renewal, backup verification, recovery testing, storage/cluster health, monitoring review, vulnerability management, repo sync, log retention, config drift, hardware maintenance, node replacement, DR exercises. Provides reusable operational checklists and runbooks.

@@ -1,4 +1,4 @@
-# 10 · Ceph, Rook-Ceph, Storage Appliances
+# Ceph, Rook-Ceph, Storage Appliances
 
 ## Purpose and scope
 Ceph/Rook/storage appliance upgrades; expansion, upgrade, troubleshooting.

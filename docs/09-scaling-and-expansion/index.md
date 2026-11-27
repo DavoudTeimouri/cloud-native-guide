@@ -1,4 +1,4 @@
-# 09 · Scaling and Expansion
+# Scaling and Expansion
 
 ## Purpose and scope
 Document controlled infrastructure growth: adding servers/VMs, expanding K8s clusters and worker pools, adding app clusters and GPU workers, expanding Ceph/storage/repo/monitoring/LB capacity, network and IP pool expansion. Includes capacity planning, risk analysis, prerequisites, execution procedures, and post-expansion validation.

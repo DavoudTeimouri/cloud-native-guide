@@ -1,4 +1,4 @@
-# 08 · Network and Firewall
+# Network and Firewall
 
 ## Symptoms
 - Service unreachable from another node/cluster

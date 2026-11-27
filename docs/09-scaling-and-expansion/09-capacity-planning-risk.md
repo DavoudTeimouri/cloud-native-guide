@@ -1,4 +1,4 @@
-# 09 · Capacity Planning & Risk
+# Capacity Planning & Risk
 
 ## Purpose and scope
 Capacity planning, growth estimates, failure tolerance, risk analysis, overcommit considerations.

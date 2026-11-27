@@ -1,4 +1,4 @@
-# 09 · Network & IP Pool Expansion
+# Network & IP Pool Expansion
 
 ## Purpose and scope
 Network expansion, IP pool expansion, CIDR changes.

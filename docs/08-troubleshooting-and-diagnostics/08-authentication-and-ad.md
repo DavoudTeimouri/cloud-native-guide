@@ -1,4 +1,4 @@
-# 08 · Authentication and AD
+# Authentication and AD
 
 ## Symptoms
 - User cannot log in to Rancher/GitLab/Argo CD

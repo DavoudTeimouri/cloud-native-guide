@@ -1,4 +1,4 @@
-# 11 · Quarterly Capacity Review
+# Quarterly Capacity Review
 
 ## Purpose and scope
 Quarterly reviews, capacity reviews, growth estimates.

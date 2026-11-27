@@ -1,4 +1,4 @@
-# 10 · CNI, CSI, Add-ons, Argo CD
+# CNI, CSI, Add-ons, Argo CD
 
 ## Purpose and scope
 CNI/CSI/add-on/Argo CD upgrades; compatibility, rollback.

@@ -1,4 +1,4 @@
-# 08 · Load Balancers
+# Load Balancers
 
 ## Symptoms
 - VIP not floating between nodes

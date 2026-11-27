@@ -45,69 +45,75 @@ plugins:
 
 nav:
   - Home: index.md
-  - 01 · Overview:
-      - 1.1 Project Introduction & Goals: 01-overview-and-architecture/1.1-project-introduction-and-goals.md
-      - 1.2 Reference Architectures: 01-overview-and-architecture/1.2-reference-architectures.md
-      - 1.3 Infrastructure Sizing & Resource Calculation: 01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md
-  - 02 · Components:
-      - 2.1 Operating Systems: 02-components/2.1-operating-systems.md
-      - 2.2 Physical vs Virtual Machines: 02-components/2.2-physical-vs-vm.md
-      - 2.3 Physical Infrastructure Preparation: 02-components/2.3-physical-infra-prep.md
-      - 2.4 Virtualization Platform Preparation: 02-components/2.4-virtualization-prep.md
-      - 2.5 OS Preparation by Role: 02-components/2.5-os-prep-by-role.md
-      - 2.6 Operation & Management Servers: 02-components/2.6-operation-mgmt-servers.md
-      - 2.7 Kubernetes Nodes: 02-components/2.7-kubernetes-nodes.md
-      - 2.8 Ceph & Storage Nodes: 02-components/2.8-ceph-storage-nodes.md
-      - 2.9 Load Balancer Nodes: 02-components/2.9-lb-nodes.md
-      - 2.10 Repository & Registry Manager Servers: 02-components/2.10-repo-registry-servers.md
-      - 2.11 GitLab Server: 02-components/2.11-gitlab-server.md
-      - 2.12 Other Infrastructure Components: 02-components/2.12-other-infra.md
-  - 03 · Repository & Registry Management:
-      - 3.1 Architecture: 03-repository-registry/3.1-architecture.md
-      - 3.2 Platform Selection: 03-repository-registry/3.2-platform-selection.md
-      - 3.3 Installation & Configuration: 03-repository-registry/3.3-installation-config.md
-      - 3.4 Repository & Registry Catalog: 03-repository-registry/3.4-repository-catalog.md
-      - 3.5 Reverse Proxy Architecture: 03-repository-registry/3.5-reverse-proxy.md
-      - 3.6 Client Configuration: 03-repository-registry/3.6-client-config.md
-      - 3.7 Validation & Operations: 03-repository-registry/3.7-validation-operations.md
-  - 04 · Operation Servers & GitLab:
-      - 4.1 Operation Server Architecture: 04-operation-servers/4.1-operation-server-architecture.md
-      - 4.2 Required Tools: 04-operation-servers/4.2-required-tools.md
-      - 4.3 Centralized Network Access Matrix: 04-operation-servers/4.3-centralized-network-access-matrix.md
-      - 4.4 Operational Workflows: 04-operation-servers/4.4-operational-workflows.md
-      - 4.5 GitLab: 04-operation-servers/4.5-gitlab.md
-  - 05 · Load Balancers:
-      - 5.1 Architecture: 05-load-balancers/5.1-architecture.md
-      - 5.2 Management Cluster Load Balancers: 05-load-balancers/5.2-mgmt-cluster-lbs.md
-      - 5.3 Application Cluster Load Balancers: 05-load-balancers/5.3-app-cluster-lbs.md
-      - 5.4 Deployment Methods: 05-load-balancers/5.4-deployment-methods.md
-      - 5.5 Configuration & Operations: 05-load-balancers/5.5-configuration-operations.md
-  - 06 · Kubernetes:
-      - 6.1 Architecture: 06-kubernetes-infrastructure/6.1-kubernetes-architecture.md
-      - 6.3 Deployment Methods: 06-kubernetes-infrastructure/6.3-deployment-methods.md
-      - 6.4 Management Cluster Deployment: 06-kubernetes-infrastructure/6.4-mgmt-cluster-deployment.md
-      - 6.5 Application Cluster Deployment: 06-kubernetes-infrastructure/6.5-app-cluster-deployment.md
-      - 6.6 Additional Application Clusters: 06-kubernetes-infrastructure/6.6-additional-clusters.md
-      - 6.7 Kubernetes Management Platform: 06-kubernetes-infrastructure/6.7-kubernetes-management-platform.md
-      - 6.8 Cluster Storage Integration: 06-kubernetes-infrastructure/6.8-cluster-storage-integration.md
-      - 6.9 Kubernetes Networking: 06-kubernetes-infrastructure/6.9-kubernetes-networking.md
-      - 6.10 CSI and Storage Integration: 06-kubernetes-infrastructure/6.10-csi-and-storage-integration.md
-      - 6.11 Kubernetes Add-ons: 06-kubernetes-infrastructure/6.11-kubernetes-add-ons.md
-      - 6.12 GitOps & Application Delivery: 06-kubernetes-infrastructure/6.12-gitops-and-application-delivery.md
-      - 6.13 Monitoring & Logging: 06-kubernetes-infrastructure/6.13-monitoring-and-logging.md
-      - 6.14 Alert Management: 06-kubernetes-infrastructure/6.14-alert-management.md
-      - 6.15 Deployment Governance & Auditing: 06-kubernetes-infrastructure/6.15-deployment-governance-and-auditing.md
-      - 6.16 Security & Identity: 06-kubernetes-infrastructure/6.16-security-and-identity.md
-      - 6.17 Validation & Acceptance Testing: 06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing.md
-  - 07 · SDS:
-      - 7.1 Architecture: 07-software-defined-storage/7.1-architecture.md
-      - 7.2 Best Practices: 07-software-defined-storage/7.2-best-practices.md
-      - 7.3 Storage Platform Selection: 07-software-defined-storage/7.3-storage-platform-selection.md
-      - 7.4 Independent Ceph Deployment: 07-software-defined-storage/7.4-independent-ceph.md
-      - 7.5 Other SDS Solutions: 07-software-defined-storage/7.5-other-sds-solutions.md
-      - 7.6 Monitoring & Logging: 07-software-defined-storage/7.6-monitoring-and-logging.md
-      - 7.7 Maintenance & Data Protection: 07-software-defined-storage/7.7-maintenance-and-data-protection.md
-  - 08 · Troubleshooting & Diagnostics:
+  - Overview:
+      - Project Introduction & Goals: 01-overview-and-architecture/1.1-project-introduction-and-goals.md
+      - Reference Architectures: 01-overview-and-architecture/1.2-reference-architectures.md
+      - Infrastructure Sizing & Resource Calculation: 01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md
+      - Network Architecture & Access Matrix: 01-overview-and-architecture/1.4-network-architecture-and-access-matrix.md
+      - Deployment Environments: 01-overview-and-architecture/1.5-deployment-environments.md
+      - Repositories & Registries: 01-overview-and-architecture/1.6-repositories-and-registries.md
+      - Infrastructure Components: 01-overview-and-architecture/1.7-infrastructure-components.md
+      - Technologies & Alternatives: 01-overview-and-architecture/1.8-technologies-and-alternatives.md
+      - Standards & Best Practices: 01-overview-and-architecture/1.9-standards-and-best-practices.md
+  - Components:
+      - Operating Systems: 02-components/2.1-operating-systems.md
+      - Physical vs Virtual Machines: 02-components/2.2-physical-vs-vm.md
+      - Physical Infrastructure Preparation: 02-components/2.3-physical-infra-prep.md
+      - Virtualization Platform Preparation: 02-components/2.4-virtualization-prep.md
+      - OS Preparation by Role: 02-components/2.5-os-prep-by-role.md
+      - Operation & Management Servers: 02-components/2.6-operation-mgmt-servers.md
+      - Kubernetes Nodes: 02-components/2.7-kubernetes-nodes.md
+      - Ceph & Storage Nodes: 02-components/2.8-ceph-storage-nodes.md
+      - Load Balancer Nodes: 02-components/2.9-lb-nodes.md
+      - Repository & Registry Manager Servers: 02-components/2.10-repo-registry-servers.md
+      - GitLab Server: 02-components/2.11-gitlab-server.md
+      - Other Infrastructure Components: 02-components/2.12-other-infra.md
+  - Repository & Registry Management:
+      - Architecture: 03-repository-registry/3.1-architecture.md
+      - Platform Selection: 03-repository-registry/3.2-platform-selection.md
+      - Installation & Configuration: 03-repository-registry/3.3-installation-config.md
+      - Repository & Registry Catalog: 03-repository-registry/3.4-repository-catalog.md
+      - Reverse Proxy Architecture: 03-repository-registry/3.5-reverse-proxy.md
+      - Client Configuration: 03-repository-registry/3.6-client-config.md
+      - Validation & Operations: 03-repository-registry/3.7-validation-operations.md
+  - Operation Servers & GitLab:
+      - Operation Server Architecture: 04-operation-servers/4.1-operation-server-architecture.md
+      - Required Tools: 04-operation-servers/4.2-required-tools.md
+      - Centralized Network Access Matrix: 04-operation-servers/4.3-centralized-network-access-matrix.md
+      - Operational Workflows: 04-operation-servers/4.4-operational-workflows.md
+      - GitLab: 04-operation-servers/4.5-gitlab.md
+  - Load Balancers:
+      - Architecture: 05-load-balancers/5.1-architecture.md
+      - Management Cluster Load Balancers: 05-load-balancers/5.2-mgmt-cluster-lbs.md
+      - Application Cluster Load Balancers: 05-load-balancers/5.3-app-cluster-lbs.md
+      - Deployment Methods: 05-load-balancers/5.4-deployment-methods.md
+      - Configuration & Operations: 05-load-balancers/5.5-configuration-operations.md
+  - Kubernetes:
+      - Architecture: 06-kubernetes-infrastructure/6.1-kubernetes-architecture.md
+      - Deployment Methods: 06-kubernetes-infrastructure/6.3-deployment-methods.md
+      - Management Cluster Deployment: 06-kubernetes-infrastructure/6.4-mgmt-cluster-deployment.md
+      - Application Cluster Deployment: 06-kubernetes-infrastructure/6.5-app-cluster-deployment.md
+      - Additional Application Clusters: 06-kubernetes-infrastructure/6.6-additional-clusters.md
+      - Kubernetes Management Platform: 06-kubernetes-infrastructure/6.7-kubernetes-management-platform.md
+      - Cluster Storage Integration: 06-kubernetes-infrastructure/6.8-cluster-storage-integration.md
+      - Kubernetes Networking: 06-kubernetes-infrastructure/6.9-kubernetes-networking.md
+      - CSI and Storage Integration: 06-kubernetes-infrastructure/6.10-csi-and-storage-integration.md
+      - Kubernetes Add-ons: 06-kubernetes-infrastructure/6.11-kubernetes-add-ons.md
+      - GitOps & Application Delivery: 06-kubernetes-infrastructure/6.12-gitops-and-application-delivery.md
+      - Monitoring & Logging: 06-kubernetes-infrastructure/6.13-monitoring-and-logging.md
+      - Alert Management: 06-kubernetes-infrastructure/6.14-alert-management.md
+      - Deployment Governance & Auditing: 06-kubernetes-infrastructure/6.15-deployment-governance-and-auditing.md
+      - Security & Identity: 06-kubernetes-infrastructure/6.16-security-and-identity.md
+      - Validation & Acceptance Testing: 06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing.md
+  - SDS:
+      - Architecture: 07-software-defined-storage/7.1-architecture.md
+      - Best Practices: 07-software-defined-storage/7.2-best-practices.md
+      - Storage Platform Selection: 07-software-defined-storage/7.3-storage-platform-selection.md
+      - Independent Ceph Deployment: 07-software-defined-storage/7.4-independent-ceph.md
+      - Other SDS Solutions: 07-software-defined-storage/7.5-other-sds-solutions.md
+      - Monitoring & Logging: 07-software-defined-storage/7.6-monitoring-and-logging.md
+      - Maintenance & Data Protection: 07-software-defined-storage/7.7-maintenance-and-data-protection.md
+  - Troubleshooting & Diagnostics:
       - Index: 08-troubleshooting-and-diagnostics/index.md
       - Operating Systems: 08-troubleshooting-and-diagnostics/08-operating-systems.md
       - DNS & NTP: 08-troubleshooting-and-diagnostics/08-dns-and-ntp.md
@@ -128,33 +134,33 @@ nav:
       - Certificates & TLS: 08-troubleshooting-and-diagnostics/08-certificates-and-tls.md
       - Performance: 08-troubleshooting-and-diagnostics/08-performance.md
       - HA & Failover: 08-troubleshooting-and-diagnostics/08-ha-and-failover.md
-  - 09 · Scaling & Expansion:
-      - 09 · Adding Physical Servers & VMs: 09-scaling-and-expansion/09-adding-physical-vm.md
-      - 09 · Expanding Kubernetes Clusters: 09-scaling-and-expansion/09-expanding-k8s-clusters.md
-      - 09 · Adding Application Clusters: 09-scaling-and-expansion/09-adding-app-clusters.md
-      - 09 · Expanding Worker & GPU Pools: 09-scaling-and-expansion/09-expanding-worker-gpu-pools.md
-      - 09 · Expanding Ceph & Storage: 09-scaling-and-expansion/09-expanding-ceph-storage.md
-      - 09 · Expanding Repo, Monitoring, LB: 09-scaling-and-expansion/09-expanding-repo-monitoring-lb.md
-      - 09 · Network & IP Pool Expansion: 09-scaling-and-expansion/09-network-ip-pool-expansion.md
-      - 09 · Capacity Planning & Risk: 09-scaling-and-expansion/09-capacity-planning-risk.md
-  - 10 · Upgrade & Lifecycle Management:
-      - 10 · OS, Firmware, Hypervisor: 10-upgrade-and-lifecycle-management/10-01-os-firmware-hypervisor.md
-      - 10 · Kubernetes & Kubespray: 10-upgrade-and-lifecycle-management/10-02-kubernetes-kubespray.md
-      - 10 · CNI, CSI, Add-ons, Argo CD: 10-upgrade-and-lifecycle-management/10-03-cni-csi-addons-argocd.md
-      - 10 · Ceph, Rook-Ceph, Storage Appliances: 10-upgrade-and-lifecycle-management/10-04-ceph-rook-storage-appliances.md
-      - 10 · Load Balancer, GitLab, Nexus, Harbor: 10-upgrade-and-lifecycle-management/10-05-lb-gitlab-nexus-harbor.md
-      - 10 · Monitoring Components: 10-upgrade-and-lifecycle-management/10-06-monitoring-components.md
-      - 10 · Compatibility, Order, Backup, Rollback: 10-upgrade-and-lifecycle-management/10-07-compat-order-backup-rollback.md
-      - 10 · Air-Gapped Upgrade: 10-upgrade-and-lifecycle-management/10-08-air-gapped-upgrade.md
-  - 11 · Maintenance & Operations:
-      - 11 · Daily, Weekly, Monthly Operations: 11-maintenance-and-operations/11-daily-weekly-monthly.md
-      - 11 · Quarterly Capacity Review: 11-maintenance-and-operations/11-quarterly-capacity-review.md
-      - 11 · Security Patching & Certificate Renewal: 11-maintenance-and-operations/11-security-patching-cert-renewal.md
-      - 11 · Backup Verification & Recovery Testing: 11-maintenance-and-operations/11-backup-verification-recovery-test.md
-      - 11 · Storage & Cluster Health: 11-maintenance-and-operations/11-storage-cluster-health.md
-      - 11 · Monitoring Review & Vulnerability Management: 11-maintenance-and-operations/11-monitoring-review-vuln-mgmt.md
-      - 11 · Repo Sync, Log Retention, Config Drift: 11-maintenance-and-operations/11-repo-sync-log-retention-drift.md
-      - 11 · Hardware Maintenance, Node Replacement, DR Exercise: 11-maintenance-and-operations/11-hardware-node-replacement-dr-exercise.md
+  - Scaling & Expansion:
+      - Adding Physical Servers & VMs: 09-scaling-and-expansion/09-adding-physical-vm.md
+      - Expanding Kubernetes Clusters: 09-scaling-and-expansion/09-expanding-k8s-clusters.md
+      - Adding Application Clusters: 09-scaling-and-expansion/09-adding-app-clusters.md
+      - Expanding Worker & GPU Pools: 09-scaling-and-expansion/09-expanding-worker-gpu-pools.md
+      - Expanding Ceph & Storage: 09-scaling-and-expansion/09-expanding-ceph-storage.md
+      - Expanding Repo, Monitoring, LB: 09-scaling-and-expansion/09-expanding-repo-monitoring-lb.md
+      - Network & IP Pool Expansion: 09-scaling-and-expansion/09-network-ip-pool-expansion.md
+      - Capacity Planning & Risk: 09-scaling-and-expansion/09-capacity-planning-risk.md
+  - Upgrade & Lifecycle Management:
+      - OS, Firmware, Hypervisor: 10-upgrade-and-lifecycle-management/10-01-os-firmware-hypervisor.md
+      - Kubernetes & Kubespray: 10-upgrade-and-lifecycle-management/10-02-kubernetes-kubespray.md
+      - CNI, CSI, Add-ons, Argo CD: 10-upgrade-and-lifecycle-management/10-03-cni-csi-addons-argocd.md
+      - Ceph, Rook-Ceph, Storage Appliances: 10-upgrade-and-lifecycle-management/10-04-ceph-rook-storage-appliances.md
+      - Load Balancer, GitLab, Nexus, Harbor: 10-upgrade-and-lifecycle-management/10-05-lb-gitlab-nexus-harbor.md
+      - Monitoring Components: 10-upgrade-and-lifecycle-management/10-06-monitoring-components.md
+      - Compatibility, Order, Backup, Rollback: 10-upgrade-and-lifecycle-management/10-07-compat-order-backup-rollback.md
+      - Air-Gapped Upgrade: 10-upgrade-and-lifecycle-management/10-08-air-gapped-upgrade.md
+  - Maintenance & Operations:
+      - Daily, Weekly, Monthly Operations: 11-maintenance-and-operations/11-daily-weekly-monthly.md
+      - Quarterly Capacity Review: 11-maintenance-and-operations/11-quarterly-capacity-review.md
+      - Security Patching & Certificate Renewal: 11-maintenance-and-operations/11-security-patching-cert-renewal.md
+      - Backup Verification & Recovery Testing: 11-maintenance-and-operations/11-backup-verification-recovery-test.md
+      - Storage & Cluster Health: 11-maintenance-and-operations/11-storage-cluster-health.md
+      - Monitoring Review & Vulnerability Management: 11-maintenance-and-operations/11-monitoring-review-vuln-mgmt.md
+      - Repo Sync, Log Retention, Config Drift: 11-maintenance-and-operations/11-repo-sync-log-retention-drift.md
+      - Hardware Maintenance, Node Replacement, DR Exercise: 11-maintenance-and-operations/11-hardware-node-replacement-dr-exercise.md
   - Shared:
       - Network Matrix: shared/network-matrix/index.md
       - Version & Compatibility Matrix: shared/matrices/version-matrix/index.md

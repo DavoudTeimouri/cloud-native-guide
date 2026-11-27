@@ -1,4 +1,4 @@
-# 08 · Repositories and Registries
+# Repositories and Registries
 
 ## Symptoms
 - Image pull failing (ImagePullBackOff)

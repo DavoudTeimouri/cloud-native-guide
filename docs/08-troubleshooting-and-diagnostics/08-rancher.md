@@ -1,4 +1,4 @@
-# 08 · Rancher
+# Rancher
 
 ## Symptoms
 - Cluster not showing in Rancher UI

@@ -1,4 +1,4 @@
-# 08 · Kubernetes
+# Kubernetes
 
 ## Symptoms
 - Pod not scheduling / Pending

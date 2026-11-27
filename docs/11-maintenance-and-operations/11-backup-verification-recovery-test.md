@@ -1,4 +1,4 @@
-# 11 · Backup Verification & Recovery Testing
+# Backup Verification & Recovery Testing
 
 ## Purpose and scope
 Backup verification, recovery testing, Velero restore drills, etcd snapshot restore.

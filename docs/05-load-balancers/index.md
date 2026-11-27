@@ -1,4 +1,4 @@
-# 05 · Load Balancers
+# Load Balancers
 
 Highly available load balancing architectures: Active/Active preferred, HAProxy/NGINX/other enterprise solutions, Keepalived VIP management, management-cluster and application-cluster LBs, native and container-based deployment.
 

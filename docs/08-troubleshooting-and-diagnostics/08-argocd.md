@@ -1,4 +1,4 @@
-# 08 · Argo CD
+# Argo CD
 
 ## Symptoms
 - Application OutOfSync

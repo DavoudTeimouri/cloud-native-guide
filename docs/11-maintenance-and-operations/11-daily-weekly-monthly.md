@@ -1,4 +1,4 @@
-# 11 · Daily, Weekly, Monthly Operations
+# Daily, Weekly, Monthly Operations
 
 ## Purpose and scope
 Daily health checks, weekly checks, monthly checks — routine operational procedures.
