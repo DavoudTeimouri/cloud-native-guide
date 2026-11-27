@@ -181,7 +181,7 @@ def main():
         "packages": [],
         "generated": "2026-11-23T00:00:00Z"
     }
-    
+
     # Process images
     for img in IMAGES:
         digest = get_image_digest(f"staging-harbor.internal/base/{img.split('/')[-1]}")
@@ -190,7 +190,7 @@ def main():
             "internal": f"harbor.internal/base/{img.split('/')[-1]}",
             "digest": digest
         })
-    
+
     # Write matrix
     with open("artifact-matrix.md", "w") as f:
         f.write("# Artifact Matrix\n\n")

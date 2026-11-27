@@ -5345,8 +5345,8 @@
 13. LOOP: repeat from step 1
 </code></pre></div>
 <h2 id="3-task-selection-algorithm">3. Task Selection Algorithm<a class="headerlink" href="#3-task-selection-algorithm" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>eligible_tasks = SELECT * FROM tasks 
-  WHERE status = 'pending' 
+<div class="highlight"><pre><span></span><code>eligible_tasks = SELECT * FROM tasks
+  WHERE status = 'pending'
   AND block_kind IS NULL
   AND id NOT IN (SELECT child_id FROM task_links WHERE parent_id NOT IN (SELECT id FROM tasks WHERE status = 'completed'))
 

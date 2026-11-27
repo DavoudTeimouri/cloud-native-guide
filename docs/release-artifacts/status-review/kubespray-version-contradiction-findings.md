@@ -79,6 +79,6 @@ Please authorize one of the three options above. Once authorized, the appropriat
 - **If Option B**: The version matrix will be extended to include release-2.26 and release-2.27, with verified component compatibility, and the test entries will remain unchanged.
 - **If Option C**: The test will remain blocked; a separate decision process will determine whether to update the test or the matrix at a later date.
 
---- 
+---
 
 *Findings generated from `offline-upgrade-test.md` lines 101 and 191 versus `compatibility/version-matrix.md` lines 19 and 216-220. Check date: 2026-10-26.*

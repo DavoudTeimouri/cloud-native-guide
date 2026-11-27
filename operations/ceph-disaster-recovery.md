@@ -181,11 +181,11 @@
 
 ---
 
-**Infra Maintainer**: Platform Team  
-**Section**: 6 — Ceph & Rook-Ceph Recovery  
-**Status**: DRAFT | **Owner**: Infrastructure Maintainer  
-**Last reviewed**: 2026-11-25  
-**Review cycle**: Quarterly (verify off-site backup integrity, review RPO/RTO assumptions)  
+**Infra Maintainer**: Platform Team
+**Section**: 6 — Ceph & Rook-Ceph Recovery
+**Status**: DRAFT | **Owner**: Infrastructure Maintainer
+**Last reviewed**: 2026-11-25
+**Review cycle**: Quarterly (verify off-site backup integrity, review RPO/RTO assumptions)
 **Do NOT execute** any Ceph recovery commands against a live cluster without specialist sign-off and a tested rollback path. These procedures are documented for reference and drill purposes only.
 
 ---

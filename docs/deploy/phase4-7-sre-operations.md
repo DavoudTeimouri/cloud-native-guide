@@ -650,7 +650,7 @@ Refer to `docs/lifecycle/upgrades/kubernetes.md` and `docs/lifecycle/upgrades/ku
 3. **Verify etcd quorum**: `kubectl -n kube-system exec etcd-k8s-cp-new -- etcdctl endpoint health --cluster`
 4. **Migrate API LB**: update load balancer config to include new node's VIP; keep old node in LB but in drain mode
 5. **Rotate API server certs** if needed (§6.3); restart kube-apiserver on new node
-6. **Remove old control-plane node**: 
+6. **Remove old control-plane node**:
    - `kubectl drain k8s-cp-old --ignore-daemonsets --delete-emptydir-data --force`
    - `kubectl -n kube-system exec etcd-<old> -- etcdctl member remove <old-id> --overwrite <new-id>`
    - Remove old node from inventory and run Kubespray removal

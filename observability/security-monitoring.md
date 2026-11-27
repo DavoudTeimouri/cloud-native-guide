@@ -50,7 +50,7 @@ This document maps security-relevant observability surfaces across core infrastr
 | **Image verification failures** | Cosign signature verification fail, immutability violation, repo access error | Cosign audit log, key transparency logs | `cosign_verification_failed_total`; `cosign_key_not_found_total` |
 | **Audit pipeline health** | Upstream forwarder failures, log drop count, audit log lag | Fluentd/Flutter audit forwarder metrics, syslog queue depth | Forwarder exporter (`fluent-bit_pipeline_status`); file‑tail lag alert |
 
-> **Distinction**: 
+> **Distinction**:
 > - **Security events** = policy denial, verified violation, image signature failure, anomalous runtime behavior. These are *intent/result* metrics and should trigger security‑team alerts.
 > - **Infrastructure availability** = webhook process crash, missing CustomResourceDefinition, Prometheus scrape failure. These are *platform* alerts and should not be conflated with policy violations.
 

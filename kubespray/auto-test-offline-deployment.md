@@ -345,8 +345,8 @@ Maintain artifact accountability in `offline-artifacts/artifact-matrix.md`. Trac
 
 ---
 
-**Document generated**: 2026-11-26  
-**Environment**: Air-gapped deployment  
-**Kubespray version**: release-2.32 (pinned via `kubespray/VERSION`)  
-**Registry**: harbor.internal (internal image registry)  
+**Document generated**: 2026-11-26
+**Environment**: Air-gapped deployment
+**Kubespray version**: release-2.32 (pinned via `kubespray/VERSION`)
+**Registry**: harbor.internal (internal image registry)
 **OS**: Oracle Linux 9 / Ubuntu 22.04 (per inventory configuration)

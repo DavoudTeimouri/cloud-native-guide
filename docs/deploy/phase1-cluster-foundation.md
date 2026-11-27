@@ -625,7 +625,7 @@ If the deployment is fundamentally broken and needs to be restarted from scratch
    ```bash
    # Reset workers
    ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml --limit k8s-node
-   
+
    # Reset control-plane nodes (one at a time to preserve etcd quorum during reset)
    ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml --limit k8s-cp-1
    ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml --limit k8s-cp-2

@@ -222,12 +222,12 @@ A common point of confusion: admission enforcement (OPA, Kyverno, etc.) governs 
 
 ---
 
-**Infra Maintainer**: Platform Team 
-**Section**: 7 (Registry + Vault/OpenBao Portion) — Nexus/Harbor/Keycloak + Vault/OpenBao Recovery 
-**Status**: DRAFT | **Owner**: Infrastructure Maintainer 
-**Last reviewed**: 2026-11-25 
-**Review cycle**: Quarterly (verify off-site backup integrity, review RPO/RTO assumptions, rotate test credentials, validate Vault snapshot retention) 
-**No credentials, secrets, or recovery keys are included in this documentation**. All paths use placeholder conventions; real secrets must be stored in External Secrets, Vault, or hardware security modules. 
+**Infra Maintainer**: Platform Team
+**Section**: 7 (Registry + Vault/OpenBao Portion) — Nexus/Harbor/Keycloak + Vault/OpenBao Recovery
+**Status**: DRAFT | **Owner**: Infrastructure Maintainer
+**Last reviewed**: 2026-11-25
+**Review cycle**: Quarterly (verify off-site backup integrity, review RPO/RTO assumptions, rotate test credentials, validate Vault snapshot retention)
+**No credentials, secrets, or recovery keys are included in this documentation**. All paths use placeholder conventions; real secrets must be stored in External Secrets, Vault, or hardware security modules.
 **Do NOT execute** any restore commands against a live production service without specialist sign-off and a tested rollback path. These procedures are documented for reference and drill purposes only.
 
 ---

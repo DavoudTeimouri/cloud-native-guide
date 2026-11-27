@@ -276,7 +276,7 @@ Merge PR #4 into `main` to trigger GitHub Pages deployment of the MkDocs documen
 | Missing `kubespray/VERSION` file (referenced by 4 docs) | HIGH | Created `kubespray/VERSION` with `release-2.32` (documented default) | ✅ Fixed |
 | Trailing whitespace in lifecycle-management.md, cni-and-load-balancing.md | MEDIUM | Stripped trailing whitespace | ✅ Fixed |
 | Trailing whitespace in configuration-templates.md (10 locations) | MEDIUM | Stripped trailing whitespace | ✅ Fixed |
-| False positive secret: `-----BEGIN PRIVATE KEY-----` placeholder | MEDIUM | Replaced with `<PRIVATE_KEY_BLOCK_PLACEHOLDER>` | ✅ Fixed |
+| False positive secret: `PRIVATE KEY block placeholder` | MEDIUM | Replaced with `<PRIVATE_KEY_BLOCK_PLACEHOLDER>` | ✅ Fixed |
 | Unbalanced code fence in prometheus-architecture.md | MEDIUM | Added closing ``` | ✅ Fixed |
 | Unbalanced code fence in rbac-and-audit.md | MEDIUM | Added closing ``` | ✅ Fixed |
 | Trailing whitespace in version-pinning-and-sync.md (2), nexus-harbor-architecture.md (2), backup-and-recovery.md (1) | MEDIUM | Stripped trailing whitespace | ✅ Fixed |

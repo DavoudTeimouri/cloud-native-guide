@@ -93,7 +93,7 @@ CSI snapshots provide filesystem-point-in-time copies, but they are not always a
 | **Built-in driver freeze** | EBS, GPD, Azure Disk | Driver internally freezes the filesystem, takes snapshot, thaws. No user action needed. |
 | **fsfreeze** | Generic (RBD, others) | `xfs_freeze` or `fsfreeze` utility freefs the filesystem before snapshot; `thaw` after. |
 | **Velero `--labels` / annotations** | Per-PVC control | Annotate PVCs with `velero.io/fs-freeze-"true"` if the driver supports it. |
-| **Application-level dump** | Databases (PostgreSQL, MySQL, MongoDB) | Use `pg_dump`, `mysqldump`, or `mongodump` outside of K8s; store the dump as a backup artifact. | 
+| **Application-level dump** | Databases (PostgreSQL, MySQL, MongoDB) | Use `pg_dump`, `mysqldump`, or `mongodump` outside of K8s; store the dump as a backup artifact. |
 
 ### App-Consistency Verification
 

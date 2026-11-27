@@ -32,8 +32,8 @@ Since Docker is not available and no separate daemon can be safely installed ins
 ## 3. Task Selection Algorithm
 
 ```
-eligible_tasks = SELECT * FROM tasks 
-  WHERE status = 'pending' 
+eligible_tasks = SELECT * FROM tasks
+  WHERE status = 'pending'
   AND block_kind IS NULL
   AND id NOT IN (SELECT child_id FROM task_links WHERE parent_id NOT IN (SELECT id FROM tasks WHERE status = 'completed'))
 
