@@ -369,8 +369,6 @@ ansible all -i inventories/production/hosts.ini -m shell -a "crictl info"
 - [Platform Standards](../requirements/platform-standards.md)
 - [Version & Compatibility Matrix](../compatibility/version-matrix.md)
 - [Kubespray Deployment Guide](../en/kubespray-deployment.md)
-- [Persian OS Preparation Guide](../fa/os-preparation.md)
-- [Persian Kubespray Deployment Guide](../fa/kubespray-deployment.md)
 
 ---
 

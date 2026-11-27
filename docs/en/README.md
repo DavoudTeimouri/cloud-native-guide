@@ -43,7 +43,6 @@ Welcome to the Cloud-Native Stack Implementation Guide — a practical, producti
 | Language | Location |
 |---|---|
 | English | `docs/en/` (this directory) |
-| Persian (فارسی) | `docs/fa/` |
 
 ## Quick Links
 

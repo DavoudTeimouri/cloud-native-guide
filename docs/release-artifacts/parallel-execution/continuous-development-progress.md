@@ -209,7 +209,7 @@ Existing workflow `.github/workflows/site.yml` — deploys `site/` directory to 
 
 - **ADR-0015** (`decisions/ADR-0015-linux-directory-integration.md`) — unique tracked file
 - **identity/sssd-realmd.md** and **requirements/platform-standards.md** — applied worktree modifications
-- **Bilingual docs:** `docs/en/` (12 files) and `docs/fa/` (40+ files) — Persian/English translation
+- **English docs:** `docs/en/` (12 files) — English documentation only
 - **Lifecycle procedures:** 14 new files (ceph-rook-upgrade, cilium-upgrade, crd-api-migration, kubernetes-kubespray-upgrade, offline-upgrade-operations, os-container-runtime-upgrade, platform-components-upgrade, rollback-and-recovery, upgrade-governance, upgrade-sequencing, upgrade-strategy, upgrade-validation-troubleshooting, version-compatibility-matrix, disaster-recovery/ceph-recovery-scenarios)
 - **Troubleshooting:** 4 new files (gitops, kubernetes, registry, storage)
 - **Offline artifacts:** 5 new files (artifact-matrix, image-and-package-mirroring, offline-artifact-architecture, staging-and-import, version-pinning-and-sync)
@@ -241,8 +241,8 @@ Worktree removed with `git worktree remove --force`. Repository 2 verified clean
 
 ### Files changed in PR #4
 - **Added:** `mkdocs.yml` — MkDocs configuration with full navigation across 8 domains
-- **Added:** `docs/` directory — 300+ documentation source files including bilingual en/ and fa/
-- **Added:** `docs/en/` (English docs: 40+ files), `docs/fa/` (Persian docs: 40+ files)
+- **Added:** `docs/` directory — 260+ English documentation source files
+- **Added:** `docs/en/` (English docs: 40+ files)
 - **Added:** Unique directories: airgap, architecture/reference, automation/offline-staging, backup-recovery, infrastructure, inventories, lab, observability, operations, repositories, testing
 - **Modified:** `.github/workflows/site.yml` — MkDocs-based deployment workflow
 - **Modified:** `docs/lifecycle/backup/backup-and-dr.md` — Fixed relative link

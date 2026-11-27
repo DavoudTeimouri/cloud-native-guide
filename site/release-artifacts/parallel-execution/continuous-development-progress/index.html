@@ -4972,6 +4972,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#consolidation-cloud-native-guide-next-worktree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consolidation — cloud-native-guide-next worktree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#mkdocs-validation-results" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5530,11 +5541,25 @@
 <ul>
 <li><strong>Branch:</strong> <code>fix/mkdocs-documentation-site</code> (based on <code>origin/main</code>, pushed to origin)</li>
 <li><strong>PR:</strong> #4 — https://github.com/DavoudTeimouri/cloud-native-guide/pull/4 — <strong>OPEN, NOT MERGED</strong></li>
-<li><strong>Base:</strong> <code>main</code> (<code>70cd04e</code>), <strong>Head:</strong> <code>fix/mkdocs-documentation-site</code> (<code>d63464b</code>)</li>
+<li><strong>Base:</strong> <code>main</code> (<code>70cd04e</code>), <strong>Head:</strong> <code>fix/mkdocs-documentation-site</code> (<code>db733f3</code>)</li>
 <li><strong>Target URL:</strong> <code>https://davoudteimouri.github.io/cloud-native-guide/</code></li>
 <li><strong>Technology:</strong> MkDocs (genuine documentation site generator)</li>
-<li><strong>Repository 2 (<code>cloudnative-infrastructure-guide</code>):</strong> Untouched — separate interactive website</li>
+<li><strong>Repository 2 (<code>cloudnative-infrastructure-guide</code>):</strong> Untouched — separate interactive website, verified byte-for-byte unchanged</li>
 </ul>
+<h3 id="consolidation-cloud-native-guide-next-worktree">Consolidation — cloud-native-guide-next worktree<a class="headerlink" href="#consolidation-cloud-native-guide-next-worktree" title="Permanent link">&para;</a></h3>
+<p><code>cloud-native-guide-next</code> is a Git worktree of Repository 1 (same origin, <code>.git</code> file pointing to canonical repo's worktrees). All its unique content was consolidated into the canonical repository:</p>
+<ul>
+<li><strong>ADR-0015</strong> (<code>decisions/ADR-0015-linux-directory-integration.md</code>) — unique tracked file</li>
+<li><strong>identity/sssd-realmd.md</strong> and <strong>requirements/platform-standards.md</strong> — applied worktree modifications</li>
+<li><strong>English docs:</strong> <code>docs/en/</code> (12 files) — English documentation only</li>
+<li><strong>Lifecycle procedures:</strong> 14 new files (ceph-rook-upgrade, cilium-upgrade, crd-api-migration, kubernetes-kubespray-upgrade, offline-upgrade-operations, os-container-runtime-upgrade, platform-components-upgrade, rollback-and-recovery, upgrade-governance, upgrade-sequencing, upgrade-strategy, upgrade-validation-troubleshooting, version-compatibility-matrix, disaster-recovery/ceph-recovery-scenarios)</li>
+<li><strong>Troubleshooting:</strong> 4 new files (gitops, kubernetes, registry, storage)</li>
+<li><strong>Offline artifacts:</strong> 5 new files (artifact-matrix, image-and-package-mirroring, offline-artifact-architecture, staging-and-import, version-pinning-and-sync)</li>
+<li><strong>Unique directories:</strong> airgap, architecture/reference, automation/offline-staging, backup-recovery, infrastructure, inventories, lab, observability, operations, repositories, testing</li>
+<li><strong>Root files:</strong> lab-readiness-traceability.md, architecture/two-tier-repository-registry.md</li>
+<li><strong>Scripts:</strong> dispatcher.py, supervisor.py copied to scripts/</li>
+</ul>
+<p>Worktree removed with <code>git worktree remove --force</code>. Repository 2 verified clean before and after.</p>
 <h3 id="mkdocs-validation-results">MkDocs validation results<a class="headerlink" href="#mkdocs-validation-results" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -5546,7 +5571,7 @@
 <tbody>
 <tr>
 <td><code>mkdocs build --clean --strict</code></td>
-<td><strong>PASS</strong> (exit code 0)</td>
+<td><strong>PASS</strong> (exit code 0, only INFO messages)</td>
 </tr>
 <tr>
 <td><code>scripts/check_links.py</code></td>
@@ -5605,14 +5630,16 @@
 <td><code>cloudnative-infrastructure-guide</code> (Repo 2)</td>
 <td>Interactive configurator</td>
 <td>Custom generator</td>
-<td>Untouched</td>
+<td>Untouched, verified clean</td>
 </tr>
 </tbody>
 </table>
 <h3 id="files-changed-in-pr-4">Files changed in PR #4<a class="headerlink" href="#files-changed-in-pr-4" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Added:</strong> <code>mkdocs.yml</code> — MkDocs configuration with full navigation across 8 domains</li>
-<li><strong>Added:</strong> <code>docs/</code> directory — 120+ documentation source files</li>
+<li><strong>Added:</strong> <code>docs/</code> directory — 260+ English documentation source files</li>
+<li><strong>Added:</strong> <code>docs/en/</code> (English docs: 40+ files)</li>
+<li><strong>Added:</strong> Unique directories: airgap, architecture/reference, automation/offline-staging, backup-recovery, infrastructure, inventories, lab, observability, operations, repositories, testing</li>
 <li><strong>Modified:</strong> <code>.github/workflows/site.yml</code> — MkDocs-based deployment workflow</li>
 <li><strong>Modified:</strong> <code>docs/lifecycle/backup/backup-and-dr.md</code> — Fixed relative link</li>
 <li><strong>Modified:</strong> <code>docs/network-matrix/external-load-balancer.md</code> — Fixed relative link</li>
@@ -5665,7 +5692,11 @@
 </tr>
 <tr>
 <td>Repository 2 untouched</td>
-<td>Verified</td>
+<td>Verified byte-for-byte</td>
+</tr>
+<tr>
+<td>cloud-native-guide-next worktree</td>
+<td>Removed (content consolidated)</td>
 </tr>
 </tbody>
 </table>

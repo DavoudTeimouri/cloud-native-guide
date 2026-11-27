@@ -248,7 +248,6 @@ ansible all -i inventories/production/hosts.yml -m shell -a "stat -fc %T /sys/fs
 - [Kubespray v2.32.0 Requirements.txt](https://github.com/kubernetes-sigs/kubespray/blob/v2.32.0/requirements.txt)
 - [Cilium 1.20 Documentation](https://docs.cilium.io/en/v1.20/)
 - [Calico 3.31 Documentation](https://docs.tigera.io/calico/3.31/)
-- [Persian Kubespray Deployment Guide](../fa/kubespray-deployment.md)
 
 ---
 
