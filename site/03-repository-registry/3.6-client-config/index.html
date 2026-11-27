@@ -1240,10 +1240,345 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#general-principle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Examples
+        General principle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dnfyum-os-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNF/YUM (OS packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNF/YUM (OS packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-direct-to-backend-if-reverse-proxy-not-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative: Direct to backend (if reverse proxy not available)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apt-debianubuntu-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APT (Debian/Ubuntu packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="APT (Debian/Ubuntu packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-containerd-container-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker / containerd (container images)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker / containerd (container images)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-harbor-reverse-proxy-preferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Harbor reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#containerd-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        containerd configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helm-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helm charts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Helm charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-harbor-reverse-proxy-preferred_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Harbor reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-direct-to-harbor-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative: Direct to Harbor backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git repositories
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Git repositories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-gitlab-reverse-proxy-preferred-httphttps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via GitLab reverse proxy (preferred - HTTP/HTTPS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-connection-ssh-cannot-go-through-http-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Direct connection (SSH - cannot go through HTTP reverse proxy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pip-python-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pip (Python packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pip (Python packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm-nodejs-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        npm (Node.js packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="npm (Node.js packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maven
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maven">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nuget-net-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NuGet (.NET packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NuGet (.NET packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cargo-rust-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cargo (Rust packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cargo (Rust packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#air-gapped-client-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Air-gapped client configuration
       
     </span>
   </a>
@@ -4097,10 +4432,345 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#general-principle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Examples
+        General principle
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dnfyum-os-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNF/YUM (OS packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNF/YUM (OS packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-direct-to-backend-if-reverse-proxy-not-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative: Direct to backend (if reverse proxy not available)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apt-debianubuntu-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APT (Debian/Ubuntu packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="APT (Debian/Ubuntu packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-containerd-container-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker / containerd (container images)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker / containerd (container images)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-harbor-reverse-proxy-preferred" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Harbor reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#containerd-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        containerd configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#helm-charts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helm charts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Helm charts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-harbor-reverse-proxy-preferred_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Harbor reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-direct-to-harbor-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative: Direct to Harbor backend
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Git repositories
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Git repositories">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-gitlab-reverse-proxy-preferred-httphttps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via GitLab reverse proxy (preferred - HTTP/HTTPS)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direct-connection-ssh-cannot-go-through-http-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Direct connection (SSH - cannot go through HTTP reverse proxy)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pip-python-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pip (Python packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pip (Python packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#npm-nodejs-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        npm (Node.js packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="npm (Node.js packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maven" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maven
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Maven">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nuget-net-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NuGet (.NET packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NuGet (.NET packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cargo-rust-packages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cargo (Rust packages)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cargo (Rust packages)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#via-nexus-reverse-proxy-preferred_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Via Nexus reverse proxy (preferred)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#air-gapped-client-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Air-gapped client configuration
       
     </span>
   </a>
@@ -4140,20 +4810,324 @@
 
 <h1 id="client-configuration">Client Configuration<a class="headerlink" href="#client-configuration" title="Permanent link">&para;</a></h1>
 <h2 id="purpose-and-scope">Purpose and scope<a class="headerlink" href="#purpose-and-scope" title="Permanent link">&para;</a></h2>
-<p>Configuration examples for all relevant clients: DNF/YUM, APT, Docker, containerd, Helm, Git, pip, npm, Maven, NuGet, Cargo — through internal repos.</p>
-<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
-<ul>
-<li>DNF/YUM: baseurl pointing to internal Nexus</li>
-<li>APT: sources.list pointing to internal Nexus</li>
-<li>Docker/containerd: registry mirrors pointing to internal Harbor</li>
-<li>Helm: --repository pointing to internal Helm chart repo</li>
-<li>Git: remote pointing to internal GitLab</li>
-<li>pip/npm/Maven/NuGet/Cargo: index pointing to internal Nexus</li>
-</ul>
+<p>Configuration examples for all relevant clients: DNF/YUM, APT, Docker, containerd, Helm, Git, pip, npm, Maven, NuGet, Cargo. The target is to use original addresses where possible, using the reverse proxy as the single entry point. If a protocol cannot work behind a reverse proxy, real configuration examples document the direct connection alternative.</p>
+<h2 id="general-principle">General principle<a class="headerlink" href="#general-principle" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Guidance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Original addresses preferred</td>
+<td>Clients should connect to <code>harbor.internal</code>, <code>nexus.internal</code>, <code>gitlab.internal</code> via reverse proxy where possible</td>
+</tr>
+<tr>
+<td>Reverse proxy as single entry point</td>
+<td>All HTTPS traffic (443/8443/4443) terminates at HAProxy/NGINX</td>
+</tr>
+<tr>
+<td>Direct connection exception</td>
+<td>Protocols that cannot work behind reverse proxy (Git SSH, Docker Registry v1) connect directly to backend IP</td>
+</tr>
+<tr>
+<td>Air-gapped</td>
+<td>All clients point to internal mirrors only; no public internet access</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="dnfyum-os-packages">DNF/YUM (OS packages)<a class="headerlink" href="#dnfyum-os-packages" title="Permanent link">&para;</a></h2>
+<h3 id="via-nexus-reverse-proxy-preferred">Via Nexus reverse proxy (preferred)<a class="headerlink" href="#via-nexus-reverse-proxy-preferred" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># /etc/yum.repos.d/internal.repo</span>
+
+<span class="o">[</span>internal-nexus<span class="o">]</span>
+<span class="nv">name</span><span class="o">=</span>Internal<span class="w"> </span>Nexus<span class="w"> </span>Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://nexus.internal:8443/repository/maven-public/
+<span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">gpgcheck</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">sslverify</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">sslcacert</span><span class="o">=</span>/etc/pki/ca-trust/source/anchors/internal-ca.crt
+
+<span class="o">[</span>internal-nexus-rpm<span class="o">]</span>
+<span class="nv">name</span><span class="o">=</span>Internal<span class="w"> </span>Nexus<span class="w"> </span>RPM<span class="w"> </span>Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://nexus.internal:8443/repository/rpm-public/
+<span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">gpgcheck</span><span class="o">=</span><span class="m">0</span>
+<span class="nv">sslverify</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">sslcacert</span><span class="o">=</span>/etc/pki/ca-trust/source/anchors/internal-ca.crt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify</span>
+
+dnf<span class="w"> </span>repolist
+dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>&lt;package&gt;
+</code></pre></div>
+<h3 id="alternative-direct-to-backend-if-reverse-proxy-not-available">Alternative: Direct to backend (if reverse proxy not available)<a class="headerlink" href="#alternative-direct-to-backend-if-reverse-proxy-not-available" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>internal-nexus-direct<span class="o">]</span>
+<span class="nv">name</span><span class="o">=</span>Internal<span class="w"> </span>Nexus<span class="w"> </span>Direct
+<span class="nv">baseurl</span><span class="o">=</span>http://10.10.0.51:8081/repository/maven-public/
+<span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+<span class="nv">gpgcheck</span><span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+<hr />
+<h2 id="apt-debianubuntu-packages">APT (Debian/Ubuntu packages)<a class="headerlink" href="#apt-debianubuntu-packages" title="Permanent link">&para;</a></h2>
+<h3 id="via-nexus-reverse-proxy-preferred_1">Via Nexus reverse proxy (preferred)<a class="headerlink" href="#via-nexus-reverse-proxy-preferred_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># /etc/apt/sources.list.d/internal.list</span>
+
+deb<span class="w"> </span>https://nexus.internal:8443/repository/debian-public/<span class="w"> </span>bookworm<span class="w"> </span>main<span class="w"> </span>contrib<span class="w"> </span>non-free
+deb-src<span class="w"> </span>https://nexus.internal:8443/repository/debian-public/<span class="w"> </span>bookworm<span class="w"> </span>main<span class="w"> </span>contrib<span class="w"> </span>non-free
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Add internal CA to apt trusted keys</span>
+
+cp<span class="w"> </span>/etc/pki/ca-trust/source/anchors/internal-ca.crt<span class="w"> </span>/usr/local/share/ca-certificates/internal-ca.crt
+update-ca-certificates
+
+<span class="c1"># Verify</span>
+
+apt-get<span class="w"> </span>update
+apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>&lt;package&gt;
+</code></pre></div>
+<hr />
+<h2 id="docker-containerd-container-images">Docker / containerd (container images)<a class="headerlink" href="#docker-containerd-container-images" title="Permanent link">&para;</a></h2>
+<h3 id="via-harbor-reverse-proxy-preferred">Via Harbor reverse proxy (preferred)<a class="headerlink" href="#via-harbor-reverse-proxy-preferred" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># /etc/docker/daemon.json</span>
+
+<span class="o">{</span>
+<span class="w">  </span><span class="s2">"registry-mirrors"</span>:<span class="w"> </span><span class="o">[</span>
+<span class="w">    </span><span class="s2">"https://harbor.internal:443"</span>
+<span class="w">  </span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Restart Docker</span>
+
+systemctl<span class="w"> </span>restart<span class="w"> </span>docker
+
+<span class="c1"># Verify</span>
+
+docker<span class="w"> </span>login<span class="w"> </span>harbor.internal:443<span class="w"> </span>-u<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;
+docker<span class="w"> </span>pull<span class="w"> </span>harbor.internal:5000/library/alpine:3.19
+</code></pre></div>
+<h3 id="containerd-configuration">containerd configuration<a class="headerlink" href="#containerd-configuration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># /etc/containerd/config.toml</span>
+
+<span class="o">[</span>plugins.<span class="s2">"io.containerd.grpc.v1.cri"</span>.registry.mirrors.<span class="s2">"docker.io"</span><span class="o">]</span>
+<span class="w">  </span><span class="nv">endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s2">"https://harbor.internal:443"</span><span class="o">]</span>
+
+<span class="o">[</span>plugins.<span class="s2">"io.containerd.grpc.v1.cri"</span>.registry.mirrors.<span class="s2">"quay.io"</span><span class="o">]</span>
+<span class="w">  </span><span class="nv">endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s2">"https://harbor.internal:443"</span><span class="o">]</span>
+
+<span class="o">[</span>plugins.<span class="s2">"io.containerd.grpc.v1.cri"</span>.registry.mirrors.<span class="s2">"gcr.io"</span><span class="o">]</span>
+<span class="w">  </span><span class="nv">endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s2">"https://harbor.internal:443"</span><span class="o">]</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Restart containerd</span>
+
+systemctl<span class="w"> </span>restart<span class="w"> </span>containerd
+</code></pre></div>
+<hr />
+<h2 id="helm-charts">Helm charts<a class="headerlink" href="#helm-charts" title="Permanent link">&para;</a></h2>
+<h3 id="via-harbor-reverse-proxy-preferred_1">Via Harbor reverse proxy (preferred)<a class="headerlink" href="#via-harbor-reverse-proxy-preferred_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Add Harbor as Helm repo</span>
+
+helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>harbor<span class="w"> </span>https://harbor.internal:443/chartrepo/library
+helm<span class="w"> </span>repo<span class="w"> </span>update
+
+<span class="c1"># Verify</span>
+
+helm<span class="w"> </span>search<span class="w"> </span>repo<span class="w"> </span>harbor
+
+<span class="c1"># Install from Harbor</span>
+
+helm<span class="w"> </span>install<span class="w"> </span>my-app<span class="w"> </span>harbor/my-app
+</code></pre></div>
+<h3 id="alternative-direct-to-harbor-backend">Alternative: Direct to Harbor backend<a class="headerlink" href="#alternative-direct-to-harbor-backend" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>harbor-direct<span class="w"> </span>https://10.10.0.50:443/chartrepo/library
+</code></pre></div>
+<hr />
+<h2 id="git-repositories">Git repositories<a class="headerlink" href="#git-repositories" title="Permanent link">&para;</a></h2>
+<h3 id="via-gitlab-reverse-proxy-preferred-httphttps">Via GitLab reverse proxy (preferred - HTTP/HTTPS)<a class="headerlink" href="#via-gitlab-reverse-proxy-preferred-httphttps" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clone via HTTPS through reverse proxy</span>
+
+git<span class="w"> </span>clone<span class="w"> </span>https://gitlab.internal/group/project.git
+
+<span class="c1"># Configure Git to use internal GitLab</span>
+
+git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>url.<span class="s2">"https://gitlab.internal/"</span>.insteadOf<span class="w"> </span><span class="s2">"https://github.com/"</span>
+</code></pre></div>
+<h3 id="direct-connection-ssh-cannot-go-through-http-reverse-proxy">Direct connection (SSH - cannot go through HTTP reverse proxy)<a class="headerlink" href="#direct-connection-ssh-cannot-go-through-http-reverse-proxy" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># SSH clone (direct to GitLab backend IP, bypassing reverse proxy)</span>
+
+git<span class="w"> </span>clone<span class="w"> </span>ssh://git@10.10.0.52:22/group/project.git
+
+<span class="c1"># Or configure SSH config</span>
+
+cat<span class="w"> </span>~/.ssh/config
+Host<span class="w"> </span>gitlab.internal
+<span class="w">    </span>HostName<span class="w"> </span><span class="m">10</span>.10.0.52
+<span class="w">    </span>Port<span class="w"> </span><span class="m">22</span>
+<span class="w">    </span>User<span class="w"> </span>git
+<span class="w">    </span>IdentityFile<span class="w"> </span>~/.ssh/id_ed25519
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clone via SSH config</span>
+
+git<span class="w"> </span>clone<span class="w"> </span>git@gitlab.internal:group/project.git
+</code></pre></div>
+<hr />
+<h2 id="pip-python-packages">pip (Python packages)<a class="headerlink" href="#pip-python-packages" title="Permanent link">&para;</a></h2>
+<h3 id="via-nexus-reverse-proxy-preferred_2">Via Nexus reverse proxy (preferred)<a class="headerlink" href="#via-nexus-reverse-proxy-preferred_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># /etc/pip.conf</span>
+
+<span class="o">[</span>global<span class="o">]</span>
+index-url<span class="w"> </span><span class="o">=</span><span class="w"> </span>https://nexus.internal:8443/repository/pypi-public/simple
+trusted-host<span class="w"> </span><span class="o">=</span><span class="w"> </span>nexus.internal
+
+<span class="c1"># Or per-user</span>
+
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/.config/pip
+cat<span class="w"> </span>&gt;<span class="w"> </span>~/.config/pip/pip.conf<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">[global]</span>
+<span class="s">index-url = https://nexus.internal:8443/repository/pypi-public/simple</span>
+<span class="s">trusted-host = nexus.internal</span>
+<span class="s">EOF</span>
+
+<span class="c1"># Verify</span>
+
+pip<span class="w"> </span>install<span class="w"> </span>&lt;package&gt;
+</code></pre></div>
+<hr />
+<h2 id="npm-nodejs-packages">npm (Node.js packages)<a class="headerlink" href="#npm-nodejs-packages" title="Permanent link">&para;</a></h2>
+<h3 id="via-nexus-reverse-proxy-preferred_3">Via Nexus reverse proxy (preferred)<a class="headerlink" href="#via-nexus-reverse-proxy-preferred_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Global npm config</span>
+
+npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>registry<span class="w"> </span>https://nexus.internal:8443/repository/npm-public/
+
+<span class="c1"># Or per-project</span>
+
+cat<span class="w"> </span>.npmrc
+<span class="nv">registry</span><span class="o">=</span>https://nexus.internal:8443/repository/npm-public/
+
+<span class="c1"># Verify</span>
+
+npm<span class="w"> </span>install<span class="w"> </span>&lt;package&gt;
+</code></pre></div>
+<hr />
+<h2 id="maven">Maven<a class="headerlink" href="#maven" title="Permanent link">&para;</a></h2>
+<h3 id="via-nexus-reverse-proxy-preferred_4">Via Nexus reverse proxy (preferred)<a class="headerlink" href="#via-nexus-reverse-proxy-preferred_4" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ~/.m2/settings.xml</span>
+
+&lt;settings&gt;
+<span class="w">  </span>&lt;mirrors&gt;
+<span class="w">    </span>&lt;mirror&gt;
+<span class="w">      </span>&lt;id&gt;internal-nexus&lt;/id&gt;
+<span class="w">      </span>&lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
+<span class="w">      </span>&lt;url&gt;https://nexus.internal:8443/repository/maven-public/&lt;/url&gt;
+<span class="w">    </span>&lt;/mirror&gt;
+<span class="w">  </span>&lt;/mirrors&gt;
+<span class="w">  </span>&lt;profiles&gt;
+<span class="w">    </span>&lt;profile&gt;
+<span class="w">      </span>&lt;id&gt;internal&lt;/id&gt;
+<span class="w">      </span>&lt;repositories&gt;
+<span class="w">        </span>&lt;repository&gt;
+<span class="w">          </span>&lt;id&gt;internal-nexus&lt;/id&gt;
+<span class="w">          </span>&lt;url&gt;https://nexus.internal:8443/repository/maven-public/&lt;/url&gt;
+<span class="w">          </span>&lt;releases&gt;
+<span class="w">            </span>&lt;enabled&gt;true&lt;/enabled&gt;
+<span class="w">          </span>&lt;/releases&gt;
+<span class="w">          </span>&lt;snapshots&gt;
+<span class="w">            </span>&lt;enabled&gt;false&lt;/enabled&gt;
+<span class="w">          </span>&lt;/snapshots&gt;
+<span class="w">        </span>&lt;/repository&gt;
+<span class="w">      </span>&lt;/repositories&gt;
+<span class="w">    </span>&lt;/profile&gt;
+<span class="w">  </span>&lt;/profiles&gt;
+<span class="w">  </span>&lt;activeProfiles&gt;
+<span class="w">    </span>&lt;activeProfile&gt;internal&lt;/activeProfile&gt;
+<span class="w">  </span>&lt;/activeProfiles&gt;
+&lt;/settings&gt;
+
+<span class="c1"># Verify</span>
+
+mvn<span class="w"> </span>dependency:get<span class="w"> </span>-Dartifact<span class="o">=</span>org.apache.maven.plugins:maven-jar-plugin:3.3.0
+</code></pre></div>
+<hr />
+<h2 id="nuget-net-packages">NuGet (.NET packages)<a class="headerlink" href="#nuget-net-packages" title="Permanent link">&para;</a></h2>
+<h3 id="via-nexus-reverse-proxy-preferred_5">Via Nexus reverse proxy (preferred)<a class="headerlink" href="#via-nexus-reverse-proxy-preferred_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Global NuGet config</span>
+
+dotnet<span class="w"> </span>nuget<span class="w"> </span>add<span class="w"> </span><span class="nb">source</span><span class="w"> </span>https://nexus.internal:8443/repository/nuget-public/index.json<span class="w"> </span>--name<span class="w"> </span>internal-nexus
+
+<span class="c1"># Or per-project (nuget.config)</span>
+
+cat<span class="w"> </span>nuget.config
+&lt;?xml<span class="w"> </span><span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span><span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span>?&gt;
+&lt;configuration&gt;
+<span class="w">  </span>&lt;packageSources&gt;
+<span class="w">    </span>&lt;add<span class="w"> </span><span class="nv">key</span><span class="o">=</span><span class="s2">"internal-nexus"</span><span class="w"> </span><span class="nv">value</span><span class="o">=</span><span class="s2">"https://nexus.internal:8443/repository/nuget-public/index.json"</span><span class="w"> </span>/&gt;
+<span class="w">  </span>&lt;/packageSources&gt;
+&lt;/configuration&gt;
+
+<span class="c1"># Verify</span>
+
+dotnet<span class="w"> </span>restore
+dotnet<span class="w"> </span>add<span class="w"> </span>package<span class="w"> </span>&lt;package&gt;
+</code></pre></div>
+<hr />
+<h2 id="cargo-rust-packages">Cargo (Rust packages)<a class="headerlink" href="#cargo-rust-packages" title="Permanent link">&para;</a></h2>
+<h3 id="via-nexus-reverse-proxy-preferred_6">Via Nexus reverse proxy (preferred)<a class="headerlink" href="#via-nexus-reverse-proxy-preferred_6" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># ~/.cargo/config.toml</span>
+
+<span class="o">[</span>source.crates-io<span class="o">]</span>
+replace-with<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"internal-nexus"</span>
+
+<span class="o">[</span>source.internal-nexus<span class="o">]</span>
+replace-url<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://nexus.internal:8443/repository/cargo-public/"</span>
+
+<span class="c1"># Verify</span>
+
+cargo<span class="w"> </span>build
+</code></pre></div>
+<hr />
+<h2 id="air-gapped-client-configuration">Air-gapped client configuration<a class="headerlink" href="#air-gapped-client-configuration" title="Permanent link">&para;</a></h2>
+<p>In air-gapped environments, all clients must point to internal mirrors only:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example: Complete air-gapped client configuration</span>
+
+<span class="c1"># YUM/DNF - point to internal Nexus only</span>
+
+cat<span class="w"> </span>/etc/yum.repos.d/internal.repo
+<span class="o">[</span>internal-nexus<span class="o">]</span>
+<span class="nv">baseurl</span><span class="o">=</span>https://nexus.internal:8443/repository/maven-public/
+<span class="nv">gpgcheck</span><span class="o">=</span><span class="m">0</span>
+
+<span class="c1"># Docker/containerd - point to internal Harbor only</span>
+
+cat<span class="w"> </span>/etc/containerd/config.toml
+<span class="o">[</span>plugins.<span class="s2">"io.containerd.grpc.v1.cri"</span>.registry.mirrors.<span class="s2">"docker.io"</span><span class="o">]</span>
+<span class="w">  </span><span class="nv">endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s2">"https://harbor.internal:443"</span><span class="o">]</span>
+<span class="o">[</span>plugins.<span class="s2">"io.containerd.grpc.v1.cri"</span>.registry.mirrors.<span class="s2">"quay.io"</span><span class="o">]</span>
+<span class="w">  </span><span class="nv">endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s2">"https://harbor.internal:443"</span><span class="o">]</span>
+<span class="o">[</span>plugins.<span class="s2">"io.containerd.grpc.v1.cri"</span>.registry.mirrors.<span class="s2">"gcr.io"</span><span class="o">]</span>
+<span class="w">  </span><span class="nv">endpoint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s2">"https://harbor.internal:443"</span><span class="o">]</span>
+
+<span class="c1"># npm - point to internal Nexus only</span>
+
+npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>registry<span class="w"> </span>https://nexus.internal:8443/repository/npm-public/
+
+<span class="c1"># pip - point to internal Nexus only</span>
+
+pip<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>global.index-url<span class="w"> </span>https://nexus.internal:8081/repository/pypi-public/simple
+
+<span class="c1"># Verify no public internet access</span>
+
+curl<span class="w"> </span>-I<span class="w"> </span>https://docker.io<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-1<span class="w">  </span><span class="c1"># Should fail</span>
+curl<span class="w"> </span>-I<span class="w"> </span>https://harbor.internal:443<span class="w">  </span><span class="c1"># Should succeed</span>
+</code></pre></div>
+<hr />
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../01-overview-and-architecture/1.6-repositories-and-registries/">Overview (1.5 Repositories &amp; Registries)</a></li>
-<li><a href="../../01-overview-and-architecture/1.5-deployment-environments/">Overview (1.4 Air-Gapped)</a></li>
+<li><a href="../3.3-installation-config/">Repository &amp; Registry Management (3.3 Installation)</a></li>
+<li><a href="../3.5-reverse-proxy/">Repository &amp; Registry Management (3.5 Reverse Proxy Architecture)</a></li>
+<li><a href="../../01-overview-and-architecture/1.5-deployment-environments/">Overview (1.5 Deployment Environments)</a></li>
 </ul>
 
 

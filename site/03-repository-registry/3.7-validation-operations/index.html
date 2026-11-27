@@ -1268,10 +1268,371 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validation" class="md-nav__link">
+  <a href="#connectivity-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validation
+        Connectivity validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connectivity validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-harbor-is-reachable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Harbor is reachable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-nexus-is-reachable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Nexus is reachable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-gitlab-is-reachable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify GitLab is reachable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synchronization-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronization validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronization validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-harbor-replication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Harbor replication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-nexus-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Nexus sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-gitlab-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify GitLab mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrity-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrity verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integrity verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-image-integrity-cosign-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify image integrity (Cosign signatures)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-artifact-checksums-sbom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify artifact checksums (SBOM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-rpmdeb-package-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify RPM/DEB package signatures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backup verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#harbor-backup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harbor backup verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nexus-backup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nexus backup verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitlab-backup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitLab backup verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prometheus-scrape-configuration-for-harbor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prometheus scrape configuration for Harbor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-harbor-metrics-to-alert-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Harbor metrics to alert on
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prometheus-scrape-configuration-for-nexus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prometheus scrape configuration for Nexus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-nexus-metrics-to-alert-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Nexus metrics to alert on
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grafana-dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grafana dashboards
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-failures-and-resolutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common failures and resolutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debug commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restore-harbor-from-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore Harbor from backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-nexus-from-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore Nexus from backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-gitlab-from-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore GitLab from backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation checklist
       
     </span>
   </a>
@@ -4097,10 +4458,371 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#validation" class="md-nav__link">
+  <a href="#connectivity-validation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Validation
+        Connectivity validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connectivity validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-harbor-is-reachable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Harbor is reachable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-nexus-is-reachable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Nexus is reachable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-gitlab-is-reachable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify GitLab is reachable
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synchronization-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronization validation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Synchronization validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-harbor-replication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Harbor replication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-nexus-sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Nexus sync
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-gitlab-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify GitLab mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrity-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrity verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integrity verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-image-integrity-cosign-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify image integrity (Cosign signatures)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-artifact-checksums-sbom" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify artifact checksums (SBOM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-rpmdeb-package-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify RPM/DEB package signatures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Backup verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#harbor-backup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harbor backup verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nexus-backup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nexus backup verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitlab-backup-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitLab backup verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prometheus-scrape-configuration-for-harbor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prometheus scrape configuration for Harbor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-harbor-metrics-to-alert-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Harbor metrics to alert on
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prometheus-scrape-configuration-for-nexus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prometheus scrape configuration for Nexus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-nexus-metrics-to-alert-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Nexus metrics to alert on
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grafana-dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grafana dashboards
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-failures-and-resolutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common failures and resolutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debug-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Debug commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#restore-harbor-from-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore Harbor from backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-nexus-from-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore Nexus from backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-gitlab-from-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore GitLab from backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation checklist
       
     </span>
   </a>
@@ -4140,21 +4862,434 @@
 
 <h1 id="validation-operations">Validation &amp; Operations<a class="headerlink" href="#validation-operations" title="Permanent link">&para;</a></h1>
 <h2 id="purpose-and-scope">Purpose and scope<a class="headerlink" href="#purpose-and-scope" title="Permanent link">&para;</a></h2>
-<p>Connectivity testing, synchronization validation, integrity verification, backup, monitoring, troubleshooting, recovery for repositories/registries.</p>
-<h2 id="validation">Validation<a class="headerlink" href="#validation" title="Permanent link">&para;</a></h2>
+<p>Connectivity testing, synchronization validation, integrity verification, backup, monitoring, troubleshooting, and recovery for repositories and registries. This section defines how to verify that the repository/registry infrastructure is operating correctly in both connected and air-gapped environments.</p>
+<h2 id="connectivity-validation">Connectivity validation<a class="headerlink" href="#connectivity-validation" title="Permanent link">&para;</a></h2>
+<h3 id="verify-harbor-is-reachable">Verify Harbor is reachable<a class="headerlink" href="#verify-harbor-is-reachable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># API health check</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>https://harbor.internal/api/v2.0/ping
+
+<span class="c1"># Expected: {"ok":true}</span>
+
+<span class="c1"># Docker/OCI registry v2 API</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>https://harbor.internal:443/v2/
+
+<span class="c1"># Expected: {"name":"distribution","version":"registry/2.0"}</span>
+
+<span class="c1"># Docker login test</span>
+
+docker<span class="w"> </span>login<span class="w"> </span>harbor.internal:443<span class="w"> </span>-u<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>&lt;password&gt;
+
+<span class="c1"># Expected: Login Succeeded</span>
+
+<span class="c1"># Image pull through Harbor</span>
+
+docker<span class="w"> </span>pull<span class="w"> </span>harbor.internal:443/library/alpine:3.19
+</code></pre></div>
+<h3 id="verify-nexus-is-reachable">Verify Nexus is reachable<a class="headerlink" href="#verify-nexus-is-reachable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus status API</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>http://nexus.internal:8081/service/rest/v1/status
+
+<span class="c1"># Expected: JSON with version info</span>
+
+<span class="c1"># Repository list</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://nexus.internal:8081/service/rest/v1/repositories
+
+<span class="c1"># Repository content</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://nexus.internal:8081/service/rest/v1/search?repository<span class="o">=</span>maven-releases
+</code></pre></div>
+<h3 id="verify-gitlab-is-reachable">Verify GitLab is reachable<a class="headerlink" href="#verify-gitlab-is-reachable" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Health endpoint</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>https://gitlab.internal/-/health
+
+<span class="c1"># Expected: OK</span>
+
+<span class="c1"># API status</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-H<span class="w"> </span><span class="s2">"PRIVATE-TOKEN: &lt;token&gt;"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://gitlab.internal/api/v4/projects
+</code></pre></div>
+<hr />
+<h2 id="synchronization-validation">Synchronization validation<a class="headerlink" href="#synchronization-validation" title="Permanent link">&para;</a></h2>
+<h3 id="verify-harbor-replication">Verify Harbor replication<a class="headerlink" href="#verify-harbor-replication" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check replication status</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://harbor.internal/api/v2.0/replication/jobs
+
+<span class="c1"># Trigger manual replication</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://harbor.internal/api/v2.0/replication/jobs/&lt;id&gt;/run
+
+<span class="c1"># Verify replicated image exists</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://harbor.internal/api/v2.0/projects/library/repositories/alpine/artifacts
+</code></pre></div>
+<h3 id="verify-nexus-sync">Verify Nexus sync<a class="headerlink" href="#verify-nexus-sync" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check proxy repository cache</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://nexus.internal:8081/service/rest/v1/components?repository<span class="o">=</span>maven-public
+
+<span class="c1"># Verify artifact was proxied from upstream</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://nexus.internal:8443/repository/maven-public/org/apache/maven/plugins/maven-jar-plugin/maven-metadata.xml
+</code></pre></div>
+<h3 id="verify-gitlab-mirror">Verify GitLab mirror<a class="headerlink" href="#verify-gitlab-mirror" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check mirrored project</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-H<span class="w"> </span><span class="s2">"PRIVATE-TOKEN: &lt;token&gt;"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://gitlab.internal/api/v4/projects?search<span class="o">=</span>upstream-mirror
+
+<span class="c1"># Check last sync activity</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-H<span class="w"> </span><span class="s2">"PRIVATE-TOKEN: &lt;token&gt;"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://gitlab.internal/api/v4/projects/&lt;id&gt;/events
+</code></pre></div>
+<hr />
+<h2 id="integrity-verification">Integrity verification<a class="headerlink" href="#integrity-verification" title="Permanent link">&para;</a></h2>
+<h3 id="verify-image-integrity-cosign-signatures">Verify image integrity (Cosign signatures)<a class="headerlink" href="#verify-image-integrity-cosign-signatures" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify signed image</span>
+
+cosign<span class="w"> </span>verify<span class="w"> </span>harbor.internal:5000/library/alpine:3.19<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--key<span class="w"> </span>cosign.pub
+
+<span class="c1"># Expected: Verified OK</span>
+</code></pre></div>
+<h3 id="verify-artifact-checksums-sbom">Verify artifact checksums (SBOM)<a class="headerlink" href="#verify-artifact-checksums-sbom" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get SBOM from Harbor</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://harbor.internal/api/v2.0/projects/library/repositories/alpine/artifacts/3.19/summary
+
+<span class="c1"># Verify checksum</span>
+
+sha256sum<span class="w"> </span>alpine-3.19.tar.gz
+
+<span class="c1"># Compare with SBOM sha256</span>
+</code></pre></div>
+<h3 id="verify-rpmdeb-package-signatures">Verify RPM/DEB package signatures<a class="headerlink" href="#verify-rpmdeb-package-signatures" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Verify RPM signature</span>
+
+rpm<span class="w"> </span>--import<span class="w"> </span>/etc/pki/rpm-gpg/RPM-GPG-KEY-internal
+rpm<span class="w"> </span>-qpi<span class="w"> </span>&lt;package&gt;.rpm
+
+<span class="c1"># Verify DEB signature</span>
+
+apt-key<span class="w"> </span>adv<span class="w"> </span>--keyserver<span class="w"> </span>keyserver.ubuntu.com<span class="w"> </span>--recv-keys<span class="w"> </span>&lt;key-id&gt;
+apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>&lt;package&gt;
+</code></pre></div>
+<hr />
+<h2 id="backup-verification">Backup verification<a class="headerlink" href="#backup-verification" title="Permanent link">&para;</a></h2>
+<h3 id="harbor-backup-verification">Harbor backup verification<a class="headerlink" href="#harbor-backup-verification" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># List Harbor backups</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>https://harbor.internal/api/v2.0/systeminfo/backups
+
+<span class="c1"># Restore from backup (example)</span>
+
+<span class="c1"># Harbor backup/restore via harbor-backup/restore scripts</span>
+
+./backup.sh<span class="w"> </span>--target<span class="w"> </span>/backup/harbor/2024-01-15
+./restore.sh<span class="w"> </span>--source<span class="w"> </span>/backup/harbor/2024-01-15
+</code></pre></div>
+<h3 id="nexus-backup-verification">Nexus backup verification<a class="headerlink" href="#nexus-backup-verification" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus uses filesystem backup of blob store + database dump</span>
+
+<span class="c1"># Verify backup exists</span>
+
+ls<span class="w"> </span>-lh<span class="w"> </span>/opt/nexus/backup/
+
+<span class="c1"># Verify database dump</span>
+
+pg_restore<span class="w"> </span>--list<span class="w"> </span>/opt/nexus/backup/nexus-db.dump
+
+<span class="c1"># Restore Nexus</span>
+
+java<span class="w"> </span>-jar<span class="w"> </span>/opt/sonatype/nexus/plugins/nexus-backup-restore-*.jar<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--restore<span class="w"> </span>/opt/nexus/backup/
+</code></pre></div>
+<h3 id="gitlab-backup-verification">GitLab backup verification<a class="headerlink" href="#gitlab-backup-verification" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># List GitLab backups</span>
+
+ls<span class="w"> </span>-lh<span class="w"> </span>/var/opt/gitlab/backups/
+
+<span class="c1"># Restore GitLab backup</span>
+
+gitlab-ctl<span class="w"> </span>stop<span class="w"> </span>unicorn<span class="w"> </span>sidekiq
+gitlab-rake<span class="w"> </span>gitlab:backup:restore<span class="w"> </span><span class="nv">BACKUP</span><span class="o">=</span>&lt;timestamp&gt;
+gitlab-ctl<span class="w"> </span>start
+gitlab-rake<span class="w"> </span>gitlab:check<span class="w"> </span><span class="nv">SANITIZE</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+<hr />
+<h2 id="monitoring">Monitoring<a class="headerlink" href="#monitoring" title="Permanent link">&para;</a></h2>
+<h3 id="prometheus-scrape-configuration-for-harbor">Prometheus scrape configuration for Harbor<a class="headerlink" href="#prometheus-scrape-configuration-for-harbor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># /etc/prometheus/prometheus.yml</span>
+
+<span class="nt">scrape_configs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s">'harbor'</span>
+<span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">'harbor.internal:443'</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">metrics_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/api/v2.0/metrics</span>
+<span class="w">    </span><span class="nt">scheme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https</span>
+<span class="w">    </span><span class="nt">tls_config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">insecure_skip_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">basic_auth</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">username</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">admin</span>
+<span class="w">      </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;password&gt;</span>
+</code></pre></div>
+<h3 id="key-harbor-metrics-to-alert-on">Key Harbor metrics to alert on<a class="headerlink" href="#key-harbor-metrics-to-alert-on" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Alert threshold</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>harbor_registry_info</code></td>
+<td>value == 0</td>
+<td>Harbor registry down</td>
+</tr>
+<tr>
+<td><code>harbor_project_count</code></td>
+<td>decreasing</td>
+<td>Projects deleted unexpectedly</td>
+</tr>
+<tr>
+<td><code>registry_disk_usage_bytes</code></td>
+<td>&gt; 80% of capacity</td>
+<td>Storage almost full</td>
+</tr>
+<tr>
+<td><code>replication_job_status</code></td>
+<td>!= 1</td>
+<td>Replication job failed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="prometheus-scrape-configuration-for-nexus">Prometheus scrape configuration for Nexus<a class="headerlink" href="#prometheus-scrape-configuration-for-nexus" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">scrape_configs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s">'nexus'</span>
+<span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">'nexus.internal:8081'</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">metrics_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/metrics</span>
+</code></pre></div>
+<h3 id="key-nexus-metrics-to-alert-on">Key Nexus metrics to alert on<a class="headerlink" href="#key-nexus-metrics-to-alert-on" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Alert threshold</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nexus_repository_info</code></td>
+<td>value == 0</td>
+<td>Nexus repository down</td>
+</tr>
+<tr>
+<td><code>nexus_storage_used_bytes</code></td>
+<td>&gt; 85% of capacity</td>
+<td>Storage almost full</td>
+</tr>
+<tr>
+<td><code>nexus_api_response_seconds</code></td>
+<td>&gt; 5</td>
+<td>API slow</td>
+</tr>
+</tbody>
+</table>
+<h3 id="grafana-dashboards">Grafana dashboards<a class="headerlink" href="#grafana-dashboards" title="Permanent link">&para;</a></h3>
+<p>Create dashboards for:</p>
 <ul>
-<li>Connectivity: curl/skopeo inspect against internal Harbor/Nexus</li>
-<li>Synchronization validation: verify mirrored artifacts match upstream</li>
-<li>Integrity verification: checksums, Cosign signatures, SBOM</li>
-<li>Backup: Velero, etcd snapshots, RGW snapshots</li>
-<li>Monitoring: Prometheus scrape Harbor/Nexus</li>
-<li>Troubleshooting: common failure conditions and resolution</li>
-<li>Recovery: restore from backup, re-mirror from staging</li>
+<li>Harbor: image pull/push rate, replication lag, storage usage, vulnerability count</li>
+<li>Nexus: component download rate, repository count, storage usage, API latency</li>
+<li>GitLab: pipeline success rate, merge request rate, storage usage, user count</li>
 </ul>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="common-failures-and-resolutions">Common failures and resolutions<a class="headerlink" href="#common-failures-and-resolutions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>docker login</code> fails with 401</td>
+<td>Wrong credentials or expired token</td>
+<td>Reset password, check Harbor LDAP/OIDC config</td>
+</tr>
+<tr>
+<td><code>docker pull</code> fails with 404</td>
+<td>Image not in Harbor</td>
+<td>Push image to Harbor first, or check repository name</td>
+</tr>
+<tr>
+<td><code>docker pull</code> fails with 502</td>
+<td>Harbor backend down</td>
+<td>Check Harbor pods/containers, restart Harbor</td>
+</tr>
+<tr>
+<td><code>dnf install</code> fails with 404</td>
+<td>Package not in Nexus</td>
+<td>Add package to Nexus hosted repo, or sync from upstream</td>
+</tr>
+<tr>
+<td><code>npm install</code> fails with 403</td>
+<td>Wrong registry URL or auth</td>
+<td>Check npm registry URL, check Nexus token</td>
+</tr>
+<tr>
+<td><code>helm install</code> fails with 404</td>
+<td>Chart not in Harbor</td>
+<td>Push chart to Harbor chart repo first</td>
+</tr>
+<tr>
+<td>Git <code>clone</code> fails with 403</td>
+<td>Wrong GitLab token or no project access</td>
+<td>Generate new personal access token, check project membership</td>
+</tr>
+<tr>
+<td>Replication fails</td>
+<td>Network or auth issue between instances</td>
+<td>Check firewall, check credentials, check network connectivity</td>
+</tr>
+<tr>
+<td>Harbor storage full</td>
+<td>Image layers consuming disk</td>
+<td>Run garbage collection: <code>harbor garbage-collection</code></td>
+</tr>
+<tr>
+<td>Nexus storage full</td>
+<td>Cached artifacts consuming disk</td>
+<td>Run Nexus cleanup policies, delete unused snapshots</td>
+</tr>
+</tbody>
+</table>
+<h3 id="debug-commands">Debug commands<a class="headerlink" href="#debug-commands" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Check all registry endpoints</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>https://harbor.internal/api/v2.0/ping
+curl<span class="w"> </span>-sk<span class="w"> </span>http://nexus.internal:8081/service/rest/v1/status
+curl<span class="w"> </span>-sk<span class="w"> </span>https://gitlab.internal/-/health
+
+<span class="c1"># Check DNS resolution</span>
+
+nslookup<span class="w"> </span>harbor.internal
+nslookup<span class="w"> </span>nexus.internal
+nslookup<span class="w"> </span>gitlab.internal
+
+<span class="c1"># Check TLS certificates</span>
+
+openssl<span class="w"> </span>s_client<span class="w"> </span>-connect<span class="w"> </span>harbor.internal:443<span class="w"> </span>&lt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+
+<span class="c1"># Check reverse proxy</span>
+
+curl<span class="w"> </span>-sk<span class="w"> </span>-I<span class="w"> </span>https://harbor.internal:443/
+curl<span class="w"> </span>-sk<span class="w"> </span>-I<span class="w"> </span>https://nexus.internal:8443/
+
+<span class="c1"># Check container registry API</span>
+
+skopeo<span class="w"> </span>inspect<span class="w"> </span>docker://harbor.internal:443/library/alpine:3.19
+</code></pre></div>
+<hr />
+<h2 id="recovery">Recovery<a class="headerlink" href="#recovery" title="Permanent link">&para;</a></h2>
+<h3 id="restore-harbor-from-backup">Restore Harbor from backup<a class="headerlink" href="#restore-harbor-from-backup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Stop Harbor</span>
+
+<span class="nb">cd</span><span class="w"> </span>/opt/harbor
+./down.sh
+
+<span class="c1"># Restore database from backup</span>
+
+./restore.sh<span class="w"> </span>--source<span class="w"> </span>/backup/harbor/2024-01-15
+
+<span class="c1"># Start Harbor</span>
+
+./up.sh
+</code></pre></div>
+<h3 id="restore-nexus-from-backup">Restore Nexus from backup<a class="headerlink" href="#restore-nexus-from-backup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Stop Nexus</span>
+
+systemctl<span class="w"> </span>stop<span class="w"> </span>nexus
+
+<span class="c1"># Restore database</span>
+
+pg_restore<span class="w"> </span>-d<span class="w"> </span>nexus<span class="w"> </span>/opt/nexus/backup/nexus-db.dump
+
+<span class="c1"># Restore blob store</span>
+
+cp<span class="w"> </span>-r<span class="w"> </span>/opt/nexus/backup/sonatype-work/*<span class="w"> </span>/opt/sonatype/sonatype-work/
+
+<span class="c1"># Start Nexus</span>
+
+systemctl<span class="w"> </span>start<span class="w"> </span>nexus
+</code></pre></div>
+<h3 id="restore-gitlab-from-backup">Restore GitLab from backup<a class="headerlink" href="#restore-gitlab-from-backup" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Stop GitLab services</span>
+
+gitlab-ctl<span class="w"> </span>stop<span class="w"> </span>unicorn<span class="w"> </span>sidekiq
+
+<span class="c1"># Restore backup</span>
+
+gitlab-rake<span class="w"> </span>gitlab:backup:restore<span class="w"> </span><span class="nv">BACKUP</span><span class="o">=</span>&lt;timestamp&gt;
+
+<span class="c1"># Start GitLab</span>
+
+gitlab-ctl<span class="w"> </span>start
+
+<span class="c1"># Verify</span>
+
+gitlab-rake<span class="w"> </span>gitlab:check<span class="w"> </span><span class="nv">SANITIZE</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+<hr />
+<h2 id="validation-checklist">Validation checklist<a class="headerlink" href="#validation-checklist" title="Permanent link">&para;</a></h2>
+<p>Before considering a repository/registry production-ready:</p>
+<ul>
+<li>[ ] Harbor API responds at <code>https://harbor.internal/api/v2.0/ping</code></li>
+<li>[ ] Nexus API responds at <code>http://nexus.internal:8081/service/rest/v1/status</code></li>
+<li>[ ] GitLab health responds at <code>https://gitlab.internal/-/health</code></li>
+<li>[ ] Docker pull from Harbor succeeds</li>
+<li>[ ] YUM/DNF install from Nexus succeeds</li>
+<li>[ ] <code>npm install</code> from Nexus succeeds</li>
+<li>[ ] <code>pip install</code> from Nexus succeeds</li>
+<li>[ ] <code>git clone</code> from GitLab via HTTPS succeeds</li>
+<li>[ ] <code>git clone</code> from GitLab via SSH succeeds</li>
+<li>[ ] Helm install from Harbor chart repo succeeds</li>
+<li>[ ] Image signature verification (Cosign) passes</li>
+<li>[ ] Package checksum verification (RPM/DEB) passes</li>
+<li>[ ] Backup and restore drill completes successfully</li>
+<li>[ ] Monitoring alerts fire on component failure</li>
+<li>[ ] Air-gapped environment: all clients point to internal mirrors only</li>
+<li>[ ] Air-gapped environment: no public internet access required</li>
+</ul>
+<hr />
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../01-overview-and-architecture/1.5-deployment-environments/">Overview (1.4 Air-Gapped)</a></li>
-<li><a href="../../08-troubleshooting-and-diagnostics/">Troubleshooting</a></li>
+<li><a href="../3.3-installation-config/">Repository &amp; Registry Management (3.3 Installation)</a></li>
+<li><a href="../3.5-reverse-proxy/">Repository &amp; Registry Management (3.5 Reverse Proxy Architecture)</a></li>
+<li><a href="../3.6-client-config/">Repository &amp; Registry Management (3.6 Client Configuration)</a></li>
+<li><a href="../../08-troubleshooting-and-diagnostics/08-repositories-and-registries/">Troubleshooting (08 - Repositories &amp; Registries)</a></li>
 </ul>
 
 

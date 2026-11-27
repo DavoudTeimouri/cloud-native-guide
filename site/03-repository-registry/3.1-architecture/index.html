@@ -1100,13 +1100,113 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture_1" class="md-nav__link">
+  <a href="#upstreamdownstream-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture
+        Upstream/downstream architecture
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-platform-reference-architectures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-platform reference architectures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-platform reference architectures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#harbor-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harbor architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nexus-repository-manager-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nexus Repository Manager architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitlab-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitLab architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment topology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment topology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connected-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connected environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disconnected-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disconnected environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isolated-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Isolated environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4097,13 +4197,113 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#architecture_1" class="md-nav__link">
+  <a href="#upstreamdownstream-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture
+        Upstream/downstream architecture
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-platform-reference-architectures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-platform reference architectures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Per-platform reference architectures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#harbor-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Harbor architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nexus-repository-manager-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nexus Repository Manager architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitlab-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitLab architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#environment-topology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment topology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment topology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connected-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connected environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disconnected-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disconnected environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isolated-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Isolated environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4140,17 +4340,190 @@
 
 <h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
 <h2 id="purpose-and-scope">Purpose and scope<a class="headerlink" href="#purpose-and-scope" title="Permanent link">&para;</a></h2>
-<p>Centralized software-distribution architecture: upstream/downstream repos and registries, sync/replication/promotion, controlled transfer, fully disconnected models.</p>
-<h2 id="architecture_1">Architecture<a class="headerlink" href="#architecture_1" title="Permanent link">&para;</a></h2>
+<p>Centralized software-distribution architecture: upstream/downstream repos and registries, sync/replication/promotion, controlled transfer, fully disconnected models. Each platform architecture below shows the components, data flows, and network boundaries for connected, disconnected, and air-gapped environments.</p>
+<h2 id="upstreamdownstream-architecture">Upstream/downstream architecture<a class="headerlink" href="#upstreamdownstream-architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Internet (connected staging)          Internal network (downstream/air-gapped)
+----------------                      ---------------------------------------
+Public registries                     Harbor / Nexus / GitLab
+docker.io                             ┌─────────────────────────────────┐
+quay.io                               │  Harbor (OCI, Helm, charts)     │
+gcr.io                                │  Nexus (RPM, DEB, Maven, PyPI)  │
+github.com                            │  GitLab (Git, CI/CD packages)   │
+                                      │                                 │
+                                      └─────────────────────────────────┘
+                                              │
+                                              │ sync (skopeo, helm, rsync)
+                                              ▼
+                                      Air-gapped transfer station
+                                              │
+                                              │ physical media
+                                              ▼
+                                      Isolated environment
+                                      Harbor/Nexus/GitLab (internal)
+</code></pre></div>
+<h2 id="per-platform-reference-architectures">Per-platform reference architectures<a class="headerlink" href="#per-platform-reference-architectures" title="Permanent link">&para;</a></h2>
+<h3 id="harbor-architecture">Harbor architecture<a class="headerlink" href="#harbor-architecture" title="Permanent link">&para;</a></h3>
+<p>Harbor is the primary container registry and OCI artifact store. It provides image scanning, signature verification, project-based RBAC, and replication between instances.</p>
+<div class="highlight"><pre><span></span><code>graph TD
+    subgraph Internet[Connected Upstream]
+        DH[docker.io]
+        QH[quay.io]
+        GH[gcr.io]
+    end
+
+    subgraph Internal[Internal Network - Harbor]
+        H[Harbor Core]
+        HR[Harbor Registry]
+        HJ[Harbor Jobservice]
+        HCT[Harbor Clair Trivy]
+        HP[Harbor Portal]
+        HD[(PostgreSQL DB)]
+        HRD[(Redis)]
+        HS[Object Storage - MinIO/S3]
+    end
+
+    subgraph Clients[Client Nodes]
+        K8s[Kubernetes Clusters]
+        CI[CI/CD Pipelines]
+        Dev[Developer Workstations]
+    end
+
+    DH &amp; QH &amp; GH --&gt;|pull| H
+    H --&gt; HR
+    H --&gt; HJ
+    H --&gt; HCT
+    H --&gt; HP
+    H --&gt; HD
+    H --&gt; HRD
+    H --&gt; HS
+    K8s &amp; CI &amp; Dev --&gt;|pull/push| H
+</code></pre></div>
+<p><strong>Components:</strong></p>
 <ul>
-<li>Upstream: connected to external sources (public registries/repos)</li>
-<li>Downstream: serves restricted/isolated environments from internal mirrors</li>
-<li>Synchronization, replication, promotion, controlled software transfer</li>
-<li>Fully disconnected: internal Harbor/Nexus/GitLab only</li>
+<li><strong>Harbor Core</strong> - API, authentication, project management, replication</li>
+<li><strong>Harbor Registry</strong> - OCI/Docker registry storage backend</li>
+<li><strong>Harbor Jobservice</strong> - asynchronous replication, scan, garbage collection jobs</li>
+<li><strong>Harbor Clair/Trivy</strong> - vulnerability scanning</li>
+<li><strong>Harbor Portal</strong> - web UI</li>
+<li><strong>PostgreSQL</strong> - metadata database</li>
+<li><strong>Redis</strong> - caching and job queue</li>
+<li><strong>Object Storage (MinIO/S3)</strong> - blob storage for image layers</li>
+</ul>
+<p><strong>Network flows:</strong></p>
+<ul>
+<li>Upstream pull: Harbor pulls public images from docker.io, quay.io, gcr.io</li>
+<li>Client pull/push: Kubernetes, CI/CD, developers pull/push images via HTTPS (443)</li>
+<li>Internal replication: Harbor-to-Harbor replication between connected and air-gapped instances</li>
+</ul>
+<h3 id="nexus-repository-manager-architecture">Nexus Repository Manager architecture<a class="headerlink" href="#nexus-repository-manager-architecture" title="Permanent link">&para;</a></h3>
+<p>Nexus is the primary package repository for OS packages (RPM, DEB), language packages (Maven, PyPI, npm, NuGet, Cargo), and generic artifacts.</p>
+<div class="highlight"><pre><span></span><code>graph TD
+    subgraph Internet[Connected Upstream]
+        RPM[RPM Repos]
+        DEB[DEB Repos]
+        MAV[Maven Central]
+        PYI[PyPI]
+        NPM[npm]
+    end
+
+    subgraph Internal[Internal Network - Nexus]
+        NX[Nexus Repository Manager]
+        NR[(Nexus Blob Store - File System)]
+        ND[(Internal Derby/H2/Oracle DB)]
+    end
+
+    subgraph Clients[Client Nodes]
+        YUM[DNF/YUM Clients]
+        APT[APT Clients]
+        BLD[Build Servers - Maven/Gradle]
+        PIP[pip Clients]
+    end
+
+    RPM &amp; DEB &amp; MAV &amp; PYI &amp; NPM --&gt;|proxy/mirror| NX
+    NX --&gt; NR
+    NX --&gt; ND
+    YUM &amp; APT &amp; BLD &amp; PIP --&gt;|pull| NX
+</code></pre></div>
+<p><strong>Components:</strong></p>
+<ul>
+<li><strong>Nexus Repository Manager</strong> - proxy, hosted, and group repositories</li>
+<li><strong>Blob Store</strong> - file system storage for artifacts</li>
+<li><strong>Database</strong> - metadata and component tracking</li>
+</ul>
+<p><strong>Network flows:</strong></p>
+<ul>
+<li>Proxy repos: Nexus pulls from public repos on first request, caches locally</li>
+<li>Hosted repos: internal artifacts pushed directly</li>
+<li>Group repos: aggregate proxy + hosted into single URL for clients</li>
+</ul>
+<h3 id="gitlab-architecture">GitLab architecture<a class="headerlink" href="#gitlab-architecture" title="Permanent link">&para;</a></h3>
+<p>GitLab is the primary Git repository and CI/CD platform. It stores source code, Infrastructure-as-Code, Helm charts (via Container Registry integration), and pipeline artifacts.</p>
+<div class="highlight"><pre><span></span><code>graph TD
+    subgraph Internet[Connected Upstream]
+        GH[GitHub.com]
+        GLH[GitLab.com]
+    end
+
+    subgraph Internal[Internal Network - GitLab]
+        GL[GitLab Rails]
+        GLW[GitLab Workhorse]
+        GLS[GitLab Sidekiq]
+        GLD[(PostgreSQL DB)]
+        GLR[(Redis)]
+        GLCR[GitLab Container Registry]
+    end
+
+    subgraph Clients[Client Nodes]
+        DEV[Developer Git Clients]
+        CI[CI/CD Runners]
+        K8s[Kubernetes Clusters]
+    end
+
+    GH &amp; GLH --&gt;|mirror| GL
+    GL --&gt; GLW
+    GLW --&gt; GLS
+    GLS --&gt; GLD
+    GLS --&gt; GLR
+    GL --&gt; GLCR
+    DEV &amp; CI &amp; K8s --&gt;|push/pull| GL
+</code></pre></div>
+<p><strong>Components:</strong></p>
+<ul>
+<li><strong>GitLab Rails</strong> - application logic, API, web UI</li>
+<li><strong>GitLab Workhorse</strong> - reverse proxy, handles Git over HTTP, file uploads</li>
+<li><strong>GitLab Sidekiq</strong> - background jobs (CI pipelines, imports, exports)</li>
+<li><strong>PostgreSQL</strong> - metadata database</li>
+<li><strong>Redis</strong> - caching and job queue</li>
+<li><strong>GitLab Container Registry</strong> - OCI/Docker image storage (integrated with Harbor or standalone)</li>
+</ul>
+<p><strong>Network flows:</strong></p>
+<ul>
+<li>Mirror: GitLab mirrors public GitHub/GitLab repos</li>
+<li>Git push/pull: developers and CI push/pull source code</li>
+<li>Container registry: build pipelines push images, Kubernetes pulls them</li>
+</ul>
+<h2 id="environment-topology">Environment topology<a class="headerlink" href="#environment-topology" title="Permanent link">&para;</a></h2>
+<h3 id="connected-environment">Connected environment<a class="headerlink" href="#connected-environment" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Upstream instances have direct Internet access</li>
+<li>Downstream instances sync from upstream via scheduled replication</li>
+<li>Clients pull from downstream mirrors only</li>
+</ul>
+<h3 id="disconnected-environment">Disconnected environment<a class="headerlink" href="#disconnected-environment" title="Permanent link">&para;</a></h3>
+<ul>
+<li>No direct Internet access at any level</li>
+<li>Upstream staging host pulls from Internet, stages to physical media</li>
+<li>Downstream imports from physical media via air-gapped transfer station</li>
+</ul>
+<h3 id="isolated-environment">Isolated environment<a class="headerlink" href="#isolated-environment" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Completely offline, no external connectivity whatsoever</li>
+<li>All artifacts pre-staged before isolation</li>
+<li>Updates only via physical media transfer</li>
 </ul>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../01-overview-and-architecture/1.5-deployment-environments/">Overview (1.4 Air-Gapped)</a></li>
+<li><a href="../../01-overview-and-architecture/1.5-deployment-environments/">Overview (1.5 Deployment Environments)</a></li>
 <li><a href="../3.3-installation-config/">Repository &amp; Registry Management (3.3 Installation)</a></li>
 <li><a href="../../shared/matrices/version-matrix/">Shared version &amp; compatibility matrix</a></li>
 </ul>

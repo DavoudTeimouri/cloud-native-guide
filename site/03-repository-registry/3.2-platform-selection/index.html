@@ -1128,10 +1128,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comparison" class="md-nav__link">
+  <a href="#platform-comparison-matrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comparison
+        Platform comparison matrix
       
     </span>
   </a>
@@ -1139,21 +1139,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#selection" class="md-nav__link">
+  <a href="#selection-guidance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Selection
+        Selection guidance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selection guidance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-single-product-does-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No single product does everything
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#selection-criteria" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        Selection criteria
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-references
       
     </span>
   </a>
@@ -4108,10 +4136,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comparison" class="md-nav__link">
+  <a href="#platform-comparison-matrix" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comparison
+        Platform comparison matrix
       
     </span>
   </a>
@@ -4119,21 +4147,49 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#selection" class="md-nav__link">
+  <a href="#selection-guidance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Selection
+        Selection guidance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Selection guidance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#no-single-product-does-everything" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No single product does everything
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#selection-criteria" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        Selection criteria
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cross-references
       
     </span>
   </a>
@@ -4162,46 +4218,207 @@
 
 <h1 id="platform-selection">Platform Selection<a class="headerlink" href="#platform-selection" title="Permanent link">&para;</a></h1>
 <h2 id="purpose-and-scope">Purpose and scope<a class="headerlink" href="#purpose-and-scope" title="Permanent link">&para;</a></h2>
-<p>Compare Nexus Repository, Harbor, and other artifact/container repository solutions. Explain which platform manages each artifact type. Do not assume one product supports every protocol/workflow.</p>
-<h2 id="comparison">Comparison<a class="headerlink" href="#comparison" title="Permanent link">&para;</a></h2>
+<p>Compare Nexus Repository, Harbor, GitLab, and other artifact/container repository solutions. Explain which platform manages each artifact type. <strong>No single product supports every protocol and workflow</strong> — each platform has strengths and limitations, and most production environments run two or three platforms in parallel.</p>
+<h2 id="platform-comparison-matrix">Platform comparison matrix<a class="headerlink" href="#platform-comparison-matrix" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
 <th>Technology</th>
 <th>Type</th>
 <th>Best for</th>
-<th>Offline</th>
+<th>Protocols supported</th>
+<th>Offline/air-gapped</th>
+<th>HA support</th>
+<th>Scan/verify</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Harbor</td>
-<td>Container registry</td>
-<td>Images, OCI charts</td>
-<td>Yes</td>
+<td>Container + OCI registry</td>
+<td>Container images, Helm charts, OCI artifacts</td>
+<td>Docker/OCI, Helm, ChartMuseum</td>
+<td>Yes (proxy + air-gapped sync)</td>
+<td>Yes (primary/secondary)</td>
+<td>Yes (Clair/Trivy, Cosign, Notary)</td>
 </tr>
 <tr>
-<td>Nexus</td>
-<td>Package repo</td>
-<td>RPM/DEB/APT/Maven</td>
-<td>Yes</td>
+<td>Nexus Repository</td>
+<td>Package repository</td>
+<td>RPM, DEB, Maven, PyPI, npm, NuGet, Cargo, generic</td>
+<td>YUM/APT, Maven, PyPI, npm, NuGet, Cargo, Raw, Docker/OCI</td>
+<td>Yes (proxy + air-gapped sync)</td>
+<td>Yes (Nexus Pro/HA)</td>
+<td>Yes (Nexus IQ, CLM)</td>
 </tr>
 <tr>
 <td>GitLab</td>
-<td>Git repo</td>
-<td>Source, CI/CD</td>
-<td>Yes (mirror)</td>
+<td>Git + container registry</td>
+<td>Source code, CI/CD artifacts, GitLab container images</td>
+<td>Git (HTTP/SSH), Docker/OCI</td>
+<td>Yes (mirror + package registry)</td>
+<td>Yes (Geo)</td>
+<td>Yes (Dependency Scanning, SAST)</td>
+</tr>
+<tr>
+<td>JFrog Artifactory</td>
+<td>Universal repository</td>
+<td>All package types (commercial)</td>
+<td>Docker/OCI, Helm, Maven, PyPI, npm, NuGet, Cargo, RPM, DEB</td>
+<td>Yes (proxy + air-gapped)</td>
+<td>Yes (HA)</td>
+<td>Yes (Xray)</td>
+</tr>
+<tr>
+<td>Apache Archiva</td>
+<td>Maven repository</td>
+<td>Maven artifacts only</td>
+<td>Maven</td>
+<td>Yes (proxy)</td>
+<td>Limited</td>
+<td>No</td>
+</tr>
+<tr>
+<td>JFrog Distribution</td>
+<td>Release distribution</td>
+<td>Release artifact distribution</td>
+<td>Docker/OCI, Helm, generic</td>
+<td>Yes (air-gapped)</td>
+<td>Yes</td>
+<td>Yes</td>
 </tr>
 </tbody>
 </table>
-<h2 id="selection">Selection<a class="headerlink" href="#selection" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Harbor: images and OCI charts (primary container registry)</li>
-<li>Nexus: OS packages and language packages (primary package repo)</li>
-<li>GitLab: source and pipeline storage (primary Git repo)</li>
-<li>One owner per artifact type</li>
-</ul>
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
+<h2 id="selection-guidance">Selection guidance<a class="headerlink" href="#selection-guidance" title="Permanent link">&para;</a></h2>
+<h3 id="no-single-product-does-everything">No single product does everything<a class="headerlink" href="#no-single-product-does-everything" title="Permanent link">&para;</a></h3>
+<p><strong>Important:</strong> No single repository platform natively supports every protocol and workflow at enterprise grade. Harbor excels at container images and OCI artifacts but is weak at OS packages (RPM/DEB). Nexus excels at OS and language packages but its container registry is secondary to Harbor's. GitLab excels at Git and CI/CD artifacts but its container registry lacks Harbor's scanning and replication features.</p>
+<p>Most production environments run <strong>two or three platforms in parallel</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Artifact type</th>
+<th>Recommended platform</th>
+<th>Alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Container images (Docker/OCI)</td>
+<td>Harbor</td>
+<td>GitLab Container Registry, Artifactory</td>
+</tr>
+<tr>
+<td>Helm charts</td>
+<td>Harbor</td>
+<td>Nexus, Artifactory</td>
+</tr>
+<tr>
+<td>OS packages (RPM, DEB)</td>
+<td>Nexus</td>
+<td>Artifactory, JFrog Distribution</td>
+</tr>
+<tr>
+<td>Language packages (Maven, PyPI, npm, NuGet, Cargo)</td>
+<td>Nexus</td>
+<td>Artifactory, CloudRepo</td>
+</tr>
+<tr>
+<td>Git repositories + CI/CD artifacts</td>
+<td>GitLab</td>
+<td>GitHub Enterprise, Bitbucket</td>
+</tr>
+<tr>
+<td>Release artifacts (versioned, signed)</td>
+<td>JFrog Distribution</td>
+<td>Harbor replication</td>
+</tr>
+</tbody>
+</table>
+<h3 id="selection-criteria">Selection criteria<a class="headerlink" href="#selection-criteria" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Harbor</th>
+<th>Nexus</th>
+<th>GitLab</th>
+<th>Artifactory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Container image scanning</td>
+<td>Built-in (Clair/Trivy)</td>
+<td>Via Nexus IQ</td>
+<td>Via Dependency Scanning</td>
+<td>Built-in (Xray)</td>
+</tr>
+<tr>
+<td>OCI artifact support</td>
+<td>Native</td>
+<td>Via Docker/OCI repos</td>
+<td>Via Container Registry</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Helm chart repository</td>
+<td>Native</td>
+<td>Via raw/helm repos</td>
+<td>Via project export</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>OS package proxy (RPM/DEB)</td>
+<td>No</td>
+<td>Native</td>
+<td>No</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Language package proxy</td>
+<td>No</td>
+<td>Native</td>
+<td>No</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Git repository</td>
+<td>No</td>
+<td>No</td>
+<td>Native</td>
+<td>No</td>
+</tr>
+<tr>
+<td>CI/CD integration</td>
+<td>Limited</td>
+<td>Limited</td>
+<td>Native</td>
+<td>Limited</td>
+</tr>
+<tr>
+<td>Air-gapped sync</td>
+<td>Replication + export</td>
+<td>Replication + export</td>
+<td>Mirror + package registry</td>
+<td>Replication + distribution</td>
+</tr>
+<tr>
+<td>Multi-project RBAC</td>
+<td>Native</td>
+<td>Native (Pro)</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Open source</td>
+<td>OSS (free), Pro (paid)</td>
+<td>Free (self-managed)</td>
+<td>Commercial</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cross-references">Cross-references<a class="headerlink" href="#cross-references" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../01-overview-and-architecture/1.6-repositories-and-registries/">Overview (1.5 Repositories &amp; Registries)</a></li>
 <li><a href="../../shared/matrices/version-matrix/">Shared version &amp; compatibility matrix</a></li>
