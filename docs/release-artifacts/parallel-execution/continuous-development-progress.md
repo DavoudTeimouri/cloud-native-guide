@@ -199,15 +199,30 @@ Existing workflow `.github/workflows/site.yml` — deploys `site/` directory to 
 ### Architecture Correction — PR #4 (MkDocs documentation site)
 - **Branch:** `fix/mkdocs-documentation-site` (based on `origin/main`, pushed to origin)
 - **PR:** #4 — https://github.com/DavoudTeimouri/cloud-native-guide/pull/4 — **OPEN, NOT MERGED**
-- **Base:** `main` (`70cd04e`), **Head:** `fix/mkdocs-documentation-site` (`d63464b`)
+- **Base:** `main` (`70cd04e`), **Head:** `fix/mkdocs-documentation-site` (`db733f3`)
 - **Target URL:** `https://davoudteimouri.github.io/cloud-native-guide/`
 - **Technology:** MkDocs (genuine documentation site generator)
-- **Repository 2 (`cloudnative-infrastructure-guide`):** Untouched — separate interactive website
+- **Repository 2 (`cloudnative-infrastructure-guide`):** Untouched — separate interactive website, verified byte-for-byte unchanged
+
+### Consolidation — cloud-native-guide-next worktree
+`cloud-native-guide-next` is a Git worktree of Repository 1 (same origin, `.git` file pointing to canonical repo's worktrees). All its unique content was consolidated into the canonical repository:
+
+- **ADR-0015** (`decisions/ADR-0015-linux-directory-integration.md`) — unique tracked file
+- **identity/sssd-realmd.md** and **requirements/platform-standards.md** — applied worktree modifications
+- **Bilingual docs:** `docs/en/` (12 files) and `docs/fa/` (40+ files) — Persian/English translation
+- **Lifecycle procedures:** 14 new files (ceph-rook-upgrade, cilium-upgrade, crd-api-migration, kubernetes-kubespray-upgrade, offline-upgrade-operations, os-container-runtime-upgrade, platform-components-upgrade, rollback-and-recovery, upgrade-governance, upgrade-sequencing, upgrade-strategy, upgrade-validation-troubleshooting, version-compatibility-matrix, disaster-recovery/ceph-recovery-scenarios)
+- **Troubleshooting:** 4 new files (gitops, kubernetes, registry, storage)
+- **Offline artifacts:** 5 new files (artifact-matrix, image-and-package-mirroring, offline-artifact-architecture, staging-and-import, version-pinning-and-sync)
+- **Unique directories:** airgap, architecture/reference, automation/offline-staging, backup-recovery, infrastructure, inventories, lab, observability, operations, repositories, testing
+- **Root files:** lab-readiness-traceability.md, architecture/two-tier-repository-registry.md
+- **Scripts:** dispatcher.py, supervisor.py copied to scripts/
+
+Worktree removed with `git worktree remove --force`. Repository 2 verified clean before and after.
 
 ### MkDocs validation results
 | Check | Result |
 |-------|--------|
-| `mkdocs build --clean --strict` | **PASS** (exit code 0) |
+| `mkdocs build --clean --strict` | **PASS** (exit code 0, only INFO messages) |
 | `scripts/check_links.py` | **PASS** (0 broken links) |
 | `scripts/build_site.py` | **PASS** (site/data.json regenerated, 175,955 bytes) |
 | `site/data.json matches exports.json` | **PASS** |
@@ -222,11 +237,13 @@ Existing workflow `.github/workflows/site.yml` — deploys `site/` directory to 
 | Repository | Purpose | Technology | Status |
 |------------|---------|------------|--------|
 | `cloud-native-guide` (Repo 1) | Step-by-step documentation | **MkDocs** | PR #4 open, awaiting merge |
-| `cloudnative-infrastructure-guide` (Repo 2) | Interactive configurator | Custom generator | Untouched |
+| `cloudnative-infrastructure-guide` (Repo 2) | Interactive configurator | Custom generator | Untouched, verified clean |
 
 ### Files changed in PR #4
 - **Added:** `mkdocs.yml` — MkDocs configuration with full navigation across 8 domains
-- **Added:** `docs/` directory — 120+ documentation source files
+- **Added:** `docs/` directory — 300+ documentation source files including bilingual en/ and fa/
+- **Added:** `docs/en/` (English docs: 40+ files), `docs/fa/` (Persian docs: 40+ files)
+- **Added:** Unique directories: airgap, architecture/reference, automation/offline-staging, backup-recovery, infrastructure, inventories, lab, observability, operations, repositories, testing
 - **Modified:** `.github/workflows/site.yml` — MkDocs-based deployment workflow
 - **Modified:** `docs/lifecycle/backup/backup-and-dr.md` — Fixed relative link
 - **Modified:** `docs/network-matrix/external-load-balancer.md` — Fixed relative link
@@ -244,7 +261,8 @@ Existing workflow `.github/workflows/site.yml` — deploys `site/` directory to 
 | Existing user changes and untracked files | Preserved |
 | Default Hermes profile | Preserved |
 | No Hermes-Ultra review today (quota used) | Respected |
-| Repository 2 untouched | Verified |
+| Repository 2 untouched | Verified byte-for-byte |
+| cloud-native-guide-next worktree | Removed (content consolidated) |
 
 ### Remaining action to publish
 Merge PR #4 into `main` to trigger GitHub Pages deployment of the MkDocs documentation site. This requires explicit user authorization.
