@@ -1,0 +1,78 @@
+groups:
+  - name: cluster.rules
+    rules:
+      - alert: KubeAPIDown
+        expr: up{job="kubernetes-api"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Kubernetes API server down on {{ $labels.instance }}"
+          description: "The Kubernetes API server has been down for more than 2 minutes."
+
+      - alert: EtcdDown
+        expr: up{job="etcd"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "etcd instance down on {{ $labels.instance }}"
+          description: "etcd member {{ $labels.instance }} is unreachable."
+
+      - alert: NodeCPUUsageHigh
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 85% for 5 minutes."
+
+      - alert: NodeDiskUsageHigh
+        expr: (node_filesystem_size_bytes{mountpoint="/"} - node_filesystem_free_bytes{mountpoint="/"}) / node_filesystem_size_bytes{mountpoint="/"} * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High disk usage on {{ $labels.instance }}"
+          description: "Disk usage is above 80% on {{ $labels.instance }}."
+
+  - name: storage.rules
+    rules:
+      - alert: CephOsdDown
+        expr: ceph_osd_down{pool=~".*"} > 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Ceph OSD down on {{ $labels.instance }}"
+          description: "A Ceph OSD is down; CRUSH rebalancing may be in progress."
+
+      - alert: PVCNotBound
+        expr: kube_persistentvolumeclaim_status_phase{phase="Pending"} > 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "PVC not bound: {{ $labels.persistentvolumeclaim }}"
+          description: "PersistentVolumeClaim {{ $labels.persistentvolumeclaim }} in namespace {{ $labels.namespace }} is not bound."
+
+  - name: platform.rules
+    rules:
+      - alert: ArgoCDApplicationNotHealthy
+        expr: argocd_app_info{sync_status="OutOfSync"} == 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Argo CD application out of sync: {{ $labels.app }}"
+          description: "Application {{ $labels.app }} is OutOfSync."
+
+      - alert: VaultSealStatus
+        expr: vault_seal_status == 1
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Vault is sealed on {{ $labels.instance }}"
+          description: "Vault instance {{ $labels.instance }} is sealed and cannot serve secrets."

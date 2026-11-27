@@ -42,9 +42,9 @@ kubectl -n kube-system exec etcd-<node> -- etcdctl \
 
 | Snapshot interval | Every 5 minutes | Cron job on control-plane nodes |
 
-| WAL archival | Continuous | `etcdctl snapshot save` cadence |
+| WAL archival | Not continuous (air-gapped) | WAL retained on-node; shipped with each snapshot to off-site storage |
 
-| RPO | ≤ 1 min | Continuous WAL archiving |
+| RPO | ≤ 5 min | Bounded by the 5-minute snapshot interval; continuous WAL push to an external store is not possible air-gapped |
 
 
 

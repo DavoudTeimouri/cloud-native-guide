@@ -1,0 +1,35 @@
+---
+# Internal registry and file mirror for air-gapped operation.
+registry_host: harbor.internal:5000
+registry_addr: harbor.internal:5000
+registry_user: ansible
+registry_pass: "[REDACTED]"
+
+files_repo: http://files-repo.internal
+yum_repo: http://nexus.internal/repository/yum
+ubuntu_repo: http://nexus.internal/repository/ubuntu
+
+github_url: "{{ files_repo }}/github.com"
+dl_k8s_io_url: "{{ files_repo }}/dl.k8s.io"
+storage_googleapis_url: "{{ files_repo }}/storage.googleapis.com"
+get_helm_url: "{{ files_repo }}/get.helm.sh"
+
+kube_image_repo: "{{ registry_host }}"
+gcr_image_repo: "{{ registry_host }}"
+docker_image_repo: "{{ registry_host }}"
+quay_image_repo: "{{ registry_host }}"
+github_image_repo: "{{ registry_host }}"
+
+containerd_registries_mirrors:
+  - prefix: docker.io
+    mirrors:
+      - host: https://registry-1.docker.io
+        capabilities: ["pull", "resolve"]
+        skip_verify: false
+  - prefix: "{{ registry_addr }}"
+    mirrors:
+      - host: "https://{{ registry_addr }}"
+        capabilities: ["pull", "resolve"]
+        skip_verify: false
+        header:
+          Authorization: "Basic {{ (registry_user + ':' + registry_pass) | b64encode }}"

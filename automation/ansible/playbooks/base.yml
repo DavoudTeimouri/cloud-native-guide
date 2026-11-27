@@ -1,0 +1,10 @@
+- name: Apply OS baseline to all hosts
+  hosts: all
+  become: yes
+  vars_files:
+    - group_vars/all/main.yml
+    - group_vars/all/offline.yml
+  roles:
+    - role: base
+    - role: repositories
+    - role: security

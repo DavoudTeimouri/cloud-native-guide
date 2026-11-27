@@ -1,0 +1,17 @@
+---
+- name: Ensure base packages are present
+  ansible.builtin.package:
+    name:
+      - chrony
+      - vim
+      - curl
+      - ca-certificates
+      - openssh-server
+      - python3
+    state: present
+
+- name: Ensure chrony is enabled and running
+  ansible.posix.service:
+    name: chronyd
+    state: started
+    enabled: yes

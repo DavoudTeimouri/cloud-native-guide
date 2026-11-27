@@ -1,0 +1,8 @@
+---
+# Vault connection for secret lookups at execution time. No secret values stored here.
+vault_addr: "https://vault.internal:8200"
+vault_role: "ansible"
+vault_auth_path: "jwt"
+vault_jwt_claim: "sub"
+vault_validate_certs: true
+vault_ca_path: /etc/pki/ca-trust/source/anchors/internal-ca.crt

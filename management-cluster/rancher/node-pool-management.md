@@ -85,52 +85,44 @@ kubectl -n cattle-system get nodepools <pool-name> -o yaml | grep -E "desired|re
 | Removing underutilized nodes | Decrease desired; verify drain completes first |
 | Preparing for an upgrade | Scale up the upgrade pool before draining the old batch |
 
-### 4. Cloud provider auto-scaling group bounds
+### 4. Manual node pool bounds (bare-metal / air-gapped)
 
-When scaling via the underlying ASG, verify `min_capacity`, `desired_capacity`, and `max_capacity` are set appropriately:
-
-```bash
-# Describe the ASG linked to the node pool
-aws autoscaling describe-auto-scaling-groups \
-  --filter "Name=tag:Name,Values=<pool-name>*" \
-  --query "AutoScalingGroups[0].{Min: MinSize, Desired: DesiredCapacity, Max: MaxSize}"
-```
-
-## D. Auto-scaling node pools
-
-### 1. Enable cluster-autoscaler
-
-The Cluster Autoscaler works with the ASG to grow/shrink node pools based on pod scheduling needs.
+Cloud-provider Auto Scaling Groups are not available on bare-metal. Node pool size is set by the inventory file and changed manually:
 
 ```bash
-# Deploy the Cluster Autoscaler (Rancher-managed cluster example)
-helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
-helm install cluster-autoscaler rancher-stable/cluster-autoscaler \
-  --namespace cattle-system \
-  --set awsRegion=us-east-1 \
-  --set nodeGroupSelector=nodepool-name=<pool-name> \
-  --set scaleDown.enabled=true \
-  --set scaleDown.unneededTime=6m \
-  --set scaleDown.skipNodesWithLocalStorage=true
+# View current node pool
+kubectl get nodes --label-columns nodepool
+
+# Change pool size: edit inventory/<cluster>/hosts.ini, add or remove host entries,
+# then run Kubespray limited to the affected nodes.
 ```
 
-### 2. Auto-scaling configuration
+## D. Manual node scaling
 
-Configure the Cluster Autoscaler deployment with these parameters:
+### 1. Add a node to a pool
+```bash
+# 1. Add the host to inventory/<cluster>/hosts.ini in the appropriate group
+# 2. Run Kubespray limited to the new host
+ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml -b --limit <newhost>
+# 3. Verify the node joins and shows Ready
+kubectl get nodes <newhost>
+```
 
-| Parameter | Recommended value | Description |
-|---|---|---|
-| `--scale-down-unneeded-time` | `6m` | Nodes unneeded for 6 minutes are candidates for scale-down |
-| `--scale-down-skips-nodes-with-local-storage` | `true` | Prevents losing ephemeral local data |
-| `--node-group-auto-discovery` | `tag` | Auto-discovers node groups by tag |
-| `--scale-down-after-transition` | `5m` | Wait 5m after a scale-up before considering scale-down |
+### 2. Remove a node from a pool
+```bash
+# 1. Drain and cordon the node
+kubectl drain <host> --ignore-daemonsets --delete-emptydir-data
+# 2. Reset the node with Kubespray
+ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml -b --limit <host>
+# 3. Remove the host from inventory/<cluster>/hosts.ini
+```
 
 ### 3. Pod disruption budget (PDB) considerations
 
-Ensure PDBs allow nodes to be removed:
+Ensure PDBs allow nodes to be removed during manual scaling:
 
 ```yaml
-# Example PDB that allows 1 unavailable during scale-down
+# Example PDB that allows 1 unavailable during a manual drain
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
@@ -143,15 +135,21 @@ spec:
       app: my-app
 ```
 
-### 4. Auto-scaling troubleshooting
-
+### 4. Manual scaling troubleshooting
 ```bash
-# Check Cluster Autoscaler logs
-kubectl -n cattle-system logs deployment/cluster-autoscaler
+# Verify node joined and is Ready
+kubectl get nodes <newhost>
 
-# Manual node addition/removal is blocked if the autoscaler is active.
-# To manually add a node, temporarily disable the autoscaler or use a
-# separate ASG not managed by the autoscaler.
+# Verify etcd quorum after any control-plane change
+etcdctl endpoint health --cluster \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt \
+  --key=/etc/kubernetes/pki/etcd/healthcheck-client.key
+
+# Rules
+# - Scale control plane one node at a time to preserve etcd quorum (3 members required).
+# - Never remove more than one control-plane node in a single run.
+# - Verify all remaining nodes Ready before the next change.
 ```
 
 ## E. Taints and labels

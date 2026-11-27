@@ -32,13 +32,26 @@ kubectl describe node <node>
 | P2 Medium | 20-50% budget consumed | Review at next standup |
 | P3 Low | <20% budget consumed | Log and track |
 
-### Blameless Post-Incident Review Template
-- **What happened**: Timeline of events
-- **Impact**: Users affected, error budget consumed
-- **Root cause**: Systemic failure, not human error
-- **Fix**: Change that prevents recurrence
-- **Action items**: Owners, deadlines, verification
-- **Prevention**: Process or automation improvement
+### Incident Declaration Template
+
+Use this template for every declared incident. It is the audit record and the basis for the blameless review.
+
+```markdown
+# Incident Declaration — INC-<YYYYMMDD>-<NN>
+
+| Field | Value |
+|-------|-------|
+| Declared at | `<ISO 8601 timestamp>` |
+| Declared by | `<name, role>` |
+| Severity | P0 / P1 / P2 / P3 (see severity matrix above) |
+| SLO impact | `<error budget consumed, e.g. "40% of monthly API availability budget">` |
+| Blast radius | `<components, namespaces, nodes affected>` |
+| Owner | `<on-call lead name>` |
+| Status | investigating / mitigating / recovered / closed |
+| Timeline | `<event, time, action>` (append as it unfolds) |
+
+**Declaration rule:** declare first, fix second. An undeclared incident has no audit trail and no RTO/RPO measurement.
+```
 
 ## Common Failure Modes by Domain
 

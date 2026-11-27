@@ -186,11 +186,22 @@ Rules:
 ## Incident response
 
 1. Detect (alert or report).
-2. Triage: impact, scope, and whether the blast radius matches the failure-domain analysis.
-3. Mitigate: restore service first, root cause second.
-4. Communicate: who is affected and what is blocked.
-5. Recover: verify with the acceptance tests for the affected component.
-6. Review: within 5 working days, produce a blameless review and update the runbook, the matrix, and the ADR if needed.
+2. Declare: open an incident record using the template in `troubleshooting/runbooks-and-checklists.md` before mitigating.
+3. Triage: impact, scope, and whether the blast radius matches the failure-domain analysis.
+4. Mitigate: restore service first, root cause second.
+5. Communicate: who is affected and what is blocked.
+6. Recover: verify with the acceptance tests for the affected component.
+7. Review: within 5 working days, produce a blameless review and update the runbook, the matrix, and the ADR if needed.
+
+## On-call rotation
+
+| Role | Name | Contact | Rotation |
+|------|------|---------|----------|
+| On-call lead | `<name>` | `<Slack / Matrix / phone>` | Weekly |
+| On-call secondary | `<name>` | `<Slack / Matrix / phone>` | Weekly |
+| Escalation contact | `<name>` | `<Slack / Matrix / phone>` | Standing |
+
+Rules: the on-call lead owns P0/P1 escalation; the secondary covers absence. Rotate weekly. Break-glass path is used when the normal path is unavailable, not only when convenient. Every break-glass use is reviewed.
 
 Rules: the break-glass path is used when the normal path is unavailable, not only when it is convenient. Every break-glass use is reviewed.
 

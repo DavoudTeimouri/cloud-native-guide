@@ -152,3 +152,20 @@ A benchmark result without metadata is not a result. Record:
 | Results | throughput, TTFT p50/p95/p99, ITL p50/p95/p99 |
 
 Re-run the identical benchmark before and after every change. A claim of improvement without a re-run is not evidence.
+
+## Air-gapped cost components
+
+On-premises air-gapped sites carry cost factors absent from cloud billing:
+
+| Component | Cost factor | Notes |
+|-----------|-------------|-------|
+| Hardware | Server, NVMe/SSD/HDD, NIC, BMC/IPMI | Amortized over 3-5 years |
+| Power and cooling | Rack density, PSU, HVAC | Dominant recurring cost after hardware |
+| Datacenter | Rack space, cross-connects, remote hands | Per-rack or per-U pricing |
+| Staff | On-call rotation, DR drills, patching windows | Included in runbook effort |
+| Software | Vault BSL license, Rancher, enterprise add-ons | OpenBao fallback if BSL rejected |
+| Artifact mirroring | Harbor, Nexus, file mirrors, egress from staging | Storage + bandwidth for air-gap sync |
+
+Produce a quarterly cost model: hardware amortization + power + datacenter + staff + software. Allocate a budget owner and decide on a chargeback/showback model if multiple teams share the platform.
+
+

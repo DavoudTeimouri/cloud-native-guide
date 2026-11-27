@@ -196,26 +196,28 @@ spec:
 
 VPA is configured for stateful workloads that benefit from automatic resource adjustment. See `addons/vpa.md` for deployment and operation procedures.
 
-### 3. Cluster-Autoscaler
+### 3. Manual node scaling (bare-metal / air-gapped)
 
-The cluster-autoscaler monitors pod pending times and adds/removes worker nodes automatically:
+Cluster-autoscaler and cloud-provider ASGs are **not used** on bare-metal on-premises. Nodes are added and removed manually with Kubespray, one at a time, preserving etcd quorum:
 
 ```bash
-# Check cluster-autoscaler status
-kubectl -n kube-system get deployment cluster-autoscaler -o yaml
+# Add a worker node
+# 1. Add the node to inventory/<cluster>/hosts.ini in the [k8s-node] group
+# 2. Run Kubespray limited to the new node
+ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml -b --limit k8s-w-new
 
-# Scale the node group min/max size
-kubectl -n kube-system patch deployment cluster-autoscaler -p '{"spec":{"template":{"spec":{"containers":[{"name":"cluster-autoscaler","resources":{"limits":{"cpu": "500m","memory": "512Mi"}}]}}}}'
+# Remove a worker node
+# 1. Drain and cordon the node
+kubectl drain k8s-w-old --ignore-daemonsets --delete-emptydir-data
+# 2. Run Kubespray reset to remove it from the cluster
+ansible-playbook -i inventory/<cluster>/hosts.ini reset.yml -b --limit k8s-w-old
+# 3. Remove the node from inventory/<cluster>/hosts.ini
 
-# Node group scaling (managed by cloud provider or on-prem provisioner)
-# See infrastructure-specific documentation for node group configuration
+# Rules
+# - Scale control plane one node at a time to preserve etcd quorum (3 members required).
+# - Never remove more than one control-plane node in a single run.
+# - Verify `kubectl get nodes` shows all remaining nodes Ready before the next change.
 ```
-
-**Node group autoscaling rules:**
-- Min replicas: 2 (high availability)
-- Max replicas: based on infrastructure capacity and SLO error budget
-- Scale-down delay: 10 minutes to avoid flapping
-- Cooldown period: 5 minutes between scale events
 
 ### 4. Manual Scaling Override
 

@@ -57,7 +57,7 @@ ansible-playbook -i inventories/kubespray/production/hosts.yml playbooks/kubespr
 Review the preflight output. If all checks pass:
 
 ### 4. Verify Kubernetes Version
-Manually verify `kubespray_kubernetes_version: "1.36.4"` is the default Kubernetes version in Kubespray v2.32.0 (per upstream README.md component versions).
+Manually verify `kubespray_kubernetes_version: "1.36.5"` is the default Kubernetes version in Kubespray v2.32.0 (per upstream README.md component versions).
 Set `kubernetes_version_verified: true` in group vars after verification.
 
 ### 5. Deploy Cluster (Explicit Operator Action)

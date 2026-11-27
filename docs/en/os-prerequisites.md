@@ -7,7 +7,7 @@ Prerequisites for preparing Linux hosts for the Cloud-Native Stack platform.
 | OS | Version | Architecture | Kernel | Status |
 |----|---------|-------------|--------|--------|
 | Oracle Linux | 9 | x86_64 | 5.14+ | Preferred |
-| Ubuntu Server | 24.04 LTS | x86_64 | 6.6+ | Preferred |
+| Ubuntu Server | 24.04 LTS | x86_64 | 6.8+ (GA) | Preferred |
 | Ubuntu Server | 22.04 LTS | x86_64 | 5.15+ | Supported |
 | RHEL | 9 | x86_64 | 5.14+ | Supported |
 | Rocky Linux | 9 | x86_64 | 5.14+ | Supported |

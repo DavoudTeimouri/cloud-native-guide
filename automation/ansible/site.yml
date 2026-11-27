@@ -1,0 +1,8 @@
+- name: Configure the operating system
+  ansible.builtin.import_playbook: playbooks/base.yml
+
+- name: Install and configure the container runtime
+  ansible.builtin.import_playbook: playbooks/containerd.yml
+
+- name: Deploy Kubernetes with Kubespray
+  ansible.builtin.import_playbook: playbooks/kubernetes.yml

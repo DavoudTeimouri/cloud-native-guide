@@ -1,0 +1,25 @@
+---
+ntp_servers:
+  - 10.10.0.1
+  - 10.10.0.2
+
+dns_servers:
+  - 10.10.0.53
+
+dns_search_domain: "internal"
+
+admin_user: ansible
+ssh_port: 22
+
+swap: false
+transparent_huge_pages: "never"
+
+max_pods: 110
+file_descriptors: 1048576
+
+selinux: enforcing
+firewall_backend: nftables
+
+audit_retention_days: 90
+
+internal_ca_path: /etc/pki/ca-trust/source/anchors/internal-ca.crt

@@ -41,15 +41,21 @@ Critical distinction: **replication is not backup, and backup is not DR**.
 Velero backs up Kubernetes resources and, with the CSI snapshotter, the persistent volumes.
 
 ```bash
-# Install (via Argo CD in this platform)
+# Install (via Argo CD in this platform) against the internal Ceph RGW bucket.
+# Air-gapped: no AWS provider, no external credentials file.
 velero install \
   --provider aws \
-  --bucket <backup-bucket> \
-  --secret-file ./credentials \
-  --backup-location-config region=<region> \
+  --bucket velero-backups \
+  --secret-file ./credentials-velero \
+  --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://rgw.internal:7480 \
   --use-volume-snapshots=true \
   --snapshot-move-data=true \
   --default-volumes-to-restic=false
+
+# credentials-velero content (AWS-compatible keys for the RGW, no secret values in Git):
+#   [default]
+#   aws_access_key_id = <RGW access key>
+#   aws_secret_access_key = <RGW secret key>
 ```
 
 Backup schedule:
@@ -199,5 +205,16 @@ Strongly recommended:
 - Monthly restore drills of one application, quarterly of the full environment.
 - Record the measured RTO in this file after each drill.
 
+## J. Off-site backup target decision
+
+Choose the off-site destination for etcd snapshots and Velero backups. The RGW target is already wired in this section §C (`s3Url=http://rgw.internal:7480`) and `etcd-backup-automation.md` (RPO ≤ 5 min). Decide the media:
+
+| Option | Target | Pros | Cons | Decision |
+|--------|--------|------|------|----------|
+| A | Secondary Ceph RGW bucket (DR rack) | Same tooling, S3-compatible, object lock support | Same site failure domain if not geographically separate | `<user-decision>` |
+| B | Removable HDD / tape rotation | Physically separate, air-gapped | Manual handling, no object lock, slower restore | `<user-decision>` |
+| C | Both (RGW primary, HDD tertiary) | Meets 3-2-1 rule | Added operational complexity | `<user-decision>` |
+
+**User decision:** Select A, B, or C and record it in the Decision column above. Update `etcd-backup-automation.md` §B (off-site copy) with the chosen target path.
 
 [Previous step](../../management-cluster/platform-services/) | [Next step](../upgrades/upgrade-procedures.md)
