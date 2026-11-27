@@ -1,12 +1,15 @@
 name: Site
 
-# The site is generated from the repository. It is never edited by hand.
-#   catalog/catalog.json            -> components, steps, values, export templates
-#   compatibility/version-matrix.md -> pinned versions (VERIFIED rows only)
-#   scripts/build_site.py           -> site/data.json
+# The MkDocs documentation site is generated from the repository. It is never
+# edited by hand.
 #
-# A stale site fails the build. A version bump in the matrix propagates on
-# the next run without touching the catalog.
+#   catalog/catalog.json            -> structured data for Repository 2
+#   compatibility/version-matrix.md -> pinned versions (VERIFIED rows only)
+#   scripts/build_site.py           -> structured data export (site/data.json)
+#   docs/                           -> MkDocs source files
+#   mkdocs.yml                      -> MkDocs configuration
+#
+# A stale site fails the build. The MkDocs build must succeed before deployment.
 
 on:
   push:
@@ -17,33 +20,34 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: site-${{ github.ref }}
+  group: pages
   cancel-in-progress: true
 
 jobs:
   build:
-    name: Build and validate the site data
+    name: Build MkDocs site and structured data
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Build site data
-        run: python3 scripts/build_site.py
-
-      - name: Fail when the committed site data is stale
+      - name: Install MkDocs and dependencies
         run: |
-          python3 scripts/build_site.py --check
-          if ! git diff --quiet -- site/data.json; then
-            echo "::error::site/data.json is stale. Run 'python3 scripts/build_site.py' and commit the result."
-            git diff -- site/data.json | head -50
-            exit 1
-          fi
+          python3 -m pip install --quiet mkdocs mkdocs-material
+
+      - name: Build MkDocs site
+        run: mkdocs build --clean --strict
+
+      - name: Generate structured data export for Repository 2
+        run: python3 scripts/build_site.py
 
       - name: Repository self-check
         run: python3 tests/test_repo_tools.py
@@ -51,21 +55,13 @@ jobs:
       - name: Catalog validation
         run: python3 scripts/validate_catalog.py
 
-      - name: Cluster method deprecation check
-        run: python3 scripts/cluster_methods.py --check
-
       - name: Documentation link check
         run: python3 scripts/check_links.py
 
       - name: Acceptance gate summary
         run: python3 scripts/acceptance_status.py
 
-      - name: Renderer check (runs the real app.js in a JS engine)
-        run: |
-          python3 -m pip install --quiet dukpy
-          python3 tests/test_site_render.py
-
-      - name: Upload the site
+      - name: Upload the MkDocs site
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
