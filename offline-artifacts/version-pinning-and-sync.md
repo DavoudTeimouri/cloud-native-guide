@@ -160,6 +160,6 @@ When drift is detected:
 
 ---
 
-**Document generated**: 2026-11-26
-**Owner**: DevOps Automator
+**Document generated**: 2026-11-26  
+**Owner**: DevOps Automator  
 **Related artifacts**: `artifact-matrix.md`, `image-and-package-mirroring.md`, `offline-artifact-architecture.md`, `staging-and-import.md`

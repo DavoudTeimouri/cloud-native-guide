@@ -1,0 +1,196 @@
+site_name: Cloud-Native Guide
+site_description: Step-by-step deployment and operations guide for on-premises, air-gapped, production-oriented cloud-native infrastructure.
+site_url: https://davoudteimouri.github.io/cloud-native-guide/
+repo_url: https://github.com/DavoudTeimouri/cloud-native-guide
+repo_name: DavoudTeimouri/cloud-native-guide
+edit_uri: blob/main/docs/
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+    - scheme: default
+      primary: indigo
+      accent: indigo
+  features:
+    - content.code.annotate
+    - content.tabs.link
+    - navigation.instant
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.emoji
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Deploy:
+      - Choose OS: operating-systems/os-selection-guide.md
+      - Choose Cluster Type: deploy/choose-cluster-type.md
+      - Other Deployment Methods: deploy/other-deployment-methods.md
+  - Overview:
+      - Overview: architecture/00-overview.md
+      - Logical Diagram: architecture/01-logical-diagram.md
+      - Deployment Topology: architecture/02-deployment-topology.md
+      - Failure Domains: architecture/03-failure-domains.md
+  - Kubernetes & Kubespray:
+      - Kubespray Deployment: kubespray/kubespray-deployment.md
+      - Multi-Version Support: kubespray/multi-version-support.md
+      - Group Vars Template: kubespray/group-vars-template.md
+      - Control Plane: kubernetes/control-plane/index.md
+      - Networking: kubernetes/networking/cilium.md
+      - Ingress: kubernetes/ingress/nginx-ingress.md
+      - Security: kubernetes/security/security-controls.md
+      - Node Resource Reservation: kubernetes/node-resource-reservation.md
+      - Multiple Clusters: kubernetes/multiple-clusters.md
+      - Windows Workers: kubernetes/windows-workers.md
+      - End-User Access: kubernetes/access/end-user-access.md
+      - Multi-Controller Plan: kubernetes/ingress/multi-controller-plan.md
+      - CoreDNS Forwarding: kubernetes/networking/coredns-forwarding.md
+      - MetalLB: kubernetes/networking/metallb.md
+      - Calico: kubernetes/networking/calico.md
+  - Rancher & Cluster Operations:
+      - Rancher: management-cluster/rancher/rancher.md
+      - Argo CD: management-cluster/argocd/argocd.md
+      - Keycloak: management-cluster/keycloak/keycloak.md
+      - Platform Services: management-cluster/platform-services/index.md
+      - Alternatives: management-cluster/alternatives.md
+  - Ceph & Rook-Ceph:
+      - Cephadm Deployment: storage/ceph/cephadm-deployment.md
+      - Rook-Ceph: storage/rook-ceph/rook-ceph.md
+      - Storage Alternatives: storage/alternatives/storage-alternatives.md
+      - Longhorn: storage/longhorn.md
+  - Offline & Air-Gapped:
+      - Offline Artifact Architecture: offline-artifacts/offline-artifact-architecture.md
+      - Artifact Matrix: offline-artifacts/artifact-matrix.md
+      - Nexus Deployment: offline-artifacts/nexus-deployment.md
+  - Security & Secrets Management:
+      - Vault Architecture: secrets-management/vault/vault-architecture.md
+      - Vault Decision: secrets-management/vault/hashicorp-vault-decision.md
+      - PKI Root CA Rotation: secrets-management/pki/root-ca-rotation.md
+      - PKI Index: secrets-management/pki/index.md
+      - Secret Delivery: secrets-management/kubernetes-integration/secret-delivery.md
+      - Recovery: secrets-management/recovery/restore.md
+      - Host Baseline: security/host-baseline.md
+      - Kubewarden: security/kubewarden.md
+  - Monitoring & Observability:
+      - Prometheus: monitoring/prometheus.md
+      - Log Pipeline: logging/log-pipeline.md
+      - Victoria Metrics: monitoring/victoria-metrics.md
+  - Backup, Disaster Recovery & Continuity:
+      - Disaster Recovery: lifecycle/disaster-recovery/index.md
+      - Backup and DR: lifecycle/backup/backup-and-dr.md
+      - Upgrade Procedures: lifecycle/upgrades/upgrade-procedures.md
+  - Automation, Testing & Documentation:
+      - Ansible: automation/ansible/index.md
+      - Ansible Structure: automation/ansible/ansible-structure.md
+      - GitLab CI: automation/gitlab-ci/gitlab-ansible-design.md
+      - Pipeline: automation/gitlab-ci/pipeline.md
+      - AWX: automation/awx/index.md
+      - Requirements: requirements/requirements-and-assumptions.md
+      - Acceptance Criteria: requirements/acceptance-criteria.md
+      - Component Guide Backlog: requirements/component-guide-backlog.md
+      - Component Guide Template: requirements/component-guide-template.md
+      - Performance and Capacity: requirements/performance-and-capacity.md
+      - Platform Standards: requirements/platform-standards.md
+      - Validation Strategy: requirements/validation-strategy.md
+      - Technology Selection: requirements/technology-selection-matrix.md
+      - Implementation Roadmap: requirements/implementation-roadmap.md
+  - Troubleshooting:
+      - Troubleshooting: troubleshooting/README.md
+      - etcd: troubleshooting/etcd.md
+      - Ceph: troubleshooting/ceph.md
+      - CNI: troubleshooting/cni.md
+      - CSI: troubleshooting/csi.md
+      - Vault: troubleshooting/vault.md
+      - Argo CD: troubleshooting/argocd.md
+      - Registry Auth: troubleshooting/registry-auth.md
+      - GPU: troubleshooting/gpu.md
+  - GPU & AI:
+      - GPU AI Architecture: gpu-ai/gpu-ai-architecture.md
+      - Driver Compatibility: gpu-ai/drivers/compatibility-matrix.md
+      - MIG & Time-Slicing: gpu-ai/sharing/mig-and-time-slicing.md
+      - GPU Worker Operations: gpu-ai/gpu-workers/gpu-worker-operations.md
+      - Scheduling: gpu-ai/scheduling/index.md
+      - LLM Serving: gpu-ai/inference/llm-serving.md
+      - Monitoring: gpu-ai/monitoring/index.md
+  - Identity:
+      - Directory Integration: identity/directory-integration.md
+  - Version & Compatibility:
+      - Version Matrix: compatibility/version-matrix.md
+  - Decisions (ADR):
+      - ADR Index: decisions/ADR-0001-oracle-linux-and-ubuntu-server-standardization.md
+      - ADR-0002: decisions/ADR-0002-kubernetes-control-plane-topology.md
+      - ADR-0003: decisions/ADR-0003-etcd-placement.md
+      - ADR-0004: decisions/ADR-0004-load-balancing-for-control-plane-and-ingress.md
+      - ADR-0005: decisions/ADR-0005-container-runtime.md
+      - ADR-0006: decisions/ADR-0006-cni-selection.md
+      - ADR-0007: decisions/ADR-0007-ingress-controller-and-gateway-api.md
+      - ADR-0008: decisions/ADR-0008-ceph-deployment-model.md
+      - ADR-0009: decisions/ADR-0009-service-mesh-adoption.md
+      - ADR-0010: decisions/ADR-0010-management-cluster-design-and-what-runs-inside-it.md
+      - ADR-0011: decisions/ADR-0011-rancher-versus-alternatives.md
+      - ADR-0012: decisions/ADR-0012-ansible-gui-platform.md
+      - ADR-0013: decisions/ADR-0013-gitlab-runner-architecture.md
+      - ADR-0014: decisions/ADR-0014-gitops-strategy-and-division-of-labour-with-ansible.md
+      - ADR-0015: decisions/ADR-0015-identity-integration-layer.md
+      - ADR-0016: decisions/ADR-0016-vault-deployment-model.md
+      - ADR-0017: decisions/ADR-0017-pki-and-certificate-ownership.md
+      - ADR-0018: decisions/ADR-0018-monitoring-platform-and-long-term-metrics.md
+      - ADR-0019: decisions/ADR-0019-centralized-logging-backend.md
+      - ADR-0020: decisions/ADR-0020-security-policy-engine.md
+      - ADR-0021: decisions/ADR-0021-gpu-worker-architecture-and-isolation.md
+      - ADR-0022: decisions/ADR-0022-gpu-sharing-strategy.md
+      - ADR-0023: decisions/ADR-0023-llm-inference-platform.md
+      - ADR-0024: decisions/ADR-0024-offline-repository-and-registry-design.md
+      - ADR-0025: decisions/ADR-0025-vault-recovery-and-avoidance-of-circular-dependencies.md
+      - ADR-0026: decisions/ADR-0026-kubespray-multi-version-support.md
+      - ADR-0027: decisions/ADR-0027-ingress-controller-portfolio-and-deprecation-policy.md
+      - ADR-0028: decisions/ADR-0028-external-load-balancer-architecture.md
+      - ADR-0029: decisions/ADR-0029-cephadm-dedicated-storage-model.md
+      - ADR-0030: decisions/ADR-0030-no-service-mesh-initially.md
+      - ADR-0031: decisions/ADR-0031-identity-integration-with-ldap-ad-federation.md
+  - Network Matrix:
+      - Network Communication Matrix: network-matrix/network-communication-matrix.md
+      - Firewall Rules Generation: network-matrix/firewall-rules-generation.md
+      - External Load Balancer: network-matrix/external-load-balancer.md
+      - Port Requirements: network-matrix/port-requirements.md
+      - Cloud-Native DMZ: network-matrix/cloud-native-dmz.md
+  - Operating Systems:
+      - 'Phase 0: OS Selection Guide': operating-systems/os-selection-guide.md
+      - Host Configuration: operating-systems/host-configuration.md
+      - Oracle Linux Baseline: operating-systems/oracle-linux/baseline.md
+      - Ubuntu Baseline: operating-systems/ubuntu/baseline.md
+  - Service Mesh:
+      - Evaluation: service-mesh/evaluation.md
+      - Istio Deployment: service-mesh/istio/istio-deployment.md
+  - Addons:
+      - Platform Addons: addons/platform-addons.md
+  - Tests & Acceptance:
+      - Acceptance Tests: tests/acceptance/README.md
+  - Contributing & Project:
+      - Contributing: CONTRIBUTING.md
+      - Project Plan: PLAN-future.md
+      - User Guide: USER.md
+      - Project Memory: MEMORY.md

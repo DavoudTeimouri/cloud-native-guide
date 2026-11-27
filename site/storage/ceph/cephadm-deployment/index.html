@@ -1,0 +1,7228 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Step-by-step deployment and operations guide for on-premises, air-gapped, production-oriented cloud-native infrastructure.">
+      
+      
+      
+        <link rel="canonical" href="https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/cephadm-deployment/">
+      
+      
+        <link rel="prev" href="../../../management-cluster/alternatives/">
+      
+      
+        <link rel="next" href="../../rook-ceph/rook-ceph/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Cephadm Deployment - Cloud-Native Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ceph-storage-cephadm-path" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Cloud-Native Guide" class="md-header__button md-logo" aria-label="Cloud-Native Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud-Native Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cephadm Deployment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DavoudTeimouri/cloud-native-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DavoudTeimouri/cloud-native-guide
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Cloud-Native Guide" class="md-nav__button md-logo" aria-label="Cloud-Native Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud-Native Guide
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DavoudTeimouri/cloud-native-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DavoudTeimouri/cloud-native-guide
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deploy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operating-systems/os-selection-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose OS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../deploy/choose-cluster-type/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose Cluster Type
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../deploy/other-deployment-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Other Deployment Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/01-logical-diagram/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logical Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/02-deployment-topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Topology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/03-failure-domains/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Domains
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes & Kubespray
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Kubernetes & Kubespray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubespray/kubespray-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubespray Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubespray/multi-version-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Version Support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubespray/group-vars-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group Vars Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/control-plane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Plane
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/networking/cilium/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/ingress/nginx-ingress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/security/security-controls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/node-resource-reservation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Node Resource Reservation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/multiple-clusters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Clusters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/windows-workers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Workers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/access/end-user-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-User Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/ingress/multi-controller-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Controller Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/networking/coredns-forwarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CoreDNS Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/networking/metallb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MetalLB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../kubernetes/networking/calico/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rancher & Cluster Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rancher & Cluster Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../management-cluster/rancher/rancher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rancher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../management-cluster/argocd/argocd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Argo CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../management-cluster/keycloak/keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keycloak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../management-cluster/platform-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../management-cluster/alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ceph & Rook-Ceph
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ceph & Rook-Ceph
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cephadm Deployment
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cephadm Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-purpose-and-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Purpose and architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b-step-1-prepare-servers-for-each-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Step 1 — Prepare servers for each role
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="B. Step 1 — Prepare servers for each role">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-host-roles-and-counts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Host roles and counts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Host roles and counts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#which-roles-can-be-hosted-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which roles can be hosted together
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimum-requirements-vm-vs-physical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimum requirements: VM vs physical
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements calculations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-os-and-kernel-mandatory-or-best-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 OS and kernel — mandatory or best practice?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-time-and-name-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Time and name resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-disks-and-filesystems-node-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Disks and filesystems (node preparation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-ssh-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.6 SSH access
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c-step-2-prepare-air-gap-registryrepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Step 2 — Prepare air-gap registry/repository
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C. Step 2 — Prepare air-gap registry/repository">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c20-addresses-to-proxy-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C.2.0 Addresses to proxy / mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c21-harbor-platform-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C.2.1 Harbor (platform default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c22-nexus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C.2.2 Nexus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c23-suggested-alternative-self-hosted-oci-registry-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C.2.3 Suggested alternative: self-hosted OCI registry (distribution)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d-step-3-deployment-type-docker-podman-cephadm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. Step 3 — Deployment type: Docker, Podman, Cephadm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="D. Step 3 — Deployment type: Docker, Podman, Cephadm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#d1-engine-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1 Engine: Docker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="D.1 Engine: Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#d11-install-docker-from-the-internal-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1.1 Install Docker from the internal mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d12-configure-daemonjson-for-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1.2 Configure daemon.json for air-gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d13-systemd-environment-drop-in-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1.3 systemd environment drop-in (air-gap)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d14-firewall-rules-for-docker-nftables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1.4 Firewall rules for Docker (nftables)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d2-engine-podman" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2 Engine: Podman
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="D.2 Engine: Podman">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#d21-install-podman-from-the-internal-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.1 Install Podman from the internal mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d22-configure-registriesconf-for-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.2 Configure registries.conf for air-gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d23-configure-containersconf-for-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.3 Configure containers.conf for air-gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d24-systemd-environment-drop-in-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.4 systemd environment drop-in (air-gap)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d25-firewall-rules-for-podman-nftables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.5 Firewall rules for Podman (nftables)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d3-cephadm-bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.3 Cephadm bootstrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#e-step-4-assign-roles-to-nodes-and-all-roles-to-one-server-when-co-locating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E. Step 4 — Assign roles to nodes (and all roles to one server when co-locating)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="E. Step 4 — Assign roles to nodes (and all roles to one server when co-locating)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e1-add-hosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E.1 Add hosts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e2-label-hosts-by-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E.2 Label hosts by role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e3-assign-all-roles-to-one-server-co-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E.3 Assign all roles to one server (co-location)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f-step-5-check-services-and-apply-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F. Step 5 — Check services and apply best practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F. Step 5 — Check services and apply best practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f1-check-services-after-bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.1 Check services after bootstrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f2-best-practices-mandatory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.2 Best practices (mandatory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#g-step-6-define-osds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        G. Step 6 — Define OSDs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#h-step-7-define-pools-kubernetes-and-non-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H. Step 7 — Define pools (Kubernetes and non-Kubernetes)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="H. Step 7 — Define pools (Kubernetes and non-Kubernetes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#h1-replicated-pool-for-kubernetes-rbd-csi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.1 Replicated pool for Kubernetes (RBD / CSI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h2-erasure-coded-pool-for-non-kubernetes-bulk-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.2 Erasure-coded pool for non-Kubernetes bulk data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h3-cephfs-non-kubernetes-or-shared-filesystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.3 CephFS (non-Kubernetes or shared filesystem)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h4-rgw-s3-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.4 RGW (S3 object)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h5-rbd-images-non-kubernetes-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.5 RBD images (non-Kubernetes use)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-step-8-prepare-monitoring-daemons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I. Step 8 — Prepare monitoring daemons
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#j-recovery-procedures-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        J. Recovery procedures (reference)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="J. Recovery procedures (reference)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#osd-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OSD failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mon-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MON loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quorum-loss-all-mons-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quorum loss (all MONs down)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k-what-this-document-intentionally-does-not-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        K. What this document intentionally does not cover
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rook-ceph/rook-ceph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rook-Ceph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../alternatives/storage-alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../longhorn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Longhorn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline & Air-Gapped
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Offline & Air-Gapped
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../offline-artifacts/offline-artifact-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline Artifact Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../offline-artifacts/artifact-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Artifact Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../offline-artifacts/nexus-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nexus Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Secrets Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Secrets Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../secrets-management/vault/vault-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../secrets-management/vault/hashicorp-vault-decision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault Decision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../secrets-management/pki/root-ca-rotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PKI Root CA Rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../secrets-management/pki/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PKI Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../secrets-management/kubernetes-integration/secret-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Secret Delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../secrets-management/recovery/restore/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/host-baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Host Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/kubewarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubewarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring & Observability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoring & Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../monitoring/prometheus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prometheus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../logging/log-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../monitoring/victoria-metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Victoria Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup, Disaster Recovery & Continuity
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backup, Disaster Recovery & Continuity
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lifecycle/disaster-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disaster Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lifecycle/backup/backup-and-dr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup and DR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../lifecycle/upgrades/upgrade-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrade Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation, Testing & Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Automation, Testing & Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/ansible/ansible-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/gitlab-ci/gitlab-ansible-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitLab CI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/gitlab-ci/pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../automation/awx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/requirements-and-assumptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/acceptance-criteria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/component-guide-backlog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Guide Backlog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/component-guide-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Guide Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/performance-and-capacity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance and Capacity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/platform-standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Standards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/validation-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/technology-selection-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technology Selection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/implementation-roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/etcd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    etcd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/ceph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ceph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/cni/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CNI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/csi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/vault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/argocd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Argo CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/registry-auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registry Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../troubleshooting/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU & AI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GPU & AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gpu-ai/gpu-ai-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU AI Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gpu-ai/drivers/compatibility-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Driver Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gpu-ai/sharing/mig-and-time-slicing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MIG & Time-Slicing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gpu-ai/gpu-workers/gpu-worker-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU Worker Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gpu-ai/scheduling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gpu-ai/inference/llm-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM Serving
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../gpu-ai/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Identity
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../identity/directory-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Directory Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Version & Compatibility
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../compatibility/version-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisions (ADR)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Decisions (ADR)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0001-oracle-linux-and-ubuntu-server-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0002-kubernetes-control-plane-topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0002
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0003-etcd-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0003
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0004-load-balancing-for-control-plane-and-ingress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0004
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0005-container-runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0005
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0006-cni-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0006
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0007-ingress-controller-and-gateway-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0007
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0008-ceph-deployment-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0008
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0009-service-mesh-adoption/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0009
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0010-management-cluster-design-and-what-runs-inside-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0010
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0011-rancher-versus-alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0011
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0012-ansible-gui-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0012
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0013-gitlab-runner-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0013
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0014-gitops-strategy-and-division-of-labour-with-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0014
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0015-identity-integration-layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0015
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0016-vault-deployment-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0016
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0017-pki-and-certificate-ownership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0017
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0018-monitoring-platform-and-long-term-metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0018
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0019-centralized-logging-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0020-security-policy-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0020
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0021-gpu-worker-architecture-and-isolation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0021
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0022-gpu-sharing-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0023-llm-inference-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0024-offline-repository-and-registry-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0025-vault-recovery-and-avoidance-of-circular-dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0026-kubespray-multi-version-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0027-ingress-controller-portfolio-and-deprecation-policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0027
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0028-external-load-balancer-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0028
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0029-cephadm-dedicated-storage-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0029
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0030-no-service-mesh-initially/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0030
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../decisions/ADR-0031-identity-integration-with-ldap-ad-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0031
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Matrix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Network Matrix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network-matrix/network-communication-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Communication Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network-matrix/firewall-rules-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Rules Generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network-matrix/external-load-balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Load Balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network-matrix/port-requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Port Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../network-matrix/cloud-native-dmz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud-Native DMZ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operating Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operating-systems/os-selection-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose OS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operating-systems/host-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Host Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operating-systems/oracle-linux/baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oracle Linux Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../operating-systems/ubuntu/baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service Mesh
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Service Mesh
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../service-mesh/evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../service-mesh/istio/istio-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Istio Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Addons
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Addons
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../addons/platform-addons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Addons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" >
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tests & Acceptance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tests & Acceptance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tests/acceptance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+        
+          
+          <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing & Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_22">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing & Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PLAN-future/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../USER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../MEMORY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-purpose-and-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Purpose and architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b-step-1-prepare-servers-for-each-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Step 1 — Prepare servers for each role
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="B. Step 1 — Prepare servers for each role">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-host-roles-and-counts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Host roles and counts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 Host roles and counts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#which-roles-can-be-hosted-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which roles can be hosted together
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#minimum-requirements-vm-vs-physical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimum requirements: VM vs physical
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-calculations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements calculations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-os-and-kernel-mandatory-or-best-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 OS and kernel — mandatory or best practice?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-time-and-name-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Time and name resolution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-disks-and-filesystems-node-preparation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Disks and filesystems (node preparation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Network
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-ssh-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.6 SSH access
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c-step-2-prepare-air-gap-registryrepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Step 2 — Prepare air-gap registry/repository
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="C. Step 2 — Prepare air-gap registry/repository">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#c20-addresses-to-proxy-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C.2.0 Addresses to proxy / mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c21-harbor-platform-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C.2.1 Harbor (platform default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c22-nexus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C.2.2 Nexus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c23-suggested-alternative-self-hosted-oci-registry-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C.2.3 Suggested alternative: self-hosted OCI registry (distribution)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#d-step-3-deployment-type-docker-podman-cephadm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D. Step 3 — Deployment type: Docker, Podman, Cephadm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="D. Step 3 — Deployment type: Docker, Podman, Cephadm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#d1-engine-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1 Engine: Docker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="D.1 Engine: Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#d11-install-docker-from-the-internal-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1.1 Install Docker from the internal mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d12-configure-daemonjson-for-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1.2 Configure daemon.json for air-gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d13-systemd-environment-drop-in-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1.3 systemd environment drop-in (air-gap)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d14-firewall-rules-for-docker-nftables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.1.4 Firewall rules for Docker (nftables)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d2-engine-podman" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2 Engine: Podman
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="D.2 Engine: Podman">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#d21-install-podman-from-the-internal-mirror" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.1 Install Podman from the internal mirror
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d22-configure-registriesconf-for-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.2 Configure registries.conf for air-gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d23-configure-containersconf-for-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.3 Configure containers.conf for air-gap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d24-systemd-environment-drop-in-air-gap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.4 systemd environment drop-in (air-gap)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d25-firewall-rules-for-podman-nftables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.2.5 Firewall rules for Podman (nftables)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d3-cephadm-bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D.3 Cephadm bootstrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#e-step-4-assign-roles-to-nodes-and-all-roles-to-one-server-when-co-locating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E. Step 4 — Assign roles to nodes (and all roles to one server when co-locating)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="E. Step 4 — Assign roles to nodes (and all roles to one server when co-locating)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e1-add-hosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E.1 Add hosts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e2-label-hosts-by-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E.2 Label hosts by role
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#e3-assign-all-roles-to-one-server-co-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        E.3 Assign all roles to one server (co-location)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#f-step-5-check-services-and-apply-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F. Step 5 — Check services and apply best practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="F. Step 5 — Check services and apply best practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f1-check-services-after-bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.1 Check services after bootstrap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#f2-best-practices-mandatory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        F.2 Best practices (mandatory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#g-step-6-define-osds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        G. Step 6 — Define OSDs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#h-step-7-define-pools-kubernetes-and-non-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H. Step 7 — Define pools (Kubernetes and non-Kubernetes)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="H. Step 7 — Define pools (Kubernetes and non-Kubernetes)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#h1-replicated-pool-for-kubernetes-rbd-csi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.1 Replicated pool for Kubernetes (RBD / CSI)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h2-erasure-coded-pool-for-non-kubernetes-bulk-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.2 Erasure-coded pool for non-Kubernetes bulk data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h3-cephfs-non-kubernetes-or-shared-filesystem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.3 CephFS (non-Kubernetes or shared filesystem)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h4-rgw-s3-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.4 RGW (S3 object)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#h5-rbd-images-non-kubernetes-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        H.5 RBD images (non-Kubernetes use)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-step-8-prepare-monitoring-daemons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        I. Step 8 — Prepare monitoring daemons
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#j-recovery-procedures-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        J. Recovery procedures (reference)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="J. Recovery procedures (reference)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#osd-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OSD failure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mon-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MON loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quorum-loss-all-mons-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quorum loss (all MONs down)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k-what-this-document-intentionally-does-not-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        K. What this document intentionally does not cover
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="ceph-storage-cephadm-path">Ceph storage (cephadm path)<a class="headerlink" href="#ceph-storage-cephadm-path" title="Permanent link">&para;</a></h1>
+<p><a href="../../../operating-systems/host-configuration/">Previous step</a> | <a href="../../../kubespray/kubespray-deployment/">Next step</a></p>
+<hr />
+<h2 id="a-purpose-and-architecture">A. Purpose and architecture<a class="headerlink" href="#a-purpose-and-architecture" title="Permanent link">&para;</a></h2>
+<p>Ceph deployed by cephadm on dedicated Linux hosts, consumed by Kubernetes through the external CSI driver, and optionally exposed as S3 via RGW.</p>
+<div class="highlight"><pre><span></span><code>        K8s cluster                    Ceph cluster (dedicated hosts)
+  +-------------------+           +-----------------------------------+
+  | CSI driver pod   |----------&gt;| MON x3 (10.40.0.x:6789)            |
+  | (external)       |           | MGR x2 (active/standby)              |
+  +-------------------+           | OSD x N (10.40.0.x:6800-7568)      |
+                                  | MDS x N (CephFS, optional)         |
+                                  | RGW x N (S3, optional)              |
+                                  +-----------------------------------+
+</code></pre></div>
+<p>Two supported deployment models exist in this platform: this one (cephadm on dedicated hosts) and Rook-Ceph inside the cluster (<code>storage/rook-ceph/</code>). cephadm runs every Ceph daemon as a container under one container engine — Docker or Podman, picked per cluster and never mixed — and orchestrates placement, upgrades, and recovery across the dedicated hosts.</p>
+<p>This document is a full, ordered instruction set for the cephadm path:</p>
+<ol>
+<li>Prepare servers for each role</li>
+<li>Prepare air-gap repositories/registries</li>
+<li>Deployment type: Docker, Podman, then Cephadm bootstrap</li>
+<li>Assign roles to nodes (and all roles to one server when co-locating)</li>
+<li>Check services and apply best practices</li>
+<li>Define OSDs</li>
+<li>Define pools (Kubernetes and non-Kubernetes) and other</li>
+<li>Prepare monitoring daemons</li>
+</ol>
+<hr />
+<h2 id="b-step-1-prepare-servers-for-each-role">B. Step 1 — Prepare servers for each role<a class="headerlink" href="#b-step-1-prepare-servers-for-each-role" title="Permanent link">&para;</a></h2>
+<p>Do this on every Ceph host before any cephadm command. Ceph assumes a clean, tuned host; it does not fix the OS for you.</p>
+<h3 id="11-host-roles-and-counts">1.1 Host roles and counts<a class="headerlink" href="#11-host-roles-and-counts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Minimum hosts</th>
+<th>Placement rule</th>
+<th>Failure tolerance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MON</td>
+<td>3</td>
+<td>Separate hosts, separate racks if available</td>
+<td>1 host (odd count only; 2 is worse than 1; 4 tolerates the same as 3)</td>
+</tr>
+<tr>
+<td>MGR</td>
+<td>2</td>
+<td>Separate hosts from MON when possible</td>
+<td>1 host (one active, one standby)</td>
+</tr>
+<tr>
+<td>OSD</td>
+<td>≥ 3</td>
+<td>One OSD daemon per data disk; ≥ 3 hosts for a 3-replica pool</td>
+<td>1 host</td>
+</tr>
+<tr>
+<td>MDS</td>
+<td>2</td>
+<td>Active + standby; required only for CephFS</td>
+<td>1 host</td>
+</tr>
+<tr>
+<td>RGW</td>
+<td>2</td>
+<td>Behind the edge load balancer; stateless</td>
+<td>1 host</td>
+</tr>
+<tr>
+<td>Crash/exporter</td>
+<td>all hosts</td>
+<td>Co-located</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Never put MON on the same host as the only OSD of a pool, and never let the DB/WAL device be shared with the OS.</p>
+<h4 id="which-roles-can-be-hosted-together">Which roles can be hosted together<a class="headerlink" href="#which-roles-can-be-hosted-together" title="Permanent link">&para;</a></h4>
+<p>Co-location is a deliberate trade-off: fewer hosts, higher blast radius. The safest default is one role type per host. Co-locate only when the site cannot spare the hosts.</p>
+<p>Allowed co-location:
+- MON + MGR may share a host (never all three MONs on one host).
+- OSD + RGW may share a host; RGW is stateless.
+- MDS + MGR may share a host.
+- MON + OSD on the same host only with ≥ 3 hosts; losing one host loses a monitor and a third of the data at once.</p>
+<p>Never co-locate the only MON store with the OSD DB device.</p>
+<h4 id="minimum-requirements-vm-vs-physical">Minimum requirements: VM vs physical<a class="headerlink" href="#minimum-requirements-vm-vs-physical" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Physical (bare metal)</th>
+<th>Virtual machine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ceph OSD</td>
+<td>Recommended; direct disk access, predictable latency</td>
+<td>Acceptable with raw/SCSI-passthrough disks; never a shared virtual disk</td>
+</tr>
+<tr>
+<td>MON / MGR / OSD</td>
+<td>Local SSD for MON store and OSD DB/WAL</td>
+<td>Local SSD + dedicated vCPUs; never shared storage</td>
+</tr>
+<tr>
+<td>Failure domain</td>
+<td>Physical host</td>
+<td>Host + hypervisor + storage array</td>
+</tr>
+<tr>
+<td>Disk passthrough</td>
+<td>N/A (native)</td>
+<td>Required for Ceph OSD data disks; shared virtual disks break replication</td>
+</tr>
+</tbody>
+</table>
+<h4 id="requirements-calculations">Requirements calculations<a class="headerlink" href="#requirements-calculations" title="Permanent link">&para;</a></h4>
+<p>State the assumptions; do not use a single formula.</p>
+<p><strong>Replicated (3x) usable capacity:</strong></p>
+<div class="highlight"><pre><span></span><code>usable_raw = Σ(disk_size_available) × (1 - reserved_fraction)
+usable_3x  = usable_raw / 3
+</code></pre></div>
+<p><code>reserved_fraction</code> is typically 0.05–0.10 (filesystem, WAL, DB). Working target: 70% of usable — keep 25–30% of raw capacity free so a failed OSD can be replaced and rebalanced without filling the pool.</p>
+<p><strong>Erasure coding (k+m):</strong></p>
+<div class="highlight"><pre><span></span><code>usable_ec = raw × (k / (k + m))
+</code></pre></div>
+<p>A 4+2 pool gives ~67% usable. EC saves space but read-decode on recovery is slow; not recommended for write-heavy databases.</p>
+<p><strong>IOPS:</strong> derived from disk type and queue depth.</p>
+<p><strong>Network:</strong> a 3x pool writes 2 copies to the network per 1 GB of client write. A 10 GbE link supports roughly 1.25 GB/s of client write throughput before saturation.</p>
+<p><strong>Compute resources (vCPU and RAM):</strong> Ceph is not CPU-heavy; the drivers are network, decompression, and per-OSD memory. Size from the role count and daemon count per host, not from disk capacity.</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>vCPU grows when</th>
+<th>RAM grows when</th>
+<th>Starting point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MON</td>
+<td>Client request rate (kubectl, CSI, RGW, admin) and MON count in quorum</td>
+<td>MON count and mon store size</td>
+<td>2 vCPU, 8 GiB</td>
+</tr>
+<tr>
+<td>MGR</td>
+<td>Enabled modules (prometheus, dashboard, orchestration) and scrape targets</td>
+<td>Dashboard state and cached metrics</td>
+<td>2 vCPU, 8 GiB</td>
+</tr>
+<tr>
+<td>OSD</td>
+<td>Number of OSD daemons on the host and rebuild/rebalance activity</td>
+<td>OSD daemon count (cache per daemon) and BlueStore DB/WAL cache</td>
+<td>1 vCPU per OSD daemon (min 4), 4 GiB per OSD daemon (min 16 GiB)</td>
+</tr>
+<tr>
+<td>MDS</td>
+<td>CephFS clients and metadata operation rate</td>
+<td>CephFS filesystems and metadata cache</td>
+<td>4 vCPU, 16 GiB</td>
+</tr>
+<tr>
+<td>RGW</td>
+<td>S3 request rate and concurrent connections</td>
+<td>RGW instance count and object cache</td>
+<td>4 vCPU, 8 GiB</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key principle:</strong> Disk capacity does NOT drive CPU or RAM. A 10 TB disk with 1 OSD needs the same RAM as a 1 TB disk with 1 OSD. RAM scales with the number of daemons, not with how full the disks are. CPU scales with request/rebuild activity, not with capacity.</p>
+<p><strong>Memory per OSD daemon:</strong> each OSD daemon reserves roughly 4 GiB for its cache plus the BlueStore DB/WAL working set. A host with 8 OSDs needs ~32 GiB for OSD processes alone, plus OS overhead. Do not size RAM from disk capacity — size from the OSD count per host.</p>
+<p><strong>vCPU oversubscription:</strong> Ceph tolerates CPU oversubscription better than memory oversubscription. If hosts are RAM-bound, reduce OSDs per host before reducing vCPU.</p>
+<p><strong>Placement groups (PGs):</strong> PGs are the unit Ceph uses to distribute objects across OSDs. Too few PGs = uneven distribution and hot spots; too many PGs = CPU and memory pressure on every MON and OSD.</p>
+<p>Rule of thumb (approximate, tune from <code>ceph pg calc</code>):
+- <code>total_pgs = (num_osd × 100) / pool_replica_count</code>
+- Round up to the nearest power of 2 per pool.</p>
+<p>Example: 9 OSDs across 3 hosts, 3-replica pool → <code>(9 × 100) / 3 = 300</code> → round to 512 PGs. A small 3-host site needs only ~512–1024 PGs total across all pools. Adding pools without reducing PG count per pool multiplies PG count and increases MON/OSD memory.</p>
+<p><strong>Check PG health:</strong>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>pg<span class="w"> </span>stat
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>pool<span class="w"> </span>ls<span class="w"> </span>detail
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>df
+</code></pre></div>
+<code>active+clean</code> with <code>undersized</code> or <code>degraded</code> means PGs are not yet placed; <code>stuck unclean</code> means a failure is in progress.</p>
+<p><strong>OS and application reservation:</strong> Always reserve resources for the operating system and non-Ceph applications on every host, before allocating the rest to Ceph daemons:</p>
+<table>
+<thead>
+<tr>
+<th>Reservation</th>
+<th>vCPU</th>
+<th>RAM</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operating system</td>
+<td>1</td>
+<td>2 GiB</td>
+<td>Kernel, systemd, journald, SSH, cron</td>
+</tr>
+<tr>
+<td>Container engine (Docker/Podman)</td>
+<td>0.5</td>
+<td>1 GiB</td>
+<td>Engine daemon, container metadata, image layers</td>
+</tr>
+<tr>
+<td>Monitoring agent (node_exporter / prometheus scrape)</td>
+<td>0.25</td>
+<td>0.5 GiB</td>
+<td>Host metrics collection</td>
+</tr>
+<tr>
+<td>Cephadm / orchestrator overhead</td>
+<td>0.25</td>
+<td>0.5 GiB</td>
+<td>cephadm container management on the host</td>
+</tr>
+<tr>
+<td>Break-glass / admin tools</td>
+<td>0</td>
+<td>0.5 GiB</td>
+<td><code>cephadm shell</code>, diagnostics, logs</td>
+</tr>
+<tr>
+<td><strong>Total reserve per host</strong></td>
+<td><strong>2 vCPU</strong></td>
+<td><strong>4.5 GiB</strong></td>
+<td>Reserve on every Ceph host before Ceph daemons</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Correctly sized example — 3-host site, replicated 3x (separated roles, no MON+OSD co-location):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Host</th>
+<th>Roles</th>
+<th>vCPU</th>
+<th>RAM</th>
+<th>Disk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ceph-mon-1</td>
+<td>MON</td>
+<td>2</td>
+<td>8 GiB</td>
+<td>100 GiB SSD</td>
+</tr>
+<tr>
+<td>ceph-mon-2</td>
+<td>MON</td>
+<td>2</td>
+<td>8 GiB</td>
+<td>100 GiB SSD</td>
+</tr>
+<tr>
+<td>ceph-mon-3</td>
+<td>MON + MGR</td>
+<td>4</td>
+<td>16 GiB</td>
+<td>100 GiB SSD</td>
+</tr>
+<tr>
+<td>ceph-osd-1</td>
+<td>OSD x3</td>
+<td>7</td>
+<td>28 GiB</td>
+<td>100 GiB SSD + 3 data disks + 1 NVMe DB/WAL</td>
+</tr>
+<tr>
+<td>ceph-osd-2</td>
+<td>OSD x3</td>
+<td>7</td>
+<td>28 GiB</td>
+<td>100 GiB SSD + 3 data disks + 1 NVMe DB/WAL</td>
+</tr>
+<tr>
+<td>ceph-osd-3</td>
+<td>OSD x3</td>
+<td>7</td>
+<td>28 GiB</td>
+<td>100 GiB SSD + 3 data disks + 1 NVMe DB/WAL</td>
+</tr>
+</tbody>
+</table>
+<p>Total per OSD host = 7 vCPU / 28 GiB for Ceph OSDs, plus 2 vCPU / 4.5 GiB OS + agent reservation. This layout satisfies the 3-replica pool (9 OSDs across 3 OSD hosts) and keeps MONs off OSD hosts.</p>
+<h3 id="12-os-and-kernel-mandatory-or-best-practice">1.2 OS and kernel — mandatory or best practice?<a class="headerlink" href="#12-os-and-kernel-mandatory-or-best-practice" title="Permanent link">&para;</a></h3>
+<p><strong>Mandatory:</strong> OS (Oracle Linux 8/9 or Ubuntu 22.04/24.04) and XFS with <code>ftype=1</code> for BlueStore. Ceph does not install or fix the OS.</p>
+<p><strong>Best practice:</strong> Kernel 5.4+ (OL9) / 5.15 (Ubuntu 24.04), dedicated NVMe for OSD DB/WAL, chrony for NTP. Confirm the exact kernel floor against the Ceph release notes for the pinned version.</p>
+<p>Required kernel modules (mandatory for networking and RBD):</p>
+<div class="highlight"><pre><span></span><code>modprobe<span class="w"> </span>br_netfilter
+modprobe<span class="w"> </span>nf_conntrack
+modprobe<span class="w"> </span>rbd
+
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/modules-load.d/ceph.conf<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">br_netfilter</span>
+<span class="s">nf_conntrack</span>
+<span class="s">rbd</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p><strong>How to check:</strong></p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/etc/os-release
+uname<span class="w"> </span>-r
+lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">'br_netfilter|nf_conntrack|rbd'</span>
+getenforce<span class="w"> </span><span class="o">||</span><span class="w"> </span>aa-status<span class="w"> </span>--enabled<span class="w">   </span><span class="c1"># SELinux / AppArmor</span>
+</code></pre></div>
+<p><strong>Impact if not applied:</strong>
+- Missing <code>br_netfilter</code> / <code>nf_conntrack</code>: bridged container traffic and Ceph replication traffic can be dropped or misrouted by netfilter; daemons may appear down.
+- Missing <code>rbd</code>: RBD block devices cannot be mapped; the external CSI driver cannot attach volumes.
+- No XFS <code>ftype=1</code>: BlueStore refuses the device; OSD creation fails.
+- Wrong kernel: Ceph daemons may crash or refuse to start on unsupported kernels.</p>
+<h3 id="13-time-and-name-resolution">1.3 Time and name resolution<a class="headerlink" href="#13-time-and-name-resolution" title="Permanent link">&para;</a></h3>
+<p>All Ceph hosts must agree on time; monitor quorum depends on timestamp agreement. A drifting clock can drop a monitor from quorum.</p>
+<p><strong>NTP (internal only; air-gapped site):</strong></p>
+<div class="highlight"><pre><span></span><code>chronyc<span class="w"> </span>sources<span class="w"> </span>-v
+chronyc<span class="w"> </span>tracking
+</code></pre></div>
+<p>Use at least two internal NTP sources; a third on a different switch is recommended.</p>
+<p><strong>Name resolution:</strong> every Ceph host must resolve every other Ceph host by name:</p>
+<div class="highlight"><pre><span></span><code>getent<span class="w"> </span>hosts<span class="w"> </span>ceph-mon-1<span class="w"> </span>ceph-mon-2<span class="w"> </span>ceph-mon-3<span class="w"> </span>ceph-osd-1
+</code></pre></div>
+<p><strong>No DNS environment:</strong> If there is no DNS server, use <code>/etc/hosts</code> on every Ceph host and keep it identical everywhere:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/hosts<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">10.40.0.11  ceph-mon-1</span>
+<span class="s">10.40.0.12  ceph-mon-2</span>
+<span class="s">10.40.0.13  ceph-mon-3</span>
+<span class="s">10.40.0.14  ceph-osd-1</span>
+<span class="s">10.40.0.15  ceph-osd-2</span>
+<span class="s">10.40.0.16  ceph-osd-3</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Name resolution failures prevent cephadm from adding hosts and daemons from forming quorum.</p>
+<h3 id="14-disks-and-filesystems-node-preparation">1.4 Disks and filesystems (node preparation)<a class="headerlink" href="#14-disks-and-filesystems-node-preparation" title="Permanent link">&para;</a></h3>
+<p>One OSD daemon per data disk. Each data disk must be a dedicated device — never a shared virtual disk, never a partition shared with the OS. XFS with <code>ftype=1</code> is required by BlueStore.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># List candidate data devices</span>
+lsblk<span class="w"> </span>-d<span class="w"> </span>-o<span class="w"> </span>NAME,SIZE,TYPE,ROTA,MODEL
+
+<span class="c1"># Destructive: wipes stale filesystems/signatures from data devices only</span>
+wipefs<span class="w"> </span>-a<span class="w"> </span>/dev/sdb
+wipefs<span class="w"> </span>-a<span class="w"> </span>/dev/sdc
+</code></pre></div>
+<p>Do not format the device yourself — cephadm formats and manages OSD disks via BlueStore. This step only clears stale signatures so device detection is clean.</p>
+<p>Reserve a separate NVMe device per host for the OSD BlueStore DB/WAL when data devices are HDD or SATA SSD. Do not share the DB/WAL device with the OS or with another OSD's data disk.</p>
+<p>How many OSDs per host:
+- One OSD daemon per data disk.
+- Minimum 3 OSD hosts (one OSD each) for a 3-replica pool.
+- More OSDs per host = more throughput and more rebuild load per host failure. Balance rebuild time against host count.</p>
+<h3 id="15-network">1.5 Network<a class="headerlink" href="#15-network" title="Permanent link">&para;</a></h3>
+<p><strong>Two NICs/VLANs (recommended):</strong> one public (client/MON/RGW traffic, <code>10.40.0.0/24</code>) and one cluster/replication (replication/OSD traffic, <code>10.41.0.0/24</code>). Replication traffic is the driver; 10 GbE is the minimum for production. Separating them keeps Ceph replication from competing with client and management traffic.</p>
+<p><strong>One network:</strong> If the site has only one network, put MON and OSD traffic on the same subnet/VLAN. Ceph still works, but replication traffic competes with client traffic on the same link. Mitigations:
+- Size the link for the combined load (replication is roughly 2× the client write volume for a 3x pool).
+- Use separate IP ranges within the same VLAN so firewall rules can still distinguish MON vs OSD traffic.
+- Prefer 10 GbE or faster; 1 GbE is not suitable for production Ceph.</p>
+<p>Verify reachability between every pair of hosts:</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">10</span>.40.0.12
+</code></pre></div>
+<h3 id="16-ssh-access">1.6 SSH access<a class="headerlink" href="#16-ssh-access" title="Permanent link">&para;</a></h3>
+<p>The bootstrap host must reach every other Ceph host over SSH without a password prompt, because cephadm installs the engine and daemons on remote hosts itself.</p>
+<p><strong>Service user:</strong> SSH as a non-root deploy user (e.g. <code>cephadm</code>) with passwordless <code>sudo</code> is preferred over direct root login. cephadm elevates via sudo when needed. This user is a local account on each Ceph host — not a directory account.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># From the bootstrap host, as the deploy user</span>
+ssh<span class="w"> </span>cephadm@ceph-osd-2<span class="w"> </span><span class="s1">'hostname'</span>
+ssh<span class="w"> </span>cephadm@ceph-osd-3<span class="w"> </span><span class="s1">'sudo hostname'</span>
+</code></pre></div>
+<p>Ensure the deploy user can run sudo without a password on each Ceph host:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># On each Ceph host</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"cephadm ALL=(ALL) NOPASSWD:ALL"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/sudoers.d/cephadm
+</code></pre></div>
+<p>Install the same SSH public key (break-glass key) for the deploy user on every Ceph host so the bootstrap host can connect without a password:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># From the bootstrap host</span>
+ssh-copy-id<span class="w"> </span>cephadm@ceph-osd-2
+ssh-copy-id<span class="w"> </span>cephadm@ceph-osd-3
+</code></pre></div>
+<p><strong>AD authentication:</strong> Hosts must NOT be joined to Active Directory/LDAP (ADR-0015). Identity is application-layer only; nodes keep local accounts plus an offline break-glass key. Do not rely on AD/Kerberos for the SSH access cephadm uses — use local key-based authentication.</p>
+<p>Verify:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>cephadm@ceph-osd-2<span class="w"> </span><span class="s1">'sudo cephadm --version'</span>
+</code></pre></div>
+<hr />
+<h2 id="c-step-2-prepare-air-gap-registryrepository">C. Step 2 — Prepare air-gap registry/repository<a class="headerlink" href="#c-step-2-prepare-air-gap-registryrepository" title="Permanent link">&para;</a></h2>
+<p>cephadm pulls Ceph container images at bootstrap and whenever it deploys or upgrades a daemon. In an air-gapped site there is no internet, so the images must already live in your internal <strong>registry</strong> and every host must pull from it.</p>
+<p>Terminology:
+- <strong>Registry</strong> = the server/manager that stores images (Harbor, Nexus, or a self-hosted OCI registry).
+- <strong>Repository</strong> = a named collection of images inside a registry (e.g. <code>ceph/ceph</code>, <code>ceph/ceph-osd</code>).
+- <strong>Repositories</strong> = plural, multiple collections.</p>
+<p>Pick <strong>one</strong> registry manager per site and do not mix them. Supported options:</p>
+<table>
+<thead>
+<tr>
+<th>Registry manager</th>
+<th>Best for</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Harbor (platform default)</td>
+<td>Image + OCI chart registry with projects, robot accounts, vulnerability scanning</td>
+<td>Already referenced throughout this platform as <code>harbor.internal</code>; has a web GUI for managing projects and robot accounts</td>
+</tr>
+<tr>
+<td>Nexus</td>
+<td>Single manager for images <strong>and</strong> OS packages (yum/apt) plus docker repos</td>
+<td>Good when one tool must own both artifacts and packages; has a web GUI for repositories</td>
+</tr>
+<tr>
+<td>Self-hosted OCI registry (suggested alternative)</td>
+<td>Smaller air-gap sites that only need image mirroring</td>
+<td>Single binary, filesystem storage, OCI-compatible; lighter than Harbor/Nexus; minimal or no GUI</td>
+</tr>
+</tbody>
+</table>
+<p>The engine-side configuration (Docker <code>daemon.json</code>, Podman <code>registries.conf</code>) is in section D, per deployment method. This section covers the registry side: what to mirror and where, using either the CLI or the web GUI.</p>
+<h3 id="c20-addresses-to-proxy-mirror">C.2.0 Addresses to proxy / mirror<a class="headerlink" href="#c20-addresses-to-proxy-mirror" title="Permanent link">&para;</a></h3>
+<p>Configure your internal registry/repository manager to proxy or mirror these addresses. Every Ceph host must reach only the internal addresses; nothing on the Ceph hosts may reach the public internet.</p>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Public source (proxy from)</th>
+<th>Internal address (configure hosts to)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ceph container images</td>
+<td><code>quay.io/ceph</code></td>
+<td><code>harbor.internal/ceph</code>, <code>nexus.internal:&lt;port&gt;/ceph</code>, or <code>registry.internal:5000/ceph</code></td>
+<td>Mirrored with <code>skopeo</code>; tags pinned in <code>compatibility/version-matrix.md</code></td>
+</tr>
+<tr>
+<td>OS packages (Oracle Linux)</td>
+<td><code>yum.oracle.com</code></td>
+<td>Internal OL mirror (Nexus yum group or <code>yummirror.internal</code>)</td>
+<td><code>dnf</code> repo files point here</td>
+</tr>
+<tr>
+<td>OS packages (Ubuntu)</td>
+<td><code>archive.ubuntu.com</code>, <code>security.ubuntu.com</code></td>
+<td>Internal Ubuntu mirror (Nexus apt repo or <code>ubuntumirror.internal</code>)</td>
+<td><code>apt sources.list</code> points here</td>
+</tr>
+<tr>
+<td>Container engine (Docker)</td>
+<td><code>download.docker.com</code></td>
+<td>Internal mirror or the RPM/DEB already staged</td>
+<td>Engine installed before bootstrap</td>
+</tr>
+<tr>
+<td>Container engine (Podman)</td>
+<td>OS vendor repos</td>
+<td>Internal OS mirror</td>
+<td><code>podman</code> package comes with the OS</td>
+</tr>
+<tr>
+<td>skopeo</td>
+<td>OS vendor repos</td>
+<td>Internal OS mirror</td>
+<td><code>skopeo</code> package comes with the OS</td>
+</tr>
+</tbody>
+</table>
+<p>Do not configure Ceph hosts to use any public registry directly. Set <code>NO_PROXY=no_proxy</code> to exclude all internal addresses (<code>harbor.internal</code>, <code>nexus.internal</code>, <code>registry.internal</code>, <code>10.40.0.0/24</code>, <code>10.41.0.0/24</code>, <code>.internal</code>, <code>localhost</code>, <code>127.0.0.1</code>) so internal traffic never goes through a proxy.</p>
+<h3 id="c21-harbor-platform-default">C.2.1 Harbor (platform default)<a class="headerlink" href="#c21-harbor-platform-default" title="Permanent link">&para;</a></h3>
+<p>Mirror Ceph images into Harbor ahead of time from a connected build machine:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run on a connected machine, never on an air-gapped host</span>
+skopeo<span class="w"> </span>copy<span class="w"> </span>docker://quay.io/ceph/ceph:v18<span class="w"> </span>docker://harbor.internal/ceph/ceph:v18<span class="w"> </span>--dest-tls-verify<span class="o">=</span><span class="nb">false</span>
+skopeo<span class="w"> </span>copy<span class="w"> </span>docker://quay.io/ceph/ceph:v17<span class="w"> </span>docker://harbor.internal/ceph/ceph:v17<span class="w"> </span>--dest-tls-verify<span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<p><strong>What is skopeo?</strong> <code>skopeo</code> is a tool for inspecting and copying container images between registries without running a daemon. It copies image layers and metadata directly from one registry to another (e.g. from the public <code>quay.io</code> to your internal Harbor), so you can stage Ceph images on a connected machine and push them into the air-gapped registry. Install it from your internal mirror (<code>dnf install -y skopeo</code> on Oracle Linux, <code>apt install -y skopeo</code> on Ubuntu).</p>
+<p><strong>Via Harbor GUI:</strong> log in to the Harbor web UI, create a <code>ceph</code> project, push or mirror the Ceph images into it, then create a robot account with <code>pull</code> permission for <code>cephadm</code> to use. Record the exact image tags in <code>compatibility/version-matrix.md</code> so the pinned version propagates through the build.</p>
+<h3 id="c22-nexus">C.2.2 Nexus<a class="headerlink" href="#c22-nexus" title="Permanent link">&para;</a></h3>
+<p>Mirror Ceph images into a Nexus docker (group) repository, e.g. <code>nexus.internal:8083</code> or <code>nexus.internal/repository/ceph/</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run on a connected machine, never on an air-gapped host</span>
+skopeo<span class="w"> </span>copy<span class="w"> </span>docker://quay.io/ceph/ceph:v18<span class="w"> </span>docker://nexus.internal:8083/ceph/ceph:v18<span class="w"> </span>--dest-tls-verify<span class="o">=</span><span class="nb">false</span>
+skopeo<span class="w"> </span>copy<span class="w"> </span>docker://quay.io/ceph/ceph:v17<span class="w"> </span>docker://nexus.internal:8083/ceph/ceph:v17<span class="w"> </span>--dest-tls-verify<span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<p><strong>Via Nexus GUI:</strong> log in to the Nexus web UI, create a docker (group) repository named <code>ceph</code>, mirror the Ceph images into it, then create a service account with <code>pull</code> permission. Record the exact image tags in <code>compatibility/version-matrix.md</code>.</p>
+<p>Nexus can also serve OS packages (yum/apt group repos) so the same manager holds both images and packages. When Nexus is the registry, replace <code>harbor.internal</code> with <code>nexus.internal:&lt;port&gt;</code> everywhere below, and point Docker/Podman at the Nexus docker repository.</p>
+<h3 id="c23-suggested-alternative-self-hosted-oci-registry-distribution">C.2.3 Suggested alternative: self-hosted OCI registry (distribution)<a class="headerlink" href="#c23-suggested-alternative-self-hosted-oci-registry-distribution" title="Permanent link">&para;</a></h3>
+<p>For smaller air-gap sites that only need image mirroring and do not need Harbor's projects/robot accounts or Nexus's package repos, run a minimal OCI-compatible registry (the Docker <code>distribution</code> image) on a filesystem-backed store:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Run on a connected machine, mirror into the self-hosted registry</span>
+skopeo<span class="w"> </span>copy<span class="w"> </span>docker://quay.io/ceph/ceph:v18<span class="w"> </span>docker://registry.internal:5000/ceph/ceph:v18<span class="w"> </span>--dest-tls-verify<span class="o">=</span><span class="nb">false</span>
+skopeo<span class="w"> </span>copy<span class="w"> </span>docker://quay.io/ceph/ceph:v17<span class="w"> </span>docker://registry.internal:5000/ceph/ceph:v17<span class="w"> </span>--dest-tls-verify<span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<p>Run it as a single container or systemd unit backed by a persistent volume. Configure it as insecure (or terminate TLS at the edge load balancer) and point Docker/Podman at <code>registry.internal:5000</code>.</p>
+<hr />
+<h2 id="d-step-3-deployment-type-docker-podman-cephadm">D. Step 3 — Deployment type: Docker, Podman, Cephadm<a class="headerlink" href="#d-step-3-deployment-type-docker-podman-cephadm" title="Permanent link">&para;</a></h2>
+<p>cephadm runs every Ceph daemon in a container. It supports Podman (upstream default) and Docker. Pick one engine <strong>per cluster</strong> and never mix engines inside one cluster — the orchestrator records the engine at bootstrap and reuses it for every daemon. Whichever engine is chosen, it must already be installed, enabled, and pulling from the internal registry <em>before</em> <code>cephadm bootstrap</code>; cephadm will not install the engine.</p>
+<h3 id="d1-engine-docker">D.1 Engine: Docker<a class="headerlink" href="#d1-engine-docker" title="Permanent link">&para;</a></h3>
+<p>Docker must be installed from the internal mirror, pointed at the internal registry, and allowed through the host firewall before <code>cephadm bootstrap</code>. cephadm does not install or configure the engine.</p>
+<h4 id="d11-install-docker-from-the-internal-mirror">D.1.1 Install Docker from the internal mirror<a class="headerlink" href="#d11-install-docker-from-the-internal-mirror" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Oracle Linux (from the internal OL mirror)</span>
+dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io
+
+<span class="c1"># Ubuntu (from the internal Ubuntu mirror)</span>
+apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io
+
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>docker
+docker<span class="w"> </span>info<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>server-version
+</code></pre></div>
+<h4 id="d12-configure-daemonjson-for-air-gap">D.1.2 Configure daemon.json for air-gap<a class="headerlink" href="#d12-configure-daemonjson-for-air-gap" title="Permanent link">&para;</a></h4>
+<p><code>/etc/docker/daemon.json</code> on every Ceph host:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"registry-mirrors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"https://harbor.internal"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"insecure-registries"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"harbor.internal"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"live-restore"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"storage-driver"</span><span class="p">:</span><span class="w"> </span><span class="s2">"overlay2"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"log-driver"</span><span class="p">:</span><span class="w"> </span><span class="s2">"json-file"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"log-opts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"max-size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100m"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"max-file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"dns"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"10.10.0.10"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"iptables"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"bridge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"default-address-pools"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"base"</span><span class="p">:</span><span class="w"> </span><span class="s2">"172.20.0.0/16"</span><span class="p">,</span><span class="w"> </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">24</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>registry-mirrors</code> — pulls are redirected to Harbor so daemon and cephadm never reach quay.io.</li>
+<li><code>insecure-registries</code> — Harbor terminates TLS at an internal load balancer; Docker treats it as insecure without this flag and refuses to pull.</li>
+<li><code>live-restore</code> — containers keep running if the Docker daemon restarts.</li>
+<li><code>iptables: false</code> / <code>bridge: none</code> — the platform manages the network and firewall with nftables/firewalld; Docker must not punch its own holes.</li>
+<li><code>dns</code> — internal DNS so containers resolve <code>harbor.internal</code>, <code>ceph-mon-1</code>, etc.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/docker
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/docker/daemon.json<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">{ ... }</span>
+<span class="s">EOF</span>
+systemctl<span class="w"> </span>restart<span class="w"> </span>docker
+</code></pre></div>
+<h4 id="d13-systemd-environment-drop-in-air-gap">D.1.3 systemd environment drop-in (air-gap)<a class="headerlink" href="#d13-systemd-environment-drop-in-air-gap" title="Permanent link">&para;</a></h4>
+<p>If the site uses an HTTP proxy for the connected build machine only, exclude it on Ceph hosts and never proxy internal traffic:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/systemd/system/docker.service.d
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/systemd/system/docker.service.d/no-proxy.conf<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">[Service]</span>
+<span class="s">Environment="NO_PROXY=harbor.internal,10.40.0.0/24,10.41.0.0/24,.internal,localhost,127.0.0.1"</span>
+<span class="s">Environment="no_proxy=harbor.internal,10.40.0.0/24,10.41.0.0/24,.internal,localhost,127.0.0.1"</span>
+<span class="s">EOF</span>
+systemctl<span class="w"> </span>daemon-reload
+systemctl<span class="w"> </span>restart<span class="w"> </span>docker
+</code></pre></div>
+<h4 id="d14-firewall-rules-for-docker-nftables">D.1.4 Firewall rules for Docker (nftables)<a class="headerlink" href="#d14-firewall-rules-for-docker-nftables" title="Permanent link">&para;</a></h4>
+<p>Docker daemon traffic to Harbor and between Ceph hosts:</p>
+<div class="highlight"><pre><span></span><code># Allow outbound to the internal registry
+ip daddr @harbor_hosts tcp dport 443 accept
+# Allow outbound to the internal registry registry API
+ip daddr @harbor_hosts tcp dport { 80, 443 } accept
+# Allow Ceph daemon container traffic on the cluster network
+ip saddr @storage_hosts ip daddr @storage_hosts tcp dport { 6789, 6800-7568, 7480 } accept
+</code></pre></div>
+<p>Do not open Docker's default <code>2375/tcp</code> (unencrypted Docker API). Verify:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>info<span class="w"> </span>--format<span class="w"> </span><span class="s1">'{{ .ServerVersion }}'</span>
+curl<span class="w"> </span>-sk<span class="w"> </span>https://harbor.internal/api/v2.0/systeminfo<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">200</span>
+</code></pre></div>
+<p>When bootstrapping with Docker, pass <code>--docker</code> to <code>cephadm bootstrap</code> and to every subsequent <code>cephadm</code> invocation.</p>
+<h3 id="d2-engine-podman">D.2 Engine: Podman<a class="headerlink" href="#d2-engine-podman" title="Permanent link">&para;</a></h3>
+<p>Podman is the upstream default for cephadm. It must be installed from the internal mirror, pointed at Harbor, and configured for air-gap before <code>cephadm bootstrap</code>. cephadm does not install or configure the engine.</p>
+<p>cephadm runs Ceph daemons as root with privileged host access, so Podman is run <strong>rootful</strong> on Ceph hosts (not rootless).</p>
+<h4 id="d21-install-podman-from-the-internal-mirror">D.2.1 Install Podman from the internal mirror<a class="headerlink" href="#d21-install-podman-from-the-internal-mirror" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Oracle Linux (from the internal OL mirror)</span>
+dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>podman
+
+<span class="c1"># Ubuntu (from the internal Ubuntu mirror)</span>
+apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>podman
+
+systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>podman.socket
+podman<span class="w"> </span>info<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>host.version
+</code></pre></div>
+<h4 id="d22-configure-registriesconf-for-air-gap">D.2.2 Configure registries.conf for air-gap<a class="headerlink" href="#d22-configure-registriesconf-for-air-gap" title="Permanent link">&para;</a></h4>
+<p><code>/etc/containers/registries.conf</code> on every Ceph host:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[registries.search]</span>
+<span class="na">registries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">['harbor.internal']</span>
+
+<span class="k">[registries.insecure]</span>
+<span class="na">registries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">['harbor.internal']</span>
+
+<span class="k">[registries.block]</span>
+<span class="na">registries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">['docker.io', 'quay.io', 'ghcr.io']</span>
+</code></pre></div>
+<ul>
+<li><code>registries.search</code> — unqualified image names resolve to Harbor first.</li>
+<li><code>registries.insecure</code> — Harbor terminates TLS at an internal load balancer; Podman refuses plain-HTTP registries without this.</li>
+<li><code>registries.block</code> — explicit deny-list so nothing accidentally pulls from the public internet.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/containers
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/containers/registries.conf<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">[registries.search]</span>
+<span class="s">registries = ['harbor.internal']</span>
+
+<span class="s">[registries.insecure]</span>
+<span class="s">registries = ['harbor.internal']</span>
+
+<span class="s">[registries.block]</span>
+<span class="s">registries = ['docker.io', 'quay.io', 'ghcr.io']</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<h4 id="d23-configure-containersconf-for-air-gap">D.2.3 Configure containers.conf for air-gap<a class="headerlink" href="#d23-configure-containersconf-for-air-gap" title="Permanent link">&para;</a></h4>
+<p><code>/etc/containers/containers.conf</code> on every Ceph host:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[containers]</span>
+<span class="na">dns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">["10.10.0.10"]</span>
+
+<span class="k">[storage]</span>
+<span class="na">driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"overlay2"</span>
+
+<span class="k">[containers]</span>
+<span class="na">log_driver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"k8s-file"</span>
+<span class="na">log_opts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">{</span>
+<span class="w">  </span><span class="na">"max-size"</span><span class="o">:</span><span class="w"> </span><span class="s">"100m"</span><span class="na">,</span>
+<span class="w">  </span><span class="na">"max-file"</span><span class="o">:</span><span class="w"> </span><span class="s">"3"</span>
+<span class="na">}</span>
+</code></pre></div>
+<ul>
+<li><code>dns</code> — internal DNS so containers resolve <code>harbor.internal</code> and Ceph host names.</li>
+<li><code>log_driver</code> / <code>log_opts</code> — bounded container logs so a churning Ceph daemon cannot fill the root filesystem.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/containers/containers.conf<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">[containers]</span>
+<span class="s">dns = ["10.10.0.10"]</span>
+
+<span class="s">[storage]</span>
+<span class="s">driver = "overlay2"</span>
+
+<span class="s">[containers]</span>
+<span class="s">log_driver = "k8s-file"</span>
+<span class="s">log_opts = {</span>
+<span class="s">  "max-size": "100m",</span>
+<span class="s">  "max-file": "3"</span>
+<span class="s">}</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<h4 id="d24-systemd-environment-drop-in-air-gap">D.2.4 systemd environment drop-in (air-gap)<a class="headerlink" href="#d24-systemd-environment-drop-in-air-gap" title="Permanent link">&para;</a></h4>
+<p>If the site uses an HTTP proxy for the connected build machine only, exclude it on Ceph hosts:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>/etc/systemd/system/podman.socket.d
+cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/systemd/system/podman.socket.d/no-proxy.conf<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">[Socket]</span>
+<span class="s">Environment="NO_PROXY=harbor.internal,10.40.0.0/24,10.41.0.0/24,.internal,localhost,127.0.0.1"</span>
+<span class="s">Environment="no_proxy=harbor.internal,10.40.0.0/24,10.41.0.0/24,.internal,localhost,127.0.0.1"</span>
+<span class="s">EOF</span>
+systemctl<span class="w"> </span>daemon-reload
+systemctl<span class="w"> </span>restart<span class="w"> </span>podman.socket
+</code></pre></div>
+<h4 id="d25-firewall-rules-for-podman-nftables">D.2.5 Firewall rules for Podman (nftables)<a class="headerlink" href="#d25-firewall-rules-for-podman-nftables" title="Permanent link">&para;</a></h4>
+<p>Podman daemon and Ceph daemon container traffic:</p>
+<div class="highlight"><pre><span></span><code># Allow outbound to the internal registry
+ip daddr @harbor_hosts tcp dport { 80, 443 } accept
+# Allow Ceph daemon container traffic on the cluster network
+ip saddr @storage_hosts ip daddr @storage_hosts tcp dport { 6789, 6800-7568, 7480 } accept
+</code></pre></div>
+<p>Do not expose the Podman API socket over TCP. Verify:</p>
+<div class="highlight"><pre><span></span><code>podman<span class="w"> </span>info<span class="w"> </span>--format<span class="w"> </span><span class="s1">'{{ .Host.Version }}'</span>
+curl<span class="w"> </span>-sk<span class="w"> </span>https://harbor.internal/api/v2.0/systeminfo<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">200</span>
+</code></pre></div>
+<p>When bootstrapping with Podman, omit <code>--docker</code> (Podman is the default).</p>
+<h3 id="d3-cephadm-bootstrap">D.3 Cephadm bootstrap<a class="headerlink" href="#d3-cephadm-bootstrap" title="Permanent link">&para;</a></h3>
+<p>Run on the <strong>first storage node only</strong> (the initial MON host). This creates the cluster, the first MON, the MGR, and writes <code>/etc/ceph/ceph.conf</code> and <code>/etc/ceph/ceph.client.admin.keyring</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install cephadm on the first node (from the internal mirror)</span>
+dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>cephadm<span class="w">   </span><span class="c1"># OL</span>
+<span class="c1"># apt install -y cephadm   # Ubuntu</span>
+
+<span class="c1"># Bootstrap. Pass --docker only when Docker is the engine; omit for Podman.</span>
+cephadm<span class="w"> </span>--docker<span class="w"> </span>bootstrap<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--mon-ip<span class="w"> </span><span class="m">10</span>.40.0.11<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cluster-network<span class="w"> </span><span class="m">10</span>.41.0.0/24<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--registry<span class="w"> </span>harbor.internal<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--log-to-file
+
+<span class="c1"># Verify the bootstrap host is healthy</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>-s
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>ps
+</code></pre></div>
+<p><code>--registry harbor.internal</code> tells cephadm to pull daemon images from your internal registry. Without it, cephadm reaches for quay.io, which fails in an air-gapped site.</p>
+<p>Copy the cluster config to the other hosts so they can join:</p>
+<div class="highlight"><pre><span></span><code>scp<span class="w"> </span>/etc/ceph/ceph.conf<span class="w"> </span>/etc/ceph/ceph.client.admin.keyring<span class="w"> </span>root@10.40.0.12:/etc/ceph/
+scp<span class="w"> </span>/etc/ceph/ceph.conf<span class="w"> </span>/etc/ceph/ceph.client.admin.keyring<span class="w"> </span>root@10.40.0.13:/etc/ceph/
+</code></pre></div>
+<hr />
+<h2 id="e-step-4-assign-roles-to-nodes-and-all-roles-to-one-server-when-co-locating">E. Step 4 — Assign roles to nodes (and all roles to one server when co-locating)<a class="headerlink" href="#e-step-4-assign-roles-to-nodes-and-all-roles-to-one-server-when-co-locating" title="Permanent link">&para;</a></h2>
+<h3 id="e1-add-hosts">E.1 Add hosts<a class="headerlink" href="#e1-add-hosts" title="Permanent link">&para;</a></h3>
+<p>Run from the bootstrap host (or any host with <code>cephadm shell</code> access). Ensure the engine is installed on each new host first; cephadm does not install it.</p>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>add<span class="w"> </span>ceph-mon-2<span class="w"> </span><span class="m">10</span>.40.0.12
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>add<span class="w"> </span>ceph-mon-3<span class="w"> </span><span class="m">10</span>.40.0.13
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>add<span class="w"> </span>ceph-osd-1<span class="w"> </span><span class="m">10</span>.40.0.14
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>add<span class="w"> </span>ceph-osd-2<span class="w"> </span><span class="m">10</span>.40.0.15
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>add<span class="w"> </span>ceph-osd-3<span class="w"> </span><span class="m">10</span>.40.0.16
+
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>ls
+</code></pre></div>
+<h3 id="e2-label-hosts-by-role">E.2 Label hosts by role<a class="headerlink" href="#e2-label-hosts-by-role" title="Permanent link">&para;</a></h3>
+<p>Labels are the contract between the node inventory and the service spec:</p>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-mon-1<span class="w"> </span>mon
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-mon-2<span class="w"> </span>mon
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-mon-3<span class="w"> </span>mon
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-mgr-1<span class="w"> </span>mgr
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-mgr-2<span class="w"> </span>mgr
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-osd-1<span class="w"> </span>osd
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-osd-2<span class="w"> </span>osd
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-osd-3<span class="w"> </span>osd
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-mds-1<span class="w"> </span>mds
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-mds-2<span class="w"> </span>mds
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-rgw-1<span class="w"> </span>rgw
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-rgw-2<span class="w"> </span>rgw
+</code></pre></div>
+<h3 id="e3-assign-all-roles-to-one-server-co-location">E.3 Assign all roles to one server (co-location)<a class="headerlink" href="#e3-assign-all-roles-to-one-server-co-location" title="Permanent link">&para;</a></h3>
+<p>Small sites cannot spare ten hosts. Co-location is a deliberate trade-off: fewer hosts, higher blast radius.</p>
+<p>Allowed co-location:
+- MON + MGR may share a host (never all three MONs on one host).
+- OSD + RGW may share a host (RGW is stateless).
+- MDS + MGR may share a host.
+- MON + OSD on the same host only with ≥ 3 hosts; losing one host loses a monitor and a third of the data at once.</p>
+<p>Never co-locate the only MON store with the OSD DB device.</p>
+<p>To assign all roles to one server, apply all labels to that single host and use explicit host placement via labels (E.2). The generated platform layout uses separated hosts by default; co-location is a manual edit and the operator owns that decision.</p>
+<p>Example — all roles on one host (lab/small site only):</p>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>label<span class="w"> </span>add<span class="w"> </span>ceph-all-1<span class="w"> </span>mon,mgr,osd,mds,rgw
+</code></pre></div>
+<hr />
+<h2 id="f-step-5-check-services-and-apply-best-practices">F. Step 5 — Check services and apply best practices<a class="headerlink" href="#f-step-5-check-services-and-apply-best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="f1-check-services-after-bootstrap">F.1 Check services after bootstrap<a class="headerlink" href="#f1-check-services-after-bootstrap" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Cluster health</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>-s
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>health<span class="w"> </span>detail
+
+<span class="c1"># Daemon placement and state</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>ps
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>host<span class="w"> </span>ls
+
+<span class="c1"># Monitor quorum</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mon<span class="w"> </span>stat
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mon<span class="w"> </span>dump
+
+<span class="c1"># MGR status (active/standby)</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mgr<span class="w"> </span>services
+</code></pre></div>
+<p>Expect <code>HEALTH_OK</code> before you create OSDs or pools. <code>HEALTH_WARN</code> about missing daemons is normal until placement is applied; <code>HEALTH_ERR</code> is not.</p>
+<h3 id="f2-best-practices-mandatory">F.2 Best practices (mandatory)<a class="headerlink" href="#f2-best-practices-mandatory" title="Permanent link">&para;</a></h3>
+<ul>
+<li>One OSD per device; data and journal/DB on separate devices.</li>
+<li>CRUSH failure domains at host level, rack level when the site has racks.</li>
+<li>≥ 3 hosts for any replicated pool that must survive host loss.</li>
+<li>Keep 25–30% of raw capacity free for rebalance.</li>
+<li>Back up the monmap, OSD map, and the data; the monmap is what makes a cluster rebuildable.</li>
+<li>Use a restricted <code>cephx</code> user for the CSI driver, not <code>client.admin</code>.</li>
+<li>Never mix Docker and Podman in one cluster.</li>
+</ul>
+<p>Strongly recommended:
+- Separate physical network for Ceph cluster (replication) traffic.
+- NVMe journal/DB device on HDD-backed pools.
+- Page on <code>HEALTH_WARN</code>, not only on <code>HEALTH_ERR</code>.
+- Test an OSD replacement under load before production.</p>
+<hr />
+<h2 id="g-step-6-define-osds">G. Step 6 — Define OSDs<a class="headerlink" href="#g-step-6-define-osds" title="Permanent link">&para;</a></h2>
+<p>List devices, then create OSDs. Create OSDs by label so a host replacement keeps working.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># List available devices on all hosts</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>device<span class="w"> </span>ls
+
+<span class="c1"># Create OSDs across all hosts (uses all available data devices)</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>apply<span class="w"> </span>osd<span class="w"> </span>--all-available-devices
+
+<span class="c1"># Or, explicit per-host with DB on a separate NVMe device</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>apply<span class="w"> </span>osd<span class="w"> </span>ceph-osd-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--data-devices<span class="w"> </span>/dev/sdb,/dev/sdc<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--db-devices<span class="w"> </span>/dev/nvme1n1
+</code></pre></div>
+<p>Verify:</p>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>tree
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>stat
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>df
+</code></pre></div>
+<p>Each OSD daemon owns one data disk. <code>ceph osd tree</code> must show every OSD <code>up</code> and <code>in</code>.</p>
+<hr />
+<h2 id="h-step-7-define-pools-kubernetes-and-non-kubernetes">H. Step 7 — Define pools (Kubernetes and non-Kubernetes)<a class="headerlink" href="#h-step-7-define-pools-kubernetes-and-non-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Pools are where data lives. Choose replicated for low-latency/block workloads and erasure coding (EC) for capacity; never EC for write-heavy databases.</p>
+<h3 id="h1-replicated-pool-for-kubernetes-rbd-csi">H.1 Replicated pool for Kubernetes (RBD / CSI)<a class="headerlink" href="#h1-replicated-pool-for-kubernetes-rbd-csi" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>pool<span class="w"> </span>create<span class="w"> </span>kube-rbd<span class="w"> </span><span class="m">64</span><span class="w"> </span><span class="m">64</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>pool<span class="w"> </span>application<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>kube-rbd<span class="w"> </span>rbd
+
+<span class="c1"># Restricted user for the CSI driver (not client.admin)</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>auth<span class="w"> </span>get-or-create<span class="w"> </span>client.csi-k8s<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>mon<span class="w"> </span><span class="s1">'allow r'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>osd<span class="w"> </span><span class="s1">'allow class-read object_prefix rbd_children, allow rwx pool=kube-rbd'</span>
+</code></pre></div>
+<p>The external CSI driver (<code>cephcsi</code>) consumes this pool and is deployed separately in the cluster; it uses <code>ceph.conf</code> and a restricted keyring, injected from Vault via External Secrets — never inline.</p>
+<p>Kubernetes StorageClass:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storage.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StorageClass</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-external-rbd</span>
+<span class="nt">provisioner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbd.csi.ceph.com</span>
+<span class="nt">parameters</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">clusterID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;fsid-from-`ceph fsid`&gt;</span>
+<span class="w">  </span><span class="nt">pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-rbd</span>
+<span class="w">  </span><span class="nt">imageFeatures</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">layering</span>
+<span class="w">  </span><span class="nt">csi.storage.k8s.io/provisioner-secret-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-csi-provisioner</span>
+<span class="w">  </span><span class="nt">csi.storage.k8s.io/provisioner-secret-namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-csi</span>
+<span class="w">  </span><span class="nt">csi.storage.k8s.io/controller-expand-secret-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-csi-provisioner</span>
+<span class="w">  </span><span class="nt">csi.storage.k8s.io/controller-expand-secret-namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-csi</span>
+<span class="w">  </span><span class="nt">csi.storage.k8s.io/node-stage-secret-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-csi-node</span>
+<span class="w">  </span><span class="nt">csi.storage.k8s.io/node-stage-secret-namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-csi</span>
+<span class="nt">reclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
+<span class="nt">allowVolumeExpansion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">volumeBindingMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Immediate</span>
+</code></pre></div>
+<h3 id="h2-erasure-coded-pool-for-non-kubernetes-bulk-data">H.2 Erasure-coded pool for non-Kubernetes bulk data<a class="headerlink" href="#h2-erasure-coded-pool-for-non-kubernetes-bulk-data" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>pool<span class="w"> </span>create<span class="w"> </span>ec-pool<span class="w"> </span><span class="m">64</span><span class="w"> </span><span class="m">64</span><span class="w"> </span>erasure
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>pool<span class="w"> </span>application<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>ec-pool<span class="w"> </span>rgw
+</code></pre></div>
+<p>EC usable = raw × (k / (k+m)). A 4+2 pool gives ~67% usable. EC saves space but read-decode on recovery is slow; not recommended for write-heavy databases.</p>
+<h3 id="h3-cephfs-non-kubernetes-or-shared-filesystem">H.3 CephFS (non-Kubernetes or shared filesystem)<a class="headerlink" href="#h3-cephfs-non-kubernetes-or-shared-filesystem" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mgr<span class="w"> </span>module<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>cephfs<span class="w"> </span>--force
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>fs<span class="w"> </span>new<span class="w"> </span>cephfs<span class="w"> </span>cephfs_metadata<span class="w"> </span>cephfs_data
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>apply<span class="w"> </span>mds<span class="w"> </span>--placement<span class="o">=</span><span class="s2">"2 ceph-mds-1 ceph-mds-2"</span>
+</code></pre></div>
+<h3 id="h4-rgw-s3-object">H.4 RGW (S3 object)<a class="headerlink" href="#h4-rgw-s3-object" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mgr<span class="w"> </span>module<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>rgw<span class="w"> </span>--force
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>apply<span class="w"> </span>rgw<span class="w"> </span>rgw<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--placement<span class="o">=</span><span class="s2">"2 ceph-rgw-1 ceph-rgw-2"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spec<span class="w"> </span><span class="s1">'{"rgw_frontend_port": 8080}'</span>
+</code></pre></div>
+<p>Place RGW behind the edge load balancer (<code>network-matrix/external-load-balancer.md</code>), never expose it directly to clients.</p>
+<h3 id="h5-rbd-images-non-kubernetes-use">H.5 RBD images (non-Kubernetes use)<a class="headerlink" href="#h5-rbd-images-non-kubernetes-use" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>rbd<span class="w"> </span>create<span class="w"> </span>--pool<span class="w"> </span>kube-rbd<span class="w"> </span>--size<span class="w"> </span><span class="m">100</span><span class="w"> </span>--image-type<span class="w"> </span>thick<span class="w"> </span>vm-disk-1
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>rbd<span class="w"> </span>info<span class="w"> </span>vm-disk-1
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>rbd<span class="w"> </span>ls<span class="w"> </span>kube-rbd
+</code></pre></div>
+<hr />
+<h2 id="i-step-8-prepare-monitoring-daemons">I. Step 8 — Prepare monitoring daemons<a class="headerlink" href="#i-step-8-prepare-monitoring-daemons" title="Permanent link">&para;</a></h2>
+<p>The Ceph manager exposes Prometheus metrics directly; no separate exporter is needed on every host.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Enable Prometheus metrics from the MGR</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mgr<span class="w"> </span>module<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>prometheus
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>prometheus<span class="w"> </span>self-managed
+</code></pre></div>
+<p>Key metrics to alert on: <code>ceph_health_status</code>, <code>ceph_osd_up</code>, <code>ceph_pg_degraded</code>, <code>ceph_pg_incomplete</code>, <code>ceph_pool_bytes_used</code>, <code>ceph_osd_commit_latency_ms</code>, <code>ceph_mon_quorum_status</code>.</p>
+<p>Enable the dashboard (optional UI):</p>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mgr<span class="w"> </span>module<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>dashboard
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>dashboard<span class="w"> </span>ac-user-create<span class="w"> </span>admin<span class="w"> </span><span class="o">[</span>REDACTED<span class="o">]</span><span class="w"> </span>administrator
+</code></pre></div>
+<p>Dashboard + alerting rules are wired into the platform Prometheus in <code>monitoring/prometheus.md</code>. Scrape the MGR metrics endpoint (<code>:9283</code>) from the management network.</p>
+<p>Verify monitoring:</p>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mgr<span class="w"> </span>services
+curl<span class="w"> </span>-s<span class="w"> </span>http://&lt;mgr-host&gt;:9283/metrics<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>ceph_health_status
+</code></pre></div>
+<hr />
+<h2 id="j-recovery-procedures-reference">J. Recovery procedures (reference)<a class="headerlink" href="#j-recovery-procedures-reference" title="Permanent link">&para;</a></h2>
+<h3 id="osd-failure">OSD failure<a class="headerlink" href="#osd-failure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>device<span class="w"> </span>ls
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>osd<span class="w"> </span>tree
+<span class="c1"># Replace the failed disk on the host, then:</span>
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>device<span class="w"> </span>ls
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>apply<span class="w"> </span>osd<span class="w"> </span>&lt;host&gt;<span class="w"> </span>--replace<span class="w"> </span>&lt;osd-id&gt;
+</code></pre></div>
+<p>Watch <code>ceph -s</code> until <code>pg_degraded</code> clears and backfill completes.</p>
+<h3 id="mon-loss">MON loss<a class="headerlink" href="#mon-loss" title="Permanent link">&para;</a></h3>
+<p>With 3 MONs, losing 1 keeps quorum; losing 2 does not.</p>
+<div class="highlight"><pre><span></span><code>cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mon<span class="w"> </span>dump
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>mon<span class="w"> </span>remove<span class="w"> </span>&lt;removed-mon-id&gt;
+cephadm<span class="w"> </span>shell<span class="w"> </span>--<span class="w"> </span>ceph<span class="w"> </span>orch<span class="w"> </span>apply<span class="w"> </span>mon<span class="w"> </span>--placement<span class="o">=</span><span class="s2">"3 ceph-mon-1 ceph-mon-2 ceph-mon-3"</span>
+</code></pre></div>
+<h3 id="quorum-loss-all-mons-down">Quorum loss (all MONs down)<a class="headerlink" href="#quorum-loss-all-mons-down" title="Permanent link">&para;</a></h3>
+<p>Requires the monmap and OSD map from backup; see <code>lifecycle/backup/</code>. Back up <code>ceph mon dump</code> and the OSD map alongside the data — without the monmap the cluster is not rebuildable.</p>
+<hr />
+<h2 id="k-what-this-document-intentionally-does-not-cover">K. What this document intentionally does not cover<a class="headerlink" href="#k-what-this-document-intentionally-does-not-cover" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Disk partitioning and layout (per-site, manual).</li>
+<li>Joining hosts to Active Directory/LDAP — intentional per ADR-0015; identity is application-layer only.</li>
+<li>Rebooting after kernel args (operator decides when).</li>
+<li>The in-cluster Rook-Ceph model — that is <code>storage/rook-ceph/rook-ceph.md</code>.</li>
+</ul>
+<p><a href="../../../operating-systems/host-configuration/">Previous step</a> | <a href="../../../kubespray/kubespray-deployment/">Next step</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "search.highlight", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

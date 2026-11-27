@@ -1,0 +1,6289 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Step-by-step deployment and operations guide for on-premises, air-gapped, production-oriented cloud-native infrastructure.">
+      
+      
+      
+        <link rel="canonical" href="https://davoudteimouri.github.io/cloud-native-guide/architecture/two-tier-repository-registry/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
+    
+    
+      
+        <title>Two-Tier Repository & Registry Architecture (TASK 004-P11.2) - Cloud-Native Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#two-tier-repository-registry-architecture-task-004-p112" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Cloud-Native Guide" class="md-header__button md-logo" aria-label="Cloud-Native Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cloud-Native Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Two-Tier Repository &amp; Registry Architecture (TASK 004-P11.2)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/DavoudTeimouri/cloud-native-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DavoudTeimouri/cloud-native-guide
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Cloud-Native Guide" class="md-nav__button md-logo" aria-label="Cloud-Native Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Cloud-Native Guide
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/DavoudTeimouri/cloud-native-guide" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    DavoudTeimouri/cloud-native-guide
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deploy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose OS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/choose-cluster-type/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose Cluster Type
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deploy/other-deployment-methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Other Deployment Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Overview
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-logical-diagram/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logical Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-deployment-topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Topology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-failure-domains/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Failure Domains
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubernetes & Kubespray
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Kubernetes & Kubespray
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubespray/kubespray-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubespray Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubespray/multi-version-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Version Support
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubespray/group-vars-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Group Vars Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/control-plane/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Control Plane
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/networking/cilium/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/ingress/nginx-ingress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ingress
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/security/security-controls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/node-resource-reservation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Node Resource Reservation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/multiple-clusters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multiple Clusters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/windows-workers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows Workers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/access/end-user-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    End-User Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/ingress/multi-controller-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Multi-Controller Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/networking/coredns-forwarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CoreDNS Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/networking/metallb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MetalLB
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kubernetes/networking/calico/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Calico
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rancher & Cluster Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Rancher & Cluster Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/rancher/rancher/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rancher
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/argocd/argocd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Argo CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/keycloak/keycloak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Keycloak
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/platform-services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../management-cluster/alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ceph & Rook-Ceph
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Ceph & Rook-Ceph
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/ceph/cephadm-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cephadm Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/rook-ceph/rook-ceph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rook-Ceph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/alternatives/storage-alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Alternatives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../storage/longhorn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Longhorn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline & Air-Gapped
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Offline & Air-Gapped
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../offline-artifacts/offline-artifact-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offline Artifact Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../offline-artifacts/artifact-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Artifact Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../offline-artifacts/nexus-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nexus Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security & Secrets Management
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Security & Secrets Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/vault/vault-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/vault/hashicorp-vault-decision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault Decision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/pki/root-ca-rotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PKI Root CA Rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/pki/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PKI Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/kubernetes-integration/secret-delivery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Secret Delivery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../secrets-management/recovery/restore/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/host-baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Host Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/kubewarden/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kubewarden
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring & Observability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoring & Observability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitoring/prometheus/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prometheus
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../logging/log-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitoring/victoria-metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Victoria Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup, Disaster Recovery & Continuity
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backup, Disaster Recovery & Continuity
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lifecycle/disaster-recovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disaster Recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lifecycle/backup/backup-and-dr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup and DR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lifecycle/upgrades/upgrade-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrade Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation, Testing & Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Automation, Testing & Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/ansible/ansible-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ansible Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/gitlab-ci/gitlab-ansible-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GitLab CI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/gitlab-ci/pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../automation/awx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWX
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/requirements-and-assumptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/acceptance-criteria/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/component-guide-backlog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Guide Backlog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/component-guide-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Guide Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/performance-and-capacity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance and Capacity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/platform-standards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Standards
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/validation-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Strategy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/technology-selection-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technology Selection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/implementation-roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/etcd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    etcd
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/ceph/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ceph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/cni/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CNI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/csi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/vault/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vault
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/argocd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Argo CD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/registry-auth/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registry Auth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/gpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU & AI
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GPU & AI
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/gpu-ai-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU AI Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/drivers/compatibility-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Driver Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/sharing/mig-and-time-slicing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MIG & Time-Slicing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/gpu-workers/gpu-worker-operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GPU Worker Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/scheduling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/inference/llm-serving/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM Serving
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gpu-ai/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Identity
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Identity
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../identity/directory-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Directory Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version & Compatibility
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Version & Compatibility
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compatibility/version-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Version Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisions (ADR)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Decisions (ADR)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0001-oracle-linux-and-ubuntu-server-standardization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0002-kubernetes-control-plane-topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0002
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0003-etcd-placement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0003
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0004-load-balancing-for-control-plane-and-ingress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0004
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0005-container-runtime/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0005
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0006-cni-selection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0006
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0007-ingress-controller-and-gateway-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0007
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0008-ceph-deployment-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0008
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0009-service-mesh-adoption/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0009
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0010-management-cluster-design-and-what-runs-inside-it/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0010
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0011-rancher-versus-alternatives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0011
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0012-ansible-gui-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0012
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0013-gitlab-runner-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0013
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0014-gitops-strategy-and-division-of-labour-with-ansible/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0014
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0015-identity-integration-layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0015
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0016-vault-deployment-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0016
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0017-pki-and-certificate-ownership/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0017
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0018-monitoring-platform-and-long-term-metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0018
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0019-centralized-logging-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0019
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0020-security-policy-engine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0020
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0021-gpu-worker-architecture-and-isolation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0021
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0022-gpu-sharing-strategy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0022
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0023-llm-inference-platform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0023
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0024-offline-repository-and-registry-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0024
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0025-vault-recovery-and-avoidance-of-circular-dependencies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0025
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0026-kubespray-multi-version-support/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0027-ingress-controller-portfolio-and-deprecation-policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0027
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0028-external-load-balancer-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0028
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0029-cephadm-dedicated-storage-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0029
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0030-no-service-mesh-initially/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0030
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/ADR-0031-identity-integration-with-ldap-ad-federation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR-0031
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Matrix
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Network Matrix
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/network-communication-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Communication Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/firewall-rules-generation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Firewall Rules Generation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/external-load-balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Load Balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/port-requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Port Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-matrix/cloud-native-dmz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cloud-Native DMZ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operating Systems
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operating Systems
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/os-selection-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose OS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/host-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Host Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/oracle-linux/baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oracle Linux Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operating-systems/ubuntu/baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ubuntu Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service Mesh
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Service Mesh
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../service-mesh/evaluation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Evaluation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../service-mesh/istio/istio-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Istio Deployment
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+        
+          
+          <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Addons
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_20">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Addons
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../addons/platform-addons/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Addons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" >
+        
+          
+          <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tests & Acceptance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_21">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tests & Acceptance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/acceptance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+        
+          
+          <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing & Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_22">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contributing & Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PLAN-future/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../USER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MEMORY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-layer-1-external-upstream-controlled-internet-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Layer 1 — External Upstream (Controlled Internet Access)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Layer 1 — External Upstream (Controlled Internet Access)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-connectivity-firewall-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Connectivity &amp; Firewall Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-trust-boundaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Trust Boundaries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-sync-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Sync Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-checksum-and-signature-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Checksum and Signature Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-sync-failure-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6 Sync Failure Handling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-layer-2-internal-repositoryregistry-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Layer 2 — Internal Repository/Registry Manager
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Layer 2 — Internal Repository/Registry Manager">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-proxy-cached-repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Proxy / Cached Repositories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-hosted-repositories-registries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Hosted Repositories / Registries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-layer-2-summary-proxy-vs-hosted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Layer 2 Summary: Proxy vs Hosted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-stable-service-endpoint-layer-reverse-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Stable Service Endpoint Layer (Reverse Proxy)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Stable Service Endpoint Layer (Reverse Proxy)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-core-properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Core Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-backend-migration-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Backend Migration Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-product-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Product Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-controlled-upstream-sync-supply-chain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Controlled Upstream Sync &amp; Supply Chain
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Controlled Upstream Sync &amp; Supply Chain">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-approved-upstream-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Approved Upstream Sources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-sync-cache-on-external-upstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Sync / Cache on External Upstream
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-transfer-to-internal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Transfer to Internal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-publish-into-internal-repositoryregistry-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Publish into Internal Repository/Registry Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-artifact-allowlists-version-pinning-and-immutable-ref" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Artifact Allowlists, Version Pinning, and Immutable Ref
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-sync-failure-handling-retry-and-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Sync Failure Handling, Retry, and Recovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-promotion-between-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Promotion Between Environments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-trust-boundary-section" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Trust Boundary Section
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-secrets-management-ci-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Secrets Management &amp; CI Authentication
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-external-upstream-redundancy-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. External Upstream Redundancy &amp; Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-what-this-document-does-not-cover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. What This Document Does NOT Cover
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="two-tier-repository-registry-architecture-task-004-p112">Two-Tier Repository &amp; Registry Architecture (TASK 004-P11.2)<a class="headerlink" href="#two-tier-repository-registry-architecture-task-004-p112" title="Permanent link">&para;</a></h1>
+<h2 id="1-overview">1. Overview<a class="headerlink" href="#1-overview" title="Permanent link">&para;</a></h2>
+<p>This document defines a two-layer repository and registry architecture for restricted and offline environments. The architecture separates <strong>External Upstream</strong> (controlled Internet access) from <strong>Internal Repository/Registry Manager</strong> (internal distribution), with a stable service endpoint layer that provides consistent DNS-addressable endpoints regardless of backend changes.</p>
+<p>The design explicitly does <strong>not</strong> claim full air-gap readiness. It assumes a connected staging path for artifact acquisition and synchronization, with controlled, audited transfer into the offline environment.</p>
+<hr />
+<h2 id="2-layer-1-external-upstream-controlled-internet-access">2. Layer 1 — External Upstream (Controlled Internet Access)<a class="headerlink" href="#2-layer-1-external-upstream-controlled-internet-access" title="Permanent link">&para;</a></h2>
+<h3 id="21-responsibilities">2.1 Responsibilities<a class="headerlink" href="#21-responsibilities" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Connect to public OS package repositories and public container registries on behalf of the internal environment.</li>
+<li>Retrieve <strong>approved</strong> artifacts only, as defined by an allowlist.</li>
+<li>Cache/sync packages and images from approved upstream sources.</li>
+<li>Apply controlled sync policies (scheduled, on-demand, or pull-based).</li>
+<li>Verify checksums and signatures where supported by the upstream source.</li>
+<li>Maintain sync logs and audit events for every sync operation.</li>
+<li><strong>Prevent internal nodes from direct public Internet access</strong>; all egress must flow through the External Upstream layer.</li>
+</ul>
+<h3 id="22-connectivity-firewall-rules">2.2 Connectivity &amp; Firewall Rules<a class="headerlink" href="#22-connectivity-firewall-rules" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Source</th>
+<th>Destination</th>
+<th>Ports</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Outbound</td>
+<td>External Upstream host</td>
+<td>Public package repos (yum, apt, PyPI, npm)</td>
+<td>80, 443</td>
+<td>Retrieve packages</td>
+</tr>
+<tr>
+<td>Outbound</td>
+<td>External Upstream host</td>
+<td>Public container registries (docker.io, ghcr.io, quay.io, registry.k8s.io)</td>
+<td>443</td>
+<td>Pull container images</td>
+</tr>
+<tr>
+<td>Outbound</td>
+<td>Internal clients</td>
+<td>External Upstream (restricted)</td>
+<td>80, 443</td>
+<td>Indirect access via proxy</td>
+</tr>
+<tr>
+<td>Inbound</td>
+<td>Public Internet</td>
+<td>External Upstream</td>
+<td>80, 443</td>
+<td>Artifact sources</td>
+</tr>
+<tr>
+<td>Deny</td>
+<td>Internal nodes</td>
+<td>Public Internet</td>
+<td>All</td>
+<td>Egress prevention</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-trust-boundaries">2.3 Trust Boundaries<a class="headerlink" href="#23-trust-boundaries" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>External Upstream</strong> sits in a DMZ or hardened subnet with egress limited to approved URLs/IP ranges.</li>
+<li><strong>Internal nodes</strong> (worker nodes, CI runners, automation hosts) have <strong>no outbound Internet access</strong>. All artifact retrieval must go through the Internal Repository/Registry Manager.</li>
+<li>Sync is performed only by the External Upstream host, which is the sole permitted connector to public registries.</li>
+</ul>
+<h3 id="24-sync-flow">2.4 Sync Flow<a class="headerlink" href="#24-sync-flow" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Upstream sync initiation</strong> (scheduled or on-demand) from the External Upstream host.</li>
+<li><strong>Fetch</strong> approved artifacts from public registries/repositories.</li>
+<li><strong>Verify</strong> checksums (SHA-256, GPG/RPM signatures, deb checksums) where available.</li>
+<li><strong>Verify</strong> signatures (cosign, notary, Docker Content Trust) where upstream provides them.</li>
+<li><strong>Store</strong> verified artifacts in the External Upstream's local cache.</li>
+<li><strong>Publish</strong> approved artifacts to the Internal Repository/Registry Manager over the internal network.</li>
+<li><strong>Record</strong> sync status, checksums, signatures, and audit events in a durable log.</li>
+</ol>
+<h3 id="25-checksum-and-signature-verification">2.5 Checksum and Signature Verification<a class="headerlink" href="#25-checksum-and-signature-verification" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Native</th>
+<th>Needs additional component</th>
+<th>Needs commercial edition</th>
+<th>Unverified</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SHA-256 checksum verification</td>
+<td>✓ (all package managers)</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>GPG/RPM signature verification</td>
+<td>✓ (yum/dnf)</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Debian .dsc/.changes signature</td>
+<td>✓ (apt)</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>cosign signature verification</td>
+<td>✓ (OCI images)</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Notary/Signix image signing</td>
+<td>—</td>
+<td>✓</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>SBOM/provenance verification</td>
+<td>—</td>
+<td>✓</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="26-sync-failure-handling">2.6 Sync Failure Handling<a class="headerlink" href="#26-sync-failure-handling" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Sync failures are logged with error details and upstream HTTP status code.</li>
+<li>Retry policy: exponential backoff, maximum 5 attempts, then alert.</li>
+<li>On permanent failure, the sync is marked <strong>FAILED</strong> in the audit log and the artifact is flagged <strong>PENDING</strong> in the internal matrix.</li>
+<li>Recovery: manual re-trigger or investigate upstream availability.</li>
+</ul>
+<hr />
+<h2 id="3-layer-2-internal-repositoryregistry-manager">3. Layer 2 — Internal Repository/Registry Manager<a class="headerlink" href="#3-layer-2-internal-repositoryregistry-manager" title="Permanent link">&para;</a></h2>
+<p>Layer 2 consists of two logical sub-layer types: <strong>Proxy/Cached</strong> and <strong>Hosted</strong>. They serve different use cases and are not interchangeable.</p>
+<h3 id="31-proxy-cached-repositories">3.1 Proxy / Cached Repositories<a class="headerlink" href="#31-proxy-cached-repositories" title="Permanent link">&para;</a></h3>
+<p><strong>Use case</strong>: Proxy approved public repositories/registries so that internal clients never touch the public upstream.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Cache mirrors of approved public repos/registries at predictable internal endpoints.</td>
+</tr>
+<tr>
+<td><strong>Upstream connection</strong></td>
+<td>Outbound only from the proxy component; internal clients are <strong>prohibited</strong> from reaching public upstream directly.</td>
+</tr>
+<tr>
+<td><strong>Artifact flow</strong></td>
+<td>Public upstream → External Upstream proxy → Internal cached repo → Internal clients.</td>
+</tr>
+<tr>
+<td><strong>OCI registry access</strong></td>
+<td>Harbor proxy-cache from upstream (connected staging only).</td>
+</tr>
+<tr>
+<td><strong>Package formats</strong></td>
+<td>Nexus proxies for rpm/deb/pypi/npm/helm/raw.</td>
+</tr>
+<tr>
+<td><strong>Predictable endpoints</strong></td>
+<td><code>/repository/rpm-oraclelinux/</code>, <code>/repository/deb-ubuntu/</code>, <code>/repository/pypi/</code>, etc.</td>
+</tr>
+<tr>
+<td><strong>Authz propagation</strong></td>
+<td>Authz headers from upstream are not forwarded; internal auth is managed locally.</td>
+</tr>
+<tr>
+<td><strong>Checksum behavior</strong></td>
+<td>Proxy preserves upstream metadata checksums; Nexus re-generates repomd for RPM/DEB.</td>
+</tr>
+<tr>
+<td><strong>Large image uploads/downloads</strong></td>
+<td>Not applicable — proxy is read-only from the client perspective.</td>
+</tr>
+<tr>
+<td><strong>Timeouts / body-size limits</strong></td>
+<td>Configured per-proxy; Nexus defaults apply, adjustable per repository.</td>
+</tr>
+<tr>
+<td><strong>Health checks / backend failover</strong></td>
+<td>Proxy component reports health; failover to secondary proxy node.</td>
+</tr>
+<tr>
+<td><strong>HA / load balancing</strong></td>
+<td>DNS round-robin or LB VIP pointing to proxy pair; each node caches independently.</td>
+</tr>
+<tr>
+<td><strong>Logging / metrics / alerting</strong></td>
+<td>Sync events, cache hit/miss, error rates.</td>
+</tr>
+<tr>
+<td><strong>Backup / recovery</strong></td>
+<td>Repository metadata backed up; artifact blobs stored in attached storage.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Proxy vs Hosted distinction</strong>: Use <strong>Proxy</strong> when the goal is to mirror an approved public source. Use <strong>Hosted</strong> when the goal is to allow internal teams to publish and consume their own artifacts.</p>
+<h3 id="32-hosted-repositories-registries">3.2 Hosted Repositories / Registries<a class="headerlink" href="#32-hosted-repositories-registries" title="Permanent link">&para;</a></h3>
+<p><strong>Use case</strong>: Internal teams publish and consume their own artifacts, separated by team/project/namespace.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Internal teams publish/consume own artifacts; separation by teams/projects/namespaces.</td>
+</tr>
+<tr>
+<td><strong>RBAC / service-accounts</strong></td>
+<td>Per-namespace or per-project roles: read, write, delete, admin. Service-accounts for CI pipelines.</td>
+</tr>
+<tr>
+<td><strong>Quotas</strong></td>
+<td>Storage quota per project/namespace (e.g., max GB per team).</td>
+</tr>
+<tr>
+<td><strong>Retention / cleanup</strong></td>
+<td>Configurable retention policies: keep N versions, keep versions older than X days, or immutability tags.</td>
+</tr>
+<tr>
+<td><strong>Audit logging</strong></td>
+<td>Every read, write, and delete operation logged with user/service-account, artifact, and timestamp.</td>
+</tr>
+<tr>
+<td><strong>Backup / restore</strong></td>
+<td>Daily snapshots of registry database + artifact blobs; point-in-time restore tested quarterly.</td>
+</tr>
+<tr>
+<td><strong>HA / failure recovery</strong></td>
+<td>Active-passive or active-active cluster; VIP failover; state replication for Nexus; Harbor replication support.</td>
+</tr>
+<tr>
+<td><strong>Image lifecycle / artifact ownership</strong></td>
+<td>Ownership tracked per project; lifecycle policies auto-delete unused artifacts after grace period.</td>
+</tr>
+<tr>
+<td><strong>OCI compatibility</strong></td>
+<td>Full OCI API support: push, pull, delete, tag, manifest, blob listing.</td>
+</tr>
+<tr>
+<td><strong>Large image uploads/downloads</strong></td>
+<td>Supported with configurable chunked upload and body-size limits (Harbor: up to 10GB per blob).</td>
+</tr>
+<tr>
+<td><strong>OCI Registry API compatibility</strong></td>
+<td>Native — Harbor implements the full OCI Registry API (v2).</td>
+</tr>
+<tr>
+<td><strong>Package metadata / checksum behavior</strong></td>
+<td>Nexus generates repomd, group metadata, and checksum files for rpm/deb/pypi/npm.</td>
+</tr>
+<tr>
+<td><strong>Timeouts / body-size limits</strong></td>
+<td>Nexus: adjustable per repository; Harbor: chunked upload for large OCI blobs.</td>
+</tr>
+<tr>
+<td><strong>Health checks / backend failover</strong></td>
+<td>Harbor: <code>/health</code> and <code>/api/v2.0/health</code> endpoints; Nexus: JMX/REST status.</td>
+</tr>
+<tr>
+<td><strong>Logging / metrics / alerting</strong></td>
+<td>Structured logs, Prometheus metrics, alert rules for quota exhaustion, failed auth.</td>
+</tr>
+<tr>
+<td><strong>Backup / recovery</strong></td>
+<td>Harbor: offline export/import, database snapshot; Nexus: blobstore backup, configuration export.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-layer-2-summary-proxy-vs-hosted">3.3 Layer 2 Summary: Proxy vs Hosted<a class="headerlink" href="#33-layer-2-summary-proxy-vs-hosted" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Decision factor</th>
+<th>Proxy / Cached</th>
+<th>Hosted / Registry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who owns the artifact</td>
+<td>Approved public upstream</td>
+<td>Internal team/project</td>
+</tr>
+<tr>
+<td>Direction of flow</td>
+<td>Inward (public → internal)</td>
+<td>Bidirectional (team → internal, internal → team)</td>
+</tr>
+<tr>
+<td>Authz model</td>
+<td>Read-only from internal; authz managed upstream</td>
+<td>Per-project/namespace RBAC</td>
+</tr>
+<tr>
+<td>Quotas</td>
+<td>Not typically enforced</td>
+<td>Enforced per project/namespace</td>
+</tr>
+<tr>
+<td>Retention</td>
+<td>Mirror of upstream policy</td>
+<td>Configurable lifecycle policies</td>
+</tr>
+<tr>
+<td>API compatibility</td>
+<td>Partial — metadata proxying</td>
+<td>Full OCI Registry API (Harvest) or package-manager native (Nexus)</td>
+</tr>
+<tr>
+<td>Client access pattern</td>
+<td><code>internal.repo/pkg</code> (never touches upstream)</td>
+<td><code>internal.registry/team/project</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-stable-service-endpoint-layer-reverse-proxy">4. Stable Service Endpoint Layer (Reverse Proxy)<a class="headerlink" href="#4-stable-service-endpoint-layer-reverse-proxy" title="Permanent link">&para;</a></h2>
+<p>A reverse proxy (HAProxy or Nginx) provides a <strong>stable service endpoint layer</strong> in front of the actual backend repository/registry nodes. All internal consumers use stable DNS names, not backend hostnames.</p>
+<h3 id="41-core-properties">4.1 Core Properties<a class="headerlink" href="#41-core-properties" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stable DNS names</strong></td>
+<td><code>nexus.internal</code>, <code>harbor.internal</code>, <code>harbor.internal/oci/</code>, <code>harbor.internal/charts/</code>, <code>harbor.internal/platform/</code>, etc. DNS CNAME records point to the LB VIP; backend IPs may change without client impact.</td>
+</tr>
+<tr>
+<td><strong>TLS termination / passthrough</strong></td>
+<td>TLS termination at the reverse proxy; certs managed by internal CA. Passthrough mode available for end-to-end TLS to the backend if required.</td>
+</tr>
+<tr>
+<td><strong>Cert trust / renewal</strong></td>
+<td>Internal CA signs proxy certs; renewal automated via short-lived certs (e.g., Cert-Manager with internal CA). Client trust stores trust the internal CA.</td>
+</tr>
+<tr>
+<td><strong>Authz propagation</strong></td>
+<td>Authz headers (e.g., X-Forwarded-Auth, correlation IDs) are preserved and forwarded to the backend.</td>
+</tr>
+<tr>
+<td><strong>Path preservation / rewrite</strong></td>
+<td>Paths are preserved through the proxy (e.g., <code>/repository/rpm-oraclelinux/...</code>). Reverse proxy rewrite rules map stable paths to backend node paths.</td>
+</tr>
+<tr>
+<td><strong>HTTP methods / headers / streaming</strong></td>
+<td>Full HTTP method support; custom headers forwarded; streaming support for large OCI blobs.</td>
+</tr>
+<tr>
+<td><strong>OCI Registry API compatibility</strong></td>
+<td>Proxy preserves OCI API paths (manifests, blobs, tags, v2/status). Large image uploads/downloads work through the proxy with appropriate body-size limits.</td>
+</tr>
+<tr>
+<td><strong>Package metadata / checksum behavior</strong></td>
+<td>Proxy preserves <code>repomd.xml</code>, <code>content.json</code>, <code>metadata.json</code>, and checksum files.</td>
+</tr>
+<tr>
+<td><strong>Timeouts / body-size limits</strong></td>
+<td>Configurable at the proxy layer; defaults: 30s connect, 300s read, 100MB max body (adjustable).</td>
+</tr>
+<tr>
+<td><strong>Health checks / backend failover</strong></td>
+<td>Proxy checks <code>/health</code> or <code>/service/rest/v1/status</code> on each backend; failed backends are removed from rotation immediately.</td>
+</tr>
+<tr>
+<td><strong>HA / load balancing</strong></td>
+<td>HAProxy/Nginx pair in VRRP/keepalived configuration; LVS or cloud LB VIP; round-robin or least-connections scheduling.</td>
+</tr>
+<tr>
+<td><strong>Logging / metrics / alerting</strong></td>
+<td>Proxy access logs, response time metrics, error rates; alert on 5xx rate &gt; 1% or sustained latency &gt; 2s.</td>
+</tr>
+<tr>
+<td><strong>Backup / recovery</strong></td>
+<td>Proxy config is declarative (HAProxy cfg, Nginx conf); recovery re-proxy from backed-up config + current backend state.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-backend-migration-contract">4.2 Backend Migration Contract<a class="headerlink" href="#42-backend-migration-contract" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Requirement</strong>: Backend migration must not require mass client changes if the endpoint contract is preserved.</li>
+<li><strong>Contract elements</strong>: DNS name, TLS, API surface (HTTP methods, paths, response codes), authz mechanism.</li>
+<li><strong>Migration path</strong>: Add new backend nodes, update DNS CNAME, drain old nodes. Clients continue using the same stable DNS name.</li>
+<li><strong>Verification</strong>: End-to-end pull/install test from a clean client using the stable endpoint after migration.</li>
+</ul>
+<hr />
+<h2 id="5-product-responsibilities">5. Product Responsibilities<a class="headerlink" href="#5-product-responsibilities" title="Permanent link">&para;</a></h2>
+<p>The following table maps capabilities to products. <strong>"Native"</strong> means the product supports it out of the box. <strong>"Needs additional component"</strong> means a plug-in, extension, or secondary product is required. <strong>"Needs commercial edition"</strong> means the feature is restricted to the commercial/paid version. <strong>"Unverified"</strong> means the capability has not been validated in this architecture.</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Nexus Repository</th>
+<th>Harbor</th>
+<th>Reverse Proxy (HAProxy/Nginx)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OS package repo management</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>rpm/deb proxy/cache</td>
+<td>Native</td>
+<td>—</td>
+<td>Native (preserves metadata)</td>
+</tr>
+<tr>
+<td>rpm/deb hosted/published</td>
+<td>Native</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Language/package repos</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PyPI proxy/cache</td>
+<td>Native</td>
+<td>—</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>PyPI hosted/published</td>
+<td>Native</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>npm proxy/cache</td>
+<td>Native</td>
+<td>—</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>npm hosted/published</td>
+<td>Native</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>pypi/npm hosted/published</td>
+<td>Native</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Go modules proxy/cache</td>
+<td>Native</td>
+<td>—</td>
+<td>Native</td>
+</tr>
+<tr>
+<td><strong>OCI image proxy/cache</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>OCI proxy/cache</td>
+<td>—</td>
+<td>Native (Harbor proxy)</td>
+<td>Native (path preservation)</td>
+</tr>
+<tr>
+<td>OCI hosted/published</td>
+<td>—</td>
+<td>Native</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Internal hosted OCI publishing</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Team/project namespace isolation</td>
+<td>—</td>
+<td>Native (Harbor projects/teams)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>RBAC / service-accounts</td>
+<td>—</td>
+<td>Native</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Quotas</td>
+<td>—</td>
+<td>Needs commercial edition (Harbor Enterprise)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Retention / cleanup</td>
+<td>—</td>
+<td>Native (lifecycle policies)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Audit logging</td>
+<td>—</td>
+<td>Native</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Backup / restore</td>
+<td>—</td>
+<td>Native (export/import)</td>
+<td>Config files</td>
+</tr>
+<tr>
+<td>HA / failure recovery</td>
+<td>—</td>
+<td>Native (replication)</td>
+<td>Native (VRRP/keepalived)</td>
+</tr>
+<tr>
+<td>Image scanning / signing</td>
+<td>—</td>
+<td>Native (Trivy, Notary)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Image lifecycle / artifact ownership</td>
+<td>—</td>
+<td>Native</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Stable endpoint / traffic management</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Stable DNS names</td>
+<td>—</td>
+<td>—</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>TLS termination / passthrough</td>
+<td>—</td>
+<td>—</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Cert trust / renewal</td>
+<td>—</td>
+<td>—</td>
+<td>Native (internal CA)</td>
+</tr>
+<tr>
+<td>Authz propagation</td>
+<td>—</td>
+<td>—</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Path preservation / rewrite</td>
+<td>—</td>
+<td>—</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>HTTP methods / headers / streaming</td>
+<td>—</td>
+<td>—</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>OCI Registry API compatibility</td>
+<td>Partial (via proxy)</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Large image uploads/downloads</td>
+<td>—</td>
+<td>Native</td>
+<td>Native (with body-size limits)</td>
+</tr>
+<tr>
+<td>Package metadata / checksum behavior</td>
+<td>Native</td>
+<td>Partial (via proxy)</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Timeouts / body-size limits</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Health checks / backend failover</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>HA / load balancing</td>
+<td>Native (cluster)</td>
+<td>Native (replication)</td>
+<td>Native (VRRP/keepalived)</td>
+</tr>
+<tr>
+<td>Logging / metrics / alerting</td>
+<td>Native</td>
+<td>Native</td>
+<td>Native</td>
+</tr>
+<tr>
+<td>Backup / recovery</td>
+<td>Native</td>
+<td>Native</td>
+<td>Config files</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes on product assignments</strong>:
+- <strong>Nexus Repository</strong>: Native capability for OS package management (rpm, deb, pypi, npm, go), language/package repos, and raw artifact storage. Proxy mode for public repos. Hosted mode for internal team packages. Checksum and metadata generation is native.
+- <strong>Harbor</strong>: Native capability for OCI image proxy/cache, internal hosted OCI publishing, team/project namespace isolation, RBAC, image scanning, signing, lifecycle/artifact ownership, large image uploads/downloads, OCI Registry API compatibility, HA/replication, logging/metrics/alerting, backup/restore. Quotas require Harbor Enterprise edition.
+- <strong>Reverse Proxy (HAProxy/Nginx)</strong>: Native capability for stable service endpoint layer — TLS termination, cert trust/renewal, authz propagation, path preservation/rewrite, HTTP methods/headers/streaming, OCI Registry API compatibility, large image uploads/downloads, package metadata/checksum behavior, timeouts/body-size limits, health checks/backend failover, HA/load balancing, logging/metrics/alerting. Backup is config-file based.</p>
+<hr />
+<h2 id="6-controlled-upstream-sync-supply-chain">6. Controlled Upstream Sync &amp; Supply Chain<a class="headerlink" href="#6-controlled-upstream-sync-supply-chain" title="Permanent link">&para;</a></h2>
+<h3 id="61-approved-upstream-sources">6.1 Approved Upstream Sources<a class="headerlink" href="#61-approved-upstream-sources" title="Permanent link">&para;</a></h3>
+<ul>
+<li>All upstream sources are defined in an <strong>allowlist</strong> managed by the Platform Team.</li>
+<li>Upstream sources are verified for integrity before artifacts are accepted.</li>
+<li>No arbitrary Internet fetch from internal nodes; all fetches go through the External Upstream host.</li>
+</ul>
+<h3 id="62-sync-cache-on-external-upstream">6.2 Sync / Cache on External Upstream<a class="headerlink" href="#62-sync-cache-on-external-upstream" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>External Upstream host</strong> initiates sync from approved upstream sources (public registries, package repos).</li>
+<li><strong>Artifacts are cached</strong> in the External Upstream's local repository/registry.</li>
+<li><strong>Checksum verification</strong>: SHA-256 checksums are validated for every artifact. For RPM, GPG signature verification is performed. For DEB, <code>.dsc</code> and <code>.changes</code> signature verification. For OCI images, digest verification (<code>sha256:</code> in manifest).</li>
+<li><strong>Signature verification</strong>: where upstream provides signatures (cosign for OCI, GPG for RPM, apt-key for DEB), these are validated. <strong>Integrity</strong> (checksum) confirms the file has not been altered; <strong>authenticity</strong> (signature) confirms the source.</li>
+<li><strong>Trust management</strong>: integrity is verified by checksum; authenticity is verified by signature. If only a checksum is available, integrity is confirmed but authenticity is unverified and the artifact is marked <strong>AUTHENTICITY_UNVERIFIED</strong> in the audit log.</li>
+</ol>
+<h3 id="63-transfer-to-internal">6.3 Transfer to Internal<a class="headerlink" href="#63-transfer-to-internal" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Approved artifacts are transferred from External Upstream to the Internal Repository/Registry Manager over the <strong>internal network only</strong> (no public Internet path).</li>
+<li>Transfer methods: <code>skopeo copy</code> for OCI images, <code>curl --upload-file</code> for Nexus packages, <code>helm push</code> for charts.</li>
+<li>Artifact allowlists are enforced at the transfer step — only allowlisted versions/names are transferred.</li>
+</ul>
+<h3 id="64-publish-into-internal-repositoryregistry-manager">6.4 Publish into Internal Repository/Registry Manager<a class="headerlink" href="#64-publish-into-internal-repositoryregistry-manager" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Transferred artifacts are published into the appropriate internal repository/registry (Proxy cached or Hosted).</li>
+<li><strong>Validate internal availability+metadata</strong>: pull test from a client node; verify metadata is readable (<code>repomd.xml</code> for RPM/DEP, <code>index.json</code> for PyPI, OCI manifest for images).</li>
+<li><strong>Record sync status + audit events</strong>: every sync operation records:</li>
+<li>Artifact name + version</li>
+<li>Upstream source URL</li>
+<li>SHA-256 checksum</li>
+<li>Signature status (verified/unverified/trust root)</li>
+<li>Sync timestamp</li>
+<li>Sync result (SUCCESS/FAILED/SKIPPED)</li>
+<li>Target repository/registry path</li>
+</ul>
+<h3 id="65-artifact-allowlists-version-pinning-and-immutable-ref">6.5 Artifact Allowlists, Version Pinning, and Immutable Ref<a class="headerlink" href="#65-artifact-allowlists-version-pinning-and-immutable-ref" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Allowlist</strong></td>
+<td>Explicit list of allowed artifact names, patterns, and versions. Maintained in the artifact matrix.</td>
+</tr>
+<tr>
+<td><strong>Version pinning</strong></td>
+<td>Artifacts are referenced by exact version (e.g., <code>python:3.11-slim</code>, <code>nginx:1.28.0</code>, <code>harbor.internal/oci/app:1.2.3</code>). No <code>latest</code> tags allowed in production.</td>
+</tr>
+<tr>
+<td><strong>Immutable refs</strong></td>
+<td>Docker/OCI digests are immutable; once published, an image/digest cannot be overwritten. Nexus repo versions are immutable once released.</td>
+</tr>
+<tr>
+<td><strong>Digest-based OCI references</strong></td>
+<td><code>harbor.internal/oci/owner-repo@sha256:&lt;digest&gt;</code> — the digest is the authoritative reference, not the tag.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="66-sync-failure-handling-retry-and-recovery">6.6 Sync Failure Handling, Retry, and Recovery<a class="headerlink" href="#66-sync-failure-handling-retry-and-recovery" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Sync failure</strong>: any non-2xx response from upstream, checksum mismatch, or signature failure.</li>
+<li><strong>Retry policy</strong>: exponential backoff, max 5 attempts, 30s minimum interval. Failures are logged per-attempt.</li>
+<li><strong>Recovery</strong>: manual re-trigger from the External Upstream host, or automatic re-sync on the next scheduled window. If the upstream is unavailable for an extended period, the artifact remains <strong>PENDING</strong> in the matrix and is flagged for manual review.</li>
+</ul>
+<h3 id="67-promotion-between-environments">6.7 Promotion Between Environments<a class="headerlink" href="#67-promotion-between-environments" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Artifacts flow: <strong>Upstream → External Upstream → Internal Repository/Registry → Client</strong>.</li>
+<li>Promotion between environments (e.g., staging → production) is done by <strong>re-publishing</strong> the artifact to the target repository/registry; the artifact is never "promoted" in-place to avoid unintended side effects.</li>
+<li>Each environment has its own repository/registry path; a production artifact is a separate entity from a staging artifact, even if they share the same name/version.</li>
+</ul>
+<hr />
+<h2 id="7-trust-boundary-section">7. Trust Boundary Section<a class="headerlink" href="#7-trust-boundary-section" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>+----------------------+          +----------------------+          +----------------------+
+|  Public Internet     |          |   External Upstream  |          |   Internal Network   |
+|  (untrusted)         |          |  (controlled egress) |          |  (trusted, offline)  |
++----------+-----------+          +----------+-----------+          +----------+-----------+
+           |                                  |                                  |
+           |  egress ONLY through approved    |  all artifact flow through      |
+           |  URL/IP ranges only              |  Internal Repository/Registry   |
+           v                                  v                                  v
++----------------------+          +----------------------+          +----------------------+
+|  Public Registries   |          |  Public Repos        |          |  Nexus Repository    |
+|  (docker.io, ghcr.io|          |  (yum, apt, PyPI,   |          |  (rpm/deb/pypi/npm)  |
+|   quay.io, etc.)    |          |    npm, go)          |          |  Hosted + Proxy      |
++----------------------+          +----------------------+          +----------+-----------+
+                                                  |              |
+                                                  |              +---------&gt;|  Harbor            |
+                                                  +--------------&gt;|  (OCI images)      |
+                                                               +----------+-----------+
+                                                                  Proxy + Hosted     |
+                                                                       +----+------+
+                                                                        |    |
+                                                                        v    v
+                                                                   Stable Service   Endpoint Layer
+                                                                     (Reverse Proxy)
+                                                                     HAProxy / Nginx
+                                                                     stable DNS,
+                                                                     TLS, authz,
+                                                                     path preservation,
+                                                                     load balancing,
+                                                                     health checks,
+                                                                     metrics/alerting
+</code></pre></div>
+<p><strong>Trust boundary summary</strong>:
+- <strong>Public Internet</strong> → untrusted; egress is filtered and monitored.
+- <strong>External Upstream</strong> → trusted only for approved artifact retrieval; all outbound Internet access is from this host only.
+- <strong>Internal Network</strong> → partially trusted (micro-segmented); no node has direct public Internet access; workloads and services must authenticate/authorize each service call even within the internal network; repository/registry backends enforce RBAC regardless of caller network location.
+- <strong>Stable Service Endpoint Layer</strong> → authenticates and authorizes traffic between internal consumers and repository/registry backends; TLS ensures confidentiality; authz propagation enforces policies; backend migration is transparent if the endpoint contract is preserved.</p>
+<hr />
+<h2 id="9-secrets-management-ci-authentication">9. Secrets Management &amp; CI Authentication<a class="headerlink" href="#9-secrets-management-ci-authentication" title="Permanent link">&para;</a></h2>
+<p>No repository/registry credential is stored in source-controlled plaintext. All internal consumers authenticate using short-lived tokens or OIDC federation.</p>
+<table>
+<thead>
+<tr>
+<th>Credential type</th>
+<th>Storage</th>
+<th>Rotation</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Harbor robot account token</td>
+<td>Secrets Manager / Vault</td>
+<td>Every 90 days or on compromise</td>
+<td>Short-lived; scoped to specific project</td>
+</tr>
+<tr>
+<td>Nexus repository auth token</td>
+<td>Secrets Manager / Vault</td>
+<td>Every 90 days or on compromise</td>
+<td>Scoped to specific repo</td>
+</tr>
+<tr>
+<td>Internal CA private key</td>
+<td>Offline (Vault PKI root); intermediate online</td>
+<td>Per CA policy</td>
+<td>Root kept offline</td>
+</tr>
+<tr>
+<td>CI pipeline push/pull credential</td>
+<td>OIDC federation (GitHub Actions / GitLab CI OIDC)</td>
+<td>Per-job ephemeral</td>
+<td>No long-lived keys stored</td>
+</tr>
+<tr>
+<td>Reverse proxy TLS leaf cert</td>
+<td>Cert-manager with internal CA</td>
+<td>Auto-renewed (short-lived, e.g. 7–30 days)</td>
+<td>Revocation via CRL/OCSP or automatic re-issue</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules</strong>:
+- Never store Harbor/Nexus credentials, auth tokens, or admin passwords in Git, images, or logs.
+- CI pipelines push/pull via OIDC-federated service accounts (e.g., GitHub Actions <code>id-token: write</code> → Harbor/Nexus robot account mapped by OIDC claim).
+- Human operators use short-lived service-account tokens; shared admin passwords are prohibited.
+- External Upstream host holds its own registry credentials for upstream pulls; these are never shared with internal clients.</p>
+<h2 id="10-external-upstream-redundancy-monitoring">10. External Upstream Redundancy &amp; Monitoring<a class="headerlink" href="#10-external-upstream-redundancy-monitoring" title="Permanent link">&para;</a></h2>
+<p><strong>Risk</strong>: External Upstream is the single egress point to public registries. If compromised or unavailable, artifact acquisition halts.</p>
+<table>
+<thead>
+<tr>
+<th>Mitigation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Redundant egress hosts</td>
+<td>Minimum two External Upstream hosts in different failure zones; sync logs replicated between them.</td>
+</tr>
+<tr>
+<td>Monitoring</td>
+<td>Alert on sync failure rate &gt; 1% or sustained latency &gt; 2s; alert if External Upstream loses outbound connectivity for &gt; 5 min.</td>
+</tr>
+<tr>
+<td>Backup cache</td>
+<td>External Upstream cache snapshots backed up daily; restoration tested quarterly.</td>
+</tr>
+<tr>
+<td>Compromise response</td>
+<td>If External Upstream is suspected compromised, revoke all sync-derived artifacts, re-verify checksums/signatures against upstream, and rotate hosted artifact trust roots before resuming client pulls.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-what-this-document-does-not-cover">11. What This Document Does NOT Cover<a class="headerlink" href="#11-what-this-document-does-not-cover" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Full air-gap readiness: This architecture assumes a connected staging path for artifact acquisition. True air-gap (no connected machine ever) requires additional mechanisms (e.g., encrypted media transfer, manual media rotation) that are out of scope.</li>
+<li>P10.1.4 offline-staging implementation: This document is standalone and does not modify or replace any existing P10.1.4 deliverables.</li>
+<li>Product-specific feature claims beyond what is verified in the architecture design table (see Section 5).</li>
+<li>Guarantee of zero failure: sync failures, upstream unavailability, and checksum/signature mismatches are handled via retry and audit, not eliminated.</li>
+</ul>
+<hr />
+<p><em>Document generated for TASK 004-P11.2 — Two-Tier Repository &amp; Registry Architecture</em>
+<em>Architecture path: architecture/two-tier-repository-registry.md</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotate", "content.tabs.link", "navigation.instant", "navigation.tracking", "search.highlight", "search.share", "toc.follow"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

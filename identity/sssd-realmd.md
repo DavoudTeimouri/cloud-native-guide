@@ -2,14 +2,17 @@
 
 ## A. Purpose and scope
 
-Two operating models, both supported, with a documented migration path between them.
+Three operating models are documented here, with a clear distinction between the standard platform path and optional host-level integration.
 
-| Model | Description | When to use |
-|---|---|---|
-| Standalone | Local accounts, local sudo, SSH keys | Small sites, isolated labs, break-glass only |
-| Directory-integrated | SSSD against AD or LDAP, local break-glass retained | Production |
+| Model | Description | When to use | Status |
+|---|---|---|---|
+| Standalone (Standard) | Local accounts, local sudo, SSH keys | Small sites, isolated labs, break-glass only | **Standard platform path** |
+| Application-layer federation (Standard) | Keycloak OIDC broker + LDAP/AD federation | All production platform services (Rancher, Argo CD, Harbor, GitLab, Vault) | **Standard platform path** |
+| Directory-integrated (Host-level) | SSSD against AD or LDAP, local break-glass retained | Specific use cases requiring direct host authentication | **Optional — requires dedicated ADR** |
 
-Both models keep a local emergency account on every node. Directory integration never removes it.
+Both the Standalone and Directory-integrated models keep a local emergency account on every node. Directory integration never removes it.
+
+> **Note**: The standard platform identity model uses Keycloak as the central OIDC broker. Keycloak federates with AD/LDAP for user/group sync. Platform services (Rancher, Argo CD, Harbor, GitLab, Vault) authenticate via Keycloak OIDC. Direct host joining to AD via SSSD/realmd is *not* the standard path and requires a separate architecture decision (ADR) to authorize.
 
 ## B. Package differences
 
