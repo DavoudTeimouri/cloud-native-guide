@@ -4812,7 +4812,7 @@ docker<span class="w"> </span>login<span class="w"> </span>harbor.internal:5000<
 
 <span class="c1"># 3. Push a test image</span>
 
-docker<span class="w"> </span>pull<span class="w">  </span>̄alpine:3.19
+docker<span class="w"> </span>pull<span class="w"> </span>alpine:3.19
 docker<span class="w"> </span>tag<span class="w"> </span>alpine:3.19<span class="w"> </span>harbor.internal:5000/library/alpine:3.19
 docker<span class="w"> </span>push<span class="w"> </span>harbor.internal:5000/library/alpine:3.19
 
@@ -5081,7 +5081,7 @@ helm<span class="w"> </span>install<span class="w"> </span>nexus<span class="w">
 cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/yum.repos.d/internal.repo<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 <span class="s">[internal-nexus]</span>
 <span class="s">name=Internal Nexus Repository</span>
-<span class="s">baseurl=http://nexus.internal:8081/repository/maven-public/</span>
+<span class="s">baseurl=https://nexus.internal:8443/repository/rpm-public/</span>
 <span class="s">enabled=1</span>
 <span class="s">gpgcheck=0</span>
 <span class="s">EOF</span>

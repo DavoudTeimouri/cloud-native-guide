@@ -4736,7 +4736,7 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/nginx/nginx.conf<spa
 <span class="s">        proxy_buffering off;</span>
 
 <span class="s">        location / {</span>
-<span class="s">            proxy_pass https://gitlab_registry_backend;</span>
+<span class="s">            proxy_pass http://gitlab_registry_backend;</span>
 <span class="s">        }</span>
 <span class="s">    }</span>
 
@@ -4798,7 +4798,7 @@ npm<span class="w"> </span>config<span class="w"> </span><span class="nb">set</s
 
 <span class="c1"># pip</span>
 
-pip<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>global.index-url<span class="w"> </span>https://nexus.internal:8081/repository/pypi-public/simple
+pip<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>global.index-url<span class="w"> </span>https://nexus.internal:8443/repository/pypi-public/simple
 </code></pre></div>
 <h3 id="gitlab-container-registry-behind-reverse-proxy">GitLab Container Registry behind reverse proxy<a class="headerlink" href="#gitlab-container-registry-behind-reverse-proxy" title="Permanent link">&para;</a></h3>
 <p>GitLab Container Registry works behind a reverse proxy but requires the <code>Docker-Distribution-Api-Version</code> header:</p>

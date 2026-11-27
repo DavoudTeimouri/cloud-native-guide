@@ -4151,6 +4151,10 @@
 <th>Upstream source</th>
 <th>Downstream endpoint</th>
 <th>Protocol</th>
+<th>Auth</th>
+<th>Sync method</th>
+<th>Retention</th>
+<th>Security scanning</th>
 <th>Consumers</th>
 </tr>
 </thead>
@@ -4158,28 +4162,40 @@
 <tr>
 <td>Harbor</td>
 <td>Container registry</td>
-<td>Images, OCI charts</td>
-<td>public registries</td>
+<td>OCI/Docker images, Helm charts</td>
+<td>public registries (docker.io, quay.io, gcr.io)</td>
 <td>internal Harbor</td>
 <td>HTTPS/OCI</td>
-<td>K8s nodes</td>
+<td>internal DB / LDAP / OIDC</td>
+<td>replication jobs from upstream</td>
+<td>30 days (deleted), 90 days (tag expiration)</td>
+<td>Clair, Trivy</td>
+<td>K8s nodes, CI/CD</td>
 </tr>
 <tr>
 <td>Nexus</td>
 <td>Package repo</td>
-<td>RPM/DEB/APT</td>
-<td>public repos</td>
+<td>RPM/DEB/Maven/PyPI/npm/NuGet/Cargo</td>
+<td>public repos (Maven Central, PyPI, npm, etc.)</td>
 <td>internal Nexus</td>
 <td>HTTPS</td>
-<td>OS package mgmt</td>
+<td>internal DB / LDAP / SAML</td>
+<td>proxy repos + hosted repos</td>
+<td>90 days (snapshots), never (releases)</td>
+<td>Nexus IQ Server (Pro)</td>
+<td>OS package mgmt, CI/CD</td>
 </tr>
 <tr>
 <td>GitLab</td>
 <td>Git repo</td>
-<td>Source, CI/CD</td>
+<td>Source code, CI/CD, Container Registry</td>
 <td>public GitLab</td>
 <td>internal GitLab</td>
 <td>HTTPS/git</td>
+<td>internal DB / LDAP / SAML</td>
+<td>mirror/pull from upstream</td>
+<td>30 days (deleted projects), never (releases)</td>
+<td>GitLab Advanced Security</td>
 <td>CI/CD, Argo CD</td>
 </tr>
 </tbody>

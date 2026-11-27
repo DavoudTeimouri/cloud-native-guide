@@ -4888,7 +4888,7 @@ docker<span class="w"> </span>login<span class="w"> </span>harbor.internal:443<s
 docker<span class="w"> </span>pull<span class="w"> </span>harbor.internal:443/library/alpine:3.19
 </code></pre></div>
 <h3 id="verify-nexus-is-reachable">Verify Nexus is reachable<a class="headerlink" href="#verify-nexus-is-reachable" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="c1"># Nexus status API</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Nexus status API (direct backend, management network only)</span>
 
 curl<span class="w"> </span>-sk<span class="w"> </span>http://nexus.internal:8081/service/rest/v1/status
 
@@ -4961,7 +4961,7 @@ curl<span class="w"> </span>-sk<span class="w"> </span>-H<span class="w"> </span
 <h3 id="verify-image-integrity-cosign-signatures">Verify image integrity (Cosign signatures)<a class="headerlink" href="#verify-image-integrity-cosign-signatures" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># Verify signed image</span>
 
-cosign<span class="w"> </span>verify<span class="w"> </span>harbor.internal:5000/library/alpine:3.19<span class="w"> </span><span class="se">\</span>
+cosign<span class="w"> </span>verify<span class="w"> </span>harbor.internal:443/library/alpine:3.19<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--key<span class="w"> </span>cosign.pub
 
 <span class="c1"># Expected: Verified OK</span>
@@ -4997,12 +4997,12 @@ apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w">
 curl<span class="w"> </span>-sk<span class="w"> </span>-u<span class="w"> </span>admin:&lt;password&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>https://harbor.internal/api/v2.0/systeminfo/backups
 
-<span class="c1"># Restore from backup (example)</span>
-
-<span class="c1"># Harbor backup/restore via harbor-backup/restore scripts</span>
-
-./backup.sh<span class="w"> </span>--target<span class="w"> </span>/backup/harbor/2024-01-15
-./restore.sh<span class="w"> </span>--source<span class="w"> </span>/backup/harbor/2024-01-15
+<span class="c1"># Restore from backup (manual procedure — no bundled backup/restore scripts)</span>
+<span class="c1"># 1. Stop Harbor services: cd /opt/harbor &amp;&amp; ./down.sh</span>
+<span class="c1"># 2. Backup PostgreSQL DB (external: pg_dump; embedded SQLite: cp database/harbor.db)</span>
+<span class="c1"># 3. Backup registry storage: tar czf /backup/harbor/registry-storage-&lt;date&gt;.tar.gz -C /data/registry .</span>
+<span class="c1"># 4. Backup chartmuseum (if enabled): tar czf /backup/harbor/chartmuseum-&lt;date&gt;.tar.gz -C /data/chartstorage .</span>
+<span class="c1"># Restore: reverse the steps — extract archives, restore DB, then ./up.sh</span>
 </code></pre></div>
 <h3 id="nexus-backup-verification">Nexus backup verification<a class="headerlink" href="#nexus-backup-verification" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># Nexus uses filesystem backup of blob store + database dump</span>
@@ -5013,12 +5013,17 @@ ls<span class="w"> </span>-lh<span class="w"> </span>/opt/nexus/backup/
 
 <span class="c1"># Verify database dump</span>
 
-pg_restore<span class="w"> </span>--list<span class="w"> </span>/opt/nexus/backup/nexus-db.dump
+ls<span class="w"> </span>-lh<span class="w"> </span>/opt/sonatype/sonatype-work/nexus/db/<span class="w">  </span><span class="c1"># embedded DB directory</span>
 
-<span class="c1"># Restore Nexus</span>
-
-java<span class="w"> </span>-jar<span class="w"> </span>/opt/sonatype/nexus/plugins/nexus-backup-restore-*.jar<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--restore<span class="w"> </span>/opt/nexus/backup/
+<span class="c1"># Restore Nexus (OSS) — filesystem restore from backup</span>
+<span class="c1"># 1. Stop Nexus</span>
+systemctl<span class="w"> </span>stop<span class="w"> </span>nexus
+<span class="c1"># 2. Restore sonatype-work from backup</span>
+cp<span class="w"> </span>-r<span class="w"> </span>/opt/nexus/backup/sonatype-work/*<span class="w"> </span>/opt/sonatype/sonatype-work/
+<span class="c1"># 3. Restore etc config if needed</span>
+cp<span class="w"> </span>-r<span class="w"> </span>/opt/nexus/backup/etc/*<span class="w"> </span>/opt/nexus/etc/
+<span class="c1"># 4. Start Nexus</span>
+systemctl<span class="w"> </span>start<span class="w"> </span>nexus
 </code></pre></div>
 <h3 id="gitlab-backup-verification">GitLab backup verification<a class="headerlink" href="#gitlab-backup-verification" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># List GitLab backups</span>
@@ -5082,11 +5087,13 @@ gitlab-rake<span class="w"> </span>gitlab:check<span class="w"> </span><span cla
 </tbody>
 </table>
 <h3 id="prometheus-scrape-configuration-for-nexus">Prometheus scrape configuration for Nexus<a class="headerlink" href="#prometheus-scrape-configuration-for-nexus" title="Permanent link">&para;</a></h3>
+<p>Nexus is scraped via the reverse proxy on 8443 from client networks. Port 8081 is the direct backend, reachable only from the management network.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">scrape_configs</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s">'nexus'</span>
 <span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">'nexus.internal:8081'</span><span class="p p-Indicator">]</span>
-<span class="w">    </span><span class="nt">metrics_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/metrics</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">'nexus.internal:8443'</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">metrics_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/service/rest/v1/status</span>
+<span class="w">    </span><span class="nt">scheme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https</span>
 </code></pre></div>
 <h3 id="key-nexus-metrics-to-alert-on">Key Nexus metrics to alert on<a class="headerlink" href="#key-nexus-metrics-to-alert-on" title="Permanent link">&para;</a></h3>
 <table>
@@ -5190,7 +5197,7 @@ gitlab-rake<span class="w"> </span>gitlab:check<span class="w"> </span><span cla
 <div class="highlight"><pre><span></span><code><span class="c1"># Check all registry endpoints</span>
 
 curl<span class="w"> </span>-sk<span class="w"> </span>https://harbor.internal/api/v2.0/ping
-curl<span class="w"> </span>-sk<span class="w"> </span>http://nexus.internal:8081/service/rest/v1/status
+curl<span class="w"> </span>-sk<span class="w"> </span>https://nexus.internal:8443/service/rest/v1/status
 curl<span class="w"> </span>-sk<span class="w"> </span>https://gitlab.internal/-/health
 
 <span class="c1"># Check DNS resolution</span>
@@ -5222,7 +5229,11 @@ skopeo<span class="w"> </span>inspect<span class="w"> </span>docker://harbor.int
 
 <span class="c1"># Restore database from backup</span>
 
-./restore.sh<span class="w"> </span>--source<span class="w"> </span>/backup/harbor/2024-01-15
+<span class="c1"># External PostgreSQL: psql -U postgres harbor &lt; /backup/harbor/db-&lt;date&gt;.sql</span>
+<span class="c1"># Embedded SQLite:     cp /backup/harbor/db-&lt;date&gt;.sqlite /opt/harbor/database/harbor.db</span>
+
+<span class="c1"># Restore registry storage</span>
+tar<span class="w"> </span>xzf<span class="w"> </span>/backup/harbor/registry-storage-&lt;date&gt;.tar.gz<span class="w"> </span>-C<span class="w"> </span>/data/registry
 
 <span class="c1"># Start Harbor</span>
 
@@ -5233,13 +5244,11 @@ skopeo<span class="w"> </span>inspect<span class="w"> </span>docker://harbor.int
 
 systemctl<span class="w"> </span>stop<span class="w"> </span>nexus
 
-<span class="c1"># Restore database</span>
-
-pg_restore<span class="w"> </span>-d<span class="w"> </span>nexus<span class="w"> </span>/opt/nexus/backup/nexus-db.dump
-
-<span class="c1"># Restore blob store</span>
-
+<span class="c1"># Restore sonatype-work from backup (OSS embedded DB)</span>
 cp<span class="w"> </span>-r<span class="w"> </span>/opt/nexus/backup/sonatype-work/*<span class="w"> </span>/opt/sonatype/sonatype-work/
+
+<span class="c1"># Restore etc config if needed</span>
+cp<span class="w"> </span>-r<span class="w"> </span>/opt/nexus/backup/etc/*<span class="w"> </span>/opt/nexus/etc/
 
 <span class="c1"># Start Nexus</span>
 
@@ -5267,7 +5276,8 @@ gitlab-rake<span class="w"> </span>gitlab:check<span class="w"> </span><span cla
 <p>Before considering a repository/registry production-ready:</p>
 <ul>
 <li>[ ] Harbor API responds at <code>https://harbor.internal/api/v2.0/ping</code></li>
-<li>[ ] Nexus API responds at <code>http://nexus.internal:8081/service/rest/v1/status</code></li>
+<li>[ ] Nexus API responds at <code>https://nexus.internal:8443/service/rest/v1/status</code> (via reverse proxy, client access)</li>
+<li>[ ] Direct Nexus backend check (8081) works from management network</li>
 <li>[ ] GitLab health responds at <code>https://gitlab.internal/-/health</code></li>
 <li>[ ] Docker pull from Harbor succeeds</li>
 <li>[ ] YUM/DNF install from Nexus succeeds</li>
