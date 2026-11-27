@@ -63,4 +63,3 @@ kubectl describe sa <sa>
 
 ## Related
 - [06 · Kubernetes Infrastructure (6.16 Security and Identity)](../06-kubernetes-infrastructure/6.16-security-and-identity.md)
-- [Shared ADR-0015, ADR-0016](../shared/decision-records/index.md)

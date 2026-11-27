@@ -30,14 +30,12 @@ Production-oriented deployment and operations guide for on-premises, air-gapped 
 
 - [Shared network matrix](shared/network-matrix/index.md) — authoritative communication matrix and port requirements
 - [Shared version & compatibility matrix](shared/matrices/version-matrix/index.md) — pinned versions with source URLs and check dates
-- [Shared ADRs](shared/decision-records/index.md) — architecture decisions
 - [Shared templates](shared/templates/index.md) — reusable deployment, validation, troubleshooting, upgrade, maintenance templates
 - [Shared diagrams](shared/diagrams/index.md) — Mermaid architecture diagrams
 
 ## Key references
 
 - **Version & Compatibility Matrix**: `shared/matrices/version-matrix/index.md` — every pinned version with source URL and check date.
-- **Architecture Decisions (ADR)**: `decisions/ADR-0001 … ADR-0031` — control-plane topology, CNI, ingress, storage, secrets, Kubespray multi-release, external load balancer.
 
 ## Source of truth
 

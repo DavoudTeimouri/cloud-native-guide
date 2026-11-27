@@ -17,5 +17,4 @@ Orientation for the complete Cloud-Native infrastructure and its design. Start h
 
 ## Cross-references
 - All sections reference [shared matrices](../shared/matrices/) for network access, version compatibility, and hardware requirements.
-- [Shared decision records](../shared/decision-records/) for ADR-0001..ADR-0031.
 - See [02 · Components](../02-components/) for node preparation details.
