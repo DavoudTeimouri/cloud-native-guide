@@ -16,7 +16,7 @@
         <link rel="prev" href="../1.5-deployment-environments/">
       
       
-        <link rel="next" href="../1.7-infrastructure-components/">
+        <link rel="next" href="../1.6.1-os-package-repositories/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Repositories & Registries - Cloud-Native Guide</title>
+        <title>Component & Deployment Registry Requirements - Cloud-Native Guide</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#repositories-registries" class="md-skip">
+        <a href="#16-repositories-registries" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Repositories & Registries
+              Component & Deployment Registry Requirements
             
           </span>
         </div>
@@ -474,6 +474,55 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repositories & Registries
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Repositories & Registries
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -489,7 +538,7 @@
   <span class="md-ellipsis">
     
   
-    Repositories & Registries
+    Component & Deployment Registry Requirements
   
 
     
@@ -507,7 +556,7 @@
   <span class="md-ellipsis">
     
   
-    Repositories & Registries
+    Component & Deployment Registry Requirements
   
 
     
@@ -555,10 +604,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upstreamdownstream" class="md-nav__link">
+  <a href="#component-deployment-method-registry-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Upstream/downstream
+        Component &amp; deployment method registry requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#air-gapped-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Air-gapped synchronization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subsections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subsections
       
     </span>
   </a>
@@ -579,6 +650,350 @@
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.1-os-package-repositories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.1 OS Package Repositories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.2-container-image-registries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.2 Container Image Registries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.3-helm-chart-repositories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.3 Helm Chart Repositories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.4-git-repositories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.4 Git Repositories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.5-binary-artifact-repositories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.5 Binary & Artifact Repositories
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.6-kubernetes-component-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.6 Kubernetes Component Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.7-ceph-storage-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.7 Ceph & Storage Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.8-monitoring-stack-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.8 Monitoring Stack Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.9-load-balancer-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.9 Load Balancer Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.10-gitlab-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.10 GitLab Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.11-rancher-argocd-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.11 Rancher & Argo CD Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6.12-add-on-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.6.12 Add-on Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -4119,10 +4534,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upstreamdownstream" class="md-nav__link">
+  <a href="#component-deployment-method-registry-requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Upstream/downstream
+        Component &amp; deployment method registry requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#air-gapped-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Air-gapped synchronization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subsections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Subsections
       
     </span>
   </a>
@@ -4160,9 +4597,9 @@
   
 
 
-<h1 id="repositories-registries">Repositories &amp; Registries<a class="headerlink" href="#repositories-registries" title="Permanent link">&para;</a></h1>
+<h1 id="16-repositories-registries">1.6 Repositories &amp; Registries<a class="headerlink" href="#16-repositories-registries" title="Permanent link">&para;</a></h1>
 <h2 id="purpose-and-scope">Purpose and scope<a class="headerlink" href="#purpose-and-scope" title="Permanent link">&para;</a></h2>
-<p>Package repositories, container registries, Helm chart repositories, Git repos, binary/artifact repos, OS-specific repos, Kubernetes component repos, third-party dependencies.</p>
+<p>Package repositories, container registries, Helm chart repositories, Git repos, binary/artifact repos, OS-specific repos, Kubernetes component repos, third-party dependencies. Every component and deployment method that consumes software from a repository or registry is listed below with its public upstream address and its internal mirrored address for air-gapped operation.</p>
 <h2 id="repository-types">Repository types<a class="headerlink" href="#repository-types" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -4200,16 +4637,230 @@
 </tr>
 </tbody>
 </table>
-<h2 id="upstreamdownstream">Upstream/downstream<a class="headerlink" href="#upstreamdownstream" title="Permanent link">&para;</a></h2>
+<h2 id="component-deployment-method-registry-requirements">Component &amp; deployment method registry requirements<a class="headerlink" href="#component-deployment-method-registry-requirements" title="Permanent link">&para;</a></h2>
+<p>Each component below lists the public upstream address used by connected environments and the internal mirrored address used by air-gapped/disconnected environments.</p>
+<table>
+<thead>
+<tr>
+<th>Component / deployment</th>
+<th>Repository type</th>
+<th>Public upstream address</th>
+<th>Internal mirrored address</th>
+<th>Sync method</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Oracle Linux OS packages</td>
+<td>OS packages</td>
+<td>yum.oracle.com</td>
+<td>nexus.internal/repository/yum-oracle</td>
+<td>rsync/mirror</td>
+<td>Base OS, UEK kernel</td>
+</tr>
+<tr>
+<td>Ubuntu OS packages</td>
+<td>OS packages</td>
+<td>archive.ubuntu.com</td>
+<td>nexus.internal/repository/ubuntu</td>
+<td>apt-mirror</td>
+<td>Base OS</td>
+</tr>
+<tr>
+<td>RHEL OS packages</td>
+<td>OS packages</td>
+<td>redhat.com</td>
+<td>nexus.internal/repository/yum-rhel</td>
+<td>subscription mirror</td>
+<td>Requires entitlement</td>
+</tr>
+<tr>
+<td>Rocky Linux OS packages</td>
+<td>OS packages</td>
+<td>dl.rockylinux.org</td>
+<td>nexus.internal/repository/yum-rocky</td>
+<td>rsync/mirror</td>
+<td>Base OS</td>
+</tr>
+<tr>
+<td>Container runtime images</td>
+<td>Container images</td>
+<td>registry-1.docker.io</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>Docker Hub</td>
+</tr>
+<tr>
+<td>Kubernetes control plane images</td>
+<td>Container images</td>
+<td>registry.k8s.io</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>kube-apiserver, scheduler, etc.</td>
+</tr>
+<tr>
+<td>Ceph / Rook-Ceph images</td>
+<td>Container images</td>
+<td>quay.io/ceph, quay.io/rook</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>SDS platform</td>
+</tr>
+<tr>
+<td>Monitoring stack images</td>
+<td>Container images</td>
+<td>quay.io/prometheus, docker.io/grafana</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>Prometheus, Grafana, Loki, Alertmanager</td>
+</tr>
+<tr>
+<td>Load balancer images</td>
+<td>Container images</td>
+<td>docker.io/haproxy, docker.io/nginx</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>HAProxy, NGINX, Keepalived</td>
+</tr>
+<tr>
+<td>GitLab images</td>
+<td>Container images</td>
+<td>registry.gitlab.com</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>GitLab application</td>
+</tr>
+<tr>
+<td>Rancher images</td>
+<td>Container images</td>
+<td>registry.docker.io/rancher</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>Management platform</td>
+</tr>
+<tr>
+<td>Argo CD images</td>
+<td>Container images</td>
+<td>quay.io/argoproj</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>GitOps</td>
+</tr>
+<tr>
+<td>Helm charts</td>
+<td>Helm charts</td>
+<td>charts.bitnami.com, prometheus-community.github.io</td>
+<td>harbor.internal:5000/helm</td>
+<td>helm repo mirror</td>
+<td>K8s applications</td>
+</tr>
+<tr>
+<td>Git repositories</td>
+<td>Git</td>
+<td>github.com, gitlab.com</td>
+<td>gitlab.internal</td>
+<td>git mirror</td>
+<td>Code, configs, IaC</td>
+</tr>
+<tr>
+<td>Binary / artifact repositories</td>
+<td>Binaries</td>
+<td>repo.maven.apache.org, pypi.org</td>
+<td>nexus.internal/repository</td>
+<td>Nexus proxy</td>
+<td>Build artifacts, language packages</td>
+</tr>
+<tr>
+<td>CSI drivers</td>
+<td>Container images</td>
+<td>quay.io/ceph, docker.io</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>Rook-Ceph CSI</td>
+</tr>
+<tr>
+<td>Add-on images</td>
+<td>Container images</td>
+<td>quay.io/jetstack, quay.io/metallb</td>
+<td>harbor.internal:5000</td>
+<td>skopeo</td>
+<td>cert-manager, MetalLB, Velero</td>
+</tr>
+</tbody>
+</table>
+<h2 id="air-gapped-synchronization">Air-gapped synchronization<a class="headerlink" href="#air-gapped-synchronization" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Upstream: connected host pulls from public sources</li>
-<li>Downstream: air-gapped pulls from internal mirrors</li>
-<li>Synchronization: scheduled, verified (checksums, signatures)</li>
+<li>Upstream: connected staging host pulls from public upstream addresses listed above.</li>
+<li>Staging: artifacts staged to <code>/opt/staging</code> via <code>scripts/offline-sync.sh</code>.</li>
+<li>Transfer: physical media to air-gapped transfer station.</li>
+<li>Import: <code>scripts/air-gapped-import.sh</code> imports to internal Harbor/Nexus/GitLab.</li>
+<li>All install/upgrade procedures use internal mirrored addresses only; no node requires outbound internet at runtime.</li>
 </ul>
+<h2 id="subsections">Subsections<a class="headerlink" href="#subsections" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Subsection</th>
+<th>Covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="../1.6.1-os-package-repositories/">1.6.1 OS Package Repositories</a></td>
+<td>Oracle Linux, Ubuntu, RHEL, Rocky, Debian package repos</td>
+</tr>
+<tr>
+<td><a href="../1.6.2-container-image-registries/">1.6.2 Container Image Registries</a></td>
+<td>Container images per component, public + internal addresses</td>
+</tr>
+<tr>
+<td><a href="../1.6.3-helm-chart-repositories/">1.6.3 Helm Chart Repositories</a></td>
+<td>Helm charts, chart sources, internal Helm repo</td>
+</tr>
+<tr>
+<td><a href="../1.6.4-git-repositories/">1.6.4 Git Repositories</a></td>
+<td>GitLab, Gitea, code and config repos</td>
+</tr>
+<tr>
+<td><a href="../1.6.5-binary-artifact-repositories/">1.6.5 Binary &amp; Artifact Repositories</a></td>
+<td>Nexus, Artifactory, build artifacts, language packages</td>
+</tr>
+<tr>
+<td><a href="../1.6.6-kubernetes-component-images/">1.6.6 Kubernetes Component Images</a></td>
+<td>k8s control plane, CNI, CSI, add-on images</td>
+</tr>
+<tr>
+<td><a href="../1.6.7-ceph-storage-images/">1.6.7 Ceph &amp; Storage Images</a></td>
+<td>Ceph, Rook-Ceph, RGW images</td>
+</tr>
+<tr>
+<td><a href="../1.6.8-monitoring-stack-images/">1.6.8 Monitoring Stack Images</a></td>
+<td>Prometheus, Grafana, Loki, Alertmanager images</td>
+</tr>
+<tr>
+<td><a href="../1.6.9-load-balancer-images/">1.6.9 Load Balancer Images</a></td>
+<td>HAProxy, NGINX, Keepalived images</td>
+</tr>
+<tr>
+<td><a href="../1.6.10-gitlab-images/">1.6.10 GitLab Images</a></td>
+<td>GitLab application images</td>
+</tr>
+<tr>
+<td><a href="../1.6.11-rancher-argocd-images/">1.6.11 Rancher &amp; Argo CD Images</a></td>
+<td>Management platform and GitOps images</td>
+</tr>
+<tr>
+<td><a href="../1.6.12-add-on-images/">1.6.12 Add-on Images</a></td>
+<td>cert-manager, MetalLB, Velero, Gatekeeper images</td>
+</tr>
+</tbody>
+</table>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../03-repository-registry/">03 · Repository &amp; Registry Management (index)</a></li>
 <li><a href="../1.5-deployment-environments/">01 · Overview (1.5 Deployment Environments)</a></li>
+<li><a href="../../shared/matrices/version-matrix/">Shared version &amp; compatibility matrix</a></li>
 </ul>
 
 
