@@ -49,54 +49,6 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.1-os-package-repositories/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.10-gitlab-images/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.11-rancher-argocd-images/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.12-add-on-images/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.2-container-image-registries/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.3-helm-chart-repositories/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.4-git-repositories/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.5-binary-artifact-repositories/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.6-kubernetes-component-images/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.7-ceph-storage-images/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.8-monitoring-stack-images/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
-         <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6.9-load-balancer-images/</loc>
-         <lastmod>2026-11-27</lastmod>
-    </url>
-    <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.7-infrastructure-components/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
