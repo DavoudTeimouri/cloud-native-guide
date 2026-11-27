@@ -17,5 +17,5 @@ Reusable templates for server preparation, network access request, component dep
 | Architecture decision | architecture-decision-template.md | ADR records |
 
 ## Related
-- [02 · Components (2.3 OS Preparation)](../../02-components/2.3-physical-infra-prep.md)
-- [08 · Troubleshooting & Diagnostics (index)](../../08-troubleshooting-and-diagnostics/index.md)
+- [Components (2.3 OS Preparation)](../../02-components/2.3-physical-infra-prep.md)
+- [Troubleshooting & Diagnostics (index)](../../08-troubleshooting-and-diagnostics/index.md)

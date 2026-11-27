@@ -30,5 +30,5 @@ curl -vk http://grafana.monitoring.svc:3000/api/health
 - Alerts firing correctly
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.13 Monitoring and Logging)](../06-kubernetes-infrastructure/6.13-monitoring-and-logging.md)
+- [Kubernetes Infrastructure (6.13 Monitoring and Logging)](../06-kubernetes-infrastructure/6.13-monitoring-and-logging.md)
 - [Shared version & compatibility matrix](../shared/matrices/version-matrix/index.md)

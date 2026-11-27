@@ -41,5 +41,5 @@ ansible-playbook -i inventory/<cluster>/hosts.ini cluster.yml -b --limit k8s-w-4
 - etcdctl endpoint health --cluster: all healthy
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.5 Application Cluster Deployment)](../06-kubernetes-infrastructure/6.5-app-cluster-deployment.md)
-- [08 · Troubleshooting (08-kubernetes.md)](../08-troubleshooting-and-diagnostics/08-kubernetes.md)
+- [Kubernetes Infrastructure (6.5 Application Cluster Deployment)](../06-kubernetes-infrastructure/6.5-app-cluster-deployment.md)
+- [Troubleshooting (08-kubernetes.md)](../08-troubleshooting-and-diagnostics/08-kubernetes.md)

@@ -61,5 +61,5 @@ kubectl get pods -n logging -l app=fluent-bit
 - Monitor Loki ingestion rate; alert on drop to zero
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.13 Monitoring and Logging)](../06-kubernetes-infrastructure/6.13-monitoring-and-logging.md)
-- [07 · Software-Defined Storage (7.6 Monitoring and Logging)](../07-software-defined-storage/7.6-monitoring-and-logging.md)
+- [Kubernetes Infrastructure (6.13 Monitoring and Logging)](../06-kubernetes-infrastructure/6.13-monitoring-and-logging.md)
+- [Software-Defined Storage (7.6 Monitoring and Logging)](../07-software-defined-storage/7.6-monitoring-and-logging.md)

@@ -58,5 +58,5 @@ nc -zv rancher.management.internal 443
 - Monitor certificate expiry
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.8 Kubernetes Management Platform)](../06-kubernetes-infrastructure/6.7-kubernetes-management-platform.md)
-- [06 · Kubernetes Infrastructure (6.9 Cluster Registration)](../06-kubernetes-infrastructure/6.9-kubernetes-networking.md)
+- [Kubernetes Infrastructure (6.8 Kubernetes Management Platform)](../06-kubernetes-infrastructure/6.7-kubernetes-management-platform.md)
+- [Kubernetes Infrastructure (6.9 Cluster Registration)](../06-kubernetes-infrastructure/6.9-kubernetes-networking.md)

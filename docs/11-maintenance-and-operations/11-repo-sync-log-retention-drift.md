@@ -41,5 +41,5 @@ helm repo list
 - No configuration drift; drift reports current (< 24 hours)
 
 ## Related
-- [03 · Repository & Registry Management (3.7 Validation & Operations)](../03-repository-registry/3.7-validation-operations.md)
-- [06 · Kubernetes Infrastructure (6.14 Policies, Auditing & Deployment Governance)](../06-kubernetes-infrastructure/6.15-deployment-governance-and-auditing.md)
+- [Repository & Registry Management (3.7 Validation & Operations)](../03-repository-registry/3.7-validation-operations.md)
+- [Kubernetes Infrastructure (6.14 Policies, Auditing & Deployment Governance)](../06-kubernetes-infrastructure/6.15-deployment-governance-and-auditing.md)

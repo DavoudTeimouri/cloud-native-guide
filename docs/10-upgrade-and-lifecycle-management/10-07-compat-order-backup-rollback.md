@@ -25,5 +25,5 @@ Version compatibility, upgrade order, backup, pre/post validation, rollback stra
 
 ## Related
 - [Shared version & compatibility matrix](../shared/matrices/version-matrix/index.md)
-- [08 · Troubleshooting (08-ha-and-failover.md)](../08-troubleshooting-and-diagnostics/08-ha-and-failover.md)
-- [11 · Maintenance and Operations (11-backup-verification-recovery-test.md)](../11-maintenance-and-operations/11-backup-verification-recovery-test.md)
+- [Troubleshooting (08-ha-and-failover.md)](../08-troubleshooting-and-diagnostics/08-ha-and-failover.md)
+- [Maintenance and Operations (11-backup-verification-recovery-test.md)](../11-maintenance-and-operations/11-backup-verification-recovery-test.md)

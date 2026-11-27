@@ -59,5 +59,5 @@ kubectl get csidriver
 - Monitor storage capacity; alert at threshold
 
 ## Related
-- [07 · Software-Defined Storage (7.5 Rook-Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
-- [06 · Kubernetes Infrastructure (6.7 Storage Integration)](../06-kubernetes-infrastructure/6.8-cluster-storage-integration.md)
+- [Software-Defined Storage (7.5 Rook-Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
+- [Kubernetes Infrastructure (6.7 Storage Integration)](../06-kubernetes-infrastructure/6.8-cluster-storage-integration.md)

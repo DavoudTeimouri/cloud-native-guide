@@ -31,6 +31,6 @@ df -h
 - Expansion projects scheduled
 
 ## Related
-- [01 · Overview (1.2 Reference Architectures)](../01-overview-and-architecture/1.2-reference-architectures.md)
-- [01 · Overview (1.3 Infrastructure Sizing)](../01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md)
-- [09 · Scaling & Expansion (09-capacity-planning-risk)](../09-scaling-and-expansion/09-capacity-planning-risk.md)
+- [Overview (1.2 Reference Architectures)](../01-overview-and-architecture/1.2-reference-architectures.md)
+- [Overview (1.3 Infrastructure Sizing)](../01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md)
+- [Scaling & Expansion (09-capacity-planning-risk)](../09-scaling-and-expansion/09-capacity-planning-risk.md)

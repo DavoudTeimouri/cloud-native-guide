@@ -71,5 +71,5 @@ kubectl get gatewayclass
 - Monitor certificate expiry (14/7 days)
 
 ## Related
-- [05 · Load Balancers and Traffic Management](../05-load-balancers/index.md)
-- [06 · Kubernetes Infrastructure (6.11 Kubernetes Add-ons)](../06-kubernetes-infrastructure/6.11-kubernetes-add-ons.md)
+- [Load Balancers and Traffic Management](../05-load-balancers/index.md)
+- [Kubernetes Infrastructure (6.11 Kubernetes Add-ons)](../06-kubernetes-infrastructure/6.11-kubernetes-add-ons.md)

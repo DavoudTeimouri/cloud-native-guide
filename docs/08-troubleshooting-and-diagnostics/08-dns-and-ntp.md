@@ -58,4 +58,4 @@ systemctl status chronyd
 - Monitor CoreDNS pod health
 
 ## Related
-- [01 · Overview (1.4 Network Architecture and Access Matrix)](../01-overview-and-architecture/1.4-network-architecture-and-access-matrix.md)
+- [Overview (1.4 Network Architecture and Access Matrix)](../01-overview-and-architecture/1.4-network-architecture-and-access-matrix.md)

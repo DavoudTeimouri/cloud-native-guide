@@ -40,6 +40,6 @@ EOF
 - Pool expanded; capacity increased
 
 ## Related
-- [07 · Software-Defined Storage (7.4 Independent Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
-- [07 · Software-Defined Storage (7.5 Rook-Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
-- [07 · Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)
+- [Software-Defined Storage (7.4 Independent Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
+- [Software-Defined Storage (7.5 Rook-Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
+- [Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)

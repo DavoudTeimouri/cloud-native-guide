@@ -26,4 +26,4 @@ kubectl patch ipaddresspool <pool> --type merge -p '{"spec":{"addresses":[["10.6
 
 ## Related
 - [Shared network matrix](../shared/network-matrix/index.md)
-- [05 · Load Balancers (5.3 Application Cluster Load Balancers)](../05-load-balancers/5.3-app-cluster-lbs.md)
+- [Load Balancers (5.3 Application Cluster Load Balancers)](../05-load-balancers/5.3-app-cluster-lbs.md)

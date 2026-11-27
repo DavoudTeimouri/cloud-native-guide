@@ -43,5 +43,5 @@ openssl x509 -in <cert> -text -noout | grep "Not After"
 - Certificates not expired
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.15 Alert Management)](../06-kubernetes-infrastructure/6.14-alert-management.md)
-- [07 · Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)
+- [Kubernetes Infrastructure (6.15 Alert Management)](../06-kubernetes-infrastructure/6.14-alert-management.md)
+- [Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)

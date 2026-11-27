@@ -29,5 +29,5 @@ Centralized, maintainable network access matrix identifying source, destination,
 Extract this table to generate ACL/firewall rules for your deployment. Individual chapters reference this matrix; document component-specific exceptions only.
 
 ## Related
-- [01 · Overview (1.4 Network Architecture & Access Matrix)](../../01-overview-and-architecture/1.4-network-architecture-and-access-matrix.md)
-- [05 · Load Balancers (5.1 Architecture)](../../05-load-balancers/5.1-architecture.md)
+- [Overview (1.4 Network Architecture & Access Matrix)](../../01-overview-and-architecture/1.4-network-architecture-and-access-matrix.md)
+- [Load Balancers (5.1 Architecture)](../../05-load-balancers/5.1-architecture.md)

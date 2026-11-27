@@ -68,6 +68,6 @@ kubectl describe node <node>
 - Test failover regularly; include in DR drills
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.17 Validation and Acceptance Testing)](../06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing.md)
-- [07 · Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)
-- [11 · Maintenance and Operations](../11-maintenance-and-operations/index.md)
+- [Kubernetes Infrastructure (6.17 Validation and Acceptance Testing)](../06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing.md)
+- [Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)
+- [Maintenance and Operations](../11-maintenance-and-operations/index.md)

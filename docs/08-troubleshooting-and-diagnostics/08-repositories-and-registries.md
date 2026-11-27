@@ -63,5 +63,5 @@ helm pull <chart>
 - Monitor certificate expiry
 
 ## Related
-- [03 · Repository & Registry Management](../03-repository-registry/index.md)
-- [08 · Troubleshooting (08-certificates-and-tls.md)](08-certificates-and-tls.md)
+- [Repository & Registry Management](../03-repository-registry/index.md)
+- [Troubleshooting (08-certificates-and-tls.md)](08-certificates-and-tls.md)

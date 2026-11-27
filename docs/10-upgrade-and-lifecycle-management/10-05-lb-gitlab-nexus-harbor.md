@@ -37,6 +37,6 @@ curl -vk https://harbor.internal/
 - Nexus repository browse works
 
 ## Related
-- [03 · Repository & Registry Management](../03-repository-registry/index.md)
-- [04 · Operational Management & GitLab (4.5 GitLab)](../04-operation-servers/4.5-gitlab.md)
-- [05 · Load Balancers & Traffic Management](../05-load-balancers/index.md)
+- [Repository & Registry Management](../03-repository-registry/index.md)
+- [Operational Management & GitLab (4.5 GitLab)](../04-operation-servers/4.5-gitlab.md)
+- [Load Balancers & Traffic Management](../05-load-balancers/index.md)

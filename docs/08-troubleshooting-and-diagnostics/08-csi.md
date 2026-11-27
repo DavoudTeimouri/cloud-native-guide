@@ -62,5 +62,5 @@ kubectl describe volumesnapshot <vs>
 - Monitor credential expiry; rotate before expiry
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.10 CSI and Storage Integration)](../06-kubernetes-infrastructure/6.10-csi-and-storage-integration.md)
-- [07 · Software-Defined Storage](../07-software-defined-storage/index.md)
+- [Kubernetes Infrastructure (6.10 CSI and Storage Integration)](../06-kubernetes-infrastructure/6.10-csi-and-storage-integration.md)
+- [Software-Defined Storage](../07-software-defined-storage/index.md)

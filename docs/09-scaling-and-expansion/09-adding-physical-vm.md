@@ -40,5 +40,5 @@ kubectl -n kube-system get pods -l component=etcd --field-selector spec.nodeName
 - Pods scheduling to new node
 
 ## Related
-- [02 · Operating Systems (2.5 OS Preparation by Role)](../02-components/2.5-os-prep-by-role.md)
-- [06 · Kubernetes Infrastructure (6.5 Application Cluster Deployment)](../06-kubernetes-infrastructure/6.5-app-cluster-deployment.md)
+- [Operating Systems (2.5 OS Preparation by Role)](../02-components/2.5-os-prep-by-role.md)
+- [Kubernetes Infrastructure (6.5 Application Cluster Deployment)](../06-kubernetes-infrastructure/6.5-app-cluster-deployment.md)

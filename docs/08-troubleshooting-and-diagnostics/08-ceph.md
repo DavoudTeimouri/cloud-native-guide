@@ -63,5 +63,5 @@ journalctl -u ceph-* -n 50
 - Monitor PG state; alert on degraded/undersized
 
 ## Related
-- [07 · Software-Defined Storage](../07-software-defined-storage/index.md)
-- [07 · SDS (7.6 Monitoring and Logging)](../07-software-defined-storage/7.6-monitoring-and-logging.md)
+- [Software-Defined Storage](../07-software-defined-storage/index.md)
+- [SDS (7.6 Monitoring and Logging)](../07-software-defined-storage/7.6-monitoring-and-logging.md)

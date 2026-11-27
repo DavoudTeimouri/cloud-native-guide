@@ -63,4 +63,4 @@ gitlab-ctl status postgresql
 - Schedule regular backups; test restores
 
 ## Related
-- [04 · Operational Management and GitLab (4.5 GitLab)](../04-operation-servers/4.5-gitlab.md)
+- [Operational Management and GitLab (4.5 GitLab)](../04-operation-servers/4.5-gitlab.md)

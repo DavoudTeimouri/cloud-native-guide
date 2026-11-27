@@ -549,7 +549,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.1 OS Package Repositories
+    OS Package Repositories
   
 
     
@@ -577,7 +577,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.2 Container Image Registries
+    Container Image Registries
   
 
     
@@ -605,7 +605,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.3 Helm Chart Repositories
+    Helm Chart Repositories
   
 
     
@@ -633,7 +633,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.4 Git Repositories
+    Git Repositories
   
 
     
@@ -661,7 +661,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.5 Binary & Artifact Repositories
+    Binary & Artifact Repositories
   
 
     
@@ -689,7 +689,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.6 Kubernetes Component Images
+    Kubernetes Component Images
   
 
     
@@ -717,7 +717,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.7 Ceph & Storage Images
+    Ceph & Storage Images
   
 
     
@@ -745,7 +745,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.8 Monitoring Stack Images
+    Monitoring Stack Images
   
 
     
@@ -773,7 +773,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.9 Load Balancer Images
+    Load Balancer Images
   
 
     
@@ -801,7 +801,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.10 GitLab Images
+    GitLab Images
   
 
     
@@ -829,7 +829,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.11 Rancher & Argo CD Images
+    Rancher & Argo CD Images
   
 
     
@@ -857,7 +857,7 @@
   <span class="md-ellipsis">
     
   
-    1.6.12 Add-on Images
+    Add-on Images
   
 
     
@@ -4444,7 +4444,7 @@
 
 
 <h1 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h1>
-<p>Preparation and configuration of every infrastructure component before deploying the Cloud-Native stack. This section is about readying the hardware, OS, and per-role node configuration — it does not deploy Kubernetes itself (see <a href="../06-kubernetes-infrastructure/">06 · Kubernetes</a>).</p>
+<p>Preparation and configuration of every infrastructure component before deploying the Cloud-Native stack. This section is about readying the hardware, OS, and per-role node configuration — it does not deploy Kubernetes itself (see <a href="../06-kubernetes-infrastructure/">Kubernetes</a>).</p>
 <h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
 <p>Document how to prepare each type of infrastructure node (OS, physical/virtual, storage, load balancer, registry, GitLab, operation servers) so they are ready to receive the Cloud-Native stack.</p>
 <h2 id="subsections">Subsections<a class="headerlink" href="#subsections" title="Permanent link">&para;</a></h2>
@@ -4457,51 +4457,51 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="2.1-operating-systems/">2.1 Operating Systems</a></td>
+<td><a href="2.1-operating-systems/">Operating Systems</a></td>
 <td>Oracle Linux, RHEL, Rocky, Alma, Ubuntu, Debian, SLES, Windows Server; support status, install, offline, hardening, network, DNS/NTP, storage, firewall, packages, kernel, updates, automation</td>
 </tr>
 <tr>
-<td><a href="2.2-physical-vs-vm/">2.2 Physical vs Virtual Machines</a></td>
+<td><a href="2.2-physical-vs-vm/">Physical vs Virtual Machines</a></td>
 <td>Bare-metal vs VM vs hybrid; advantages, disadvantages, operational implications, performance, failure-domain implications</td>
 </tr>
 <tr>
-<td><a href="2.3-physical-infra-prep/">2.3 Physical Infrastructure Preparation</a></td>
+<td><a href="2.3-physical-infra-prep/">Physical Infrastructure Preparation</a></td>
 <td>Server hardware, CPU/memory, BIOS/UEFI, firmware, RAID/HBA, disk controller, NIC, multipathing, BMC/remote mgmt, compatibility, Secure Boot, NUMA, power, monitoring</td>
 </tr>
 <tr>
-<td><a href="2.4-virtualization-prep/">2.4 Virtualization Platform Preparation</a></td>
+<td><a href="2.4-virtualization-prep/">Virtualization Platform Preparation</a></td>
 <td>VMware vSphere/ESXi, KVM/Proxmox VE; install, networking, distributed switching, storage integration, HA, VM sizing, reservations, anti-affinity, passthrough, backup</td>
 </tr>
 <tr>
-<td><a href="2.5-os-prep-by-role/">2.5 OS Preparation by Role</a></td>
+<td><a href="2.5-os-prep-by-role/">OS Preparation by Role</a></td>
 <td>Role-specific procedures: general Linux, K8s control-plane, K8s worker, storage, load balancer, registry manager, GitLab, automation, monitoring nodes</td>
 </tr>
 <tr>
-<td><a href="2.6-operation-mgmt-servers/">2.6 Operation &amp; Management Servers</a></td>
+<td><a href="2.6-operation-mgmt-servers/">Operation &amp; Management Servers</a></td>
 <td>Mgmt environment design; pair of Linux mgmt/automation servers + Windows mgmt server; Ansible, Kubespray, SSH, PowerShell, Git, cert/secret mgmt, admin access, audit logging</td>
 </tr>
 <tr>
-<td><a href="2.7-kubernetes-nodes/">2.7 Kubernetes Nodes</a></td>
+<td><a href="2.7-kubernetes-nodes/">Kubernetes Nodes</a></td>
 <td>Control-plane, worker, infrastructure worker, GPU worker, specialized app worker node prep</td>
 </tr>
 <tr>
-<td><a href="2.8-ceph-storage-nodes/">2.8 Ceph &amp; Storage Nodes</a></td>
+<td><a href="2.8-ceph-storage-nodes/">Ceph &amp; Storage Nodes</a></td>
 <td>Ceph MON/MGR/OSD/MDS/RGW prep; disk, network, CPU, memory, failure-domain considerations</td>
 </tr>
 <tr>
-<td><a href="2.9-lb-nodes/">2.9 Load Balancer Nodes</a></td>
+<td><a href="2.9-lb-nodes/">Load Balancer Nodes</a></td>
 <td>LB OS prep, network config, VIP support, HA, operational hardening</td>
 </tr>
 <tr>
-<td><a href="2.10-repo-registry-servers/">2.10 Repository &amp; Registry Manager Servers</a></td>
+<td><a href="2.10-repo-registry-servers/">Repository &amp; Registry Manager Servers</a></td>
 <td>Nexus, Harbor, and other repo/registry infra; native and container-based deployment requirements</td>
 </tr>
 <tr>
-<td><a href="2.11-gitlab-server/">2.11 GitLab Server</a></td>
+<td><a href="2.11-gitlab-server/">GitLab Server</a></td>
 <td>GitLab infra requirements, OS prep, storage, networking, security, backup, dependencies</td>
 </tr>
 <tr>
-<td><a href="2.12-other-infra/">2.12 Other Infrastructure Components</a></td>
+<td><a href="2.12-other-infra/">Other Infrastructure Components</a></td>
 <td>DNS, NTP, PKI/CA, LDAP/AD, Vault/secret managers, SMTP, backup infra, security scanning, vuln management</td>
 </tr>
 </tbody>
@@ -4509,8 +4509,8 @@
 <h2 id="cross-references">Cross-references<a class="headerlink" href="#cross-references" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Components consume the <a href="../shared/network-matrix/">shared network matrix</a> for port/firewall requirements.</li>
-<li>See <a href="../03-repository-registry/">03 · Repository and Registry Management</a> for the software-distribution architecture these components consume.</li>
-<li>See <a href="../05-load-balancers/">05 · Load Balancers</a> for LB node preparation detail.</li>
+<li>See <a href="../03-repository-registry/">Repository and Registry Management</a> for the software-distribution architecture these components consume.</li>
+<li>See <a href="../05-load-balancers/">Load Balancers</a> for LB node preparation detail.</li>
 </ul>
 
 

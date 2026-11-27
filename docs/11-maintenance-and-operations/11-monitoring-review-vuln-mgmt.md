@@ -35,6 +35,6 @@ checkov -d .
 - Monitoring dashboards/alerts reviewed and current
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.13 Monitoring and Logging)](../06-kubernetes-infrastructure/6.13-monitoring-and-logging.md)
-- [06 · Kubernetes Infrastructure (6.14 Alert Management)](../06-kubernetes-infrastructure/6.14-alert-management.md)
-- [06 · Kubernetes Infrastructure (6.16 Security and Identity)](../06-kubernetes-infrastructure/6.16-security-and-identity.md)
+- [Kubernetes Infrastructure (6.13 Monitoring and Logging)](../06-kubernetes-infrastructure/6.13-monitoring-and-logging.md)
+- [Kubernetes Infrastructure (6.14 Alert Management)](../06-kubernetes-infrastructure/6.14-alert-management.md)
+- [Kubernetes Infrastructure (6.16 Security and Identity)](../06-kubernetes-infrastructure/6.16-security-and-identity.md)

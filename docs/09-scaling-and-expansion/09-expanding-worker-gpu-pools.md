@@ -36,5 +36,5 @@ nvidia-smi  # on node
 - GPU Operator managing devices
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.10 Add-ons)](../06-kubernetes-infrastructure/6.11-kubernetes-add-ons.md) - GPU Operator
-- [06 · Kubernetes Infrastructure (6.2 Best Practices)](../06-kubernetes-infrastructure/6.1-kubernetes-architecture.md) - node selectors/taints
+- [Kubernetes Infrastructure (6.10 Add-ons)](../06-kubernetes-infrastructure/6.11-kubernetes-add-ons.md) - GPU Operator
+- [Kubernetes Infrastructure (6.2 Best Practices)](../06-kubernetes-infrastructure/6.1-kubernetes-architecture.md) - node selectors/taints

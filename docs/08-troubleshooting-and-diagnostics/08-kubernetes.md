@@ -75,6 +75,6 @@ skopeo inspect docker://<image>
 - Ensure images mirrored to internal Harbor; pin by digest
 
 ## Related
-- [06 · Kubernetes Infrastructure](../06-kubernetes-infrastructure/index.md)
-- [08 · Troubleshooting (08-cni.md)](08-cni.md)
-- [08 · Troubleshooting (08-csi.md)](08-csi.md)
+- [Kubernetes Infrastructure](../06-kubernetes-infrastructure/index.md)
+- [Troubleshooting (08-cni.md)](08-cni.md)
+- [Troubleshooting (08-csi.md)](08-csi.md)

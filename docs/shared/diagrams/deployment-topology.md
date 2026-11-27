@@ -33,5 +33,5 @@ graph TD
 Deployment topology showing 3-node control plane with stacked etcd, workers, and optional GPU workers.
 
 ## Related
-- [01 · Overview (1.1 Architecture)](../../01-overview-and-architecture/1.1-project-introduction-and-goals.md)
-- [06 · Kubernetes (6.1 Architecture)](../../06-kubernetes-infrastructure/6.1-kubernetes-architecture.md)
+- [Overview (1.1 Architecture)](../../01-overview-and-architecture/1.1-project-introduction-and-goals.md)
+- [Kubernetes (6.1 Architecture)](../../06-kubernetes-infrastructure/6.1-kubernetes-architecture.md)

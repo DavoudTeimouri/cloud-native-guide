@@ -14,4 +14,4 @@ For significant technology choices: problem, alternatives, evaluation criteria, 
 See [shared/templates/architecture-decision-template.md](../templates/architecture-decision-template.md).
 
 ## Related
-- [01 · Overview (1.8 Technologies & Alternatives)](../../01-overview-and-architecture/1.8-technologies-and-alternatives.md)
+- [Overview (1.8 Technologies & Alternatives)](../../01-overview-and-architecture/1.8-technologies-and-alternatives.md)

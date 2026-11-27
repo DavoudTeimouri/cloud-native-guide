@@ -65,5 +65,5 @@ ip link show eth0
 - Monitor MTU consistency
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.9 Kubernetes Networking)](../06-kubernetes-infrastructure/6.9-kubernetes-networking.md)
+- [Kubernetes Infrastructure (6.9 Kubernetes Networking)](../06-kubernetes-infrastructure/6.9-kubernetes-networking.md)
 - [Shared network matrix](../shared/network-matrix/index.md)

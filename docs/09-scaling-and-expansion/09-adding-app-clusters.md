@@ -35,5 +35,5 @@ kubectl apply -f argocd-application.yaml -n argocd
 - Prometheus scrapes new cluster targets
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.6 Additional Application Clusters)](../06-kubernetes-infrastructure/6.6-additional-clusters.md)
-- [06 · Kubernetes Infrastructure (6.9 Cluster Registration)](../06-kubernetes-infrastructure/6.9-kubernetes-networking.md)
+- [Kubernetes Infrastructure (6.6 Additional Application Clusters)](../06-kubernetes-infrastructure/6.6-additional-clusters.md)
+- [Kubernetes Infrastructure (6.9 Cluster Registration)](../06-kubernetes-infrastructure/6.9-kubernetes-networking.md)

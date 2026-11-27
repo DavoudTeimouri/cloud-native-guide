@@ -16,7 +16,7 @@ Document controlled infrastructure growth: adding servers/VMs, expanding K8s clu
 | [Capacity Planning & Risk](09-capacity-planning-risk.md) | Capacity planning, growth estimates, failure tolerance, risk analysis, overcommit |
 
 ## Cross-references
-- [02 · Operating Systems (2.7 Kubernetes Nodes)](../02-components/2.7-kubernetes-nodes.md)
-- [07 · Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)
-- [05 · Load Balancers (5.3 Application Cluster Load Balancers)](../05-load-balancers/5.3-app-cluster-lbs.md)
+- [Operating Systems (2.7 Kubernetes Nodes)](../02-components/2.7-kubernetes-nodes.md)
+- [Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)
+- [Load Balancers (5.3 Application Cluster Load Balancers)](../05-load-balancers/5.3-app-cluster-lbs.md)
 - [Shared version & compatibility matrix](../shared/matrices/version-matrix/index.md)

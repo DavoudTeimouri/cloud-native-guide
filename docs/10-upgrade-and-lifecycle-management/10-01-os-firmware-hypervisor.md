@@ -31,6 +31,6 @@ kubectl describe node <node>
 - Services healthy
 
 ## Related
-- [02 · Operating Systems (2.1 Operating Systems)](../02-components/2.1-operating-systems.md)
-- [02 · Operating Systems (2.3 Physical Infrastructure Preparation)](../02-components/2.3-physical-infra-prep.md)
-- [02 · Operating Systems (2.4 Virtualization Platform Preparation)](../02-components/2.4-virtualization-prep.md)
+- [Operating Systems (2.1 Operating Systems)](../02-components/2.1-operating-systems.md)
+- [Operating Systems (2.3 Physical Infrastructure Preparation)](../02-components/2.3-physical-infra-prep.md)
+- [Operating Systems (2.4 Virtualization Platform Preparation)](../02-components/2.4-virtualization-prep.md)

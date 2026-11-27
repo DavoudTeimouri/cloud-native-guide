@@ -28,6 +28,6 @@ helm upgrade <release> <chart> --version <new-version> -n <namespace>
 - Components healthy after upgrade
 
 ## Related
-- [01 · Overview (1.4 Air-Gapped & Disconnected Environments)](../01-overview-and-architecture/1.5-deployment-environments.md)
-- [03 · Repository & Registry Management (3.4 Air-Gapped)](../03-repository-registry/3.4-repository-catalog.md)
+- [Overview (1.4 Air-Gapped & Disconnected Environments)](../01-overview-and-architecture/1.5-deployment-environments.md)
+- [Repository & Registry Management (3.4 Air-Gapped)](../03-repository-registry/3.4-repository-catalog.md)
 - [Shared version & compatibility matrix](../shared/matrices/version-matrix/index.md)

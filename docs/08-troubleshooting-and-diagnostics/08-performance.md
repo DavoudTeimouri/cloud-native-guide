@@ -63,5 +63,5 @@ iostat -x 1 5
 - Monitor network latency; alert on degradation
 
 ## Related
-- [01 · Overview (1.2 Infrastructure Sizing)](../01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md)
-- [07 · Software-Defined Storage (7.6 Monitoring and Logging)](../07-software-defined-storage/7.6-monitoring-and-logging.md)
+- [Overview (1.2 Infrastructure Sizing)](../01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md)
+- [Software-Defined Storage (7.6 Monitoring and Logging)](../07-software-defined-storage/7.6-monitoring-and-logging.md)

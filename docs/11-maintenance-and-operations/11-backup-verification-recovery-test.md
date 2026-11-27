@@ -31,6 +31,6 @@ etcdctl endpoint health --cluster \
 - RTO/RPO measured and recorded; within targets
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.17 Validation and Acceptance Testing)](../06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing.md)
-- [07 · Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)
-- [08 · Troubleshooting (08-ha-and-failover.md)](../08-troubleshooting-and-diagnostics/08-ha-and-failover.md)
+- [Kubernetes Infrastructure (6.17 Validation and Acceptance Testing)](../06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing.md)
+- [Software-Defined Storage (7.7 Maintenance and Data Protection)](../07-software-defined-storage/7.7-maintenance-and-data-protection.md)
+- [Troubleshooting (08-ha-and-failover.md)](../08-troubleshooting-and-diagnostics/08-ha-and-failover.md)

@@ -41,6 +41,6 @@ kubectl patch ipaddresspool <pool> --type merge -p '{"spec":{"addresses":[["10.6
 - LB VIP failover works; backends healthy
 
 ## Related
-- [03 · Repository & Registry Management](../03-repository-registry/index.md)
-- [05 · Load Balancers and Traffic Management](../05-load-balancers/index.md)
-- [06 · Kubernetes Infrastructure (6.13 Monitoring and Logging)](../06-kubernetes-infrastructure/6.13-monitoring-and-logging.md)
+- [Repository & Registry Management](../03-repository-registry/index.md)
+- [Load Balancers and Traffic Management](../05-load-balancers/index.md)
+- [Kubernetes Infrastructure (6.13 Monitoring and Logging)](../06-kubernetes-infrastructure/6.13-monitoring-and-logging.md)

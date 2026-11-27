@@ -64,4 +64,4 @@ apt-cache policy  # Ubuntu
 - Monitor repository sync status
 
 ## Related
-- [02 · Operating Systems and Infrastructure Preparation (2.5 OS Preparation by Role)](../02-components/2.5-os-prep-by-role.md)
+- [Operating Systems and Infrastructure Preparation (2.5 OS Preparation by Role)](../02-components/2.5-os-prep-by-role.md)

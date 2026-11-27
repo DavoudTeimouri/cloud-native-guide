@@ -35,5 +35,5 @@ vault list pki/keys
 - Vault PKI issuing certificates successfully
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.16 Security and Identity)](../06-kubernetes-infrastructure/6.16-security-and-identity.md)
-- [08 · Troubleshooting (08-certificates-and-tls.md)](../08-troubleshooting-and-diagnostics/08-certificates-and-tls.md)
+- [Kubernetes Infrastructure (6.16 Security and Identity)](../06-kubernetes-infrastructure/6.16-security-and-identity.md)
+- [Troubleshooting (08-certificates-and-tls.md)](../08-troubleshooting-and-diagnostics/08-certificates-and-tls.md)

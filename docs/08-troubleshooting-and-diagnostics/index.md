@@ -37,6 +37,6 @@ Comprehensive troubleshooting handbook organized by infrastructure component and
 8. Prevention
 
 ## Related
-- [06 · Kubernetes Infrastructure](../06-kubernetes-infrastructure/index.md)
-- [07 · Software-Defined Storage](../07-software-defined-storage/index.md)
-- [05 · Load Balancers and Traffic Management](../05-load-balancers/index.md)
+- [Kubernetes Infrastructure](../06-kubernetes-infrastructure/index.md)
+- [Software-Defined Storage](../07-software-defined-storage/index.md)
+- [Load Balancers and Traffic Management](../05-load-balancers/index.md)

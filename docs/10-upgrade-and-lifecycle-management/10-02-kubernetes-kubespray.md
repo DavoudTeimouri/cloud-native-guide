@@ -40,6 +40,6 @@ etcdctl endpoint health --cluster
 - etcd healthy; readyz all ok
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.3 Deployment Methods)](../06-kubernetes-infrastructure/6.3-deployment-methods.md)
-- [06 · Kubernetes Infrastructure (6.4 Management Cluster Deployment)](../06-kubernetes-infrastructure/6.4-mgmt-cluster-deployment.md)
+- [Kubernetes Infrastructure (6.3 Deployment Methods)](../06-kubernetes-infrastructure/6.3-deployment-methods.md)
+- [Kubernetes Infrastructure (6.4 Management Cluster Deployment)](../06-kubernetes-infrastructure/6.4-mgmt-cluster-deployment.md)
 - [Shared version & compatibility matrix](../shared/matrices/version-matrix/index.md)

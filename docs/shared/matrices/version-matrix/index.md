@@ -19,5 +19,5 @@ Every pinned version with source URL and check date. Authoritative single source
 Check this matrix before any upgrade or new deployment. Record check date; re-verify quarterly.
 
 ## Related
-- [10 · Upgrade & Lifecycle (10-07 Compatibility, Order, Backup, Rollback)](../../../10-upgrade-and-lifecycle-management/10-07-compat-order-backup-rollback.md)
-- [11 · Maintenance & Operations (11-quarterly-capacity-review)](../../../11-maintenance-and-operations/11-quarterly-capacity-review.md)
+- [Upgrade & Lifecycle (10-07 Compatibility, Order, Backup, Rollback)](../../../10-upgrade-and-lifecycle-management/10-07-compat-order-backup-rollback.md)
+- [Maintenance & Operations (11-quarterly-capacity-review)](../../../11-maintenance-and-operations/11-quarterly-capacity-review.md)

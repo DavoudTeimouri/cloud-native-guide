@@ -21,6 +21,6 @@ Capacity planning, growth estimates, failure tolerance, risk analysis, overcommi
 - Storage overcommit: monitor actual usage; thin provisioning risk
 
 ## Related
-- [01 · Overview (1.2 Reference Architectures)](../01-overview-and-architecture/1.2-reference-architectures.md)
-- [01 · Overview (1.3 Infrastructure Sizing)](../01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md)
-- [07 · Software-Defined Storage (7.2 Best Practices)](../07-software-defined-storage/7.2-best-practices.md)
+- [Overview (1.2 Reference Architectures)](../01-overview-and-architecture/1.2-reference-architectures.md)
+- [Overview (1.3 Infrastructure Sizing)](../01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation.md)
+- [Software-Defined Storage (7.2 Best Practices)](../07-software-defined-storage/7.2-best-practices.md)

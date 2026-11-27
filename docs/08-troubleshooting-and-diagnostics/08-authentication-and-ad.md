@@ -62,4 +62,4 @@ kubectl describe sa <sa>
 - Regular RBAC review; remove unused bindings
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.16 Security and Identity)](../06-kubernetes-infrastructure/6.16-security-and-identity.md)
+- [Kubernetes Infrastructure (6.16 Security and Identity)](../06-kubernetes-infrastructure/6.16-security-and-identity.md)

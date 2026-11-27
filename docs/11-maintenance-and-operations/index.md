@@ -16,6 +16,6 @@ Document ongoing operational procedures: daily/weekly/monthly operations, quarte
 | [Hardware Maintenance, Node Replacement, DR Exercise](11-hardware-node-replacement-dr-exercise.md) | Hardware maintenance, node replacement, DR exercises, RTO/RPO measurement |
 
 ## Cross-references
-- Backup/recovery details in [03 · Repository & Registry Management (3.7)](../03-repository-registry/3.7-validation-operations.md) and [08 · Troubleshooting](../08-troubleshooting-and-diagnostics/index.md)
-- Upgrade procedures in [10 · Upgrade and Lifecycle Management](../10-upgrade-and-lifecycle-management/index.md)
+- Backup/recovery details in [Repository & Registry Management (3.7)](../03-repository-registry/3.7-validation-operations.md) and [Troubleshooting](../08-troubleshooting-and-diagnostics/index.md)
+- Upgrade procedures in [Upgrade and Lifecycle Management](../10-upgrade-and-lifecycle-management/index.md)
 - Versions from [shared version & compatibility matrix](../shared/matrices/version-matrix/index.md)

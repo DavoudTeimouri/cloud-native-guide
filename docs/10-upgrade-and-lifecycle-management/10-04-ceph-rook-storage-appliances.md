@@ -30,6 +30,6 @@ ceph pg stat
 - Rook operator Running
 
 ## Related
-- [07 · Software-Defined Storage (7.4 Independent Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
-- [07 · Software-Defined Storage (7.5 Rook-Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
+- [Software-Defined Storage (7.4 Independent Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
+- [Software-Defined Storage (7.5 Rook-Ceph)](../07-software-defined-storage/7.4-independent-ceph.md)
 - [Shared version & compatibility matrix](../shared/matrices/version-matrix/index.md)

@@ -72,4 +72,4 @@ cilium connectivity test
 
 ## Related
 - [Shared network matrix](../shared/network-matrix/index.md)
-- [05 · Load Balancers and Traffic Management](../05-load-balancers/index.md)
+- [Load Balancers and Traffic Management](../05-load-balancers/index.md)

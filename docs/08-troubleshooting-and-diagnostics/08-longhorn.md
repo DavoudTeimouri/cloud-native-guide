@@ -58,4 +58,4 @@ kubectl get settings.longhorn.io backup-target
 - Monitor replica disk space; alert at threshold
 
 ## Related
-- [07 · Software-Defined Storage (7.5 Other SDS Solutions)](../07-software-defined-storage/7.5-other-sds-solutions.md)
+- [Software-Defined Storage (7.5 Other SDS Solutions)](../07-software-defined-storage/7.5-other-sds-solutions.md)

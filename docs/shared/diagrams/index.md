@@ -11,5 +11,5 @@ Architecture diagrams in Mermaid: reference architecture, deployment topology, t
 | Traffic flow | traffic-flow.md | North-South / East-West |
 
 ## Related
-- [01 · Overview (1.2 Reference Architectures)](../../01-overview-and-architecture/1.2-reference-architectures.md)
-- [05 · Load Balancers (5.1 Architecture)](../../05-load-balancers/5.1-architecture.md)
+- [Overview (1.2 Reference Architectures)](../../01-overview-and-architecture/1.2-reference-architectures.md)
+- [Load Balancers (5.1 Architecture)](../../05-load-balancers/5.1-architecture.md)

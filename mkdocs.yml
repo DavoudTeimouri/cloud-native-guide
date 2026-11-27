@@ -53,18 +53,18 @@ nav:
       - Deployment Environments: 01-overview-and-architecture/1.5-deployment-environments.md
       - Repositories & Registries:
           - Component & Deployment Registry Requirements: 01-overview-and-architecture/1.6-repositories-and-registries.md
-          - 1.6.1 OS Package Repositories: 01-overview-and-architecture/1.6.1-os-package-repositories.md
-          - 1.6.2 Container Image Registries: 01-overview-and-architecture/1.6.2-container-image-registries.md
-          - 1.6.3 Helm Chart Repositories: 01-overview-and-architecture/1.6.3-helm-chart-repositories.md
-          - 1.6.4 Git Repositories: 01-overview-and-architecture/1.6.4-git-repositories.md
-          - 1.6.5 Binary & Artifact Repositories: 01-overview-and-architecture/1.6.5-binary-artifact-repositories.md
-          - 1.6.6 Kubernetes Component Images: 01-overview-and-architecture/1.6.6-kubernetes-component-images.md
-          - 1.6.7 Ceph & Storage Images: 01-overview-and-architecture/1.6.7-ceph-storage-images.md
-          - 1.6.8 Monitoring Stack Images: 01-overview-and-architecture/1.6.8-monitoring-stack-images.md
-          - 1.6.9 Load Balancer Images: 01-overview-and-architecture/1.6.9-load-balancer-images.md
-          - 1.6.10 GitLab Images: 01-overview-and-architecture/1.6.10-gitlab-images.md
-          - 1.6.11 Rancher & Argo CD Images: 01-overview-and-architecture/1.6.11-rancher-argocd-images.md
-          - 1.6.12 Add-on Images: 01-overview-and-architecture/1.6.12-add-on-images.md
+          - OS Package Repositories: 01-overview-and-architecture/1.6.1-os-package-repositories.md
+          - Container Image Registries: 01-overview-and-architecture/1.6.2-container-image-registries.md
+          - Helm Chart Repositories: 01-overview-and-architecture/1.6.3-helm-chart-repositories.md
+          - Git Repositories: 01-overview-and-architecture/1.6.4-git-repositories.md
+          - Binary & Artifact Repositories: 01-overview-and-architecture/1.6.5-binary-artifact-repositories.md
+          - Kubernetes Component Images: 01-overview-and-architecture/1.6.6-kubernetes-component-images.md
+          - Ceph & Storage Images: 01-overview-and-architecture/1.6.7-ceph-storage-images.md
+          - Monitoring Stack Images: 01-overview-and-architecture/1.6.8-monitoring-stack-images.md
+          - Load Balancer Images: 01-overview-and-architecture/1.6.9-load-balancer-images.md
+          - GitLab Images: 01-overview-and-architecture/1.6.10-gitlab-images.md
+          - Rancher & Argo CD Images: 01-overview-and-architecture/1.6.11-rancher-argocd-images.md
+          - Add-on Images: 01-overview-and-architecture/1.6.12-add-on-images.md
       - Infrastructure Components: 01-overview-and-architecture/1.7-infrastructure-components.md
       - Technologies & Alternatives: 01-overview-and-architecture/1.8-technologies-and-alternatives.md
       - Standards & Best Practices: 01-overview-and-architecture/1.9-standards-and-best-practices.md

@@ -17,5 +17,5 @@ Document controlled upgrade procedures for every infrastructure component: OS, f
 
 ## Cross-references
 - Every upgrade references [shared version & compatibility matrix](../shared/matrices/version-matrix/index.md) before starting
-- Rollback/restore procedures in [08 · Troubleshooting](../08-troubleshooting-and-diagnostics/index.md) and [11 · Maintenance](../11-maintenance-and-operations/index.md)
-- Air-gapped artifact handling in [03 · Repository & Registry Management](../03-repository-registry/index.md)
+- Rollback/restore procedures in [Troubleshooting](../08-troubleshooting-and-diagnostics/index.md) and [Maintenance](../11-maintenance-and-operations/index.md)
+- Air-gapped artifact handling in [Repository & Registry Management](../03-repository-registry/index.md)

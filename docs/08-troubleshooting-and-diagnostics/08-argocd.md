@@ -64,4 +64,4 @@ kubectl get secret -n argocd | grep -i cred
 - Monitor Image Updater; alert on failed updates
 
 ## Related
-- [06 · Kubernetes Infrastructure (6.12 GitOps and Application Delivery)](../06-kubernetes-infrastructure/6.12-gitops-and-application-delivery.md)
+- [Kubernetes Infrastructure (6.12 GitOps and Application Delivery)](../06-kubernetes-infrastructure/6.12-gitops-and-application-delivery.md)

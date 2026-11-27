@@ -45,5 +45,5 @@ etcdctl snapshot restore <snapshot> --data-dir /var/lib/etcd-new
 - Acceptance tests pass after restore
 
 ## Related
-- [08 · Troubleshooting (08-ha-and-failover.md)](../08-troubleshooting-and-diagnostics/08-ha-and-failover.md)
-- [10 · Upgrade & Lifecycle (10-08 Air-Gapped Upgrade)](../10-upgrade-and-lifecycle-management/10-08-air-gapped-upgrade.md)
+- [Troubleshooting (08-ha-and-failover.md)](../08-troubleshooting-and-diagnostics/08-ha-and-failover.md)
+- [Upgrade & Lifecycle (10-08 Air-Gapped Upgrade)](../10-upgrade-and-lifecycle-management/10-08-air-gapped-upgrade.md)
