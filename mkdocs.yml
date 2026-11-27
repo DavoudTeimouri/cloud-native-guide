@@ -49,6 +49,12 @@ nav:
       - Choose OS: operating-systems/os-selection-guide.md
       - Choose Cluster Type: deploy/choose-cluster-type.md
       - Other Deployment Methods: deploy/other-deployment-methods.md
+  - Step-by-Step Operations:
+      - 'Phase 1: Cluster Foundation': deploy/phase1-cluster-foundation.md
+      - 'Phase 2: Management Layer': deploy/phase2-management-layer.md
+      - 'Phase 3: Storage Lifecycle': deploy/phase3-storage-lifecycle.md
+      - 'Phase 4-7: SRE Operations': deploy/phase4-7-sre-operations.md
+      - 'Kubespray Version Contradiction Findings': release-artifacts/status-review/kubespray-version-contradiction-findings.md
   - Overview:
       - Overview: architecture/00-overview.md
       - Logical Diagram: architecture/01-logical-diagram.md

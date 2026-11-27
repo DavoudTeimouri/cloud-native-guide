@@ -245,6 +245,22 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/phase1-cluster-foundation/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/phase2-management-layer/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/phase3-storage-lifecycle/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/phase4-7-sre-operations/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
@@ -1026,6 +1042,10 @@
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/kanban-integrity-review/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/kubespray-version-contradiction-findings/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
