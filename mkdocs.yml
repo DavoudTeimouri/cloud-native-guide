@@ -48,6 +48,7 @@ nav:
   - Deploy:
       - Choose OS: operating-systems/os-selection-guide.md
       - Choose Cluster Type: deploy/choose-cluster-type.md
+      - Other Deployment Methods: deploy/other-deployment-methods.md
   - Overview:
       - Overview: architecture/00-overview.md
       - Logical Diagram: architecture/01-logical-diagram.md
@@ -68,6 +69,7 @@ nav:
       - Multi-Controller Plan: kubernetes/ingress/multi-controller-plan.md
       - CoreDNS Forwarding: kubernetes/networking/coredns-forwarding.md
       - MetalLB: kubernetes/networking/metallb.md
+      - Calico: kubernetes/networking/calico.md
   - Rancher & Cluster Operations:
       - Rancher: management-cluster/rancher/rancher.md
       - Argo CD: management-cluster/argocd/argocd.md
@@ -78,9 +80,11 @@ nav:
       - Cephadm Deployment: storage/ceph/cephadm-deployment.md
       - Rook-Ceph: storage/rook-ceph/rook-ceph.md
       - Storage Alternatives: storage/alternatives/storage-alternatives.md
+      - Longhorn: storage/longhorn.md
   - Offline & Air-Gapped:
       - Offline Artifact Architecture: offline-artifacts/offline-artifact-architecture.md
       - Artifact Matrix: offline-artifacts/artifact-matrix.md
+      - Nexus Deployment: offline-artifacts/nexus-deployment.md
   - Security & Secrets Management:
       - Vault Architecture: secrets-management/vault/vault-architecture.md
       - Vault Decision: secrets-management/vault/hashicorp-vault-decision.md
@@ -89,9 +93,11 @@ nav:
       - Secret Delivery: secrets-management/kubernetes-integration/secret-delivery.md
       - Recovery: secrets-management/recovery/restore.md
       - Host Baseline: security/host-baseline.md
+      - Kubewarden: security/kubewarden.md
   - Monitoring & Observability:
       - Prometheus: monitoring/prometheus.md
       - Log Pipeline: logging/log-pipeline.md
+      - Victoria Metrics: monitoring/victoria-metrics.md
   - Backup, Disaster Recovery & Continuity:
       - Disaster Recovery: lifecycle/disaster-recovery/index.md
       - Backup and DR: lifecycle/backup/backup-and-dr.md

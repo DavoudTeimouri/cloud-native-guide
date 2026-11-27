@@ -241,6 +241,10 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/other-deployment-methods/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
@@ -454,6 +458,10 @@
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/bgp-peering-configuration/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/calico/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
@@ -773,6 +781,10 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/victoria-metrics/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/network-matrix/cloud-native-dmz/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
@@ -806,6 +818,10 @@
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/image-and-package-mirroring/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/nexus-deployment/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
@@ -1421,6 +1437,10 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/security/kubewarden/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/security/pod-security-standards/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
@@ -1438,6 +1458,10 @@
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/service-mesh/istio/istio-deployment/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/longhorn/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
