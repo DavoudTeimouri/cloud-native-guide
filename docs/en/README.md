@@ -34,7 +34,7 @@ Welcome to the Cloud-Native Stack Implementation Guide — a practical, producti
 | [service-mesh/](../service-mesh/) | Evaluation and adoption criteria |
 | [offline-artifacts/](../offline-artifacts/) | Air-gap artifact matrix, staging |
 | [lifecycle/](../lifecycle/) | Upgrades, backup, disaster recovery |
-| [troubleshooting/](../troubleshooting/) | Symptom-driven runbooks |
+| troubleshooting/ | Symptom-driven runbooks |
 | scripts/ | Version refresh, matrix generators, ADR generator |
 | tests/ | Repository self-check, acceptance tests |
 
