@@ -166,3 +166,10 @@ nav:
       - Version & Compatibility Matrix: shared/matrices/version-matrix/index.md
       - Templates: shared/templates/index.md
       - Diagrams: shared/diagrams/index.md
+  - Automation Artifacts:
+      - Overview: automation-artifacts/index.md
+      - Ansible: automation-artifacts/ansible.md
+      - Terraform: automation-artifacts/terraform.md
+      - Python scripts: automation-artifacts/python-scripts.md
+      - Offline staging: automation-artifacts/offline-staging.md
+      - GitLab CI: automation-artifacts/gitlab-ci.md
