@@ -1152,6 +1152,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-os-preparation-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: OS preparation playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4368,228 +4379,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Automation Artifacts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Automation Artifacts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/ansible/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Ansible
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/python-scripts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python scripts
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/offline-staging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Offline staging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/gitlab-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitLab CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -4958,6 +4747,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-os-preparation-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: OS preparation playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -5268,6 +5068,62 @@ lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>gre
 <li><a href="../2.11-gitlab-server/">Components (2.11 GitLab Server)</a></li>
 <li><a href="../2.6-operation-mgmt-servers/">Components (2.6 Operation &amp; Management Servers)</a></li>
 </ul>
+<h2 id="automation-os-preparation-playbook">Automation: OS preparation playbook<a class="headerlink" href="#automation-os-preparation-playbook" title="Permanent link">&para;</a></h2>
+<p>Run the full OS preparation via Ansible instead of manual commands:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Dry-run (recommended first)</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/staging/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/os-prep-base.yml<span class="w"> </span>--check<span class="w"> </span>--diff
+
+<span class="c1"># Apply to production</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/os-prep-base.yml
+
+<span class="c1"># Limit to specific role</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/os-prep-control-plane.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-control-plane
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/os-prep-worker.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-workers
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/os-prep-storage.yml<span class="w"> </span>--limit<span class="w"> </span>ceph-nodes
+</code></pre></div>
+<p><strong>Customization variables</strong> (<code>automation/ansible/group_vars/all/main.yml</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Customize when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ntp_servers</code></td>
+<td><code>10.10.0.1, 10.10.0.2</code></td>
+<td>Your internal NTP differs</td>
+</tr>
+<tr>
+<td><code>dns_servers</code></td>
+<td><code>10.10.0.53</code></td>
+<td>Your internal DNS differs</td>
+</tr>
+<tr>
+<td><code>admin_user</code></td>
+<td><code>ansible</code></td>
+<td>You use a different admin name</td>
+</tr>
+<tr>
+<td><code>swap</code></td>
+<td><code>false</code></td>
+<td>Never set to <code>true</code> for K8s nodes</td>
+</tr>
+<tr>
+<td><code>selinux</code></td>
+<td><code>enforcing</code></td>
+<td>Set to <code>permissive</code> only for troubleshooting</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Windows worker node preparation</strong> — see <code>automation/ansible/playbooks/os-prep-worker.yml</code> (Linux) and the Windows preparation checklist in section 2.1. Windows worker nodes use PowerShell DSC/WinRM instead of Ansible SSH.</p>
 
 
 

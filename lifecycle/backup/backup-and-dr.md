@@ -11,7 +11,7 @@ Backup targets and their recovery procedures, and the failure scenarios the plat
 ## B. What backs up what
 
 | Target | Tool | Backup mechanism | Backup stored in | RPO | RTO | Restore procedure |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | OS configuration | Ansible + Git | Git repository | GitLab (replicated + off-site) | Immediate (commit) | 1 h | Re-run the baseline playbook |
 | Kubespray inventory | Git | Git repository | GitLab | Immediate | 1 h | Restore from Git |
 | etcd | Kubespray + etcdctl | `etcdctl snapshot save` | Object storage + offline | 24 h | 1 h | `etcdctl snapshot restore` |
@@ -32,6 +32,7 @@ Backup targets and their recovery procedures, and the failure scenarios the plat
 | Red Hat / Oracle entitlements | n/a | Not backup-able | Vendor | n/a | n/a | Re-apply with the entitlement |
 
 Critical distinction: **replication is not backup, and backup is not DR**.
+
 - Replication (Ceph 3x, GitLab HA, Vault Raft) protects against a single component failure.
 - Backup protects against logical corruption, accidental deletion, and ransomware.
 - Disaster recovery is the full procedure: restore into a new environment, in a defined order, with the dependencies respected.
@@ -107,11 +108,42 @@ velero restore describe <restore> --details
 ```
 
 Tested restore procedure (must be executed at least quarterly):
+
 1. Create a scratch cluster from the same Kubespray inventory.
 2. Install Velero pointing at the same bucket.
 3. Restore the most recent backup.
 4. Verify a sample of applications, their data checksums, and their connectivity.
 5. Record the actual RTO.
+
+## Automation: Velero backup playbook
+
+Run Velero backup/restore drills via Ansible:
+
+```bash
+# Dry-run
+ansible-playbook -i automation/ansible/inventories/staging/hosts.ini \
+  automation/ansible/playbooks/backup.yml --check --diff
+
+# Apply
+ansible-playbook -i automation/ansible/inventories/production/hosts.ini \
+  automation/ansible/playbooks/backup.yml
+
+# Limit to backup operations
+ansible-playbook -i automation/ansible/inventories/production/hosts.ini \
+  automation/ansible/playbooks/backup.yml --tag velero
+```
+
+**Customization variables** (`automation/ansible/group_vars/all/velero.yml`):
+
+| Variable | Default | Customize when |
+| --- | --- | --- |
+| `velero_bucket` | `velero-backups` | Your Ceph RGW bucket name differs |
+| `velero_rgw_endpoint` | `http://rgw.internal:7480` | Your RGW endpoint differs |
+| `velero_schedule` | `"0 2 * * *"` | Adjust backup frequency |
+| `velero_ttl` | `720h` | 30 days retention |
+| `velero_provider` | `aws` | AWS-compatible S3 (RGW/MinIO) |
+
+**Layer separation** — Velero is installed via the playbook; credentials (`credentials-velero`) live in Vault, never in Git.
 
 ## D. Vault backup
 
@@ -141,7 +173,7 @@ Also back up: the repositories (via the backup or a mirror), LFS objects, the co
 ## F. Failure scenarios and procedures
 
 | Scenario | Immediate impact | Procedure | Target RTO |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Single node loss | One node's workloads reschedule | Drain, replace, rejoin via Kubespray | 2 h |
 | Control-plane quorum loss | No API access | Restore the etcd snapshot onto a healthy member | 1 h |
 | Worker pool loss | Reduced capacity | Rebuild nodes from Ansible + Kubespray | 4 h |
@@ -160,7 +192,7 @@ Also back up: the repositories (via the backup or a mirror), LFS objects, the co
 
 The order is dictated by dependencies, and the whole point of the architecture is that it works without a cluster.
 
-```
+```text
 1.  Network, DNS, NTP           (no dependencies)
 2.  OS baseline via Ansible      (needs the automation host or an Ansible runner)
 3.  Internal CA / PKI            (needs the OS)
@@ -193,6 +225,7 @@ Backup validation is part of the acceptance criteria, not an afterthought:
 ## I. Best practices
 
 Mandatory:
+
 - Backups stored outside the failure domain of the source. A backup on the same cluster does not survive the cluster.
 - Vault's backup set includes the unseal material and the root token, stored separately.
 - Backups are encrypted at rest and access-controlled.
@@ -200,6 +233,7 @@ Mandatory:
 - `fsfreeze`/quiesce hooks for every stateful application.
 
 Strongly recommended:
+
 - 3-2-1 for the most critical data: 3 copies, 2 media types, 1 off-site.
 - Immutable or object-locked backup storage where the platform supports it, so a compromised administrator cannot delete the backups.
 - Monthly restore drills of one application, quarterly of the full environment.
@@ -210,7 +244,7 @@ Strongly recommended:
 Choose the off-site destination for etcd snapshots and Velero backups. The RGW target is already wired in this section §C (`s3Url=http://rgw.internal:7480`) and `etcd-backup-automation.md` (RPO ≤ 5 min). Decide the media:
 
 | Option | Target | Pros | Cons | Decision |
-|--------|--------|------|------|----------|
+| --- | --- | --- | --- | --- |
 | A | Secondary Ceph RGW bucket (DR rack) | Same tooling, S3-compatible, object lock support | Same site failure domain if not geographically separate | `<user-decision>` |
 | B | Removable HDD / tape rotation | Physically separate, air-gapped | Manual handling, no object lock, slower restore | `<user-decision>` |
 | C | Both (RGW primary, HDD tertiary) | Meets 3-2-1 rule | Added operational complexity | `<user-decision>` |

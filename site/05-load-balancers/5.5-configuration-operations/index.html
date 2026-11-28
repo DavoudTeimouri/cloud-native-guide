@@ -1677,6 +1677,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-load-balancer-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: load balancer playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4059,228 +4070,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Automation Artifacts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Automation Artifacts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/ansible/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Ansible
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/python-scripts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python scripts
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/offline-staging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Offline staging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/gitlab-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitLab CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -4340,6 +4129,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-load-balancer-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: load balancer playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4381,6 +4181,84 @@
 <li><a href="../5.1-architecture/">Load Balancers (5.1 Architecture)</a></li>
 <li><a href="../../08-troubleshooting-and-diagnostics/">Troubleshooting</a></li>
 </ul>
+<h2 id="automation-load-balancer-playbook">Automation: load balancer playbook<a class="headerlink" href="#automation-load-balancer-playbook" title="Permanent link">&para;</a></h2>
+<p>Deploy and configure HAProxy/NGINX via Ansible:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Dry-run</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/staging/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/load-balancer.yml<span class="w"> </span>--check<span class="w"> </span>--diff
+
+<span class="c1"># Apply</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/load-balancer.yml
+
+<span class="c1"># Limit to specific LB node</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/load-balancer.yml<span class="w"> </span>--limit<span class="w"> </span>lb-nodes
+</code></pre></div>
+<p><strong>Customization variables</strong> (<code>automation/ansible/group_vars/all/load-balancer.yml</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Customize when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>haproxy_frontend_port</code></td>
+<td><code>443</code></td>
+<td>Change for non-HTTPS frontends</td>
+</tr>
+<tr>
+<td><code>haproxy_backend_servers</code></td>
+<td><code>[]</code></td>
+<td>List of backend IPs and ports</td>
+</tr>
+<tr>
+<td><code>ssl_certificate_path</code></td>
+<td><code>/etc/haproxy/certs/</code></td>
+<td>Your cert location differs</td>
+</tr>
+<tr>
+<td><code>health_check_interval</code></td>
+<td><code>2s</code></td>
+<td>Adjust for faster/slower failover</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Reverse proxy configuration</strong> per registry (see section 3.5):</p>
+<table>
+<thead>
+<tr>
+<th>Registry</th>
+<th>HAProxy frontend</th>
+<th>Backend port</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Harbor</td>
+<td><code>harbor.internal:443</code></td>
+<td><code>443</code></td>
+<td>TLS passthrough, <code>Docker-Distribution-Api-Version: registry/2.0</code> header</td>
+</tr>
+<tr>
+<td>Nexus</td>
+<td><code>nexus.internal:8443</code></td>
+<td><code>8081</code></td>
+<td>HTTPS termination at HAProxy</td>
+</tr>
+<tr>
+<td>GitLab Registry</td>
+<td><code>registry.gitlab.internal:4443</code></td>
+<td><code>5000</code></td>
+<td>HTTP backend, do NOT use <code>https://</code> to backend</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Protocols that do NOT work behind reverse proxy</strong> — Git SSH (port 22) connects directly to backend IP; Docker Registry v1 is unsupported (use v2 via Harbor/Nexus).</p>
 
 
 

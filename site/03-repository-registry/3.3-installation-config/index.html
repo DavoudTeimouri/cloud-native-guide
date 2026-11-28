@@ -1416,6 +1416,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-repository-registry-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: repository-registry playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4298,228 +4309,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Automation Artifacts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Automation Artifacts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/ansible/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Ansible
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/python-scripts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python scripts
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/offline-staging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Offline staging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/gitlab-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitLab CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -4812,6 +4601,17 @@
     <span class="md-ellipsis">
       
         Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automation-repository-registry-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: repository-registry playbook
       
     </span>
   </a>
@@ -5316,6 +5116,92 @@ dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </s
 <li><a href="../../02-components/2.10-repo-registry-servers/">Components (2.10 Repo &amp; Registry Manager Servers)</a></li>
 <li><a href="../3.4-repository-catalog/">Repository &amp; Registry Management (3.4 Repository &amp; Registry Catalog)</a></li>
 </ul>
+<h2 id="automation-repository-registry-playbook">Automation: repository-registry playbook<a class="headerlink" href="#automation-repository-registry-playbook" title="Permanent link">&para;</a></h2>
+<p>Install Harbor, Nexus, and GitLab via Ansible instead of manual commands:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Dry-run</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/staging/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/repository-registry.yml<span class="w"> </span>--check<span class="w"> </span>--diff
+
+<span class="c1"># Apply</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/repository-registry.yml
+
+<span class="c1"># Limit to specific registry</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/repository-registry.yml<span class="w"> </span>--limit<span class="w"> </span>harbor-nodes
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/repository-registry.yml<span class="w"> </span>--limit<span class="w"> </span>nexus-nodes
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/repository-registry.yml<span class="w"> </span>--limit<span class="w"> </span>gitlab-nodes
+</code></pre></div>
+<p><strong>Customization variables</strong> (<code>automation/ansible/group_vars/all/repository.yml</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Customize when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>harbor_version</code></td>
+<td><code>2.10.0</code></td>
+<td>Pin to your Harbor version</td>
+</tr>
+<tr>
+<td><code>nexus_version</code></td>
+<td><code>3.66.0</code></td>
+<td>Pin to your Nexus version</td>
+</tr>
+<tr>
+<td><code>gitlab_version</code></td>
+<td><code>17.0.0</code></td>
+<td>Pin to your GitLab version</td>
+</tr>
+<tr>
+<td><code>harbor_admin_password</code></td>
+<td>Vault lookup</td>
+<td>Never set in plaintext</td>
+</tr>
+<tr>
+<td><code>storage_size</code></td>
+<td><code>500Gi</code></td>
+<td>Increase for production image volume</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Installation method per platform</strong> (see sections 3.3, 3.5, 3.6):</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Primary method</th>
+<th>Alternative</th>
+<th>Air-gapped</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Harbor</td>
+<td>Docker Compose</td>
+<td>Helm chart</td>
+<td>Offline tarball (<code>harbor-offline-installer.tgz</code>)</td>
+</tr>
+<tr>
+<td>Nexus</td>
+<td>Docker Compose</td>
+<td>Native RPM</td>
+<td>Docker image export/import (<code>docker save</code>/<code>load</code>)</td>
+</tr>
+<tr>
+<td>GitLab</td>
+<td>Docker Compose</td>
+<td>Native RPM</td>
+<td>Docker image export/import</td>
+</tr>
+</tbody>
+</table>
 
 
 

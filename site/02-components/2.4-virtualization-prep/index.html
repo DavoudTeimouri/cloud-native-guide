@@ -837,6 +837,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-terraform-vm-provisioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: Terraform VM provisioning
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4081,228 +4092,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Automation Artifacts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Automation Artifacts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/ansible/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Ansible
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/python-scripts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python scripts
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/offline-staging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Offline staging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/gitlab-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitLab CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -4384,6 +4173,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-terraform-vm-provisioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: Terraform VM provisioning
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4432,6 +4232,116 @@
 <ul>
 <li><a href="../2.2-physical-vs-vm/">Components (2.2 Physical vs Virtual Machines)</a></li>
 </ul>
+<h2 id="automation-terraform-vm-provisioning">Automation: Terraform VM provisioning<a class="headerlink" href="#automation-terraform-vm-provisioning" title="Permanent link">&para;</a></h2>
+<p>Provision VMs on vSphere/KVM/Proxmox via Terraform:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Initialize</span>
+<span class="nb">cd</span><span class="w"> </span>automation/terraform
+terraform<span class="w"> </span>init
+
+<span class="c1"># Copy and customize variables</span>
+cp<span class="w"> </span>terraform.tfvars.example<span class="w"> </span>terraform.tfvars
+<span class="c1"># Edit terraform.tfvars: vm_flavor, vm_network, node_count, internal_registry, vault_addr</span>
+
+<span class="c1"># Dry-run</span>
+terraform<span class="w"> </span>plan<span class="w"> </span>-var-file<span class="o">=</span>terraform.tfvars
+
+<span class="c1"># Apply</span>
+terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span>terraform.tfvars<span class="w"> </span>-auto-approve
+
+<span class="c1"># Capture outputs for Ansible inventory</span>
+terraform<span class="w"> </span>output<span class="w"> </span>new_node_ips
+<span class="c1"># Add the IPs to automation/ansible/inventories/production/hosts.ini under the right group</span>
+</code></pre></div>
+<p><strong>Customization variables</strong> (<code>automation/terraform/terraform.tfvars</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Customize when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vm_username</code></td>
+<td><code>ansible</code></td>
+<td>Your SSH admin user differs</td>
+</tr>
+<tr>
+<td><code>vm_os_image</code></td>
+<td><code>oracle-linux-9</code></td>
+<td>Use Ubuntu/RHEL/Windows image</td>
+</tr>
+<tr>
+<td><code>vm_flavor</code></td>
+<td><code>m4.large</code></td>
+<td>Right-size for your role</td>
+</tr>
+<tr>
+<td><code>vm_network</code></td>
+<td><code>internal</code></td>
+<td>Your network name differs</td>
+</tr>
+<tr>
+<td><code>target_cluster</code></td>
+<td><code>application</code></td>
+<td><code>management</code>, <code>storage</code>, <code>load-balancers</code></td>
+</tr>
+<tr>
+<td><code>node_count</code></td>
+<td><code>1</code></td>
+<td>Number of VMs to provision</td>
+</tr>
+<tr>
+<td><code>internal_registry</code></td>
+<td><code>harbor.internal:5000</code></td>
+<td>Your Harbor address differs</td>
+</tr>
+<tr>
+<td><code>vault_addr</code></td>
+<td><code>https://vault.internal:8200</code></td>
+<td>Your Vault address differs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Provider examples</strong> (<code>automation/terraform/virtualization.md</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Provider</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VMware vSphere</td>
+<td><code>hashicorp/vsphere</code></td>
+<td>Primary platform; template clone + customization spec</td>
+</tr>
+<tr>
+<td>libvirt/KVM</td>
+<td><code>dmacvicar/libvirt</code></td>
+<td>Local lab and CI runners</td>
+</tr>
+<tr>
+<td>Proxmox</td>
+<td><code>bpg/proxmox</code></td>
+<td>Alternative on-prem hypervisor</td>
+</tr>
+<tr>
+<td>oVirt/RHEV</td>
+<td><code>terraform-provider-ovirt</code></td>
+<td>RHEV-based virtualization</td>
+</tr>
+<tr>
+<td>OpenStack</td>
+<td><code>terraform-provider-openstack</code></td>
+<td>Private cloud with Nova</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Layer separation</strong> — Terraform owns VMs/networks/disks; Ansible (<code>automation/ansible/playbooks/os-prep-base.yml</code>) owns OS config after boot.</p>
 
 
 

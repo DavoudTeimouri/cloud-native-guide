@@ -1516,6 +1516,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-gitlab-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: GitLab playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4092,228 +4103,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Automation Artifacts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Automation Artifacts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/ansible/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Ansible
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/python-scripts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python scripts
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/offline-staging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Offline staging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/gitlab-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitLab CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -4406,6 +4195,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-gitlab-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: GitLab playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4460,6 +4260,58 @@
 <li><a href="../../06-kubernetes-infrastructure/6.12-gitops-and-application-delivery/">Kubernetes (6.12 GitOps &amp; Application Delivery)</a></li>
 <li><a href="../../06-kubernetes-infrastructure/6.9-kubernetes-networking/">Kubernetes (6.9 Cluster Registration)</a></li>
 </ul>
+<h2 id="automation-gitlab-playbook">Automation: GitLab playbook<a class="headerlink" href="#automation-gitlab-playbook" title="Permanent link">&para;</a></h2>
+<p>Deploy GitLab via Ansible:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Dry-run</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/staging/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/gitlab.yml<span class="w"> </span>--check<span class="w"> </span>--diff
+
+<span class="c1"># Apply</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/gitlab.yml
+
+<span class="c1"># Limit to GitLab node</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/gitlab.yml<span class="w"> </span>--limit<span class="w"> </span>gitlab-nodes
+</code></pre></div>
+<p><strong>Customization variables</strong> (<code>automation/ansible/group_vars/all/gitlab.yml</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Customize when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gitlab_version</code></td>
+<td><code>17.0.0</code></td>
+<td>Pin to your GitLab version</td>
+</tr>
+<tr>
+<td><code>gitlab_external_url</code></td>
+<td><code>https://gitlab.internal</code></td>
+<td>Your GitLab address differs</td>
+</tr>
+<tr>
+<td><code>gitlab_root_password</code></td>
+<td>Vault lookup</td>
+<td>Never set in plaintext</td>
+</tr>
+<tr>
+<td><code>gitlab_storage_size</code></td>
+<td><code>1Ti</code></td>
+<td>Increase for large repos/LFS</td>
+</tr>
+<tr>
+<td><code>gitlab_smtp_host</code></td>
+<td><code>smtp.internal</code></td>
+<td>Your SMTP relay differs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Backup</strong> (section 3.7): <code>gitlab-rake gitlab:backup:restore BACKUP=&lt;timestamp&gt;</code> — run via Ansible or manually on the GitLab node.</p>
 
 
 

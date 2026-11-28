@@ -1781,6 +1781,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-kubespray-deployment-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: Kubespray deployment playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4081,228 +4092,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Automation Artifacts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Automation Artifacts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/ansible/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Ansible
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/python-scripts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python scripts
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/offline-staging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Offline staging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/gitlab-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitLab CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -4378,6 +4167,17 @@
     <span class="md-ellipsis">
       
         Related
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automation-kubespray-deployment-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: Kubespray deployment playbook
       
     </span>
   </a>
@@ -4460,6 +4260,62 @@
 <li><a href="../6.5-app-cluster-deployment/">Kubernetes (6.5 Application Cluster Deployment)</a></li>
 <li><a href="../../01-overview-and-architecture/1.2-reference-architectures/">Overview (1.2 Reference Architectures)</a></li>
 </ul>
+<h2 id="automation-kubespray-deployment-playbook">Automation: Kubespray deployment playbook<a class="headerlink" href="#automation-kubespray-deployment-playbook" title="Permanent link">&para;</a></h2>
+<p>Deploy Kubernetes clusters via Ansible/Kubespray:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Dry-run</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/staging/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/kubernetes.yml<span class="w"> </span>--check<span class="w"> </span>--diff
+
+<span class="c1"># Apply to production</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/kubernetes.yml
+
+<span class="c1"># Limit to management cluster</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/kubernetes.yml<span class="w"> </span>--limit<span class="w"> </span>mgmt-cluster
+
+<span class="c1"># Limit to application cluster</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/kubernetes.yml<span class="w"> </span>--limit<span class="w"> </span>app-cluster
+</code></pre></div>
+<p><strong>Customization variables</strong> (<code>automation/ansible/group_vars/all/kubernetes.yml</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Customize when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kube_version</code></td>
+<td><code>1.28.x</code></td>
+<td>Pin to your Kubernetes version</td>
+</tr>
+<tr>
+<td><code>kube_network_plugin</code></td>
+<td><code>calico</code></td>
+<td>Use <code>cilium</code> for advanced networking</td>
+</tr>
+<tr>
+<td><code>etcd_deployment_type</code></td>
+<td><code>kubespray</code></td>
+<td>Use <code>stacked</code> for smaller clusters</td>
+</tr>
+<tr>
+<td><code>max_pods</code></td>
+<td><code>110</code></td>
+<td>Adjust for node sizing</td>
+</tr>
+<tr>
+<td><code>containerd_registry_mirrors</code></td>
+<td><code>["https://harbor.internal:443"]</code></td>
+<td>Your Harbor address differs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cluster types</strong> — Management cluster runs Rancher, Argo CD, monitoring; Application clusters run tenant workloads (see section 6.1).</p>
 
 
 

@@ -3158,6 +3158,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-scaling-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: scaling playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4092,228 +4103,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Automation Artifacts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Automation Artifacts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/ansible/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Ansible
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/python-scripts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python scripts
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/offline-staging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Offline staging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/gitlab-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitLab CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -4406,6 +4195,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-scaling-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: scaling playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4471,6 +4271,33 @@ kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class=
 <li><a href="../../02-components/2.5-os-prep-by-role/">Operating Systems (2.5 OS Preparation by Role)</a></li>
 <li><a href="../../06-kubernetes-infrastructure/6.5-app-cluster-deployment/">Kubernetes Infrastructure (6.5 Application Cluster Deployment)</a></li>
 </ul>
+<h2 id="automation-scaling-playbook">Automation: scaling playbook<a class="headerlink" href="#automation-scaling-playbook" title="Permanent link">&para;</a></h2>
+<p>Add nodes via Terraform + Ansible:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Provision VM via Terraform</span>
+<span class="nb">cd</span><span class="w"> </span>automation/terraform
+terraform<span class="w"> </span>apply<span class="w"> </span>-var-file<span class="o">=</span>terraform.tfvars<span class="w"> </span>-target<span class="o">=</span>vsphere_virtual_machine.new_node<span class="w"> </span>-auto-approve
+terraform<span class="w"> </span>output<span class="w"> </span>new_node_ips
+
+<span class="c1"># 2. Add node to Ansible inventory</span>
+cat<span class="w"> </span>&gt;&gt;<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+<span class="s">[k8s-workers]</span>
+<span class="s">k8s-worker-&lt;N&gt; ansible_host=&lt;new_node_ip&gt; ip=&lt;new_node_ip&gt;</span>
+<span class="s">EOF</span>
+
+<span class="c1"># 3. Apply OS baseline via Ansible</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/os-prep-worker.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-worker-&lt;N&gt;
+
+<span class="c1"># 4. Join to Kubernetes via Kubespray</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/kubernetes.yml<span class="w"> </span>--limit<span class="w"> </span>k8s-worker-&lt;N&gt;
+
+<span class="c1"># 5. Verify</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>k8s-worker-&lt;N&gt;
+kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-o<span class="w"> </span>wide<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>k8s-worker-&lt;N&gt;
+</code></pre></div>
+<p><strong>Inventory update</strong> — After <code>terraform output new_node_ips</code>, add the IPs to <code>automation/ansible/inventories/production/hosts.ini</code> under the correct group (<code>k8s-workers</code>, <code>control-plane</code>, <code>etcd</code>, <code>ceph-nodes</code>, <code>lb-nodes</code>).</p>
+<p><strong>Customization variables</strong> (<code>automation/ansible/group_vars/all/main.yml</code> and <code>automation/terraform/terraform.tfvars</code>) — see sections 2.4 and 2.5.</p>
 
 
 

@@ -2495,6 +2495,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-ceph-sds-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: Ceph SDS playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4125,228 +4136,6 @@
   
 
     
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
-        
-          
-          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Automation Artifacts
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_14">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Automation Artifacts
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/ansible/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Ansible
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/python-scripts/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python scripts
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/offline-staging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Offline staging
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../automation-artifacts/gitlab-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    GitLab CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -4472,6 +4261,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automation-ceph-sds-playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automation: Ceph SDS playbook
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4537,6 +4337,57 @@
 <li><a href="../../06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing/">Kubernetes Infrastructure (6.17 Validation and Acceptance Testing)</a></li>
 <li><a href="../../10-upgrade-and-lifecycle-management/">Upgrade and Lifecycle Management</a></li>
 </ul>
+<h2 id="automation-ceph-sds-playbook">Automation: Ceph SDS playbook<a class="headerlink" href="#automation-ceph-sds-playbook" title="Permanent link">&para;</a></h2>
+<p>Deploy and manage Ceph storage via Ansible:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Dry-run</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/staging/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/sds-ceph.yml<span class="w"> </span>--check<span class="w"> </span>--diff
+
+<span class="c1"># Apply</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/sds-ceph.yml
+
+<span class="c1"># Limit to storage nodes</span>
+ansible-playbook<span class="w"> </span>-i<span class="w"> </span>automation/ansible/inventories/production/hosts.ini<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>automation/ansible/playbooks/sds-ceph.yml<span class="w"> </span>--limit<span class="w"> </span>ceph-nodes
+</code></pre></div>
+<p><strong>Customization variables</strong> (<code>automation/ansible/group_vars/all/ceph.yml</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Customize when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ceph_version</code></td>
+<td><code>quincy</code></td>
+<td>Pin to your Ceph release</td>
+</tr>
+<tr>
+<td><code>monitor_count</code></td>
+<td><code>3</code></td>
+<td>Increase for larger clusters</td>
+</tr>
+<tr>
+<td><code>osd_devices</code></td>
+<td><code>[]</code></td>
+<td>List of OSD device paths</td>
+</tr>
+<tr>
+<td><code>pool_size</code></td>
+<td><code>3</code></td>
+<td>Reduce to <code>2</code> for small dev clusters</td>
+</tr>
+<tr>
+<td><code>crush_rule</code></td>
+<td><code>replicated_rule</code></td>
+<td>Use <code>erasure</code> for capacity-optimized</td>
+</tr>
+</tbody>
+</table>
 
 
 
