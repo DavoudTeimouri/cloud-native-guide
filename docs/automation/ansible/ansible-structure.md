@@ -2,7 +2,7 @@
 
 ## Layout
 
-```
+```text
 ansible/
 ├── ansible.cfg
 ├── requirements.yml          # collections
@@ -89,6 +89,7 @@ The Ansible version must match the Kubespray release's supported range. For Kube
 Ansible playbooks are re-run routinely; a second run must report 0 changed.
 
 Rules:
+
 - Use modules, not shell commands, wherever a module exists.
 - Where a shell command is unavoidable, guard it: `changed_when` on a meaningful condition, and `creates`/`removes` for file operations.
 - Never use `command` without `changed_when: false` when the command is idempotent by nature.
@@ -121,7 +122,7 @@ The correct form uses `ansible.posix.sysctl`, which is idempotent and persists t
 ## Secrets in Ansible
 
 | Use | Method |
-|---|---|
+| --- | --- |
 | Look up at execution time | `community.general.hashi_vault` lookup, or `lookup('community.general.vault', ...)` |
 | Bootstrap-time offline secrets | `ansible-vault` encrypted files, key stored in Vault and offline |
 | Credentials in an inventory | Never. Use a lookup or a vault-encrypted variable file |
@@ -172,7 +173,7 @@ Each play targets a host group, so a partial run is possible with `--limit`.
 ## Tags
 
 | Tag | Scope |
-|---|---|
+| --- | --- |
 | `base` | OS baseline, packages, users |
 | `security` | sysctl, sshd, firewall, audit |
 | `identity` | not used: no host-level directory join (ADR-0015) |
@@ -204,6 +205,7 @@ ansible all -i inventories/staging/hosts.ini -m setup
 AWX consumes the same roles and inventories. Job templates map to the playbooks, with tags limiting the scope. Survey variables carry the environment-specific values.
 
 AWX-specific configuration:
+
 - Vault credentials are stored in AWX, sourced from Vault through a credential type plugin.
 - Job templates run with `--check --diff` in the "Check" mode for validation.
 - Instance groups point at the automation server or dedicated runners.

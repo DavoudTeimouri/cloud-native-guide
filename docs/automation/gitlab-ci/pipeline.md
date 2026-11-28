@@ -4,7 +4,7 @@ Reference pipeline. Adapt the stage list to the environment; keep the ordering a
 
 ## Structure
 
-```
+```text
 .gitlab-ci.yml              # top-level, includes the shared template
 ci/
 ├── templates/

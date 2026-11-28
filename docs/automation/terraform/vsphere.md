@@ -3,7 +3,7 @@
 Terraform provisions VMs on vSphere and other virtualization platforms; Ansible (see `automation/ansible/`) configures them after provisioning. One tool owns each layer:
 
 | Layer | Tool | Responsibility |
-|-------|------|----------------|
+| --- | --- | --- |
 | VM create / destroy / resize | Terraform | vSphere provider, VM hardware, network, disk, template clone |
 | OS and service config after boot | Ansible | base OS, users, ssh, sudo, repos, runtime, identity |
 | Secrets | Vault | looked up at execution time, never in Git |

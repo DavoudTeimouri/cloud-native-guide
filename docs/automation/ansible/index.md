@@ -8,7 +8,7 @@ scheduler in front of the same playbooks.
 ## Role in the design
 
 | Concern | Decision |
-|---|---|
+| --- | --- |
 | Configuration transport | SSH from the automation server to every managed node (port 22) |
 | Secrets | Read from Vault at run time (port 8200); no secret values in Git or in `group_vars` |
 | Directory integration | None on the hosts (ADR-0015); the automation server uses local accounts |
@@ -65,7 +65,7 @@ ansible-playbook -i inventories/production/hosts.ini site.yml --check --diff
 ## Failure modes
 
 | Failure | Effect | Recovery |
-|---|---|---|
+| --- | --- | --- |
 | Automation server lost | No configuration changes possible; running workloads unaffected | Rebuild from the OS baseline and re-clone the control repository; Vault still holds secrets |
 | Vault unreachable | Playbooks that read secrets fail before changing anything | Restore Vault first: `lifecycle/backup/backup-and-dr.md` §D |
 | SSH key or host key mismatch | Playbook stops on the affected host | Re-collect the host key out of band; never disable host key checking |

@@ -5,7 +5,7 @@
 One GitLab group per logical domain, separate projects for separate ownership. Rule: one project = one owner = one change-review path.
 
 | GitLab project | Contents | Owner | Visibility |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | `docs-architecture` | architecture/, decisions/ | Platform Architect | Internal |
 | `docs-requirements` | requirements/, compatibility/ | Platform Architect | Internal |
 | `docs-operations` | troubleshooting/, lifecycle/, network-matrix/ | SRE | Internal |
@@ -37,7 +37,7 @@ Environment overlay pattern: base content in the domain project, environment-spe
 Stages run in order; each is a gate.
 
 | # | Stage | Job | Tooling | Gate |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | 1 | source | branch policy, signed commits, template check | GitLab | protected branch, MR required |
 | 2 | lint | YAML lint, markdown lint | yamllint, markdownlint | must pass |
 | 3 | ansible | syntax check + lint | `ansible-lint`, `ansible-playbook --syntax-check` | must pass |
@@ -58,13 +58,14 @@ Validation is fully separate from production execution: no production credential
 ## 7.3 Runner architecture
 
 | Runner type | Use | Isolation | Notes |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Shell executor on automation server | Ansible lint, syntax check | Host-level | Cheap, low risk tasks only |
 | Docker executor | image build, unit tests | Container | Default for CI |
 | Kubernetes executor | integration tests, Helm tests | Pod | Needs cluster agent token; keep separate namespace |
 | VM runner (dedicated) | heavy builds | VM | Optional |
 
 Rules:
+
 - Runners never have cluster-admin. Namespace-scoped service accounts with a dedicated `ci` namespace.
 - No runner on a Kubernetes control-plane node.
 - Runner images pinned by digest.
@@ -74,7 +75,7 @@ Rules:
 ## 7.4 Configuration ownership
 
 | Object | Owner tool | Not owned by |
-|---|---|---|
+| --- | --- | --- |
 | OS packages, sysctl, users, firewall, repos | Ansible | any in-cluster controller |
 | Node labels/taints, kubelet config, CNI, CSI, K8s version | Kubespray | manual kubectl |
 | Add-ons (ingress, metrics, cert-manager, ESO, Gatekeeper) | Argo CD | Helm CLI by hand |
@@ -97,7 +98,7 @@ Conflict rule: if two tools would reconcile the same field, one is the owner and
 ## 7.6 Approval gates
 
 | Change class | Approvals | Who |
-|---|---|---|
+| --- | --- | --- |
 | Docs/comment only | 1 | Any maintainer |
 | Add-on or policy change (staging+prod) | 2 | Platform + SecOps |
 | OS baseline, Ansible role change | 2 | DevOps + SecOps |

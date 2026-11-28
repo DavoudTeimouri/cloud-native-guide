@@ -5,7 +5,7 @@ Terraform provisions VMs across virtualization platforms. vSphere is the primary
 ## Supported platforms
 
 | Platform | Terraform provider | Notes |
-|----------|-------------------|-------|
+| --- | --- | --- |
 | VMware vSphere | `hashicorp/vsphere` | Primary platform. Template clone + customization spec. |
 | libvirt / KVM | `dmacvicar/libvirt` | Local lab and CI runners. QEMU/KVM on Linux hosts. |
 | Proxmox | `bpg/proxmox` | Alternative hypervisor for on-prem labs. |

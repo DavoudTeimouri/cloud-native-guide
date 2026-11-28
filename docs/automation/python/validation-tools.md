@@ -3,15 +3,18 @@
 ## 🔍 Consistency Checks
 
 ### Purpose
+
 Validate structural and semantic consistency across the documentation repository. These checks ensure that all files adhere to the same formatting rules, version references, and cross-reference patterns.
 
 ### Checks Included
+
 - **Duplicate content detection**: Identify overlapping topics across markdown files using keyword and heading similarity analysis
 - **Version drift detection**: Verify that pinned versions and check dates are identical where content overlaps
-- ** formatting compliance**: Check that markdown files follow the repository's style conventions (headings, tables, links)
+- **formatting compliance**: Check that markdown files follow the repository's style conventions (headings, tables, links)
 - **Link pattern validation**: Ensure all internal links follow expected patterns; anchors must resolve to headings or explicit `<a name>` tags
 
 ### Usage
+
 ```bash
 # Run all consistency checks
 python3 scripts/validate_catalog.py
@@ -23,15 +26,18 @@ grep -irl "keyword" automation/**/*.md | sort | uniq -d > duplicate-candidates.t
 ## 🔗 Cross-Reference Validation
 
 ### Purpose
+
 Verify that every cross-reference in the documentation resolves correctly — both the target file exists and any in-page anchors are valid.
 
 ### Checks Included
+
 - **File existence**: Every link target must exist in the repository — documentation example pattern, do not create `path/to/file.md`
 - **Anchor validity**: Every `#anchor` reference must correspond to a heading or explicit `<a name="...">` in the target file
 - **Broken link detection**: Catch dead anchors and missing files before they reach readers
 - **Relative path correctness**: Ensure all internal links use correct relative paths from the repository root
 
 ### Usage
+
 ```bash
 # Run the link checker
 python3 scripts/check_links.py
@@ -40,7 +46,9 @@ python3 scripts/check_links.py
 ```
 
 ### Anchor Resolution
+
 The `scripts/check_links.py` tool detects:
+
 - Missing file references: used as documentation example only — do not create a file named `nonexistent.md`
 - Missing anchors: used as documentation example only — no heading generates the anchor `#missing-anchor`
 - Explicit anchor mismatches: used as documentation example only — anchor `#anchor-name` does not exist in the target file
@@ -48,9 +56,11 @@ The `scripts/check_links.py` tool detects:
 ## 🚫 Broken Link Detection
 
 ### Purpose
+
 Scan the entire repository for broken relative links and dead in-page anchors. This is the primary gate before any merge or publication.
 
 ### How It Works
+
 - Walks all `.md` files in the repository
 - Extracts Markdown link syntax `][(url)]`
 - Skips external URLs (http/https/mailto/tel)
@@ -59,12 +69,14 @@ Scan the entire repository for broken relative links and dead in-page anchors. T
 - Reports each broken link with its source file path
 
 ### Output Format
-```
+
+```text
 <relative-path>: missing file <target>
 <relative-path>: missing anchor <target>
 ```
 
 ### Usage
+
 ```bash
 python3 scripts/check_links.py
 # Reports: N broken link(s) in <repository-root>
@@ -74,9 +86,11 @@ python3 scripts/check_links.py
 ## ⚙️ Configuration Validation
 
 ### Purpose
+
 Validate configuration files (YAML, JSON, HCL) used throughout the repository for correctness, required fields, and schema compliance.
 
 ### Checks Included
+
 - **Schema validation**: Verify configuration files conform to expected JSON/YAML schemas
 - **Required field presence**: Ensure all mandatory fields are present
 - **Value range checks**: Validate that numeric values (ports, sizes, counts) are within acceptable ranges
@@ -84,6 +98,7 @@ Validate configuration files (YAML, JSON, HCL) used throughout the repository fo
 - **Cross-config consistency**: Ensure configuration values are consistent across multiple files
 
 ### Usage
+
 ```bash
 # Example: Validate YAML config files
 python3 -c "
@@ -106,9 +121,11 @@ for root, dirs, files in os.walk(base):
 ## 🔄 CI Integration
 
 ### Purpose
+
 Integrate validation tools into the CI/CD pipeline so that every pull request passes all consistency, link, and configuration checks before merging.
 
 ### Recommended GitHub Actions Workflow
+
 ```yaml
 name: Validation Gates
 
@@ -158,6 +175,7 @@ for root, dirs, files in os.walk(base):
 ```
 
 ### Failure Conditions
+
 - `scripts/check_links.py` returns exit code 1 (broken links found)
 - `scripts/validate_catalog.py` reports missing docs, bad placeholders, or stale data
 - Duplicate content candidates are detected without review

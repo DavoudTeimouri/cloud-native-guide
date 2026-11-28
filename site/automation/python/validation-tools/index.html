@@ -4299,7 +4299,7 @@
 <ul>
 <li><strong>Duplicate content detection</strong>: Identify overlapping topics across markdown files using keyword and heading similarity analysis</li>
 <li><strong>Version drift detection</strong>: Verify that pinned versions and check dates are identical where content overlaps</li>
-<li>** formatting compliance**: Check that markdown files follow the repository's style conventions (headings, tables, links)</li>
+<li><strong>formatting compliance</strong>: Check that markdown files follow the repository's style conventions (headings, tables, links)</li>
 <li><strong>Link pattern validation</strong>: Ensure all internal links follow expected patterns; anchors must resolve to headings or explicit <code>&lt;a name&gt;</code> tags</li>
 </ul>
 <h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
@@ -4326,10 +4326,12 @@ python3<span class="w"> </span>scripts/check_links.py
 <span class="c1"># Expected: 0 broken link(s) in /workspace/project/github/public-repository/cloud-native-guide</span>
 </code></pre></div>
 <h3 id="anchor-resolution">Anchor Resolution<a class="headerlink" href="#anchor-resolution" title="Permanent link">&para;</a></h3>
-<p>The <code>scripts/check_links.py</code> tool detects:
-- Missing file references: used as documentation example only — do not create a file named <code>nonexistent.md</code>
-- Missing anchors: used as documentation example only — no heading generates the anchor <code>#missing-anchor</code>
-- Explicit anchor mismatches: used as documentation example only — anchor <code>#anchor-name</code> does not exist in the target file</p>
+<p>The <code>scripts/check_links.py</code> tool detects:</p>
+<ul>
+<li>Missing file references: used as documentation example only — do not create a file named <code>nonexistent.md</code></li>
+<li>Missing anchors: used as documentation example only — no heading generates the anchor <code>#missing-anchor</code></li>
+<li>Explicit anchor mismatches: used as documentation example only — anchor <code>#anchor-name</code> does not exist in the target file</li>
+</ul>
 <h2 id="broken-link-detection">🚫 Broken Link Detection<a class="headerlink" href="#broken-link-detection" title="Permanent link">&para;</a></h2>
 <h3 id="purpose_2">Purpose<a class="headerlink" href="#purpose_2" title="Permanent link">&para;</a></h3>
 <p>Scan the entire repository for broken relative links and dead in-page anchors. This is the primary gate before any merge or publication.</p>

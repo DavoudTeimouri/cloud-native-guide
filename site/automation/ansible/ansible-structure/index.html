@@ -4203,10 +4203,12 @@ jinja2==3.1.6
 <p>The Ansible version must match the Kubespray release's supported range. For Kubespray <code>release-2.32</code> that is ansible-core &gt;=2.19.0, &lt;2.20.0 with Python 3.11-3.13.</p>
 <h2 id="idempotency">Idempotency<a class="headerlink" href="#idempotency" title="Permanent link">&para;</a></h2>
 <p>Ansible playbooks are re-run routinely; a second run must report 0 changed.</p>
-<p>Rules:
-- Use modules, not shell commands, wherever a module exists.
-- Where a shell command is unavoidable, guard it: <code>changed_when</code> on a meaningful condition, and <code>creates</code>/<code>removes</code> for file operations.
-- Never use <code>command</code> without <code>changed_when: false</code> when the command is idempotent by nature.</p>
+<p>Rules:</p>
+<ul>
+<li>Use modules, not shell commands, wherever a module exists.</li>
+<li>Where a shell command is unavoidable, guard it: <code>changed_when</code> on a meaningful condition, and <code>creates</code>/<code>removes</code> for file operations.</li>
+<li>Never use <code>command</code> without <code>changed_when: false</code> when the command is idempotent by nature.</li>
+</ul>
 <p>Example of a correctly guarded task:</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ensure the containerd registry mirror is configured</span>
 <span class="w">  </span><span class="nt">ansible.builtin.template</span><span class="p">:</span>
@@ -4341,11 +4343,13 @@ ansible<span class="w"> </span>all<span class="w"> </span>-i<span class="w"> </s
 </code></pre></div>
 <h2 id="awx-integration">AWX integration<a class="headerlink" href="#awx-integration" title="Permanent link">&para;</a></h2>
 <p>AWX consumes the same roles and inventories. Job templates map to the playbooks, with tags limiting the scope. Survey variables carry the environment-specific values.</p>
-<p>AWX-specific configuration:
-- Vault credentials are stored in AWX, sourced from Vault through a credential type plugin.
-- Job templates run with <code>--check --diff</code> in the "Check" mode for validation.
-- Instance groups point at the automation server or dedicated runners.
-- The audit log records who ran what and when — that is the change-management evidence trail.</p>
+<p>AWX-specific configuration:</p>
+<ul>
+<li>Vault credentials are stored in AWX, sourced from Vault through a credential type plugin.</li>
+<li>Job templates run with <code>--check --diff</code> in the "Check" mode for validation.</li>
+<li>Instance groups point at the automation server or dedicated runners.</li>
+<li>The audit log records who ran what and when — that is the change-management evidence trail.</li>
+</ul>
 
 
 

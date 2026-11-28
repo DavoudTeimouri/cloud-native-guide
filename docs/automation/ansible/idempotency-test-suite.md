@@ -138,7 +138,7 @@ ansible-playbook -i automation/ansible/inventories/staging/hosts.ini automation/
 
 Verification output recap should show:
 
-```
+```text
 PLAY RECLOSED
 ok=X   changed=0   unreachable=0   failed=0
 ```

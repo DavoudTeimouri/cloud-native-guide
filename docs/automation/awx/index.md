@@ -18,7 +18,7 @@ it — `automation/ansible/index.md` is sufficient and has fewer moving parts.
 ## Deployment shape
 
 | Decision | Choice | Reason |
-|---|---|---|
+| --- | --- | --- |
 | Runtime | Kubernetes (Operator) in the management cluster | Reuses the platform's HA, backup, and ingress instead of a second VM stack |
 | Database | PostgreSQL inside the cluster, backed up with Velero | AWX state is job history and credentials, not cluster state |
 | Exposure | Ingress with TLS, identity through Keycloak | Same SSO path as the rest of the platform (ADR-0031) |
@@ -58,7 +58,7 @@ kubectl -n awx logs deploy/awx-operator-controller-manager --tail=50
 ## Failure modes
 
 | Failure | Effect | Recovery |
-|---|---|---|
+| --- | --- | --- |
 | AWX unavailable | Scheduled jobs stop; playbooks can still be run from the automation server | Restore the AWX namespace from Velero, or run the playbook manually |
 | Execution environment image missing from the mirror | Jobs fail at start | Mirror the image; do not point AWX at a public registry |
 | Database loss | Job history and AWX-local credentials lost | Restore from Velero; re-create credentials from Vault |

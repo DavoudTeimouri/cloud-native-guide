@@ -2,2238 +2,2238 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/CONTRIBUTING/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/MEMORY/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/PLAN-future/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/USER/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.1-project-introduction-and-goals/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.2-reference-architectures/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.3-infrastructure-sizing-and-resource-calculation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.4-network-architecture-and-access-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.5-deployment-environments/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.6-repositories-and-registries/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.7-infrastructure-components/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.8-technologies-and-alternatives/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/01-overview-and-architecture/1.9-standards-and-best-practices/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.1-operating-systems/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.10-repo-registry-servers/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.11-gitlab-server/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.12-other-infra/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.2-physical-vs-vm/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.3-physical-infra-prep/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.4-virtualization-prep/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.5-os-prep-by-role/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.6-operation-mgmt-servers/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.7-kubernetes-nodes/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.8-ceph-storage-nodes/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/02-components/2.9-lb-nodes/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/03-repository-registry/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/03-repository-registry/3.1-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/03-repository-registry/3.2-platform-selection/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/03-repository-registry/3.3-installation-config/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/03-repository-registry/3.4-repository-catalog/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/03-repository-registry/3.5-reverse-proxy/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/03-repository-registry/3.6-client-config/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/03-repository-registry/3.7-validation-operations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/04-operation-servers/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/04-operation-servers/4.1-operation-server-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/04-operation-servers/4.2-required-tools/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/04-operation-servers/4.3-centralized-network-access-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/04-operation-servers/4.4-operational-workflows/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/04-operation-servers/4.5-gitlab/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/05-load-balancers/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/05-load-balancers/5.1-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/05-load-balancers/5.2-mgmt-cluster-lbs/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/05-load-balancers/5.3-app-cluster-lbs/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/05-load-balancers/5.4-deployment-methods/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/05-load-balancers/5.5-configuration-operations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.1-kubernetes-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.10-csi-and-storage-integration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.11-kubernetes-add-ons/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.12-gitops-and-application-delivery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.13-monitoring-and-logging/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.14-alert-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.15-deployment-governance-and-auditing/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.16-security-and-identity/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.17-validation-and-acceptance-testing/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.3-deployment-methods/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.4-mgmt-cluster-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.5-app-cluster-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.6-additional-clusters/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.7-kubernetes-management-platform/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.8-cluster-storage-integration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/06-kubernetes-infrastructure/6.9-kubernetes-networking/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/07-software-defined-storage/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/07-software-defined-storage/7.1-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/07-software-defined-storage/7.2-best-practices/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/07-software-defined-storage/7.3-storage-platform-selection/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/07-software-defined-storage/7.4-independent-ceph/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/07-software-defined-storage/7.5-other-sds-solutions/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/07-software-defined-storage/7.6-monitoring-and-logging/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/07-software-defined-storage/7.7-maintenance-and-data-protection/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-argocd/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-authentication-and-ad/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-ceph/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-certificates-and-tls/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-cni/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-csi/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-dns-and-ntp/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-gitlab/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-ha-and-failover/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-kubernetes/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-load-balancers/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-longhorn/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-monitoring-and-logging/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-network-and-firewall/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-operating-systems/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-performance/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-rancher/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-repositories-and-registries/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/08-troubleshooting-and-diagnostics/08-rook-ceph/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/09-adding-app-clusters/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/09-adding-physical-vm/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/09-capacity-planning-risk/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/09-expanding-ceph-storage/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/09-expanding-k8s-clusters/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/09-expanding-repo-monitoring-lb/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/09-expanding-worker-gpu-pools/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/09-scaling-and-expansion/09-network-ip-pool-expansion/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/10-01-os-firmware-hypervisor/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/10-02-kubernetes-kubespray/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/10-03-cni-csi-addons-argocd/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/10-04-ceph-rook-storage-appliances/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/10-05-lb-gitlab-nexus-harbor/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/10-06-monitoring-components/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/10-07-compat-order-backup-rollback/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/10-upgrade-and-lifecycle-management/10-08-air-gapped-upgrade/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/11-backup-verification-recovery-test/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/11-daily-weekly-monthly/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/11-hardware-node-replacement-dr-exercise/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/11-monitoring-review-vuln-mgmt/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/11-quarterly-capacity-review/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/11-repo-sync-log-retention-drift/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/11-security-patching-cert-renewal/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/11-maintenance-and-operations/11-storage-cluster-health/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/addons/platform-addons/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/architecture/00-overview/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/architecture/01-logical-diagram/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/architecture/02-deployment-topology/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/architecture/03-failure-domains/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/architecture/technical-consistency-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/architecture/two-tier-repository-registry/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/ansible/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/ansible/ansible-structure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/ansible/idempotency-test-suite/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/ansible/inventory-generation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/ansible/reusable-roles/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/awx/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/gitlab-ci/gitlab-ansible-design/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/gitlab-ci/pipeline/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/python/validation-tools/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/terraform/ansible-integration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/terraform/drift-detection/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/terraform/state-migration-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/terraform/virtualization/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/terraform/vsphere-example/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/automation/terraform/vsphere/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/compatibility/version-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0001-oracle-linux-and-ubuntu-server-standardization/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0002-kubernetes-control-plane-topology/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0003-etcd-placement/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0004-load-balancing-for-control-plane-and-ingress/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0005-container-runtime/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0006-cni-selection/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0007-ingress-controller-and-gateway-api/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0008-ceph-deployment-model/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0009-service-mesh-adoption/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0010-management-cluster-design-and-what-runs-inside-it/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0011-rancher-versus-alternatives/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0012-ansible-gui-platform/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0013-gitlab-runner-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0014-gitops-strategy-and-division-of-labour-with-ansible/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0015-identity-integration-layer/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0016-vault-deployment-model/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0017-pki-and-certificate-ownership/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0018-monitoring-platform-and-long-term-metrics/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0019-centralized-logging-backend/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0020-security-policy-engine/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0021-gpu-worker-architecture-and-isolation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0022-gpu-sharing-strategy/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0023-llm-inference-platform/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0024-offline-repository-and-registry-design/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0025-vault-recovery-and-avoidance-of-circular-dependencies/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0026-kubespray-multi-version-support/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0027-ingress-controller-portfolio-and-deprecation-policy/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0028-external-load-balancer-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0029-cephadm-dedicated-storage-model/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0030-no-service-mesh-initially/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/decisions/ADR-0031-identity-integration-with-ldap-ad-federation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/choose-cluster-type/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/other-deployment-methods/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/phase1-cluster-foundation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/phase2-management-layer/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/phase3-storage-lifecycle/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/deploy/phase4-7-sre-operations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/cloud-native-stack-step-by-step/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/common-errors/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/containerd-prerequisites/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/documentation-standards/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/kernel-networking-preparation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/kubespray-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/os-preparation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/os-prerequisites/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/repository-configuration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/two-tier-repository-registry/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/validation-commands/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/en/version-lifecycle-policy/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/gpu-ai/gpu-ai-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/gpu-ai/drivers/compatibility-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/gpu-ai/gpu-workers/gpu-worker-operations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/gpu-ai/inference/llm-serving/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/gpu-ai/monitoring/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/gpu-ai/scheduling/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/gpu-ai/sharing/mig-and-time-slicing/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/identity/directory-integration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/identity/sssd-realmd/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/inventories/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/journey/step-11-day-2-operations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/journey/step-12-upgrades-retirement/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/acceptance-tests/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/admission-policy/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/multiple-clusters/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/node-lifecycle/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/node-resource-reservation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/windows-workers/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/access/end-user-access/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/addons/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/addons/cert-manager/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/addons/descheduler/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/addons/external-dns/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/addons/metrics-server/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/addons/opentelemetry-operator/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/addons/trivy-operator/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/addons/vpa/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/architecture/ha-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/certificates/lifecycle-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/auto-test-k8s-scaling/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/cert-rotation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/certificate-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/etcd-backup/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/etcd-operations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/etcd-restore/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/ha-topology/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/node-lifecycle/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/control-plane/scaling-procedures/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/ingress/multi-controller-plan/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/ingress/nginx-ingress/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/lifecycle/node-upgrade-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/bgp-ebpf/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/bgp-peering-configuration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/calico/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/cilium-ebpf-deep-dive/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/cilium/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/cni-and-load-balancing/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/coredns-forwarding/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/dns-forwarding/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/ingress-tls-configuration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/metallb/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/networking/network-policy-examples/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/scheduling/priority-classes/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/scheduling/resource-reservation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/security/security-controls/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubernetes/troubleshooting/operational-runbook/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/airgapped-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/auto-test-offline-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/baremetal-cloudinit-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/certificate-lifecycle/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/existing-cluster-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/group-vars-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/inventory-and-variables/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/inventory-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/kubespray-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/multi-version-support/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/offline-deployment-checklist/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/offline-deployment-test/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/kubespray/upgrade-validation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/backup/backup-and-dr/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/app-cluster-restore-validation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/application-cluster/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/backup-drill-evidence/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/ceph-recovery-scenarios/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/dr-exercises/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/etcd-backup-automation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/etcd-backup-restore/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/etcd-restore/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/full-site-rebuild/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/k8s-pvc-backup/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/management-cluster/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/rpo-rto-measurement/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/disaster-recovery/test-plan/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/upgrades/kubernetes/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/upgrades/kubespray/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/lifecycle/upgrades/upgrade-procedures/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/logging/log-pipeline/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/access-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/alternatives/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/argocd/application-sets/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/argocd/application-sync/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/argocd/argocd/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/argocd/drift-detection/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/argocd/fleet-argocd-decision-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/argocd/installation-guide/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/keycloak/keycloak/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/platform-services/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/access-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/cluster-lifecycle/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/cluster-onboarding/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/cluster-upgrade-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/fleet-integration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/installation-ha/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/node-pool-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/rancher/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/rbac-and-projects/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/validation-and-troubleshooting/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/management-cluster/rancher/workload-scheduling/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/alert-validation-and-troubleshooting/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/alerting-rules/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/alertmanager-configuration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/ceph-dashboards/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/ceph-monitoring/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/grafana-dashboard-provisioning/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/grafana-dashboards/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/network-observability-runbook/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/prometheus-alert-rules/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/prometheus-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/prometheus-recording-and-alerting/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/prometheus-recording-rules/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/prometheus/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/slo-sla/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/monitoring/victoria-metrics/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/network-matrix/cloud-native-dmz/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/network-matrix/external-load-balancer/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/network-matrix/firewall-rules-generation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/network-matrix/network-communication-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/network-matrix/port-requirements/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/network-matrix/traffic-flow-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/artifact-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/artifact-mirroring-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/image-and-package-mirroring/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/nexus-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/nexus-harbor-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/nexus-harbor-integration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/offline-artifact-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/offline-install-upgrade-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/offline-package-repository/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/offline-upgrade-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/offline-upgrade-test/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/sbom-generation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/signature-verification/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/offline-artifacts/version-pinning-and-sync/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/operating-systems/host-configuration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/operating-systems/os-selection-guide/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/operating-systems/oracle-linux/baseline/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/operating-systems/ubuntu/baseline/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/BLOCKERS/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/DAILY-EXECUTION-LOG/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/DECISION-LOG/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/NEXT-SESSION/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/PROJECT-STATE/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/TASK-INVENTORY/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/agent-delegation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/blockers-and-decisions/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/executive-summary/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/git-and-commit-state/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/next-session-plan/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/remaining-inventory/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/review-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/tasks-completed/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/technical-changes/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/autonomous-execution/2026-11-26/validation-results/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/board-design/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/daily-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/execution-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/git-preservation-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/kanban-automation-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/kanban-capabilities/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/kanban-reset-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/project-backlog/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/recovery-procedures/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/kanban-board/worker-assignments/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/parallel-execution/architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/parallel-execution/autonomous-cycle-verification/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/parallel-execution/concurrency-test-results/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/parallel-execution/continuous-development-progress/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/parallel-execution/implementation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/parallel-execution/remaining-blockers/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/parallel-execution/validation-results/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/evidence/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/executive-summary/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/kanban-dispatch-audit/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/kanban-integrity-review/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/kubespray-version-contradiction-findings/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/parallel-execution-review/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/prioritized-remediation-plan/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/project-progress/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/repository-quality-review/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/review-summary/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/status-review/risks-and-blockers/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/PROJECT-STATE/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/agency-router-evidence/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/agent-delegation-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/archive-integrity/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/autonomy-test-results/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/backlog-inventory/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/catalog-conflict-analysis/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/commit-and-preservation-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/conflict-analysis/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/cross-file-consistency/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/deliverable-integrity/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/dependency-and-impact-analysis/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/dependency-and-scope-analysis/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/dependency-map/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/dispatcher-config/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/dispatcher-implementation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/dispatcher-verification/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/environment-audit/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/environment-verification/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/executive-summary/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/git-safety-verification/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/git-safety/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/git-state-and-commit/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/github-pr-state/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/hermes-directory-map/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/history-comparison/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/implementation-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/independent-safety-review/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/kanban-automation-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/kanban-database-diagnosis/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/kanban-migration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/kanban-recovery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/limitations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/model-routing-evidence/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/model-routing/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/operations/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/preflight-and-git-state/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/preflight-report/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/queue-design/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/queue-reconciliation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/reconciliation-impact/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/reconciliation-roadmap/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/recovery-strategy-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/recovery-test-results/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/recovery-test/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/remaining-inventory/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/remaining-risks/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/scheduler-implementation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/scheduler-verification/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/scheduling-review/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/selected-files-and-dependencies/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/selected-files-and-rationale/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/task-board/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/technical-reconciliation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/technical-review/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/validation-results/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/verification-results/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/worker-profiles/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/release-artifacts/task-reports/working-tree-backup-audit/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/acceptance-criteria/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/component-guide-backlog/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/component-guide-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/implementation-roadmap/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/performance-and-capacity/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/platform-standards/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/requirements-and-assumptions/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/technology-selection-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/test-registry/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/requirements/validation-strategy/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/kubernetes-auth-config/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/kubernetes-integration/secret-delivery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/pki/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/pki/certificate-inventory/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/pki/root-ca-rotation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/recovery/restore/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/security/rbac-and-audit/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/access-control/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/audit-log-configuration/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/auto-test-vault-ha/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/ha-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/hashicorp-vault-decision/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/k8s-auth-and-secret-delivery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/pki-ca-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/pki-root-ca/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/policy-management/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/secret-rotation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/test-concurrency-vault/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/unseal-recovery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/vault-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/secrets-management/vault/recovery/restore/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/security/host-baseline/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/security/image-provenance/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/security/image-signing-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/security/kubewarden/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/security/pod-security-standards/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/service-mesh/evaluation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/service-mesh/istio/istio-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/decision-records/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/diagrams/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/diagrams/deployment-topology/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/diagrams/reference-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/diagrams/traffic-flow/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/matrices/version-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/network-matrix/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/architecture-decision-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/backup-recovery-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/component-deployment-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/configuration-validation-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/maintenance-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/network-access-request-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/server-preparation-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/troubleshooting-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/shared/templates/upgrade-planning-template/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/longhorn/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/migration-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/pvc-lifecycle/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/storageclass-design/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/alternatives/storage-alternatives/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/auto-test-ceph-performance/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/backup-and-recovery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/backup-recovery-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/cephadm-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/crush-rules-documentation/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/failover-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/failure-recovery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/kubernetes-pvc-lifecycle/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/mon-osd-crush-pools/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/osd-addition-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/performance-tuning/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/production-architecture/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/ceph/test-concurrency-ceph/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/rook-ceph/osd-replacement-procedure/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/rook-ceph/rook-ceph-deployment/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/storage/rook-ceph/rook-ceph/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/tests/chaos-engineering-test-plan/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/tests/failure-scenario-tests/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/tests/integration-test-suite/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/tests/acceptance/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/admission/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/ansible/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/apiserver/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/argocd/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/backup-restore/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/ceph/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/cert-manager/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/cni/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/control-plane-troubleshooting/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/csi/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/dns/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/etcd/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/gitlab-ci/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/gpu/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/identity/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/inference/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/kubespray/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/logging/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/network/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/offline-deps/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/packages/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/prometheus/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/rancher/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/registry-auth/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/runbooks-and-checklists/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/secret-delivery/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/service-mesh/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/time/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/tls/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/upgrades/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
     <url>
          <loc>https://davoudteimouri.github.io/cloud-native-guide/troubleshooting/vault/</loc>
-         <lastmod>2026-11-27</lastmod>
+         <lastmod>2026-11-28</lastmod>
     </url>
 </urlset>

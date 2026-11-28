@@ -4390,12 +4390,14 @@
 </tr>
 </tbody>
 </table>
-<p>Rules:
-- Runners never have cluster-admin. Namespace-scoped service accounts with a dedicated <code>ci</code> namespace.
-- No runner on a Kubernetes control-plane node.
-- Runner images pinned by digest.
-- Concurrency limits to protect the artifact registry and cluster API.
-- Protected variables for production secrets; masked and hidden in job logs.</p>
+<p>Rules:</p>
+<ul>
+<li>Runners never have cluster-admin. Namespace-scoped service accounts with a dedicated <code>ci</code> namespace.</li>
+<li>No runner on a Kubernetes control-plane node.</li>
+<li>Runner images pinned by digest.</li>
+<li>Concurrency limits to protect the artifact registry and cluster API.</li>
+<li>Protected variables for production secrets; masked and hidden in job logs.</li>
+</ul>
 <h2 id="74-configuration-ownership">7.4 Configuration ownership<a class="headerlink" href="#74-configuration-ownership" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
