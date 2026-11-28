@@ -4498,7 +4498,7 @@ docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </sp
 <span class="w">  </span>--cap-add<span class="w"> </span>NET_ADMIN<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--network<span class="w"> </span>host<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-v<span class="w"> </span>./keepalived.conf:/etc/keepalived/keepalived.conf:ro<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>osixia/keepalived:latest
+<span class="w">  </span>osixia/keepalived:2.0.1
 </code></pre></div>
 <p><strong>Customization hints:</strong></p>
 <ul>
@@ -4603,18 +4603,18 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>/etc/keepalived/keepalive
 <span class="s">    virtual_ipaddress {</span>
 <span class="s">        10.10.0.10  # LB VIP - change to your VIP</span>
 <span class="s">    }</span>
-<span class="s">}</span>
-
-<span class="s">vrrp_script chk_haproxy {</span>
-<span class="s">    script "pidof haproxy"</span>
-<span class="s">    interval 2</span>
-<span class="s">    weight 2</span>
-<span class="s">}</span>
-
-<span class="s">vrrp_instance VI_1 {</span>
 <span class="s">    track_script {</span>
 <span class="s">        chk_haproxy</span>
 <span class="s">    }</span>
+<span class="s">}</span>
+
+<span class="s">vrrp_script chk_haproxy {</span>
+<span class="s">    script "curl -sk https://127.0.0.1:443/ || exit 1"</span>
+<span class="s">    interval 2</span>
+<span class="s">    weight 2</span>
+<span class="s">    fall 2</span>
+<span class="s">    rise 2</span>
+<span class="s">    timeout 5</span>
 <span class="s">}</span>
 <span class="s">EOF</span>
 

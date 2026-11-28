@@ -4412,9 +4412,15 @@ mkdir<span class="w"> </span>-p<span class="w"> </span>/opt/haproxy/<span class=
 cp<span class="w"> </span>/etc/pki/ca-trust/source/anchors/internal-ca.crt<span class="w"> </span>/opt/haproxy/certs/
 cp<span class="w"> </span>/etc/registry/certs/harbor.internal.crt<span class="w"> </span>/opt/haproxy/certs/harbor.internal.crt
 cp<span class="w"> </span>/etc/registry/certs/harbor.internal.key<span class="w"> </span>/opt/haproxy/certs/harbor.internal.key
+cp<span class="w"> </span>/etc/registry/certs/nexus.internal.crt<span class="w"> </span>/opt/haproxy/certs/nexus.internal.crt
+cp<span class="w"> </span>/etc/registry/certs/nexus.internal.key<span class="w"> </span>/opt/haproxy/certs/nexus.internal.key
+cp<span class="w"> </span>/etc/gitlab/ssl/gitlab.internal.crt<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.crt
+cp<span class="w"> </span>/etc/gitlab/ssl/gitlab.internal.key<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.key
 
-<span class="c1"># 3. Combine cert + key into single .pem for HAProxy</span>
+<span class="c1"># 3. Combine cert + key into single .pem files for HAProxy</span>
 cat<span class="w"> </span>/opt/haproxy/certs/harbor.internal.crt<span class="w"> </span>/opt/haproxy/certs/harbor.internal.key<span class="w"> </span>&gt;<span class="w"> </span>/opt/haproxy/certs/harbor.internal.pem
+cat<span class="w"> </span>/opt/haproxy/certs/nexus.internal.crt<span class="w"> </span>/opt/haproxy/certs/nexus.internal.key<span class="w"> </span>&gt;<span class="w"> </span>/opt/haproxy/certs/nexus.internal.pem
+cat<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.crt<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.key<span class="w"> </span>&gt;<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.pem
 
 <span class="c1"># 4. Create docker-compose.yml</span>
 cat<span class="w"> </span>&gt;<span class="w"> </span>/opt/haproxy/docker-compose.yml<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
@@ -4624,8 +4630,8 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>/opt/nginx/nginx.conf<spa
 <span class="s">        listen 8443 ssl;</span>
 <span class="s">        server_name nexus.internal;</span>
 
-<span class="s">        ssl_certificate /etc/nginx/certs/harbor.internal.crt;</span>
-<span class="s">        ssl_certificate_key /etc/nginx/certs/harbor.internal.key;</span>
+<span class="s">        ssl_certificate /etc/nginx/certs/nexus.internal.crt;</span>
+<span class="s">        ssl_certificate_key /etc/nginx/certs/nexus.internal.key;</span>
 <span class="s">        ssl_protocols TLSv1.2 TLSv1.3;</span>
 <span class="s">        ssl_ciphers HIGH:!aNULL:!MD5;</span>
 
@@ -4644,8 +4650,8 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>/opt/nginx/nginx.conf<spa
 <span class="s">        listen 4443 ssl;</span>
 <span class="s">        server_name registry.gitlab.internal;</span>
 
-<span class="s">        ssl_certificate /etc/nginx/certs/harbor.internal.crt;</span>
-<span class="s">        ssl_certificate_key /etc/nginx/certs/harbor.internal.key;</span>
+<span class="s">        ssl_certificate /etc/nginx/certs/gitlab.internal.crt;</span>
+<span class="s">        ssl_certificate_key /etc/nginx/certs/gitlab.internal.key;</span>
 <span class="s">        ssl_protocols TLSv1.2 TLSv1.3;</span>
 <span class="s">        ssl_ciphers HIGH:!aNULL:!MD5;</span>
 

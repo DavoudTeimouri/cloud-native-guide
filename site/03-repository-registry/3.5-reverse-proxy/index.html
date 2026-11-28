@@ -1257,15 +1257,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#harbor-specific-haproxy-notes-nginx-reverse-proxy-configuration" class="md-nav__link">
+  <a href="#harbor-specific-haproxy-notes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Harbor-specific HAProxy notes## NGINX reverse proxy configuration
+        Harbor-specific HAProxy notes
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx-reverse-proxy-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NGINX reverse proxy configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NGINX reverse proxy configuration">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#option-a-docker-compose-container-based_1" class="md-nav__link">
@@ -4258,15 +4275,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#harbor-specific-haproxy-notes-nginx-reverse-proxy-configuration" class="md-nav__link">
+  <a href="#harbor-specific-haproxy-notes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Harbor-specific HAProxy notes## NGINX reverse proxy configuration
+        Harbor-specific HAProxy notes
       
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx-reverse-proxy-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NGINX reverse proxy configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NGINX reverse proxy configuration">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#option-a-docker-compose-container-based_1" class="md-nav__link">
@@ -4462,9 +4496,15 @@ mkdir<span class="w"> </span>-p<span class="w"> </span>/opt/haproxy/<span class=
 cp<span class="w"> </span>/etc/pki/ca-trust/source/anchors/internal-ca.crt<span class="w"> </span>/opt/haproxy/certs/
 cp<span class="w"> </span>/etc/registry/certs/harbor.internal.crt<span class="w"> </span>/opt/haproxy/certs/harbor.internal.crt
 cp<span class="w"> </span>/etc/registry/certs/harbor.internal.key<span class="w"> </span>/opt/haproxy/certs/harbor.internal.key
+cp<span class="w"> </span>/etc/registry/certs/nexus.internal.crt<span class="w"> </span>/opt/haproxy/certs/nexus.internal.crt
+cp<span class="w"> </span>/etc/registry/certs/nexus.internal.key<span class="w"> </span>/opt/haproxy/certs/nexus.internal.key
+cp<span class="w"> </span>/etc/gitlab/ssl/gitlab.internal.crt<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.crt
+cp<span class="w"> </span>/etc/gitlab/ssl/gitlab.internal.key<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.key
 
-<span class="c1"># 3. Combine cert + key into single .pem for HAProxy</span>
+<span class="c1"># 3. Combine cert + key into single .pem files for HAProxy</span>
 cat<span class="w"> </span>/opt/haproxy/certs/harbor.internal.crt<span class="w"> </span>/opt/haproxy/certs/harbor.internal.key<span class="w"> </span>&gt;<span class="w"> </span>/opt/haproxy/certs/harbor.internal.pem
+cat<span class="w"> </span>/opt/haproxy/certs/nexus.internal.crt<span class="w"> </span>/opt/haproxy/certs/nexus.internal.key<span class="w"> </span>&gt;<span class="w"> </span>/opt/haproxy/certs/nexus.internal.pem
+cat<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.crt<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.key<span class="w"> </span>&gt;<span class="w"> </span>/opt/haproxy/certs/gitlab.internal.pem
 
 <span class="c1"># 4. Create docker-compose.yml</span>
 cat<span class="w"> </span>&gt;<span class="w"> </span>/opt/haproxy/docker-compose.yml<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
@@ -4608,7 +4648,8 @@ curl<span class="w"> </span>-sk<span class="w"> </span>-I<span class="w"> </span
 <li>Change <code>timeout server</code> for large image uploads (default 50s, increase to 600s)</li>
 <li>Set certificate paths to match your cert storage location</li>
 </ul>
-<h3 id="harbor-specific-haproxy-notes-nginx-reverse-proxy-configuration">Harbor-specific HAProxy notes## NGINX reverse proxy configuration<a class="headerlink" href="#harbor-specific-haproxy-notes-nginx-reverse-proxy-configuration" title="Permanent link">&para;</a></h3>
+<h3 id="harbor-specific-haproxy-notes">Harbor-specific HAProxy notes<a class="headerlink" href="#harbor-specific-haproxy-notes" title="Permanent link">&para;</a></h3>
+<h2 id="nginx-reverse-proxy-configuration">NGINX reverse proxy configuration<a class="headerlink" href="#nginx-reverse-proxy-configuration" title="Permanent link">&para;</a></h2>
 <h3 id="option-a-docker-compose-container-based_1">Option A: Docker Compose (container-based)<a class="headerlink" href="#option-a-docker-compose-container-based_1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># 1. Create directory</span>
 mkdir<span class="w"> </span>-p<span class="w"> </span>/opt/nginx/<span class="o">{</span>certs,config<span class="o">}</span>
